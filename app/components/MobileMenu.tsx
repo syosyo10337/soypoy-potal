@@ -6,6 +6,7 @@ import Image from "next/image";
 
 const navItems = [
   { name: "ABOUT", href: "/about" },
+  { name: "MEMBERS", href: "/members" },
   { name: "EVENTS", href: "/events" },
   { name: "CONTACT", href: "/contact" },
 ];
@@ -40,7 +41,7 @@ export default function MobileMenu() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-5 h-5"
+          className="w-7 h-7"
           aria-hidden="true"
         >
           {isOpen ? (
@@ -61,21 +62,21 @@ export default function MobileMenu() {
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex flex-col items-center justify-center">
-          <div className="mb-10">
+          <div className="mb-12">
             <Image
               src="/logo.png"
               alt="SOY-POY"
-              width={140}
-              height={45}
+              width={180}
+              height={60}
               className="h-auto"
             />
           </div>
-          <nav className="flex flex-col items-center space-y-6">
+          <nav className="flex flex-col items-center space-y-8">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-white text-lg font-medium hover:text-gray-300 transition-colors"
+                className="text-white text-xl font-medium hover:text-gray-300 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}

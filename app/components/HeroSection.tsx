@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
@@ -12,10 +12,22 @@ import "swiper/css/autoplay";
 
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false);
+  const swiperRef = useRef(null);
+  const [scrollY, setScrollY] = useState(0);
 
   // hydrationエラー対策のため、マウント後にコンポーネントを表示
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // スクロール位置を監視
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // 表示する画像のリスト
@@ -44,6 +56,9 @@ export default function HeroSection() {
 
   if (!mounted) return null;
 
+  // スクロール量に応じた変換値を計算
+  const translateY = scrollY * 0.3; // スクロール速度の調整
+
   return (
     <section id="hero" className="relative h-screen w-full overflow-hidden">
       <Swiper
@@ -53,17 +68,23 @@ export default function HeroSection() {
         loop={true}
         speed={1500}
         className="absolute inset-0 w-full h-full"
+        ref={swiperRef}
       >
         {images.map((image) => (
           <SwiperSlide key={image.id} className="relative w-full h-full">
             <div className="absolute inset-0 bg-black/50 z-10" />
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              priority={image.id === "img1015"}
-              className="object-cover"
-            />
+            <div
+              className="absolute inset-0 w-full h-full"
+              style={{ transform: `translateY(${translateY}px) scale(1.1)` }}
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                priority={image.id === "img1015"}
+                className="object-cover"
+              />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
