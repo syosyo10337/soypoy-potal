@@ -7,9 +7,10 @@ import Footer from "./Footer";
 
 type LayoutProps = {
   children: ReactNode;
+  fullWidth?: boolean; // 画面幅いっぱいに表示するかどうか
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, fullWidth = false }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col relative">
       {/* 共通の背景画像 */}
@@ -29,7 +30,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       <Header />
-      <main className="flex-grow z-10 relative pt-24 px-6 pb-16">{children}</main>
+      <main className={`flex-grow z-10 relative ${fullWidth ? '' : 'pt-24 px-6 pb-16'}`}>{children}</main>
       <Footer />
     </div>
   );
