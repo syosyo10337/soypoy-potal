@@ -1,7 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'standalone',
+
+  // Storyblokのドメインを許可
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.storyblok.com',
+      },
+    ],
+  }
 };
 
 export default nextConfig;
