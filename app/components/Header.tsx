@@ -12,19 +12,19 @@ const navItems = [
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-6 py-4 md:px-12 md:py-6 bg-black/60 backdrop-blur-md">
+    <header className="fixed top-0 left-0 w-full z-50 px-4 py-2 md:px-6 md:py-3 bg-black/60 backdrop-blur-md">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo.png"
             alt="SOY-POY"
-            width={120}
+            width={160}
             height={40}
             className="h-auto"
           />
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           {navItems.map((item) => (
             <Link
               key={item.name}

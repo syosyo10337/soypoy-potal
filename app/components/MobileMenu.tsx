@@ -40,7 +40,7 @@ export default function MobileMenu() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-5 h-5"
           aria-hidden="true"
         >
           {isOpen ? (
@@ -61,21 +61,21 @@ export default function MobileMenu() {
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex flex-col items-center justify-center">
-          <div className="mb-12">
+          <div className="mb-10">
             <Image
               src="/logo.png"
               alt="SOY-POY"
-              width={160}
-              height={50}
+              width={140}
+              height={45}
               className="h-auto"
             />
           </div>
-          <nav className="flex flex-col items-center space-y-8">
+          <nav className="flex flex-col items-center space-y-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-white text-xl font-medium hover:text-gray-300 transition-colors"
+                className="text-white text-lg font-medium hover:text-gray-300 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
