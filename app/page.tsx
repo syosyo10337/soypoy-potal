@@ -5,7 +5,7 @@ import HeroSection from "./components/HeroSection";
 import EventSection from "./components/EventSection";
 import AboutSection from "./components/AboutSection";
 import AccessSection from "./components/AccessSection";
-import Link from "next/link";
+import ScrollToSection from "./components/ScrollToSection";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
         <section id="hero" className="relative">
           <HeroSection />
           {/* ヒーローセクションの矢印 */}
-          <Link href="#events" className="scroll-arrow z-30">
+          <ScrollToSection targetId="events" className="scroll-arrow z-30" duration={1000} offset={80}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="40"
@@ -28,7 +28,7 @@ export default function Home() {
             >
               <path d="M12 5v14M5 12l7 7 7-7" />
             </svg>
-          </Link>
+          </ScrollToSection>
         </section>
         <EventSection />
         <AboutSection />

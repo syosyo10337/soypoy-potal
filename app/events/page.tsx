@@ -151,8 +151,7 @@ export default function EventsPage() {
       return (
         <div className="event-marker">
           {eventsForDay.map((event, index) => (
-            <button
-              type="button"
+            <div
               key={event.id}
               className="text-xs text-white bg-purple-600 rounded px-1 mt-1 truncate w-full text-left cursor-pointer hover:bg-purple-500"
               style={{
@@ -165,10 +164,19 @@ export default function EventsPage() {
                 e.stopPropagation();
                 handleEventClick(event.id);
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleEventClick(event.id);
+                }
+              }}
+              tabIndex={0}
+              role="button"
               aria-label={`${event.title}のイベントを表示`}
             >
               {event.title}
-            </button>
+            </div>
           ))}
         </div>
       );
