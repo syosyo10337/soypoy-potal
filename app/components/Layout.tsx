@@ -24,13 +24,17 @@ export default function Layout({ children, fullWidth = false }: LayoutProps) {
             objectFit: "cover",
             objectPosition: "center",
             opacity: 0.9,
-            mixBlendMode: "screen"
+            mixBlendMode: "screen",
           }}
         />
       </div>
 
       <Header />
-      <main className={`flex-grow z-10 relative ${fullWidth ? '' : 'pt-24 px-6 pb-16'}`}>{children}</main>
+      <main
+        className={`flex-grow z-10 relative ${fullWidth ? "" : "pt-24 px-6 pb-16"}`}
+      >
+        {children}
+      </main>
       <Footer />
     </div>
   );

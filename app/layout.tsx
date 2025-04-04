@@ -9,7 +9,7 @@ storyblokInit({
   accessToken: process.env.STORYBLOK_API_TOKEN,
   use: [apiPlugin],
   apiOptions: {
-    region: 'eu',
+    region: "eu",
   },
 });
 
@@ -25,15 +25,16 @@ const geistMono = Geist_Mono({
 
 // 明朝体フォントの追加
 const zenOldMincho = Zen_Old_Mincho({
-  weight: ['400', '700'],
+  weight: ["400", "700"],
   variable: "--font-zen-old-mincho",
   subsets: ["latin"],
-  display: 'swap',
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "SOY-POY | Community Bar",
-  description: "SOY-POY is a community bar where people gather, connect and share experiences.",
+  description:
+    "SOY-POY is a community bar where people gather, connect and share experiences.",
 };
 
 export default function RootLayout({

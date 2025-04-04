@@ -18,10 +18,12 @@ export default function Button({
   variant = "primary",
   className = "",
 }: ButtonProps) {
-  const baseStyles = "inline-block px-8 py-3 font-medium text-center border-2 transition-colors duration-300";
+  const baseStyles =
+    "inline-block px-8 py-3 font-medium text-center border-2 transition-colors duration-300";
 
   const variantStyles = {
-    primary: "border-white text-white bg-transparent hover:bg-white hover:text-black",
+    primary:
+      "border-white text-white bg-transparent hover:bg-white hover:text-black",
     outline: "border-white text-white bg-transparent hover:bg-white/10",
   };
 
