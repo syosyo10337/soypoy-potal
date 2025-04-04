@@ -60,7 +60,10 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about" className="section-full-height flex items-center justify-center relative">
+    <section
+      id="about"
+      className="section-full-height flex items-center justify-center relative"
+    >
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold text-white mb-6">About SOY-POY</h2>
@@ -101,7 +104,12 @@ export default function AboutSection() {
       </div>
 
       {/* スクロール矢印 */}
-      <ScrollToSection targetId="access" className="scroll-arrow z-30" duration={1000} offset={80}>
+      <ScrollToSection
+        targetId="access"
+        className="scroll-arrow z-30"
+        duration={1000}
+        offset={80}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"

@@ -4,7 +4,10 @@ import ScrollToSection from "./ScrollToSection";
 
 export default function AccessSection() {
   return (
-    <section id="access" className="section-full-height flex items-center justify-center relative">
+    <section
+      id="access"
+      className="section-full-height flex items-center justify-center relative"
+    >
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-white mb-12 text-center">
           Access
@@ -58,7 +61,12 @@ export default function AccessSection() {
       </div>
 
       {/* トップに戻るスクロール矢印 */}
-      <ScrollToSection targetId="hero" className="scroll-arrow z-30" duration={1000} offset={0}>
+      <ScrollToSection
+        targetId="hero"
+        className="scroll-arrow z-30"
+        duration={1000}
+        offset={0}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"

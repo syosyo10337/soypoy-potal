@@ -58,7 +58,10 @@ export default function EventSection() {
   ];
 
   return (
-    <section id="events" className="section-full-height flex items-center justify-center relative">
+    <section
+      id="events"
+      className="section-full-height flex items-center justify-center relative"
+    >
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-white mb-12 text-center">
           Upcoming Events
@@ -102,7 +105,12 @@ export default function EventSection() {
       </div>
 
       {/* 次のセクションへのスクロール矢印 */}
-      <ScrollToSection targetId="about" className="scroll-arrow z-30" duration={1000} offset={80}>
+      <ScrollToSection
+        targetId="about"
+        className="scroll-arrow z-30"
+        duration={1000}
+        offset={80}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"

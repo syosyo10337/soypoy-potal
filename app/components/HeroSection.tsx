@@ -60,7 +60,10 @@ export default function HeroSection() {
   const translateY = scrollY * 0.3; // スクロール速度の調整
 
   return (
-    <section id="hero" className="relative h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden">
+    <section
+      id="hero"
+      className="relative h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden"
+    >
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"

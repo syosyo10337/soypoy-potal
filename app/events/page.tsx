@@ -70,8 +70,7 @@ const events = [
     title: "コーヒーテイスティング",
     date: "2025-05-18",
     time: "10:00 - 12:00",
-    description:
-      "世界各国のコーヒー豆を試飲し、その違いを学びましょう。",
+    description: "世界各国のコーヒー豆を試飲し、その違いを学びましょう。",
     imageUrl: "https://picsum.photos/id/766/800/400",
   },
   {
@@ -135,7 +134,7 @@ export default function EventsPage() {
     // イベントIDがわかる位置までスクロール
     const element = document.getElementById(`event-${eventId}`);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   };
 
@@ -145,7 +144,7 @@ export default function EventsPage() {
 
     // その日に開催されるすべてのイベントを検索
     const formattedDate = format(date, "yyyy-MM-dd");
-    const eventsForDay = events.filter(event => event.date === formattedDate);
+    const eventsForDay = events.filter((event) => event.date === formattedDate);
 
     if (eventsForDay.length > 0) {
       return (
@@ -155,9 +154,9 @@ export default function EventsPage() {
               key={event.id}
               className="text-xs text-white bg-purple-600 rounded px-1 mt-1 truncate w-full text-left cursor-pointer hover:bg-purple-500"
               style={{
-                marginTop: index > 0 ? '2px' : '0',
+                marginTop: index > 0 ? "2px" : "0",
                 zIndex: 50,
-                position: 'relative'
+                position: "relative",
               }}
               onClick={(e) => {
                 e.preventDefault();
@@ -165,7 +164,7 @@ export default function EventsPage() {
                 handleEventClick(event.id);
               }}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   e.stopPropagation();
                   handleEventClick(event.id);
@@ -189,13 +188,19 @@ export default function EventsPage() {
   const handleDateChange: CalendarProps["onChange"] = (value) => {
     if (value instanceof Date) {
       setDate(value);
-    } else if (Array.isArray(value) && value.length > 0 && value[0] instanceof Date) {
+    } else if (
+      Array.isArray(value) &&
+      value.length > 0 &&
+      value[0] instanceof Date
+    ) {
       setDate(value[0]);
     }
   };
 
   // 月が変更された時のハンドラー
-  const handleActiveStartDateChange = ({ activeStartDate }: { activeStartDate: Date }) => {
+  const handleActiveStartDateChange = ({
+    activeStartDate,
+  }: { activeStartDate: Date }) => {
     if (activeStartDate) {
       console.log("Month changed to:", format(activeStartDate, "yyyy-MM"));
       setActiveMonth(activeStartDate);
@@ -252,7 +257,9 @@ export default function EventsPage() {
                     id={`event-${event.id}`}
                     key={event.id}
                     className={`bg-gray-900/70 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 ${
-                      selectedEventId === event.id ? 'ring-2 ring-purple-500' : ''
+                      selectedEventId === event.id
+                        ? "ring-2 ring-purple-500"
+                        : ""
                     }`}
                   >
                     <div className="md:flex">
@@ -284,7 +291,11 @@ export default function EventsPage() {
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                               />
                             </svg>
-                            <span>{format(parseISO(event.date), "yyyy年MM月dd日", { locale: ja })}</span>
+                            <span>
+                              {format(parseISO(event.date), "yyyy年MM月dd日", {
+                                locale: ja,
+                              })}
+                            </span>
                           </div>
                           <div className="flex items-center text-gray-400">
                             <svg
@@ -305,7 +316,9 @@ export default function EventsPage() {
                             <span>{event.time}</span>
                           </div>
                         </div>
-                        <p className="text-gray-300 mb-4 flex-grow">{event.description}</p>
+                        <p className="text-gray-300 mb-4 flex-grow">
+                          {event.description}
+                        </p>
                         <button
                           type="button"
                           className="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition-colors mt-auto w-fit"

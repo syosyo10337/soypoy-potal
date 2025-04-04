@@ -14,7 +14,12 @@ export default function Home() {
         <section id="hero" className="relative">
           <HeroSection />
           {/* ヒーローセクションの矢印 */}
-          <ScrollToSection targetId="events" className="scroll-arrow z-30" duration={1000} offset={80}>
+          <ScrollToSection
+            targetId="events"
+            className="scroll-arrow z-30"
+            duration={1000}
+            offset={80}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="40"
