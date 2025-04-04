@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
 # About this project
 This is Homepage for community bar named "SOY-POY"
 
@@ -28,3 +33,4 @@ https://picsum.photos/<id>/<width>/<hight>
 
 # Coding
 - You don't need to add the comment outs as they are self explanatory.
+
