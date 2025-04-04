@@ -260,6 +260,7 @@ body {
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: center !important;
+  overflow: visible !important;
 }
 
 .react-calendar__tile:enabled:hover,
@@ -282,12 +283,33 @@ body {
 
 .event-marker {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2px;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 2px !important;
+  z-index: 100 !important;
+  position: absolute !important;
+  pointer-events: auto !important;
+  bottom: 2px !important;
+  left: 0 !important;
+}
+
+.event-marker > button {
+  max-width: 90% !important;
+  z-index: 30 !important;
 }
 
 .react-calendar__month-view__days__day--neighboringMonth {
   opacity: 0.4 !important;
+}
+
+/* カレンダータイルの上にイベントを表示するためのスタイル */
+.react-calendar__month-view__days__day {
+  position: relative !important;
+}
+
+/* スムーズスクロール */
+html {
+  scroll-behavior: smooth;
 }
