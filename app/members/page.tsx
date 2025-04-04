@@ -148,8 +148,11 @@ export default function MembersPage() {
             </Swiper>
           </div>
 
+          {/* 間隔を追加 */}
+          <div className="hidden lg:block lg:w-12"></div>
+
           {/* メンバーアイコン - PCサイズで右側に配置 */}
-          <div className="w-full lg:w-1/2 lg:pl-12">
+          <div className="w-full lg:w-1/2 lg:pl-8">
             <h2 className="text-2xl font-semibold text-white mb-6 text-center lg:text-left">
               All Members
             </h2>
