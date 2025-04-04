@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "biome format --write .",
+    "sync_rules": "node scripts/syncRules.js",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
     "docker:dev": "docker-compose up",
