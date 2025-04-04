@@ -19,5 +19,3 @@ docker compose restart
 // Shutdown server
 docker compose down
 ```
-
-# 
