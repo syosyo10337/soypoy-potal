@@ -6,7 +6,7 @@ export function initStoryblok() {
     accessToken: process.env.STORYBLOK_API_TOKEN,
     use: [apiPlugin],
     apiOptions: {
-      region: 'eu', // APIリージョン
+      region: "eu", // APIリージョン
     },
   });
 }
