@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { initStoryblok } from "./lib/storyblok";
 import { storyblokInit, apiPlugin } from "@storyblok/react";
 
 // Storyblokの初期化
@@ -24,8 +23,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SoyPoy Portal",
-  description: "Next.js with TypeScript, Tailwind CSS, Jotai, Prisma, Supabase, and Storyblok",
+  title: "SOY-POY | Community Bar",
+  description: "SOY-POY is a community bar where people gather, connect and share experiences.",
 };
 
 export default function RootLayout({
