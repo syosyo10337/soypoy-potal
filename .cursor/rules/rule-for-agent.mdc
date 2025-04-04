@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# About this project
+This is Homepage for community bar named "SOY-POY"
+
+# Control server
+This project is developed on Docker.
+If you want to start or down server, you need to use following commands.
+```
+// Lanch server
+docker compose up -d
+
+// Restart server
+docker compose restart
+
+// Shutdown server
+docker compose down
+```
+
+# 
