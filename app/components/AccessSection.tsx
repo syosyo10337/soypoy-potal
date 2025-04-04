@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import ScrollToSection from "./ScrollToSection";
 
 export default function AccessSection() {
   return (
@@ -58,7 +58,7 @@ export default function AccessSection() {
       </div>
 
       {/* トップに戻るスクロール矢印 */}
-      <Link href="#hero" className="scroll-arrow z-30">
+      <ScrollToSection targetId="hero" className="scroll-arrow z-30" duration={1000} offset={0}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -72,7 +72,7 @@ export default function AccessSection() {
         >
           <path d="M12 19V5M5 12l7-7 7 7" />
         </svg>
-      </Link>
+      </ScrollToSection>
     </section>
   );
 }

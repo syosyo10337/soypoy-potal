@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import ScrollToSection from "./ScrollToSection";
 
 export default function AboutSection() {
   // 画像のリスト
@@ -91,17 +91,17 @@ export default function AboutSection() {
             SOY-POYはただのバーではありません。人々が集い、つながり、経験を共有するコミュニティスペースです。
             私たちは音楽、アート、そして人々の交流を通じて、特別な場所を創り出しています。
           </p>
-          <Link
+          <a
             href="/about"
             className="inline-block bg-[#00c896] hover:bg-[#00a57d] text-black font-bold py-3 px-8 rounded-full transition-colors duration-300"
           >
             もっと知る
-          </Link>
+          </a>
         </div>
       </div>
 
       {/* スクロール矢印 */}
-      <Link href="#access" className="scroll-arrow z-30">
+      <ScrollToSection targetId="access" className="scroll-arrow z-30" duration={1000} offset={80}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -115,7 +115,7 @@ export default function AboutSection() {
         >
           <path d="M12 5v14M5 12l7 7 7-7" />
         </svg>
-      </Link>
+      </ScrollToSection>
     </section>
   );
 }

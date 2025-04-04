@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import Link from "next/link";
+import ScrollToSection from "./ScrollToSection";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -102,7 +102,7 @@ export default function EventSection() {
       </div>
 
       {/* 次のセクションへのスクロール矢印 */}
-      <Link href="#about" className="scroll-arrow z-30">
+      <ScrollToSection targetId="about" className="scroll-arrow z-30" duration={1000} offset={80}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -116,7 +116,7 @@ export default function EventSection() {
         >
           <path d="M12 5v14M5 12l7 7 7-7" />
         </svg>
-      </Link>
+      </ScrollToSection>
     </section>
   );
 }
