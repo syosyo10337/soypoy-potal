@@ -6,7 +6,7 @@ export default function AccessSection() {
   return (
     <section
       id="access"
-      className="section-full-height flex items-center justify-center relative"
+      className="relative h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden flex items-center justify-center relative"
     >
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-white mb-12 text-center">
@@ -17,6 +17,7 @@ export default function AccessSection() {
           {/* 地図 */}
           <div className="w-full md:w-1/2 h-[400px] rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center">
             <iframe
+              title="Google Map"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.573630504103!2d139.66509847550185!3d35.662875072593145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018f3a985c43219%3A0xef11c14b0d78af2f!2sSOY-POY!5e0!3m2!1sja!2sjp!4v1743784454205!5m2!1sja!2sjp"
               width="100%"
               height="100%"
@@ -25,7 +26,7 @@ export default function AccessSection() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className=""
-            ></iframe>
+            />
           </div>
 
           {/* 店舗情報 */}
@@ -64,7 +65,7 @@ export default function AccessSection() {
       <ScrollToSection
         targetId="hero"
         className="scroll-arrow z-30"
-        duration={1000}
+        duration={500}
         offset={0}
       >
         <svg

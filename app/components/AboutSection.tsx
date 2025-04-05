@@ -62,7 +62,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="section-full-height flex items-center justify-center relative"
+      className="flex items-center justify-center relative h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
