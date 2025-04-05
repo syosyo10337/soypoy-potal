@@ -66,7 +66,7 @@ export default function AccessSection() {
         targetId="hero"
         className="scroll-arrow z-30"
         duration={500}
-        offset={0}
+        offset={75}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
