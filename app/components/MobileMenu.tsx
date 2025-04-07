@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 
 const navItems = [
   { name: "ABOUT", href: "/about" },
@@ -12,8 +13,13 @@ const navItems = [
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // メニューが開いているときに背景のスクロールを防止
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -27,54 +33,63 @@ export default function MobileMenu() {
   }, [isOpen]);
 
   return (
-    <div className="md:hidden">
-      {/* ハンバーガーメニューボタン */}
+    <div className="md:hidden" id="mobile-menu">
       <button
         type="button"
         aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
         onClick={() => setIsOpen(!isOpen)}
-        className="text-white z-[9999] relative p-2"
+        className="relative z-[10000] p-2 text-white"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-          aria-hidden="true"
-        > 
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+        <div className="relative w-6 h-5">
+          <span
+            className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${
+              isOpen
+                ? "top-2 rotate-45"
+                : "top-0"
+            }`}
           />
-        </svg>
+          <span
+            className={`absolute left-0 top-2 w-full h-0.5 bg-white transition-opacity duration-300 ${
+              isOpen ? "opacity-0" : "opacity-100"
+            }`}
+          />
+          <span
+            className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${
+              isOpen
+                ? "top-2 -rotate-45"
+                : "top-4"
+            }`}
+          />
+        </div>
       </button>
 
-      {/* モバイルメニュー */}
-      {isOpen && (
+      {mounted && createPortal(
         <>
-          {/* 背景オーバーレイ */}
-          <div style={{ backgroundColor: '#000000', opacity: 1 }} className="fixed inset-0 z-[9998]" />
-
-          {/* メニューコンテンツ */}
-          <div style={{ backgroundColor: '#000000', opacity: 1 }} className="fixed inset-0 z-[9999] flex flex-col h-full">
-            {/* ヘッダー部分 - 閉じるボタンのみ */}
-            <div className="flex justify-end items-center p-4 border-b border-gray-800">
+          <div 
+            className={`fixed inset-0 bg-black/70 backdrop-blur-md z-[9998] transition-opacity duration-300 ${
+              isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
+            aria-hidden="true"
+          />
+          <div 
+            className={`fixed inset-0 z-[9999] flex flex-col h-screen transition-all duration-500 ${
+              isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"
+            }`}
+          >
+            <div className="flex justify-end p-4">
               <button
                 type="button"
                 aria-label="メニューを閉じる"
                 onClick={() => setIsOpen(false)}
-                className="text-white p-1"
+                className="text-white p-2 hover:text-gray-300 transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokeWidth={1.5}
+                  strokeWidth={2}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-8 h-8"
                   aria-hidden="true"
                 >
                   <path
@@ -85,15 +100,21 @@ export default function MobileMenu() {
                 </svg>
               </button>
             </div>
-
-            {/* メニュー項目 - スクロールなしに全体を表示 */}
-            <nav className="flex-1 flex items-center justify-center">
-              <ul className="w-full">
-                {navItems.map((item) => (
-                  <li key={item.name} className="border-b border-gray-800 last:border-b-0">
+            <nav className="flex items-center justify-center flex-1 w-full">
+              <ul className="w-full max-w-md mx-auto space-y-8 p-8">
+                {navItems.map((item, index) => (
+                  <li
+                    key={item.name}
+                    className="overflow-hidden"
+                    style={{
+                      transform: isOpen ? "translateY(0)" : "translateY(20px)",
+                      opacity: isOpen ? 1 : 0,
+                      transition: `all 0.5s ease ${index * 0.1 + 0.2}s`,
+                    }}
+                  >
                     <Link
                       href={item.href}
-                      className="block text-white text-2xl font-zen-old-mincho hover:bg-gray-800 transition-all px-8 py-6 text-center"
+                      className="block text-white text-3xl font-zen-old-mincho hover:text-gray-300 transition-colors duration-300 py-4 text-center"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}
@@ -103,7 +124,8 @@ export default function MobileMenu() {
               </ul>
             </nav>
           </div>
-        </>
+        </>,
+        document.body
       )}
     </div>
   );
