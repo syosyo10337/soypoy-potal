@@ -24,6 +24,7 @@
     "@storyblok/react": "^4.5.4",
     "@supabase/supabase-js": "^2.49.4",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.6.3",
     "jotai": "^2.12.2",
     "next": "15.2.4",
     "prisma": "^6.5.0",
