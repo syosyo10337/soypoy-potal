@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, CSSProperties } from "react";
+import { ReactNode, CSSProperties, memo } from "react";
 import { ChevronDown } from "lucide-react";
 
 // ベーススタイル定義
@@ -13,6 +13,9 @@ export const baseStyle: CSSProperties = {
   boxSizing: "border-box",
   overflowY: "auto",
   scrollPaddingBottom: "10vh",
+  // パフォーマンス最適化
+  willChange: "transform",
+  transform: "translateZ(0)", // GPUアクセラレーション
 };
 
 // セクションのプロパティ型定義
@@ -25,7 +28,7 @@ export type SectionProps = {
 };
 
 // セクションラッパーコンポーネント
-export default function SectionWrapper({ 
+const SectionWrapper = memo(function SectionWrapper({ 
   className, 
   style, 
   showArrow, 
@@ -33,13 +36,22 @@ export default function SectionWrapper({
   children 
 }: SectionProps) {
   return (
-    <div className={className} style={{ ...baseStyle, ...style }}>
+    <div 
+      className={className} 
+      style={{ ...baseStyle, ...style }}
+    >
       {children}
       {showArrow && onArrowClick && (
-        <button onClick={onArrowClick} className="mt-10 animate-bounce flex justify-center w-full">
+        <button 
+          onClick={onArrowClick} 
+          className="mt-10 animate-bounce flex justify-center w-full"
+          aria-label="Scroll to next section"
+        >
           <ChevronDown className="w-10 h-10 text-gray-500" />
         </button>
       )}
     </div>
   );
-}
+});
+
+export default SectionWrapper;
