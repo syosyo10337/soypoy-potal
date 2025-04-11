@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCards } from "swiper/modules";
-import Layout from "../components/Layout";
 
 // スタイルのインポート
 import "swiper/css";
@@ -101,105 +100,103 @@ export default function MembersPage() {
   if (!mounted) return null;
 
   return (
-    <Layout>
-      <div className="max-w-6xl mx-auto pt-12 pb-20 px-4 md:px-6">
-        <h1 className="text-3xl md:text-5xl font-bold mb-12 text-[#FF5A5F] tracking-wide drop-shadow-md text-center">
-          Members
-        </h1>
+    <div className="max-w-6xl mx-auto pt-12 pb-20 px-4 md:px-6">
+      <h1 className="text-3xl md:text-5xl font-bold mb-12 text-[#FF5A5F] tracking-wide drop-shadow-md text-center">
+        Members
+      </h1>
 
-        {/* PC表示で横並び、モバイルでは縦並び */}
-        <div className="flex flex-col lg:flex-row lg:items-start mb-16">
-          {/* Swiper Cards Effect - PCサイズで左側に配置 */}
-          <div className="w-full lg:w-1/2 max-w-sm mx-auto lg:mx-0 mb-12 lg:mb-0">
-            <Swiper
-              effect={"cards"}
-              grabCursor={true}
-              modules={[EffectCards]}
-              className="mySwiper"
-              onSlideChange={handleSlideChange}
-              ref={swiperRef}
-            >
-              {members.map((member) => (
-                <SwiperSlide
-                  key={member.id}
-                  className="bg-gray-900/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl"
-                >
-                  <div className="relative h-80 w-full">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h2 className="text-xl font-bold text-white mb-1">
-                      {member.name}
-                    </h2>
-                    <h3 className="text-lg font-medium text-[#FF5A5F] mb-3">
-                      {member.role}
-                    </h3>
-                    <p className="text-gray-200 text-base leading-relaxed">
-                      {member.description}
-                    </p>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-
-          {/* 間隔を追加 */}
-          <div className="hidden lg:block lg:w-12"></div>
-
-          {/* メンバーアイコン - PCサイズで右側に配置 */}
-          <div className="w-full lg:w-1/2 lg:pl-8">
-            <h2 className="text-2xl font-semibold text-white mb-6 text-center lg:text-left">
-              All Members
-            </h2>
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-              {members.map((member, index) => (
-                <button
-                  type="button"
-                  key={member.id}
-                  onClick={() => goToSlide(index)}
-                  className={`relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-all duration-300 ${
-                    activeIndex === index
-                      ? "ring-2 ring-[#FF5A5F] scale-110 z-10"
-                      : "opacity-80 hover:opacity-100 hover:scale-105"
-                  }`}
-                  title={member.name}
-                >
+      {/* PC表示で横並び、モバイルでは縦並び */}
+      <div className="flex flex-col lg:flex-row lg:items-start mb-16">
+        {/* Swiper Cards Effect - PCサイズで左側に配置 */}
+        <div className="w-full lg:w-1/2 max-w-sm mx-auto lg:mx-0 mb-12 lg:mb-0">
+          <Swiper
+            effect={"cards"}
+            grabCursor={true}
+            modules={[EffectCards]}
+            className="mySwiper"
+            onSlideChange={handleSlideChange}
+            ref={swiperRef}
+          >
+            {members.map((member) => (
+              <SwiperSlide
+                key={member.id}
+                className="bg-gray-900/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-xl"
+              >
+                <div className="relative h-80 w-full">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
                     className="object-cover"
                   />
-                  <div
-                    className={`absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity ${
-                      activeIndex === index ? "opacity-0" : "opacity-100"
-                    }`}
-                  >
-                    <span className="text-xs font-medium text-white text-center px-1 truncate">
-                      {member.name.split(" ")[0]}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
+                </div>
+                <div className="p-6">
+                  <h2 className="text-xl font-bold text-white mb-1">
+                    {member.name}
+                  </h2>
+                  <h3 className="text-lg font-medium text-[#FF5A5F] mb-3">
+                    {member.role}
+                  </h3>
+                  <p className="text-gray-200 text-base leading-relaxed">
+                    {member.description}
+                  </p>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-gray-100 text-lg leading-relaxed drop-shadow-sm mb-6">
-            SOY-POYのメンバーは、それぞれ異なるバックグラウンドと才能を持ったスタッフによって構成されています。
-            バーテンダー、DJ、シェフ、アーティストなど、多様な専門性を活かして、唯一無二の体験を提供します。
-          </p>
-          <p className="text-gray-100 text-lg leading-relaxed drop-shadow-sm">
-            SOY-POYに興味を持ち、新しいコミュニティの一員になりたい方は、お気軽にお問い合わせください。
-          </p>
+        {/* 間隔を追加 */}
+        <div className="hidden lg:block lg:w-12"></div>
+
+        {/* メンバーアイコン - PCサイズで右側に配置 */}
+        <div className="w-full lg:w-1/2 lg:pl-8">
+          <h2 className="text-2xl font-semibold text-white mb-6 text-center lg:text-left">
+            All Members
+          </h2>
+          <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+            {members.map((member, index) => (
+              <button
+                type="button"
+                key={member.id}
+                onClick={() => goToSlide(index)}
+                className={`relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-all duration-300 ${
+                  activeIndex === index
+                    ? "ring-2 ring-[#FF5A5F] scale-110 z-10"
+                    : "opacity-80 hover:opacity-100 hover:scale-105"
+                }`}
+                title={member.name}
+              >
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  className="object-cover"
+                />
+                <div
+                  className={`absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity ${
+                    activeIndex === index ? "opacity-0" : "opacity-100"
+                  }`}
+                >
+                  <span className="text-xs font-medium text-white text-center px-1 truncate">
+                    {member.name.split(" ")[0]}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </Layout>
+
+      <div className="max-w-2xl mx-auto text-center">
+        <p className="text-gray-100 text-lg leading-relaxed drop-shadow-sm mb-6">
+          SOY-POYのメンバーは、それぞれ異なるバックグラウンドと才能を持ったスタッフによって構成されています。
+          バーテンダー、DJ、シェフ、アーティストなど、多様な専門性を活かして、唯一無二の体験を提供します。
+        </p>
+        <p className="text-gray-100 text-lg leading-relaxed drop-shadow-sm">
+          SOY-POYに興味を持ち、新しいコミュニティの一員になりたい方は、お気軽にお問い合わせください。
+        </p>
+      </div>
+    </div>
   );
 }

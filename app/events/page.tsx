@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Layout from "../components/Layout";
 import dynamic from "next/dynamic";
 import { format, getMonth, getYear, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -209,131 +208,127 @@ export default function EventsPage() {
 
   if (!isClient) {
     return (
-      <Layout>
-        <div className="max-w-5xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-12 text-white">
-            EVENTS
-          </h1>
-          <div className="h-[500px] flex items-center justify-center">
-            <div className="text-white">読み込み中...</div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-
-  return (
-    <Layout>
       <div className="max-w-5xl mx-auto px-4">
         <h1 className="text-4xl md:text-5xl font-bold mb-12 text-white">
           EVENTS
         </h1>
-
-        <div className="flex flex-col gap-12">
-          <div className="w-full">
-            <div className="calendar-container bg-gray-900/80 backdrop-blur-md p-4 rounded-lg">
-              <Calendar
-                onChange={handleDateChange}
-                value={date}
-                locale="ja-JP"
-                tileContent={tileContent}
-                className="bg-transparent border-0 text-white"
-                onActiveStartDateChange={handleActiveStartDateChange}
-              />
-            </div>
-          </div>
-
-          <div className="w-full">
-            <h2 className="text-2xl font-semibold mb-6 text-white">
-              {format(activeMonth, "yyyy年MM月", { locale: ja })}のイベント
-            </h2>
-
-            {filteredEvents.length === 0 ? (
-              <p className="text-gray-400">この月のイベントはありません。</p>
-            ) : (
-              <div className="flex flex-col gap-6">
-                {filteredEvents.map((event) => (
-                  <div
-                    id={`event-${event.id}`}
-                    key={event.id}
-                    className={`bg-gray-900/70 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 ${
-                      selectedEventId === event.id
-                        ? "ring-2 ring-purple-500"
-                        : ""
-                    }`}
-                  >
-                    <div className="md:flex">
-                      <div className="md:w-1/3 relative">
-                        <img
-                          src={event.imageUrl}
-                          alt={event.title}
-                          className="w-full h-48 md:h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-5 md:w-2/3 flex flex-col">
-                        <h3 className="text-xl font-semibold mb-2 text-white">
-                          {event.title}
-                        </h3>
-                        <div className="flex flex-wrap gap-4 mb-3">
-                          <div className="flex items-center text-gray-400">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 mr-2"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                              />
-                            </svg>
-                            <span>
-                              {format(parseISO(event.date), "yyyy年MM月dd日", {
-                                locale: ja,
-                              })}
-                            </span>
-                          </div>
-                          <div className="flex items-center text-gray-400">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 mr-2"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                            <span>{event.time}</span>
-                          </div>
-                        </div>
-                        <p className="text-gray-300 mb-4 flex-grow">
-                          {event.description}
-                        </p>
-                        <button
-                          type="button"
-                          className="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition-colors mt-auto w-fit"
-                        >
-                          詳細を見る
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+        <div className="h-[500px] flex items-center justify-center">
+          <div className="text-white">読み込み中...</div>
         </div>
       </div>
-    </Layout>
+    );
+  }
+
+  return (
+    <div className="max-w-5xl mx-auto px-4">
+      <h1 className="text-4xl md:text-5xl font-bold mb-12 text-white">
+        EVENTS
+      </h1>
+
+      <div className="flex flex-col gap-12">
+        <div className="w-full">
+          <div className="calendar-container bg-gray-900/80 backdrop-blur-md p-4 rounded-lg">
+            <Calendar
+              onChange={handleDateChange}
+              value={date}
+              locale="ja-JP"
+              tileContent={tileContent}
+              className="bg-transparent border-0 text-white"
+              onActiveStartDateChange={handleActiveStartDateChange}
+            />
+          </div>
+        </div>
+
+        <div className="w-full">
+          <h2 className="text-2xl font-semibold mb-6 text-white">
+            {format(activeMonth, "yyyy年MM月", { locale: ja })}のイベント
+          </h2>
+
+          {filteredEvents.length === 0 ? (
+            <p className="text-gray-400">この月のイベントはありません。</p>
+          ) : (
+            <div className="flex flex-col gap-6">
+              {filteredEvents.map((event) => (
+                <div
+                  id={`event-${event.id}`}
+                  key={event.id}
+                  className={`bg-gray-900/70 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 ${
+                    selectedEventId === event.id
+                      ? "ring-2 ring-purple-500"
+                      : ""
+                  }`}
+                >
+                  <div className="md:flex">
+                    <div className="md:w-1/3 relative">
+                      <img
+                        src={event.imageUrl}
+                        alt={event.title}
+                        className="w-full h-48 md:h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-5 md:w-2/3 flex flex-col">
+                      <h3 className="text-xl font-semibold mb-2 text-white">
+                        {event.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-4 mb-3">
+                        <div className="flex items-center text-gray-400">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <span>
+                            {format(parseISO(event.date), "yyyy年MM月dd日", {
+                              locale: ja,
+                            })}
+                          </span>
+                        </div>
+                        <div className="flex items-center text-gray-400">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          <span>{event.time}</span>
+                        </div>
+                      </div>
+                      <p className="text-gray-300 mb-4 flex-grow">
+                        {event.description}
+                      </p>
+                      <button
+                        type="button"
+                        className="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition-colors mt-auto w-fit"
+                      >
+                        詳細を見る
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

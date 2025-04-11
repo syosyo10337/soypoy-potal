@@ -26,6 +26,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.6.3",
     "jotai": "^2.12.2",
+    "lucide-react": "^0.487.0",
     "next": "15.2.4",
     "prisma": "^6.5.0",
     "react": "^19.0.0",

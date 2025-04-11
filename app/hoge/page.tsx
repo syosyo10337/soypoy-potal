@@ -1,111 +1,12 @@
 "use client";
 
-import { useEffect, useState, ReactNode, CSSProperties } from "react";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import HeroSection from "./components/HeroSection";
+import AboutSection from "./components/AboutSection";
+import EventSection from "./components/EventSection";
+import AccessSection from "./components/AccessSection";
 
-const baseStyle: CSSProperties = {
-  position: "relative",
-  width: "100%",
-  minHeight: "100vh",
-  padding: "4rem 2rem",
-  fontSize: "1.25rem",
-  boxSizing: "border-box",
-  overflowY: "auto",
-  scrollPaddingBottom: "10vh",
-};
-
-type SectionProps = {
-  className?: string;
-  style?: CSSProperties;
-  showArrow?: boolean;
-  onArrowClick?: () => void;
-  children: ReactNode;
-};
-
-function SectionWrapper({ className, style, showArrow, onArrowClick, children }: SectionProps) {
-  return (
-    <div className={className} style={{ ...baseStyle, ...style }}>
-      {children}
-      {showArrow && onArrowClick && (
-        <button onClick={onArrowClick} className="mt-10 animate-bounce flex justify-center w-full">
-          <ChevronDown className="w-10 h-10 text-gray-500" />
-        </button>
-      )}
-    </div>
-  );
-}
-
-const createSection = (content: ReactNode, className: string, style: CSSProperties = {}) =>
-  ({ onArrowClick }: { onArrowClick?: () => void }) => (
-    <SectionWrapper className={className} style={style} showArrow onArrowClick={onArrowClick}>
-      {content}
-    </SectionWrapper>
-  );
-
-const HeroSection = createSection(
-  <>
-    <h1 className="text-4xl">Welcome to Our Site</h1>
-    <img src="https://picsum.photos/seed/hero/800/400" alt="hero" className="rounded-xl" />
-    <p className="max-w-2xl">
-      Discover the essence of creativity and inspiration in our digital showcase. Explore ideas, people, and innovations that redefine possibility.
-    </p>
-    <p className="max-w-2xl">
-      {"Lorem ipsum dolor sit amet, consectetur adipiscing elit. ".repeat(20)}
-    </p>
-  </>,
-  "bg-yellow-100",
-  { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", gap: "1.5rem" }
-);
-
-const AboutSection = createSection(
-  <>
-    <div>
-      <h1 className="text-4xl mb-4">About Us</h1>
-      <p>
-        We are passionate creators and developers building experiences that resonate. Our team works at the intersection of design and technology.
-      </p>
-      <p>
-        {"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. ".repeat(10)}
-      </p>
-    </div>
-    <img src="https://picsum.photos/seed/about/500/600" alt="about" className="rounded-xl w-full h-auto" />
-  </>,
-  "bg-blue-500 text-white",
-  { display: "grid", gridTemplateColumns: "1fr 1fr", alignItems: "center", gap: "2rem" }
-);
-
-const EventSection = createSection(
-  <>
-    <img src="https://picsum.photos/seed/event/500/700" alt="event" className="rounded-xl" />
-    <div className="flex-1">
-      <h1 className="text-4xl mb-4">Upcoming Events</h1>
-      <p>
-        Join us for our upcoming workshops, webinars, and community events. Learn from experts and connect with peers.
-      </p>
-      <p>
-        {"Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam. ".repeat(12)}
-      </p>
-    </div>
-  </>,
-  "bg-orange-400",
-  { display: "flex", flexDirection: "row", gap: "2rem" }
-);
-
-const AccessSection = createSection(
-  <>
-    <h1 className="text-4xl">Access & Location</h1>
-    <img src="https://picsum.photos/seed/access/800/400" alt="access" className="rounded-xl" />
-    <p className="max-w-3xl">
-      Find us in the heart of the city, where creativity meets community. Easy to access by public transport or car.
-    </p>
-    <p className="max-w-3xl">
-      {"Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat. ".repeat(10)}
-    </p>
-  </>,
-  "bg-green-700 text-white",
-  { display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", gap: "1.5rem" }
-);
-
+// セクションコンポーネントの配列
 const sectionComponents = [HeroSection, AboutSection, EventSection, AccessSection];
 
 export default function Page() {
@@ -163,7 +64,8 @@ export default function Page() {
           {sectionComponents.map((_, i) => (
             <div
               key={i}
-              className={`rounded-full transition-colors duration-200 ${i === index ? "bg-black w-3 h-3" : "bg-gray-400 w-2 h-2"}`}
+              className={`rounded-full transition-colors duration-200 cursor-pointer ${i === index ? "bg-[#00c896] w-3 h-3" : "bg-gray-400 w-2 h-2"}`}
+              onClick={() => scrollToSection(i)}
             />
           ))}
         </div>

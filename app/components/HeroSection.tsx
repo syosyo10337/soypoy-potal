@@ -62,7 +62,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden"
+      className="relative min-h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden"
     >
       <Swiper
         modules={[Autoplay, EffectFade]}

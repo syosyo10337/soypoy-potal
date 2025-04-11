@@ -6,7 +6,7 @@ export default function AccessSection() {
   return (
     <section
       id="access"
-      className="relative h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden flex items-center justify-center relative"
+      className="relative min-h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden flex items-center justify-center relative"
     >
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-white mb-12 text-center">
@@ -65,7 +65,6 @@ export default function AccessSection() {
       <ScrollToSection
         targetId="hero"
         className="scroll-arrow z-30"
-        duration={500}
         offset={75}
       >
         <svg

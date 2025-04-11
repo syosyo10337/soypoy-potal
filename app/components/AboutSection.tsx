@@ -62,7 +62,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="flex items-center justify-center relative h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden"
+      className="flex items-center justify-center relative min-h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
@@ -107,7 +107,6 @@ export default function AboutSection() {
       <ScrollToSection
         targetId="access"
         className="scroll-arrow z-30"
-        duration={1000}
         offset={80}
       >
         <svg
@@ -127,3 +126,4 @@ export default function AboutSection() {
     </section>
   );
 }
+

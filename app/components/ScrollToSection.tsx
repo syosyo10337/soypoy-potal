@@ -12,7 +12,7 @@ export default function ScrollToSection({
   targetId,
   children,
   className = "",
-  duration = 800,
+  duration = 300,
   offset = 0,
 }: ScrollToSectionProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
