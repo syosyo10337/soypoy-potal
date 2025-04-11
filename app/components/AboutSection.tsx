@@ -3,6 +3,13 @@
 import Image from "next/image";
 import SectionWrapper from "./SectionWrapper";
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+
+// Swiperのスタイルをインポート
+import 'swiper/css';
+import 'swiper/css/autoplay';
+
 type AboutSectionProps = {
   onArrowClick?: () => void;
 };
@@ -10,16 +17,16 @@ type AboutSectionProps = {
 export default function AboutSection({ onArrowClick }: AboutSectionProps) {
   // 画像のリスト
   const images = [
-    { id: 1, src: "https://picsum.photos/id/42/600/400", alt: "SOY-POYの様子1" },
-    { id: 2, src: "https://picsum.photos/id/54/600/400", alt: "SOY-POYの様子2" },
-    { id: 3, src: "https://picsum.photos/id/110/600/400", alt: "SOY-POYの様子3" },
-    { id: 4, src: "https://picsum.photos/id/225/600/400", alt: "SOY-POYの様子4" },
-    { id: 5, src: "https://picsum.photos/id/338/600/400", alt: "SOY-POYの様子5" },
+    { id: 1, src: "https://picsum.photos/id/42/1200/800", alt: "SOY-POYの様子1", title: "音楽との出会い" },
+    { id: 2, src: "https://picsum.photos/id/54/1200/800", alt: "SOY-POYの様子2", title: "特別な空間" },
+    { id: 3, src: "https://picsum.photos/id/110/1200/800", alt: "SOY-POYの様子3", title: "アートと交流" },
+    { id: 4, src: "https://picsum.photos/id/225/1200/800", alt: "SOY-POYの様子4", title: "ライブパフォーマンス" },
+    { id: 5, src: "https://picsum.photos/id/338/1200/800", alt: "SOY-POYの様子5", title: "新しい出会い" },
   ];
 
   return (
     <SectionWrapper
-      className="bg-[#1E88E5] text-white"
+      className="bg-[#1E88E5] text-white relative overflow-hidden"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -30,31 +37,91 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
       showArrow
       onArrowClick={onArrowClick}
     >
-      <h2 className="text-4xl font-bold mb-6 text-center">About SOY-POY</h2>
+      {/* 装飾的な背景要素 - アニメーションなし */}
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-blue-400 opacity-10 blur-3xl" />
+      <div className="absolute bottom-20 left-10 w-80 h-80 rounded-full bg-[#00c896] opacity-5 blur-3xl" />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
-        {images.slice(0, 3).map((image) => (
-          <div
-            key={image.id}
-            className="relative h-64 w-full overflow-hidden rounded-lg transform transition-transform duration-500 hover:scale-105"
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
+      {/* タイトル */}
+      <div className="mb-10 relative z-10">
+        <h2 className="text-5xl font-bold mb-2 text-center tracking-tight">About</h2>
+        <div className="w-24 h-1 bg-[#00c896] mx-auto mt-4" />
       </div>
 
-      <div className="text-center max-w-3xl">
-        <p className="text-xl mb-8">
-          SOY-POYはただのバーではありません。人々が集い、つながり、経験を共有するコミュニティスペースです。
-          私たちは音楽、アート、そして人々の交流を通じて、特別な場所を創り出しています。
+      {/* カルーセル - 新デザイン */}
+      <div className="w-full max-w-6xl px-4 mb-12 relative z-10">
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={20}
+          slidesPerView={2}
+          speed={5000}
+          autoplay={{
+            delay: 0,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: false,
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 2.5,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+          }}
+          loop={true}
+          className="w-full py-8 overflow-visible"
+        >
+          {images.map((image) => (
+            <SwiperSlide key={image.id} className="swiper-slide-blur-effect">
+              <div className="relative h-[300px] overflow-hidden rounded-xl transition-all duration-500 hover:shadow-lg">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={1200}
+                  height={800}
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                  priority={image.id === 1}
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+          </Swiper>
+
+          {/* カルーセルの端をぼかすスタイル */}
+          <style jsx global>{`
+            .swiper-wrapper {
+              transition-timing-function: linear !important;
+            }
+            .swiper-slide {
+              transition: all 0.3s ease;
+              opacity: 0.8;
+              filter: blur(1px);
+            }
+            .swiper-slide-active {
+              opacity: 1;
+              filter: blur(0);
+              transform: scale(1.05);
+            }
+            .swiper-slide-prev, .swiper-slide-next {
+              opacity: 0.9;
+              filter: blur(0.5px);
+            }
+          `}</style>
+      </div>
+
+      {/* テキストコンテンツ */}
+      <div className="text-center max-w-3xl px-6 mb-8 relative z-10">
+        <p className="text-xl text-white leading-relaxed mb-10">
+          <span className="text-[#FFF8E1] font-semibold">SOY-POY</span>はただのバーではありません。人々が集い、つながり、経験を共有する<span className="text-[#FFF8E1] font-semibold">コミュニティスペース</span>です。
+          私たちは<span className="text-[#FFF8E1] font-semibold">音楽</span>、<span className="text-[#FFF8E1] font-semibold">アート</span>、そして<span className="text-[#FFF8E1] font-semibold">人々の交流</span>を通じて、特別な場所を創り出しています。
         </p>
-        <button className="bg-[#00c896] hover:bg-[#00a57d] text-black font-bold py-3 px-8 rounded-full transition-colors duration-300">
-          もっと知る
+        <button className="relative overflow-hidden group bg-[#00c896] hover:bg-transparent text-black font-bold py-3 px-10 rounded-full transition-all duration-300 border-2 border-[#00c896]">
+          <span className="relative z-10 group-hover:text-[#00c896] transition-colors duration-300">もっと知る</span>
         </button>
       </div>
     </SectionWrapper>

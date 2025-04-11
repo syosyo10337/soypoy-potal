@@ -28,22 +28,22 @@ export default function Page() {
   // セクションへのスクロール処理
   const scrollToSection = useCallback((i: number, smooth = true) => {
     if (i < 0 || i >= sectionComponents.length) return;
-    
+
     const height = viewportHeight || getViewportHeight();
     const targetPosition = height * i;
-    
+
     // スクロール中フラグを設定
     scrollingToSection.current = true;
-    
+
     window.scrollTo({
       top: targetPosition,
       behavior: smooth ? "smooth" : "auto",
     });
-    
+
     // インデックスを即座に更新
     setIndex(i);
     setRadius(0);
-    
+
     // スクロールアニメーション完了後にフラグをリセット
     setTimeout(() => {
       scrollingToSection.current = false;
@@ -64,14 +64,14 @@ export default function Page() {
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
-    
+
     // スクロール終了を検出するタイムアウト
     scrollTimeoutRef.current = setTimeout(() => {
       // スクロールが止まったら最も近いセクションにスナップ
       if (!scrollingToSection.current) {
         const nearestSectionIndex = Math.round(lastScrollY.current / height);
-        if (nearestSectionIndex >= 0 && 
-            nearestSectionIndex < sectionComponents.length && 
+        if (nearestSectionIndex >= 0 &&
+            nearestSectionIndex < sectionComponents.length &&
             nearestSectionIndex !== index) {
           scrollToSection(nearestSectionIndex, false);
         }
@@ -83,15 +83,15 @@ export default function Page() {
       Math.max(0, Math.floor(scroll / height)),
       sectionComponents.length - 1
     );
-    
+
     // 次のセクションへの進行度を計算
     const progress = (scroll % height) / height;
-    
+
     // 現在のセクションが変わった場合のみインデックスを更新
     if (i !== index) {
       setIndex(i);
     }
-    
+
     // 半径の計算を安定化
     const newRadius = Math.max(0, Math.min(150, progress * 150));
     setRadius(newRadius);
@@ -119,25 +119,24 @@ export default function Page() {
   useEffect(() => {
     // 初期化時にビューポートの高さを設定
     setViewportHeight(getViewportHeight());
-    
+
     // イベントリスナーを追加
     window.addEventListener("scroll", throttledScrollHandler, { passive: true });
     window.addEventListener("resize", throttledResizeHandler, { passive: true });
     window.visualViewport?.addEventListener("resize", throttledResizeHandler, { passive: true });
-    
     // 初期スクロール位置を処理
     throttledScrollHandler();
-    
+
     // クリーンアップ
     return () => {
       window.removeEventListener("scroll", throttledScrollHandler);
       window.removeEventListener("resize", throttledResizeHandler);
       window.visualViewport?.removeEventListener("resize", throttledResizeHandler);
-      
+
       // スロットル関数のキャンセル
       throttledScrollHandler.cancel();
       throttledResizeHandler.cancel();
-      
+
       // タイムアウトをクリア
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
@@ -152,12 +151,12 @@ export default function Page() {
     () => sectionComponents[index],
     [index]
   );
-  
+
   const NextComponent = useMemo(
     () => sectionComponents[index + 1],
     [index]
   );
-  
+
   const showNext = radius > 0 && NextComponent;
 
   return (

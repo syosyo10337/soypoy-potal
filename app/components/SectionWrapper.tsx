@@ -28,22 +28,22 @@ export type SectionProps = {
 };
 
 // セクションラッパーコンポーネント
-const SectionWrapper = memo(function SectionWrapper({ 
-  className, 
-  style, 
-  showArrow, 
-  onArrowClick, 
-  children 
+const SectionWrapper = memo(function SectionWrapper({
+  className,
+  style,
+  showArrow,
+  onArrowClick,
+  children
 }: SectionProps) {
   return (
-    <div 
-      className={className} 
+    <div
+      className={className}
       style={{ ...baseStyle, ...style }}
     >
       {children}
       {showArrow && onArrowClick && (
-        <button 
-          onClick={onArrowClick} 
+        <button
+          onClick={onArrowClick}
           className="mt-10 animate-bounce flex justify-center w-full"
           aria-label="Scroll to next section"
         >
