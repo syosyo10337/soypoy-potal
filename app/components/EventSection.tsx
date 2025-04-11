@@ -126,7 +126,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
           }));
         } else {
           // キャッシュがない場合はプリロードを行う
-          const img = new Image();
+          const img = new globalThis.Image();
           img.src = event.image;
           img.onload = () => {
             // 画像が読み込まれたらキャッシュに追加
