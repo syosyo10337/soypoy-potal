@@ -1,9 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import SectionWrapper from "./SectionWrapper";
-import { ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
 
 type HeroSectionProps = {
   onArrowClick?: () => void;
@@ -20,12 +20,12 @@ export default function HeroSection({ onArrowClick }: HeroSectionProps) {
         justifyContent: "center",
         textAlign: "center",
         gap: "1.5rem",
-        position: "relative"
+        position: "relative",
       }}
       showArrow={false}
       onArrowClick={onArrowClick}
     >
-      <motion.div 
+      <motion.div
         className="relative w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-square flex items-center justify-center px-4"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -37,9 +37,10 @@ export default function HeroSection({ onArrowClick }: HeroSectionProps) {
           fill
           className="object-contain"
           priority
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          quality={85}
         />
       </motion.div>
-      
 
       {onArrowClick && (
         <motion.button

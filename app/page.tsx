@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo, useRef } from "react";
-import HeroSection from "./components/HeroSection";
-import AboutSection from "./components/AboutSection";
-import EventSection from "./components/EventSection";
-import AccessSection from "./components/AccessSection";
-import { throttle } from "lodash";
 import { motion } from "framer-motion";
+import { throttle } from "lodash";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import AboutSection from "./components/AboutSection";
+import AccessSection from "./components/AccessSection";
+import EventSection from "./components/EventSection";
+import HeroSection from "./components/HeroSection";
+
+// セクション名の定義
+const sectionNames = ["hero", "about", "event", "access"];
 
 // セクションコンポーネントの配列
-const sectionComponents = [HeroSection, AboutSection, EventSection, AccessSection];
+const sectionComponents = [
+  HeroSection,
+  AboutSection,
+  EventSection,
+  AccessSection,
+];
 
 export default function Page() {
   const [radius, setRadius] = useState(0);
@@ -26,38 +34,48 @@ export default function Page() {
   }, []);
 
   // セクションへのスクロール処理
-  const scrollToSection = useCallback((i: number, smooth = true) => {
-    if (i < 0 || i >= sectionComponents.length) return;
+  const scrollToSection = useCallback(
+    (i: number, smooth = true) => {
+      if (i < 0 || i >= sectionComponents.length) return;
 
-    const height = viewportHeight || getViewportHeight();
-    const targetPosition = height * i;
+      const height = viewportHeight || getViewportHeight();
+      const targetPosition = height * i;
 
-    // スクロール中フラグを設定
-    scrollingToSection.current = true;
+      // スクロール中フラグを設定
+      scrollingToSection.current = true;
 
-    window.scrollTo({
-      top: targetPosition,
-      behavior: smooth ? "smooth" : "auto",
-    });
+      window.scrollTo({
+        top: targetPosition,
+        behavior: smooth ? "smooth" : "auto",
+      });
 
-    // インデックスを即座に更新
-    setIndex(i);
-    setRadius(0);
+      // インデックスを即座に更新
+      setIndex(i);
+      setRadius(0);
 
-    // スクロールアニメーション完了後にフラグをリセット
-    setTimeout(() => {
-      scrollingToSection.current = false;
-    }, smooth ? 500 : 50);
-  }, [viewportHeight, getViewportHeight]);
+      // スクロールアニメーション完了後にフラグをリセット
+      setTimeout(
+        () => {
+          scrollingToSection.current = false;
+        },
+        smooth ? 500 : 50,
+      );
+    },
+    [viewportHeight, getViewportHeight],
+  );
 
   // スクロール処理を最適化
   const handleScroll = useCallback(() => {
     if (scrollingToSection.current) return;
 
+    // 読み取りフェーズ
     const height = viewportHeight || getViewportHeight();
-    if (height === 0) return;
-
     const scroll = window.scrollY;
+    const nextIndex = Math.min(
+      Math.max(0, Math.floor(scroll / height)),
+      sectionComponents.length - 1,
+    );
+    const progress = (scroll % height) / height;
     lastScrollY.current = scroll;
 
     // 既存のタイムアウトをクリア
@@ -65,42 +83,34 @@ export default function Page() {
       clearTimeout(scrollTimeoutRef.current);
     }
 
-    // スクロール終了を検出するタイムアウト
+    // RAF内で状態更新を行う
+    requestAnimationFrame(() => {
+      if (nextIndex !== index) {
+        setIndex(nextIndex);
+      }
+      const newRadius = Math.max(0, Math.min(150, progress * 150));
+      setRadius(newRadius);
+    });
+
+    // スクロール終了検出
     scrollTimeoutRef.current = setTimeout(() => {
-      // スクロールが止まったら最も近いセクションにスナップ
       if (!scrollingToSection.current) {
         const nearestSectionIndex = Math.round(lastScrollY.current / height);
-        if (nearestSectionIndex >= 0 &&
-            nearestSectionIndex < sectionComponents.length &&
-            nearestSectionIndex !== index) {
+        if (
+          nearestSectionIndex >= 0 &&
+          nearestSectionIndex < sectionComponents.length &&
+          nearestSectionIndex !== index
+        ) {
           scrollToSection(nearestSectionIndex, false);
         }
       }
     }, 150);
-
-    // 現在のセクションインデックスを計算
-    const i = Math.min(
-      Math.max(0, Math.floor(scroll / height)),
-      sectionComponents.length - 1
-    );
-
-    // 次のセクションへの進行度を計算
-    const progress = (scroll % height) / height;
-
-    // 現在のセクションが変わった場合のみインデックスを更新
-    if (i !== index) {
-      setIndex(i);
-    }
-
-    // 半径の計算を安定化
-    const newRadius = Math.max(0, Math.min(150, progress * 150));
-    setRadius(newRadius);
   }, [viewportHeight, getViewportHeight, index, scrollToSection]);
 
   // スロットル化されたスクロールハンドラー
   const throttledScrollHandler = useMemo(
     () => throttle(handleScroll, 16), // 約60fpsに相当
-    [handleScroll]
+    [handleScroll],
   );
 
   // リサイズ処理を最適化
@@ -113,7 +123,7 @@ export default function Page() {
   // スロットル化されたリサイズハンドラー
   const throttledResizeHandler = useMemo(
     () => throttle(handleResize, 100),
-    [handleResize]
+    [handleResize],
   );
 
   useEffect(() => {
@@ -121,9 +131,15 @@ export default function Page() {
     setViewportHeight(getViewportHeight());
 
     // イベントリスナーを追加
-    window.addEventListener("scroll", throttledScrollHandler, { passive: true });
-    window.addEventListener("resize", throttledResizeHandler, { passive: true });
-    window.visualViewport?.addEventListener("resize", throttledResizeHandler, { passive: true });
+    window.addEventListener("scroll", throttledScrollHandler, {
+      passive: true,
+    });
+    window.addEventListener("resize", throttledResizeHandler, {
+      passive: true,
+    });
+    window.visualViewport?.addEventListener("resize", throttledResizeHandler, {
+      passive: true,
+    });
     // 初期スクロール位置を処理
     throttledScrollHandler();
 
@@ -131,7 +147,10 @@ export default function Page() {
     return () => {
       window.removeEventListener("scroll", throttledScrollHandler);
       window.removeEventListener("resize", throttledResizeHandler);
-      window.visualViewport?.removeEventListener("resize", throttledResizeHandler);
+      window.visualViewport?.removeEventListener(
+        "resize",
+        throttledResizeHandler,
+      );
 
       // スロットル関数のキャンセル
       throttledScrollHandler.cancel();
@@ -144,23 +163,18 @@ export default function Page() {
     };
   }, [getViewportHeight, throttledScrollHandler, throttledResizeHandler]);
 
-
-
   // メモ化されたコンポーネント参照
-  const CurrentComponent = useMemo(
-    () => sectionComponents[index],
-    [index]
-  );
+  const CurrentComponent = useMemo(() => sectionComponents[index], [index]);
 
-  const NextComponent = useMemo(
-    () => sectionComponents[index + 1],
-    [index]
-  );
+  const NextComponent = useMemo(() => sectionComponents[index + 1], [index]);
 
   const showNext = radius > 0 && NextComponent;
 
   return (
-    <div className="relative" style={{ height: `${sectionComponents.length * 100}vh` }}>
+    <div
+      className="relative"
+      style={{ height: `${sectionComponents.length * 100}vh` }}
+    >
       <div className="sticky top-0 w-full h-screen">
         <div className="absolute inset-0 z-0 overflow-auto">
           <CurrentComponent onArrowClick={() => scrollToSection(index + 1)} />
@@ -172,8 +186,8 @@ export default function Page() {
             style={{
               WebkitClipPath: `circle(${radius}% at center)`,
               clipPath: `circle(${radius}% at center)`,
-              willChange: "clip-path",
-              transform: "translateZ(0)", // GPUアクセラレーションを有効化
+              willChange: radius > 0 && radius < 150 ? "clip-path" : "auto",
+              transform: radius > 0 && radius < 150 ? "translateZ(0)" : "none",
             }}
           >
             <NextComponent onArrowClick={() => scrollToSection(index + 2)} />
@@ -183,12 +197,16 @@ export default function Page() {
         <div className="fixed right-2 md:right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-2">
           {sectionComponents.map((_, i) => (
             <motion.div
-              key={i}
+              key={sectionNames[i]}
               className={`rounded-full transition-colors duration-200 cursor-pointer ${i === index ? "bg-[#00c896] w-3 h-3" : "bg-gray-400 w-2 h-2"}`}
               onClick={() => scrollToSection(i)}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 + i * 0.1, ease: "easeOut" }}
+              transition={{
+                duration: 0.5,
+                delay: 1.0 + i * 0.1,
+                ease: "easeOut",
+              }}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
             />
