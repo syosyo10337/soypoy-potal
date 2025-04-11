@@ -6,6 +6,7 @@ import { storyblokInit, apiPlugin } from "@storyblok/react";
 import Image from "next/image";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { CacheProvider } from "./contexts/CacheContext";
 
 // Storyblokの初期化
 storyblokInit({
@@ -50,27 +51,13 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${zenOldMincho.variable} antialiased min-h-screen flex flex-col relative`}
       >
-        {/* 共通の背景画像 */}
-        <div className="fixed inset-0 z-0 bg-black">
-          <Image
-            src="/background.png"
-            alt="抽象的なブラシストロークの背景"
-            fill
-            priority
-            style={{
-              objectFit: "cover",
-              objectPosition: "center",
-              opacity: 0.9,
-              mixBlendMode: "screen",
-            }}
-          />
-        </div>
-
-        <Header />
-        <main className="flex-grow z-10 relative">
-          {children}
-        </main>
-        <Footer />
+        <CacheProvider>
+          <Header />
+          <main className="flex-grow z-10 relative">
+            {children}
+          </main>
+          <Footer />
+        </CacheProvider>
       </body>
     </html>
   );
