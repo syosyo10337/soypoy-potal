@@ -3,13 +3,17 @@
 import Image from "next/image";
 import SectionWrapper from "./SectionWrapper";
 import Skeleton from "./ui/Skeleton";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useCache } from "../contexts/CacheContext";
 
 type EventSectionProps = {
   onArrowClick?: () => void;
 };
 
 export default function EventSection({ onArrowClick }: EventSectionProps) {
+  // キャッシュコンテキストを使用
+  const { addImageToCache, getImageFromCache } = useCache();
+  
   // 画面サイズに応じてスタイルを調整するための状態
   const [fontSize, setFontSize] = useState({
     title: 'text-5xl',
@@ -21,6 +25,8 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
   const [cardGap, setCardGap] = useState('gap-8');
   // 画像の読み込み状態を管理
   const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
+  // キャッシュされた画像のURLを管理
+  const [cachedImages, setCachedImages] = useState<Record<string, string>>({});
 
   // 画面サイズに応じてスタイルを調整する関数
   const adjustStyles = () => {
@@ -74,7 +80,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
     }));
   };
 
-  const events = [
+  const events = useMemo(() => [
     {
       image: "https://picsum.photos/id/1039/800/800", // 正方形の画像に変更
       date: "SAT 2025.5.24-5.25",
@@ -93,7 +99,63 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
       title: "夏祭りライブ",
       description: "真夏の夜に行われる熱いライブイベント。地元アーティストによるパフォーマンスをお楽しみください。",
     },
-  ];
+  ], []);
+  
+  // コンポーネントマウント時に画像をプリロード
+  useEffect(() => {
+    // 画像のプリロードを行う
+    const preloadImages = () => {
+      events.forEach(event => {
+        // キャッシュからURLを取得
+        const cachedUrl = getImageFromCache(event.image);
+        if (cachedUrl) {
+          // キャッシュがあれば使用
+          setCachedImages(prev => ({
+            ...prev,
+            [event.image]: cachedUrl
+          }));
+          setImagesLoaded(prev => ({
+            ...prev,
+            [event.image]: true
+          }));
+        } else {
+          // キャッシュがない場合はプリロードを行う
+          const img = new Image();
+          img.src = event.image;
+          img.onload = () => {
+            // 画像が読み込まれたらキャッシュに追加
+            addImageToCache(event.image).then(url => {
+              setCachedImages(prev => ({
+                ...prev,
+                [event.image]: url
+              }));
+              setImagesLoaded(prev => ({
+                ...prev,
+                [event.image]: true
+              }));
+            }).catch(err => {
+              console.error('画像のキャッシュに失敗しました:', err);
+              // キャッシュに失敗しても読み込みは完了している
+              setImagesLoaded(prev => ({
+                ...prev,
+                [event.image]: true
+              }));
+            });
+          };
+          img.onerror = () => {
+            console.error('画像の読み込みに失敗しました:', event.image);
+            // エラーが発生してもスケルトンを非表示にする
+            setImagesLoaded(prev => ({
+              ...prev,
+              [event.image]: true
+            }));
+          };
+        }
+      });
+    };
+    
+    preloadImages();
+  }, [events, getImageFromCache, addImageToCache]);
 
   return (
     <SectionWrapper
@@ -134,11 +196,13 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
                 </div>
               )}
               <Image
-                src={event.image}
+                src={event.image} // 常に元のURLを使用し、ブラウザのキャッシュを活用
                 alt={event.title}
                 fill
                 className="object-cover"
                 onLoad={() => handleImageLoad(event.image)}
+                priority={index === 0} // 最初の画像は優先的に読み込む
+                loading={index === 0 ? 'eager' : 'lazy'} // 最初の画像は即時読み込み、それ以外は遅延読み込み
               />
               {/* 詳細ボタン */}
               <div className="absolute bottom-3 right-3">

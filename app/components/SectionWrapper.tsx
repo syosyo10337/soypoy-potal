@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, CSSProperties, memo } from "react";
+import { ReactNode, CSSProperties, memo, forwardRef, ForwardedRef } from "react";
 import { ChevronDown } from "lucide-react";
 
 // ベーススタイル定義
@@ -30,15 +30,19 @@ export type SectionProps = {
 };
 
 // セクションラッパーコンポーネント
-const SectionWrapper = memo(function SectionWrapper({
-  className,
-  style,
-  showArrow,
-  onArrowClick,
-  children
-}: SectionProps) {
+const SectionWrapper = memo(forwardRef(function SectionWrapper(
+  {
+    className,
+    style,
+    showArrow,
+    onArrowClick,
+    children
+  }: SectionProps,
+  ref: ForwardedRef<HTMLDivElement>
+) {
   return (
     <div
+      ref={ref}
       className={className}
       style={{ ...baseStyle, ...style }}
     >
@@ -54,6 +58,6 @@ const SectionWrapper = memo(function SectionWrapper({
       )}
     </div>
   );
-});
+}));
 
 export default SectionWrapper;

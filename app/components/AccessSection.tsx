@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import SectionWrapper from "./SectionWrapper";
 import Skeleton from "./ui/Skeleton";
 
@@ -9,25 +10,65 @@ type AccessSectionProps = {
 };
 
 export default function AccessSection({ onArrowClick }: AccessSectionProps) {
-  // マップの読み込み状態を管理
-  const [mapLoaded, setMapLoaded] = useState(false);
+  // 画像の読み込み状態を管理
+  const [imageLoaded, setImageLoaded] = useState(false);
+  // セクションの表示状態を追跡
+  const sectionRef = useRef<HTMLDivElement>(null);
+  // 画像が表示されたかどうかを追跡
+  const imageVisibleRef = useRef(false);
+  // 画像が初期化されたかどうかを追跡
+  const [imageInitialized, setImageInitialized] = useState(false);
   
-  // マップが読み込まれたときのハンドラー
-  const handleMapLoad = () => {
-    setMapLoaded(true);
+  // 静的地図画像のパス
+  const staticMapPath = "/images/soypoy-map.png";
+  
+  // 要素の可視性を監視するIntersectionObserverを設定
+  useEffect(() => {
+    // 既に画像が初期化されている場合は何もしない
+    if (imageInitialized) return;
+    
+    // セクションが表示されたときに画像を読み込む
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // セクションが表示された場合
+        if (entry.isIntersecting && !imageVisibleRef.current) {
+          imageVisibleRef.current = true;
+          setImageInitialized(true);
+          // オブザーバーを停止
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 }); // 30%表示されたらトリガー
+    
+    // セクションを監視
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, [imageInitialized]);
+  
+  // 画像が読み込まれたときのハンドラー
+  const handleImageLoad = () => {
+    setImageLoaded(true);
   };
   
   // コンポーネントがマウントされてから一定時間後にスケルトンを非表示にする
-  // (iframeのonLoadイベントが信頼できない場合のフォールバック)
+  // (onLoadイベントが信頼できない場合のフォールバック)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!mapLoaded) setMapLoaded(true);
-    }, 3000);
-    
-    return () => clearTimeout(timer);
-  }, [mapLoaded]);
+    if (imageInitialized && !imageLoaded) {
+      const timer = setTimeout(() => {
+        setImageLoaded(true);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [imageInitialized, imageLoaded]);
   return (
     <SectionWrapper
+      ref={sectionRef}
       className="bg-[#4CAF50] text-white"
       style={{
         display: "flex",
@@ -44,7 +85,7 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-6xl">
         {/* Google Map */}
         <div className="w-full md:w-1/2 h-[400px] rounded-lg overflow-hidden relative">
-          {!mapLoaded && (
+          {!imageLoaded && (
             <div className="absolute inset-0 z-10">
               <Skeleton 
                 className="h-full w-full bg-gray-300/20" 
@@ -52,17 +93,32 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
               />
             </div>
           )}
-          <iframe
-            title="Google Map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.573630504103!2d139.66509847550185!3d35.662875072593145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018f3a985c43219%3A0xef11c14b0d78af2f!2sSOY-POY!5e0!3m2!1sja!2sjp!4v1743784454205!5m2!1sja!2sjp"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen={false}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            onLoad={handleMapLoad}
-          />
+          {/* 画像が初期化された場合のみ表示 */}
+          {imageInitialized && (
+            <div className="relative w-full h-full">
+              <Image
+                src={staticMapPath}
+                alt="SOY-POYの地図"
+                fill
+                className="object-cover"
+                priority={false}
+                onLoad={handleImageLoad}
+              />
+              <div className="absolute bottom-3 right-3 z-10">
+                <a
+                  href="https://maps.app.goo.gl/8H5FQCwcV2UpB1nUA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 rounded-full text-xs shadow-md transition-colors duration-300 flex items-center"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  Google Mapsで見る
+                </a>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 店舗情報 */}

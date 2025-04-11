@@ -10,18 +10,24 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Swiperのスタイルをインポート
 import "swiper/css";
 import "swiper/css/autoplay";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useCache } from "../contexts/CacheContext";
 
 type AboutSectionProps = {
   onArrowClick?: () => void;
 };
 
 export default function AboutSection({ onArrowClick }: AboutSectionProps) {
+  // キャッシュコンテキストを使用
+  const { addImageToCache, getImageFromCache } = useCache();
+  
   // 画像の読み込み状態を管理する状態
   const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
+  // キャッシュされた画像のURLを管理
+  const [cachedImages, setCachedImages] = useState<Record<number, string>>({});
   
-  // 画像のリスト
-  const images = [
+  // 画像のリストをメモ化
+  const images = useMemo(() => [
     {
       id: 1,
       src: "https://picsum.photos/id/42/1200/800",
@@ -52,7 +58,32 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
       alt: "SOY-POYの様子5",
       title: "新しい出会い",
     },
-  ];
+  ], []);
+  
+  // コンポーネントマウント時に画像をキャッシュ
+  useEffect(() => {
+    const cacheImages = async () => {
+      const cachedUrls: Record<number, string> = {};
+      
+      for (const image of images) {
+        // キャッシュから画像を取得または新たにキャッシュ
+        const cachedUrl = getImageFromCache(image.src) || await addImageToCache(image.src);
+        cachedUrls[image.id] = cachedUrl;
+        
+        // 画像がキャッシュされたら読み込み完了とみなす
+        if (cachedUrl) {
+          setImagesLoaded(prev => ({
+            ...prev,
+            [image.id]: true
+          }));
+        }
+      }
+      
+      setCachedImages(cachedUrls);
+    };
+    
+    cacheImages();
+  }, [addImageToCache, getImageFromCache, images]);
   
   // 画像が読み込まれたときのハンドラー
   const handleImageLoad = (id: number) => {
@@ -128,7 +159,7 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
                   </div>
                 )}
                 <Image
-                  src={image.src}
+                  src={cachedImages[image.id] || image.src}
                   alt={image.alt}
                   width={1200}
                   height={800}
@@ -138,6 +169,7 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
                   quality={85}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   onLoad={() => handleImageLoad(image.id)}
+                  unoptimized={!!cachedImages[image.id]} // キャッシュ画像の場合はNext.jsの最適化をスキップ
                 />
               </div>
             </SwiperSlide>
