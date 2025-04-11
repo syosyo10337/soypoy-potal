@@ -1,12 +1,31 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import SectionWrapper from "./SectionWrapper";
+import Skeleton from "./ui/Skeleton";
 
 type AccessSectionProps = {
   onArrowClick?: () => void;
 };
 
 export default function AccessSection({ onArrowClick }: AccessSectionProps) {
+  // マップの読み込み状態を管理
+  const [mapLoaded, setMapLoaded] = useState(false);
+  
+  // マップが読み込まれたときのハンドラー
+  const handleMapLoad = () => {
+    setMapLoaded(true);
+  };
+  
+  // コンポーネントがマウントされてから一定時間後にスケルトンを非表示にする
+  // (iframeのonLoadイベントが信頼できない場合のフォールバック)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!mapLoaded) setMapLoaded(true);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, [mapLoaded]);
   return (
     <SectionWrapper
       className="bg-[#4CAF50] text-white"
@@ -24,7 +43,15 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
 
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-6xl">
         {/* Google Map */}
-        <div className="w-full md:w-1/2 h-[400px] rounded-lg overflow-hidden">
+        <div className="w-full md:w-1/2 h-[400px] rounded-lg overflow-hidden relative">
+          {!mapLoaded && (
+            <div className="absolute inset-0 z-10">
+              <Skeleton 
+                className="h-full w-full bg-gray-300/20" 
+                rounded="rounded-lg"
+              />
+            </div>
+          )}
           <iframe
             title="Google Map"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.573630504103!2d139.66509847550185!3d35.662875072593145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018f3a985c43219%3A0xef11c14b0d78af2f!2sSOY-POY!5e0!3m2!1sja!2sjp!4v1743784454205!5m2!1sja!2sjp"
@@ -34,6 +61,7 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
             allowFullScreen={false}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            onLoad={handleMapLoad}
           />
         </div>
 

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import SectionWrapper from "./SectionWrapper";
+import Skeleton from "./ui/Skeleton";
 import { useEffect, useState } from "react";
 
 type EventSectionProps = {
@@ -18,6 +19,8 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
   const [imageHeight, setImageHeight] = useState('h-48');
   const [cardPadding, setCardPadding] = useState('p-6');
   const [cardGap, setCardGap] = useState('gap-8');
+  // 画像の読み込み状態を管理
+  const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
 
   // 画面サイズに応じてスタイルを調整する関数
   const adjustStyles = () => {
@@ -62,6 +65,14 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
       window.removeEventListener('resize', adjustStyles);
     };
   }, []);
+
+  // 画像が読み込まれたときのハンドラー
+  const handleImageLoad = (imageUrl: string) => {
+    setImagesLoaded(prev => ({
+      ...prev,
+      [imageUrl]: true
+    }));
+  };
 
   const events = [
     {
@@ -114,11 +125,20 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
             className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/20"
           >
             <div className={`relative ${imageHeight} w-full`}>
+              {!imagesLoaded[event.image] && (
+                <div className="absolute inset-0 z-10">
+                  <Skeleton 
+                    className="h-full w-full bg-gray-300/20" 
+                    rounded="rounded-xl"
+                  />
+                </div>
+              )}
               <Image
                 src={event.image}
                 alt={event.title}
                 fill
                 className="object-cover"
+                onLoad={() => handleImageLoad(event.image)}
               />
               {/* 詳細ボタン */}
               <div className="absolute bottom-3 right-3">

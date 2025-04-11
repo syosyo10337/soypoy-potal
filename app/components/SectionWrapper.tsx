@@ -8,10 +8,12 @@ export const baseStyle: CSSProperties = {
   position: "relative",
   width: "100%",
   minHeight: "100vh",
+  height: "auto", // 高さをautoに設定してコンテンツに合わせる
   padding: "4rem 2rem",
   fontSize: "1.25rem",
   boxSizing: "border-box",
-  overflowY: "auto",
+  overflowY: "auto", // 縦スクロールを可能に
+  overflowX: "hidden", // 横スクロールは無効化
   scrollPaddingBottom: "10vh",
   // パフォーマンス最適化
   willChange: "transform",

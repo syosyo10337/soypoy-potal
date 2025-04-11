@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import SectionWrapper from "./SectionWrapper";
+import Skeleton from "./ui/Skeleton";
 
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,12 +10,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Swiperのスタイルをインポート
 import "swiper/css";
 import "swiper/css/autoplay";
+import { useState } from "react";
 
 type AboutSectionProps = {
   onArrowClick?: () => void;
 };
 
 export default function AboutSection({ onArrowClick }: AboutSectionProps) {
+  // 画像の読み込み状態を管理する状態
+  const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
+  
   // 画像のリスト
   const images = [
     {
@@ -48,6 +53,14 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
       title: "新しい出会い",
     },
   ];
+  
+  // 画像が読み込まれたときのハンドラー
+  const handleImageLoad = (id: number) => {
+    setImagesLoaded(prev => ({
+      ...prev,
+      [id]: true
+    }));
+  };
 
   return (
     <SectionWrapper
@@ -106,6 +119,14 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
           {images.map((image) => (
             <SwiperSlide key={image.id} className="swiper-slide-blur-effect">
               <div className="relative h-[300px] overflow-hidden rounded-xl transition-all duration-500 hover:shadow-lg">
+                {!imagesLoaded[image.id] && (
+                  <div className="absolute inset-0 z-10">
+                    <Skeleton 
+                      className="h-full w-full bg-gray-300/20" 
+                      rounded="rounded-xl"
+                    />
+                  </div>
+                )}
                 <Image
                   src={image.src}
                   alt={image.alt}
@@ -116,6 +137,7 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
                   loading={image.id === 1 ? "eager" : "lazy"}
                   quality={85}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  onLoad={() => handleImageLoad(image.id)}
                 />
               </div>
             </SwiperSlide>

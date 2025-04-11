@@ -175,8 +175,8 @@ export default function Page() {
       className="relative"
       style={{ height: `${sectionComponents.length * 100}vh` }}
     >
-      <div className="sticky top-0 w-full h-screen">
-        <div className="absolute inset-0 z-0 overflow-auto">
+      <div className="sticky top-0 w-full h-screen overflow-hidden">
+        <div className="absolute inset-0 z-0 overflow-auto" style={{ height: '100%' }}>
           <CurrentComponent onArrowClick={() => scrollToSection(index + 1)} />
         </div>
 
@@ -188,6 +188,8 @@ export default function Page() {
               clipPath: `circle(${radius}% at center)`,
               willChange: radius > 0 && radius < 150 ? "clip-path" : "auto",
               transform: radius > 0 && radius < 150 ? "translateZ(0)" : "none",
+              pointerEvents: radius > 100 ? 'auto' : 'none', // 円が大きくなったときのみポインターイベントを有効化
+              height: '100%'
             }}
           >
             <NextComponent onArrowClick={() => scrollToSection(index + 2)} />
