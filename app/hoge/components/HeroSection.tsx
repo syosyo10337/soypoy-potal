@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import SectionWrapper from "./SectionWrapper";
+import { ChevronDown } from "lucide-react";
 
 type HeroSectionProps = {
   onArrowClick?: () => void;
@@ -17,12 +18,13 @@ export default function HeroSection({ onArrowClick }: HeroSectionProps) {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        gap: "2rem"
+        gap: "1.5rem",
+        position: "relative"
       }}
-      showArrow
+      showArrow={false}
       onArrowClick={onArrowClick}
     >
-      <div className="relative w-64 h-64 md:w-200 md:h-200 mb-8">
+      <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-square flex items-center justify-center px-4">
         <Image
           src="/logo.png"
           alt="SOY-POY Logo"
@@ -31,9 +33,16 @@ export default function HeroSection({ onArrowClick }: HeroSectionProps) {
           priority
         />
       </div>
-      <p className="text-xl md:text-2xl max-w-2xl opacity-80">
-        好きに生きて、一緒に生きる
-      </p>
+      
+
+      {onArrowClick && (
+        <button
+          onClick={onArrowClick}
+          className="absolute bottom-10 animate-bounce flex justify-center w-full"
+        >
+          <ChevronDown className="w-10 h-10 text-gray-500" />
+        </button>
+      )}
     </SectionWrapper>
   );
 }
