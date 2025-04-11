@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import MobileMenu from "./MobileMenu";
+import { createPortal } from "react-dom";
 
 const navItems = [
   { name: "ABOUT", href: "/about" },
@@ -12,33 +12,122 @@ const navItems = [
 ];
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-3 py-2 md:px-6 md:py-3 bg-black/60 backdrop-blur-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="SOY-POY"
-            width={200}
-            height={50}
-            className="w-32 sm:w-40 md:w-48 lg:w-56 h-auto"
+    <header className="fixed top-0 right-0 z-50 p-3 md:p-4">
+      <button
+        type="button"
+        aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative z-[10000] p-2 text-black"
+      >
+        <div className="relative w-6 h-5">
+          <span
+            className={`absolute left-0 w-full h-0.5 bg-black transition-all duration-300 ${
+              isOpen
+                ? "top-2 rotate-45"
+                : "top-0"
+            }`}
           />
-        </Link>
+          <span
+            className={`absolute left-0 top-2 w-full h-0.5 bg-black transition-opacity duration-300 ${
+              isOpen ? "opacity-0" : "opacity-100"
+            }`}
+          />
+          <span
+            className={`absolute left-0 w-full h-0.5 bg-black transition-all duration-300 ${
+              isOpen
+                ? "top-2 -rotate-45"
+                : "top-4"
+            }`}
+          />
+        </div>
+      </button>
 
-        <nav className="hidden md:flex items-center space-x-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-white text-base font-bold hover:text-gray-200 transition-colors"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </nav>
-
-        <MobileMenu />
-      </div>
+      {mounted && createPortal(
+        <>
+          <div 
+            className={`fixed inset-0 bg-black/80 backdrop-blur-md z-[9998] transition-opacity duration-300 ${
+              isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
+            aria-hidden="true"
+            onClick={() => setIsOpen(false)}
+          />
+          <div 
+            className={`fixed inset-0 z-[9999] flex flex-col h-screen transition-all duration-500 ${
+              isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"
+            }`}
+          >
+            <div className="flex justify-end p-4">
+              <button
+                type="button"
+                aria-label="メニューを閉じる"
+                onClick={() => setIsOpen(false)}
+                className="text-white p-2 hover:text-gray-300 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-8 h-8"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <nav className="flex items-center justify-center flex-1 w-full">
+              <ul className="w-full max-w-md mx-auto space-y-8 p-8">
+                {navItems.map((item, index) => (
+                  <li
+                    key={item.name}
+                    className="overflow-hidden"
+                    style={{
+                      transform: isOpen ? "translateY(0)" : "translateY(20px)",
+                      opacity: isOpen ? 1 : 0,
+                      transition: `all 0.5s ease ${index * 0.1 + 0.2}s`,
+                    }}
+                  >
+                    <Link
+                      href={item.href}
+                      className="block text-white text-3xl font-zen-old-mincho hover:text-gray-300 transition-colors duration-300 py-4 text-center"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </>,
+        document.body
+      )}
     </header>
   );
 }
