@@ -6,6 +6,7 @@ import AboutSection from "./components/AboutSection";
 import EventSection from "./components/EventSection";
 import AccessSection from "./components/AccessSection";
 import { throttle } from "lodash";
+import { motion } from "framer-motion";
 
 // セクションコンポーネントの配列
 const sectionComponents = [HeroSection, AboutSection, EventSection, AccessSection];
@@ -182,10 +183,15 @@ export default function Page() {
 
         <div className="fixed right-2 md:right-5 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-2">
           {sectionComponents.map((_, i) => (
-            <div
+            <motion.div
               key={i}
               className={`rounded-full transition-colors duration-200 cursor-pointer ${i === index ? "bg-[#00c896] w-3 h-3" : "bg-gray-400 w-2 h-2"}`}
               onClick={() => scrollToSection(i)}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 + i * 0.1, ease: "easeOut" }}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
             />
           ))}
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { createPortal } from "react-dom";
+import { motion } from "framer-motion";
 
 const navItems = [
   { name: "ABOUT", href: "/about" },
@@ -34,11 +35,14 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 right-0 z-50 p-3 md:p-4">
-      <button
+      <motion.button
         type="button"
         aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
         onClick={() => setIsOpen(!isOpen)}
         className="relative z-[10000] p-2 text-black"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
       >
         <div className="relative w-6 h-5">
           <span
@@ -61,7 +65,7 @@ export default function Header() {
             }`}
           />
         </div>
-      </button>
+      </motion.button>
 
       {mounted && createPortal(
         <>
