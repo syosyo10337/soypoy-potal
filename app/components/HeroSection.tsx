@@ -1,105 +1,48 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
+import SectionWrapper from "./SectionWrapper";
+import { ChevronDown } from "lucide-react";
 
-// スタイルのインポート
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/autoplay";
+type HeroSectionProps = {
+  onArrowClick?: () => void;
+};
 
-export default function HeroSection() {
-  const [mounted, setMounted] = useState(false);
-  const swiperRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
-
-  // hydrationエラー対策のため、マウント後にコンポーネントを表示
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // スクロール位置を監視
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // 表示する画像のリスト
-  const images = [
-    {
-      id: "img1015",
-      src: "https://picsum.photos/id/1015/1920/1080",
-      alt: "自然の風景",
-    },
-    {
-      id: "img1018",
-      src: "https://picsum.photos/id/1018/1920/1080",
-      alt: "山の風景",
-    },
-    {
-      id: "img1028",
-      src: "https://picsum.photos/id/1028/1920/1080",
-      alt: "森の風景",
-    },
-    {
-      id: "img1039",
-      src: "https://picsum.photos/id/1039/1920/1080",
-      alt: "湖の風景",
-    },
-  ];
-
-  if (!mounted) return null;
-
-  // スクロール量に応じた変換値を計算
-  const translateY = scrollY * 0.3; // スクロール速度の調整
-
+export default function HeroSection({ onArrowClick }: HeroSectionProps) {
   return (
-    <section
-      id="hero"
-      className="relative min-h-[calc(100vh-75px)] mt-[75px] w-full overflow-hidden"
+    <SectionWrapper
+      className="bg-[#FFF8E1] text-black"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        gap: "1.5rem",
+        position: "relative"
+      }}
+      showArrow={false}
+      onArrowClick={onArrowClick}
     >
-      <Swiper
-        modules={[Autoplay, EffectFade]}
-        effect="fade"
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        loop={true}
-        speed={1500}
-        className="absolute inset-0 w-full h-full"
-        ref={swiperRef}
-      >
-        {images.map((image) => (
-          <SwiperSlide key={image.id} className="relative w-full h-full">
-            <div className="absolute inset-0 bg-black/50 z-10" />
-            <div
-              className="absolute inset-0 w-full h-full"
-              style={{ transform: `translateY(${translateY}px) scale(1.1)` }}
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                priority={image.id === "img1015"}
-                className="object-cover"
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      {/* テキストオーバーレイ */}
-      <div className="absolute inset-0 z-20 flex items-center justify-center pt-16">
-        <div className="text-center max-w-4xl mx-auto px-4">
-          <h1 className="text-white text-2xl sm:text-4xl md:text-4xl lg:text-6xl xl:text-6xl font-bold mb-4 tracking-wider font-zen-old-mincho">
-            好きに生きて、一緒に生きる
-          </h1>
-        </div>
+      <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-square flex items-center justify-center px-4">
+        <Image
+          src="/logo.png"
+          alt="SOY-POY Logo"
+          fill
+          className="object-contain"
+          priority
+        />
       </div>
-    </section>
+      
+
+      {onArrowClick && (
+        <button
+          onClick={onArrowClick}
+          className="absolute bottom-10 animate-bounce flex justify-center w-full"
+        >
+          <ChevronDown className="w-10 h-10 text-gray-500" />
+        </button>
+      )}
+    </SectionWrapper>
   );
 }
