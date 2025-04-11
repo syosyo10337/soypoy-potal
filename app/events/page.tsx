@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { format, getMonth, getYear, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
+import Image from "next/image";
 import type { CalendarProps } from "react-calendar";
 
 // カレンダーをクライアントサイドのみでレンダリングするためのダイナミックインポート
@@ -253,17 +254,17 @@ export default function EventsPage() {
                   id={`event-${event.id}`}
                   key={event.id}
                   className={`bg-gray-900/70 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300 ${
-                    selectedEventId === event.id
-                      ? "ring-2 ring-purple-500"
-                      : ""
+                    selectedEventId === event.id ? "ring-2 ring-purple-500" : ""
                   }`}
                 >
                   <div className="md:flex">
                     <div className="md:w-1/3 relative">
-                      <img
+                      <Image
                         src={event.imageUrl}
                         alt={event.title}
                         className="w-full h-48 md:h-full object-cover"
+                        width={800}
+                        height={400}
                       />
                     </div>
                     <div className="p-5 md:w-2/3 flex flex-col">

@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Zen_Old_Mincho } from "next/font/google";
 import "./globals.css";
-import { storyblokInit, apiPlugin } from "@storyblok/react";
-import Image from "next/image";
-import Header from "./components/Header";
+import { apiPlugin, storyblokInit } from "@storyblok/react";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
 import { CacheProvider } from "./contexts/CacheContext";
 
 // Storyblokの初期化
@@ -53,9 +52,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       >
         <CacheProvider>
           <Header />
-          <main className="flex-grow z-10 relative">
-            {children}
-          </main>
+          <main className="flex-grow z-10 relative">{children}</main>
           <Footer />
         </CacheProvider>
       </body>
