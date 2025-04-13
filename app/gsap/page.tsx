@@ -90,18 +90,20 @@ function Section({ title, text, img, textColor, opacity, isActive }) {
         left: 0,
         width: "100vw",
         height: "100vh",
-        display: "grid",
-        placeItems: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start", // 上揃えに変更してスクロールを可能に
         padding: "2rem",
         textAlign: "center",
         zIndex: 1010,
         color: textColor,
         opacity,
-        overflowY: "auto",
+        overflowY: "auto", // スクロールを可能に
         backgroundColor: "transparent",
+        pointerEvents: opacity > 0.5 ? "auto" : "none", // 非表示時はポインターイベントを無効化
       }}
     >
-      <div ref={contentRef} style={{ maxWidth: "800px" }}>
+      <div ref={contentRef} style={{ maxWidth: "800px", paddingTop: "2rem", paddingBottom: "4rem" }}>
         <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>{title}</h1>
         <p
           style={{
@@ -113,7 +115,7 @@ function Section({ title, text, img, textColor, opacity, isActive }) {
         >
           {text}
         </p>
-        <div data-image style={{ position: 'relative', width: '100%', height: '400px' }}>
+        <div data-image style={{ position: 'relative', width: '100%', height: '400px', marginBottom: '2rem' }}>
           <Image
             src={img}
             alt={title}
@@ -302,6 +304,7 @@ export default function Page() {
         backgroundColor: colors[0],
         position: "relative",
         overflow: "hidden",
+        touchAction: "pan-y", // タッチデバイスでの縦スクロールを明示的に許可
       }}
     >
       {(loading || !animationsReady) && (
@@ -344,8 +347,9 @@ export default function Page() {
           left: 0,
           width: "100vw",
           height: "100vh",
-          pointerEvents: "none",
+          pointerEvents: "none", // スクロールを妨げないようにポインターイベントを無効化
           zIndex: 1000,
+          willChange: 'transform', // パフォーマンス改善
         }}
       >
         {colors.slice(1).map((color, index) => (
