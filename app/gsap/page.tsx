@@ -1,0 +1,324 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const colors = ["white", "black", "green"];
+const content = [
+  {
+    title: "Welcome to FlowSync",
+    text: `Streamline your workflow with intuitive project management tools, built for teams of all sizes.
+    Our platform helps you plan, track, and collaborate effortlessly.
+    With FlowSync, you can break down silos and align your team's efforts.
+    Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+    Start with a few clicks and experience a new era of team collaboration.
+    Our platform helps you plan, track, and collaborate effortlessly.
+    With FlowSync, you can break down silos and align your team's efforts.
+    Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+    Start with a few clicks and experience a new era of team collaboration.
+    Our platform helps you plan, track, and collaborate effortlessly.
+    With FlowSync, you can break down silos and align your team's efforts.
+    Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+    Start with a few clicks and experience a new era of team collaboration.
+    `,
+    img: "https://picsum.photos/800/400?random=1",
+    textColor: "#000",
+  },
+  {
+    title: "Powerful Features",
+    text: `Automate tasks, visualize timelines, and collaborate in real-time.
+    FlowSync offers a feature-rich experience including task dependencies, sprint planning, Gantt charts, and more.
+    Whether you're managing software development or marketing campaigns, our tools are flexible to fit your workflow.
+    Real-time editing and notifications keep your entire team up-to-date.
+    Don't just manage projects — drive them forward with clarity and control.`,
+    img: "https://picsum.photos/800/400?random=2",
+    textColor: "#fff",
+  },
+  {
+    title: "Join a Global Community",
+    text: `Thousands of teams around the world trust FlowSync to keep their projects on track.
+    Our global community shares tips, templates, and best practices so you can get the most out of our platform.
+    From small startups to large enterprises, everyone finds value in the way FlowSync enables modern project management.
+    Get inspired by how others succeed — and share your own journey too.
+    Become part of something bigger — become part of the FlowSync movement.`,
+    img: "https://picsum.photos/800/400?random=3",
+    textColor: "#fff",
+  },
+];
+
+function Section({ title, text, img, textColor, opacity, isActive }) {
+  const contentRef = useRef(null);
+  
+  // コンテンツのアニメーション
+  useEffect(() => {
+    if (typeof window === "undefined" || !contentRef.current) return;
+    
+    // コンテンツ要素
+    const content = contentRef.current;
+    const contentElements = content.querySelectorAll('h1, p, div[data-image]');
+    
+    // 初期状態を設定
+    gsap.set(contentElements, { opacity: 0, y: 30 });
+    
+    // アクティブなセクションの場合、アニメーションを実行
+    if (isActive && opacity > 0.8) {
+      gsap.to(contentElements, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out",
+        delay: 0.3 // 円形トランジションが完了するのを待つ
+      });
+    } else {
+      // 非アクティブになったらリセット
+      gsap.set(contentElements, { opacity: 0, y: 30 });
+    }
+  }, [isActive, opacity]);
+  
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        display: "grid",
+        placeItems: "center",
+        padding: "2rem",
+        textAlign: "center",
+        zIndex: 1010,
+        color: textColor,
+        opacity,
+        overflowY: "auto",
+        backgroundColor: "transparent",
+      }}
+    >
+      <div ref={contentRef} style={{ maxWidth: "800px" }}>
+        <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>{title}</h1>
+        <p
+          style={{
+            fontSize: "1.2rem",
+            marginBottom: "2rem",
+            lineHeight: 1.6,
+            whiteSpace: "pre-line",
+          }}
+        >
+          {text}
+        </p>
+        <div data-image style={{ position: 'relative', width: '100%', height: '400px' }}>
+          <Image
+            src={img}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 800px"
+            priority
+            style={{
+              objectFit: 'cover',
+              borderRadius: "12px",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Page() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [opacity, setOpacity] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState(0); // アクティブなセクションを追跡
+
+  const containerRef = useRef(null);
+  const circlesRef = useRef([]);
+
+  // クライアントサイドでのみGSAPを登録
+  if (typeof window !== "undefined") {
+    try {
+      gsap.registerPlugin(ScrollTrigger);
+    } catch (error) {
+      console.error("GSAP plugin registration error:", error);
+    }
+  }
+
+  // 円の参照を設定するための関数
+  const setCircleRef = (el, index) => {
+    circlesRef.current[index] = el;
+  };
+
+  // GSAPの初期化
+  useEffect(() => {
+    // クライアントサイドでのみ実行
+    if (typeof window !== "undefined") {
+      // GSAPプラグインを登録
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ローディング状態を解除（少し遅延させて確実に初期化）
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // アニメーションの設定
+  useEffect(() => {
+    // クライアントサイドでのみ実行、かつローディングが完了している場合
+    if (typeof window === "undefined" || loading) return;
+
+    console.log("GSAP Animation Setup");
+
+    // ScrollTriggerの設定をクリア
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+    // 画面のサイズに基づいて最大半径を計算
+    const diagonal = Math.sqrt(
+      window.innerWidth ** 2 + window.innerHeight ** 2
+    );
+
+    // 初期アニメーション（ローディング完了時）
+    gsap.to("body", { duration: 0.3, opacity: 1, ease: "power1.out" });
+
+    // 各セクションのアニメーションを設定
+    colors.slice(1).forEach((_, index) => {
+      const circle = circlesRef.current[index];
+      if (!circle) return;
+
+      // 初期状態では円を非表示に
+      gsap.set(circle, { attr: { r: 0 } });
+
+      // スクロールに連動したアニメーション
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: `${index * 33.33}% top`,
+          end: `${(index + 1) * 33.33}% top`,
+          scrub: 0.5,
+          onEnter: () => {
+            if (index === 0) {
+              setCurrentIndex(1);
+              setActiveSection(1);
+            }
+            if (index === 1) {
+              setCurrentIndex(2);
+              setActiveSection(2);
+            }
+          },
+          onLeaveBack: () => {
+            if (index === 0) {
+              setCurrentIndex(0);
+              setActiveSection(0);
+            }
+            if (index === 1) {
+              setCurrentIndex(1);
+              setActiveSection(1);
+            }
+          },
+          onUpdate: (self) => {
+            // フェードエフェクト
+            const fadeProgress = self.progress;
+            if (fadeProgress < 0.5) {
+              setOpacity(1 - fadeProgress * 2);
+            } else {
+              setOpacity((fadeProgress - 0.5) * 2);
+            }
+          },
+        }
+      }).to(circle, {
+        attr: { r: diagonal },
+        ease: "none",
+        duration: 1
+      });
+    });
+
+    // ウィンドウリサイズ時の処理
+    const handleResize = () => {
+      // ScrollTriggerを更新
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      // ScrollTriggerをクリーンアップ
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [loading]);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        height: "300vh",
+        backgroundColor: colors[0],
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {loading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "white",
+            color: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 2000,
+          }}
+        >
+          <span style={{ fontSize: "1.5rem" }}>
+            Loading FlowSync Experience...
+          </span>
+        </div>
+      )}
+
+      <svg
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          pointerEvents: "none",
+          zIndex: 1000,
+        }}
+      >
+        {colors.slice(1).map((color, index) => (
+          <circle
+            key={color}
+            ref={(el) => setCircleRef(el, index)}
+            cx="50%"
+            cy="50%"
+            r="0"
+            fill={color}
+          />
+        ))}
+      </svg>
+
+      {!loading && (
+        <>
+          {content.map((item, index) => (
+            <Section
+              key={index}
+              {...item}
+              opacity={currentIndex === index ? opacity : 0}
+              isActive={activeSection === index}
+            />
+          ))}
+        </>
+      )}
+    </div>
+  );
+}
