@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -62,13 +62,17 @@ function Section({ title, text, img, textColor, opacity, isActive }) {
     // 初期状態を設定
     gsap.set(contentElements, { opacity: 0, y: 30 });
     
-    // アクティブなセクションの場合、アニメーションを実行
+    // アニメーションが準備完了している場合のみ実行
     if (isActive && opacity > 0.8) {
+      // モバイルではアニメーションを軽量化
+      const duration = window.innerWidth < 768 ? 0.5 : 0.8;
+      const staggerTime = window.innerWidth < 768 ? 0.15 : 0.2;
+      
       gsap.to(contentElements, {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        stagger: 0.2,
+        duration: duration,
+        stagger: staggerTime,
         ease: "power2.out",
         delay: 0.3 // 円形トランジションが完了するのを待つ
       });
@@ -132,19 +136,32 @@ export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [animationsReady, setAnimationsReady] = useState(false); // アニメーションの準備状態を追跡
   const [activeSection, setActiveSection] = useState(0); // アクティブなセクションを追跡
+  const [isMobile, setIsMobile] = useState(false); // モバイルデバイスかどうかを追跡
 
   const containerRef = useRef(null);
   const circlesRef = useRef([]);
-
-  // クライアントサイドでのみGSAPを登録
-  if (typeof window !== "undefined") {
-    try {
-      gsap.registerPlugin(ScrollTrigger);
-    } catch (error) {
-      console.error("GSAP plugin registration error:", error);
+  
+  // モバイルデバイスかどうかをチェックする関数
+  const checkIfMobile = useCallback(() => {
+    if (typeof window !== "undefined") {
+      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
     }
-  }
+    return false;
+  }, []);
+  
+  // クライアントサイドでのみGSAPを登録
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        gsap.registerPlugin(ScrollTrigger);
+        setIsMobile(checkIfMobile());
+      } catch (error) {
+        console.error("GSAP plugin registration error:", error);
+      }
+    }
+  }, [checkIfMobile]);
 
   // 円の参照を設定するための関数
   const setCircleRef = (el, index) => {
@@ -155,17 +172,33 @@ export default function Page() {
   useEffect(() => {
     // クライアントサイドでのみ実行
     if (typeof window !== "undefined") {
-      // GSAPプラグインを登録
+      // GSAPプラグインを登録と設定
       gsap.registerPlugin(ScrollTrigger);
+      
+      // モバイル用の設定
+      ScrollTrigger.config({
+        ignoreMobileResize: true, // モバイルのリサイズイベントを無視
+        autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" // 自動更新するイベントを限定
+      });
 
-      // ローディング状態を解除（少し遅延させて確実に初期化）
-      const timer = setTimeout(() => {
+      // 画像のプリロードと初期化のための時間を確保
+      const loadingTimer = setTimeout(() => {
+        // ローディング状態を解除
         setLoading(false);
-      }, 1000);
+        
+        // アニメーションの準備が整うまで少し待つ
+        const animationReadyTimer = setTimeout(() => {
+          setAnimationsReady(true);
+          // ScrollTriggerを確実に更新
+          ScrollTrigger.refresh(true);
+        }, isMobile ? 800 : 500); // モバイルではより長く待つ
+        
+        return () => clearTimeout(animationReadyTimer);
+      }, isMobile ? 1500 : 1000); // モバイルではより長く待つ
 
-      return () => clearTimeout(timer);
+      return () => clearTimeout(loadingTimer);
     }
-  }, []);
+  }, [isMobile]);
 
   // アニメーションの設定
   useEffect(() => {
@@ -181,7 +214,14 @@ export default function Page() {
     const diagonal = Math.sqrt(
       window.innerWidth ** 2 + window.innerHeight ** 2
     );
-
+    
+    // モバイル用の設定を調整
+    const scrollSettings = {
+      scrub: isMobile ? 1 : 0.5, // モバイルではスクロールの動きをよりスムーズに
+      preventOverlaps: true,
+      fastScrollEnd: true,
+    };
+    
     // 初期アニメーション（ローディング完了時）
     gsap.to("body", { duration: 0.3, opacity: 1, ease: "power1.out" });
 
@@ -199,7 +239,9 @@ export default function Page() {
           trigger: containerRef.current,
           start: `${index * 33.33}% top`,
           end: `${(index + 1) * 33.33}% top`,
-          scrub: 0.5,
+          scrub: scrollSettings.scrub,
+          preventOverlaps: scrollSettings.preventOverlaps,
+          fastScrollEnd: scrollSettings.fastScrollEnd,
           onEnter: () => {
             if (index === 0) {
               setCurrentIndex(1);
@@ -262,7 +304,7 @@ export default function Page() {
         overflow: "hidden",
       }}
     >
-      {loading && (
+      {(loading || !animationsReady) && (
         <div
           style={{
             position: "fixed",
@@ -273,14 +315,25 @@ export default function Page() {
             backgroundColor: "white",
             color: "black",
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             zIndex: 2000,
           }}
         >
-          <span style={{ fontSize: "1.5rem" }}>
-            Loading FlowSync Experience...
+          <span style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
+            {loading ? "Loading FlowSync Experience..." : "Preparing Animations..."}
           </span>
+          <div style={{ width: "200px", height: "5px", backgroundColor: "#f0f0f0", borderRadius: "10px", overflow: "hidden" }}>
+            <div 
+              style={{ 
+                height: "100%", 
+                width: loading ? "70%" : "95%", 
+                backgroundColor: "#00c896",
+                transition: "width 0.5s ease-in-out"
+              }}
+            />
+          </div>
         </div>
       )}
 
@@ -307,7 +360,7 @@ export default function Page() {
         ))}
       </svg>
 
-      {!loading && (
+      {!loading && animationsReady && (
         <>
           {content.map((item, index) => (
             <Section
