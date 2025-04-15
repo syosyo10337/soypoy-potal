@@ -126,7 +126,35 @@ export default function Page() {
     circlesRef.current[index] = el;
   };
 
-  // GSAPの初期化
+  // 画像のプリロード関数
+  const preloadImages = async () => {
+    try {
+      console.log('画像のプリロード開始');
+      const imagePromises = content.map((item, index) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            console.log(`画像読み込み完了: ${index + 1}/${content.length}`);
+            resolve();
+          };
+          img.onerror = (err) => {
+            console.error(`画像読み込みエラー: ${item.img}`, err);
+            reject(err);
+          };
+          img.src = item.img;
+        });
+      });
+      
+      await Promise.all(imagePromises);
+      console.log('全ての画像のプリロード完了');
+      return true;
+    } catch (error) {
+      console.error('画像プリロード中にエラーが発生:', error);
+      return false;
+    }
+  };
+  
+  // GSAPの初期化とリソース読み込み
   useEffect(() => {
     // クライアントサイドでのみ実行
     if (typeof window !== "undefined") {
@@ -139,22 +167,50 @@ export default function Page() {
         autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" // 自動更新するイベントを限定
       });
 
-      // 画像のプリロードと初期化のための時間を確保
-      const loadingTimer = setTimeout(() => {
+      // ドキュメントの読み込み完了を監視
+      const checkDocumentReady = () => {
+        return document.readyState === 'complete';
+      };
+      
+      // 全てのリソースの読み込みを待つ
+      const loadAllResources = async () => {
+        // ドキュメントの読み込み完了を待つ
+        if (!checkDocumentReady()) {
+          await new Promise<void>(resolve => {
+            const onLoad = () => resolve();
+            window.addEventListener('load', onLoad, { once: true });
+          });
+        }
+        
+        console.log('ドキュメント読み込み完了');
+        
+        // 画像のプリロード
+        await preloadImages();
+        
         // ローディング状態を解除
         setLoading(false);
         
         // アニメーションの準備が整うまで少し待つ
-        const animationReadyTimer = setTimeout(() => {
+        setTimeout(() => {
           setAnimationsReady(true);
           // ScrollTriggerを確実に更新
           ScrollTrigger.refresh(true);
-        }, isMobile ? 800 : 500); // モバイルではより長く待つ
-        
-        return () => clearTimeout(animationReadyTimer);
-      }, isMobile ? 1500 : 1000); // モバイルではより長く待つ
-
-      return () => clearTimeout(loadingTimer);
+          console.log('アニメーション準備完了');
+        }, isMobile ? 300 : 200);
+      };
+      
+      // リソース読み込み開始
+      loadAllResources().catch(error => {
+        console.error('リソース読み込み中にエラーが発生:', error);
+        // エラーが発生しても進める
+        setLoading(false);
+        setTimeout(() => setAnimationsReady(true), 200);
+      });
+      
+      // クリーンアップ関数
+      return () => {
+        // 必要に応じてイベントリスナーをクリーンアップ
+      };
     }
   }, [isMobile]);
 

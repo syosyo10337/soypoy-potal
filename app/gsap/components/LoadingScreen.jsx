@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { gsap } from "gsap";
 import { zIndexes, layout } from "../styles";
 
 /**
@@ -9,8 +12,29 @@ import { zIndexes, layout } from "../styles";
  * @param {boolean} props.animationsReady - アニメーションの準備ができているかどうか
  */
 const LoadingScreen = ({ loading, animationsReady }) => {
+  const logoRef = useRef(null);
+
+  // ロゴの回転アニメーション
+  useEffect(() => {
+    if (!logoRef.current || (!loading && animationsReady)) return;
+
+    // 無限回転アニメーション
+    const rotationAnimation = gsap.to(logoRef.current, {
+      rotation: 360,
+      duration: 2,
+      repeat: -1, // 無限繰り返し
+      ease: "linear",
+      transformOrigin: "center center"
+    });
+
+    // クリーンアップ
+    return () => {
+      rotationAnimation.kill();
+    };
+  }, [loading, animationsReady]);
+
   if (!loading && animationsReady) return null;
-  
+
   return (
     <div
       style={{
@@ -28,17 +52,23 @@ const LoadingScreen = ({ loading, animationsReady }) => {
         zIndex: zIndexes.loading,
       }}
     >
-      <span style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
-        {loading ? "Loading FlowSync Experience..." : "Preparing Animations..."}
-      </span>
-      <div style={{ width: "200px", height: "5px", backgroundColor: "#f0f0f0", borderRadius: "10px", overflow: "hidden" }}>
-        <div 
-          style={{ 
-            height: "100%", 
-            width: loading ? "70%" : "95%", 
-            backgroundColor: "#00c896",
-            transition: "width 0.5s ease-in-out"
-          }}
+      {/* 回転するロゴ */}
+      <div
+        ref={logoRef}
+        style={{
+          width: "100px",
+          height: "100px",
+          marginBottom: "1.5rem",
+          position: "relative"
+        }}
+      >
+        <Image
+          src="/images/logo-circle.png"
+          alt="SOY-POY Logo"
+          fill
+          sizes="100px"
+          style={{ objectFit: "contain" }}
+          priority
         />
       </div>
     </div>
