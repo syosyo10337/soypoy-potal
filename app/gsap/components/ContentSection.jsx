@@ -14,11 +14,13 @@ import { breakpoints, animations, typography, spacing, effects, layout } from ".
  * @param {string} props.textColor - テキストの色
  * @param {number} props.opacity - 不透明度
  * @param {boolean} props.isActive - アクティブ状態かどうか
+ * @param {Object} props.sectionState - セクションの状態情報
+ * @param {number} props.index - セクションのインデックス
  */
-const ContentSection = ({ title, text, img, textColor, opacity, isActive }) => {
+const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectionState, index }) => {
   const contentRef = useRef(null);
   
-  // コンテンツのアニメーション
+  // コンテンツの表示制御
   useEffect(() => {
     if (typeof window === "undefined" || !contentRef.current) return;
     
@@ -26,29 +28,37 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive }) => {
     const content = contentRef.current;
     const contentElements = content.querySelectorAll('h1, p, div[data-image]');
     
-    // 初期状態を設定
-    gsap.set(contentElements, { opacity: 0, y: 30 });
+    // アニメーション進行度とセクション状態に基づいて表示制御
+    const shouldShow = 
+      // アクティブで不透明度が高い
+      (isActive && opacity > 0.8) || 
+      // またはアニメーション進行度が70%以上
+      (sectionState?.contentVisibility === true) || 
+      // またはアニメーション完了状態
+      (sectionState?.animationComplete === index);
     
-    // アニメーションが準備完了している場合のみ実行
-    if (isActive && opacity > 0.8) {
-      // モバイルではアニメーションを軽量化
-      const isMobile = window.innerWidth < breakpoints.mobile;
-      const duration = isMobile ? animations.duration.mobile : animations.duration.default;
-      const staggerTime = isMobile ? animations.stagger.mobile : animations.stagger.default;
+    if (shouldShow) {
+      // アニメーションなしで表示
+      gsap.set(contentElements, { opacity: 1, y: 0 });
       
-      gsap.to(contentElements, {
-        opacity: 1,
-        y: 0,
-        duration,
-        stagger: staggerTime,
-        ease: animations.ease.default,
-        delay: animations.delay.circleTransition // 円形トランジションが完了するのを待つ
-      });
+      // コンテンツ表示時のログ
+      const scrollY = window.scrollY;
+      const scrollHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
+      console.log(`コンテンツ[${title}]表示 - セクション: ${isActive ? "アクティブ" : "非アクティブ"}, 不透明度: ${opacity.toFixed(2)}, 進行度: ${sectionState?.animationProgress?.toFixed(2) || 0}, スクロール: ${scrollPercentage}%`);
     } else {
-      // 非アクティブになったらリセット
-      gsap.set(contentElements, { opacity: 0, y: 30 });
+      // 非表示条件の場合
+      gsap.set(contentElements, { opacity: 0, y: 0 });
+      
+      // コンテンツ非表示時のログ
+      if (opacity < 0.2 && isActive) {
+        const scrollY = window.scrollY;
+        const scrollHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
+        console.log(`コンテンツ[${title}]非表示 - セクション: ${isActive ? "アクティブ" : "非アクティブ"}, 不透明度: ${opacity.toFixed(2)}, 進行度: ${sectionState?.animationProgress?.toFixed(2) || 0}, スクロール: ${scrollPercentage}%`);
+      }
     }
-  }, [isActive, opacity]);
+  }, [isActive, opacity, sectionState, index]);
   
   return (
     <div

@@ -177,7 +177,7 @@ export default function Page() {
     >
       <div className="sticky top-0 w-full h-screen overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-auto" style={{ height: '100%' }}>
-          <CurrentComponent onArrowClick={() => scrollToSection(index + 1)} />
+                <CurrentComponent onArrowClick={() => scrollToSection(index + 1)} />
         </div>
 
         {showNext && (

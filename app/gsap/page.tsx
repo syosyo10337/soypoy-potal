@@ -5,53 +5,30 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // 分割したコンポーネントをインポート
-import { CircleTransition, ContentSection, LoadingScreen } from "./components";
+import {
+  CircleTransition,
+  LoadingScreen,
+  Section1,
+  Section2,
+  Section3
+} from "./components";
 import { breakpoints } from "./styles";
 
 const colors = ["white", "black", "green"];
-const content = [
-  {
-    title: "Welcome to FlowSync",
-    text: `Streamline your workflow with intuitive project management tools, built for teams of all sizes.
-    Our platform helps you plan, track, and collaborate effortlessly.
-    With FlowSync, you can break down silos and align your team's efforts.
-    Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
-    Start with a few clicks and experience a new era of team collaboration.
-    Our platform helps you plan, track, and collaborate effortlessly.
-    With FlowSync, you can break down silos and align your team's efforts.
-    Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
-    Start with a few clicks and experience a new era of team collaboration.
-    Our platform helps you plan, track, and collaborate effortlessly.
-    With FlowSync, you can break down silos and align your team's efforts.
-    Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
-    Start with a few clicks and experience a new era of team collaboration.
-    `,
-    img: "https://picsum.photos/800/400?random=1",
-    textColor: "#000",
-  },
-  {
-    title: "Powerful Features",
-    text: `Automate tasks, visualize timelines, and collaborate in real-time.
-    FlowSync offers a feature-rich experience including task dependencies, sprint planning, Gantt charts, and more.
-    Whether you're managing software development or marketing campaigns, our tools are flexible to fit your workflow.
-    Real-time editing and notifications keep your entire team up-to-date.
-    Don't just manage projects — drive them forward with clarity and control.`,
-    img: "https://picsum.photos/800/400?random=2",
-    textColor: "#fff",
-  },
-  {
-    title: "Join a Global Community",
-    text: `Thousands of teams around the world trust FlowSync to keep their projects on track.
-    Our global community shares tips, templates, and best practices so you can get the most out of our platform.
-    From small startups to large enterprises, everyone finds value in the way FlowSync enables modern project management.
-    Get inspired by how others succeed — and share your own journey too.
-    Become part of something bigger — become part of the FlowSync movement.`,
-    img: "https://picsum.photos/800/400?random=3",
-    textColor: "#fff",
-  },
+
+// セクションコンポーネントの配列
+const sectionComponents = [
+  Section1,
+  Section2,
+  Section3
 ];
 
-// Section コンポーネントは別ファイルに移動したため削除
+// 画像のURLを配列として定義
+const images = [
+  "https://picsum.photos/800/400?random=1",
+  "https://picsum.photos/800/400?random=2",
+  "https://picsum.photos/800/400?random=3"
+];
 
 // セクション状態を管理するreducer
 const sectionReducer = (state, action) => {
@@ -80,6 +57,21 @@ const sectionReducer = (state, action) => {
         ...state,
         isTransitioning: false
       };
+    case 'ANIMATION_COMPLETE':
+      // アニメーション完了時の状態更新
+      return {
+        ...state,
+        animationComplete: action.payload.index,
+        contentVisibility: true,
+        animationProgress: 1.0 // アニメーション進行度を100%に設定
+      };
+    case 'ANIMATION_PROGRESS':
+      // アニメーション進行度の更新
+      return {
+        ...state,
+        animationProgress: action.payload.progress,
+        contentVisibility: action.payload.progress > 0.7 // 70%以上で表示
+      };
     default:
       return state;
   }
@@ -93,14 +85,14 @@ export default function Page() {
     opacity: 1,
     isTransitioning: false
   });
-  
+
   const [loading, setLoading] = useState(true);
   const [animationsReady, setAnimationsReady] = useState(false); // アニメーションの準備状態を追跡
   const [isMobile, setIsMobile] = useState(false); // モバイルデバイスかどうかを追跡
 
   const containerRef = useRef(null);
   const circlesRef = useRef([]);
-  
+
   // モバイルデバイスかどうかをチェックする関数
   const checkIfMobile = useCallback(() => {
     if (typeof window !== "undefined") {
@@ -108,7 +100,7 @@ export default function Page() {
     }
     return false;
   }, []);
-  
+
   // クライアントサイドでのみGSAPを登録
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -130,21 +122,21 @@ export default function Page() {
   const preloadImages = async () => {
     try {
       console.log('画像のプリロード開始');
-      const imagePromises = content.map((item, index) => {
+      const imagePromises = images.map((imgSrc, index) => {
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.onload = () => {
-            console.log(`画像読み込み完了: ${index + 1}/${content.length}`);
+            console.log(`画像読み込み完了: ${index + 1}/${images.length}`);
             resolve();
           };
           img.onerror = (err) => {
-            console.error(`画像読み込みエラー: ${item.img}`, err);
+            console.error(`画像読み込みエラー: ${imgSrc}`, err);
             reject(err);
           };
-          img.src = item.img;
+          img.src = imgSrc;
         });
       });
-      
+
       await Promise.all(imagePromises);
       console.log('全ての画像のプリロード完了');
       return true;
@@ -153,14 +145,14 @@ export default function Page() {
       return false;
     }
   };
-  
+
   // GSAPの初期化とリソース読み込み
   useEffect(() => {
     // クライアントサイドでのみ実行
     if (typeof window !== "undefined") {
       // GSAPプラグインを登録と設定
       gsap.registerPlugin(ScrollTrigger);
-      
+
       // モバイル用の設定
       ScrollTrigger.config({
         ignoreMobileResize: true, // モバイルのリサイズイベントを無視
@@ -171,7 +163,7 @@ export default function Page() {
       const checkDocumentReady = () => {
         return document.readyState === 'complete';
       };
-      
+
       // 全てのリソースの読み込みを待つ
       const loadAllResources = async () => {
         // ドキュメントの読み込み完了を待つ
@@ -181,15 +173,15 @@ export default function Page() {
             window.addEventListener('load', onLoad, { once: true });
           });
         }
-        
+
         console.log('ドキュメント読み込み完了');
-        
+
         // 画像のプリロード
         await preloadImages();
-        
+
         // ローディング状態を解除
         setLoading(false);
-        
+
         // アニメーションの準備が整うまで少し待つ
         setTimeout(() => {
           setAnimationsReady(true);
@@ -198,7 +190,7 @@ export default function Page() {
           console.log('アニメーション準備完了');
         }, isMobile ? 300 : 200);
       };
-      
+
       // リソース読み込み開始
       loadAllResources().catch(error => {
         console.error('リソース読み込み中にエラーが発生:', error);
@@ -206,7 +198,7 @@ export default function Page() {
         setLoading(false);
         setTimeout(() => setAnimationsReady(true), 200);
       });
-      
+
       // クリーンアップ関数
       return () => {
         // 必要に応じてイベントリスナーをクリーンアップ
@@ -228,16 +220,21 @@ export default function Page() {
     const diagonal = Math.sqrt(
       window.innerWidth ** 2 + window.innerHeight ** 2
     );
-    
+
     // モバイル用の設定を調整
     const scrollSettings = {
       scrub: isMobile ? 1 : 0.5, // モバイルではスクロールの動きをよりスムーズに
       preventOverlaps: true,
       fastScrollEnd: true,
     };
-    
+
     // 初期アニメーション（ローディング完了時）
     gsap.to("body", { duration: 0.3, opacity: 1, ease: "power1.out" });
+
+    // セクションの数を取得
+    const sectionCount = sectionComponents.length;
+    // 各セクションの割合を計算
+    const sectionPercentage = 100 / sectionCount;
 
     // 各セクションのアニメーションを設定
     colors.slice(1).forEach((_, index) => {
@@ -247,60 +244,94 @@ export default function Page() {
       // 初期状態では円を非表示に
       gsap.set(circle, { attr: { r: 0 } });
 
+      // セクションの開始と終了位置を動的に計算
+      const startPosition = `${index * sectionPercentage}% top`;
+      const endPosition = `${(index + 1) * sectionPercentage}% top`;
+
       // スクロールに連動したアニメーション
       gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: `${index * 33.33}% top`,
-          end: `${(index + 1) * 33.33}% top`,
+          start: startPosition,
+          end: endPosition,
           scrub: scrollSettings.scrub,
           preventOverlaps: scrollSettings.preventOverlaps,
           fastScrollEnd: scrollSettings.fastScrollEnd,
           onEnter: () => {
-            if (index === 0) {
-              dispatchSection({ 
-                type: 'SET_SECTION', 
-                payload: { index: 1 }
-              });
-            }
-            if (index === 1) {
-              dispatchSection({ 
-                type: 'SET_SECTION', 
-                payload: { index: 2 }
+            // 次のセクションインデックスを計算
+            const nextSectionIndex = index + 1;
+            // 有効なセクションインデックスかチェック
+            if (nextSectionIndex < sectionCount) {
+              dispatchSection({
+                type: 'SET_SECTION',
+                payload: { index: nextSectionIndex }
               });
             }
           },
           onLeaveBack: () => {
-            if (index === 0) {
-              dispatchSection({ 
-                type: 'SET_SECTION', 
-                payload: { index: 0 }
-              });
-            }
-            if (index === 1) {
-              dispatchSection({ 
-                type: 'SET_SECTION', 
-                payload: { index: 1 }
+            // 前のセクションインデックスを計算
+            const prevSectionIndex = index;
+            // 有効なセクションインデックスかチェック
+            if (prevSectionIndex >= 0) {
+              dispatchSection({
+                type: 'SET_SECTION',
+                payload: { index: prevSectionIndex }
               });
             }
           },
           onUpdate: (self) => {
             // フェードエフェクト
             const fadeProgress = self.progress;
-            const newOpacity = fadeProgress < 0.5 
-              ? 1 - fadeProgress * 2 
+            const newOpacity = fadeProgress < 0.5
+              ? 1 - fadeProgress * 2
               : (fadeProgress - 0.5) * 2;
-              
-            dispatchSection({ 
-              type: 'UPDATE_OPACITY', 
-              payload: newOpacity 
+
+            dispatchSection({
+              type: 'UPDATE_OPACITY',
+              payload: newOpacity
             });
           },
         }
       }).to(circle, {
         attr: { r: diagonal },
         ease: "none",
-        duration: 1
+        duration: 1,
+        onStart: function() {
+          // 円のアニメーション開始時のログ
+          const scrollY = window.scrollY;
+          const scrollHeight = document.body.scrollHeight - window.innerHeight;
+          const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
+          console.log(`円[${index}]アニメーション開始 - セクション: ${sectionState.currentIndex}, スクロール: ${scrollPercentage}%`);
+        },
+        onComplete: function() {
+          // アニメーション完了時に状態を更新
+          dispatchSection({
+            type: 'ANIMATION_COMPLETE',
+            payload: { index: index }
+          });
+
+          // 円のアニメーション終了時のログ
+          const scrollY = window.scrollY;
+          const scrollHeight = document.body.scrollHeight - window.innerHeight;
+          const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
+          console.log(`円[${index}]アニメーション終了 - セクション: ${sectionState.currentIndex}, スクロール: ${scrollPercentage}%`);
+        },
+        onUpdate: function() {
+          // アニメーション進行度を状態に反映
+          const progress = this.progress();
+          dispatchSection({
+            type: 'ANIMATION_PROGRESS',
+            payload: { progress: progress }
+          });
+
+          // 円のアニメーション進行中のログ (25%, 50%, 75%の時のみ)
+          if (Math.round(progress * 4) / 4 === 0.25 || Math.round(progress * 4) / 4 === 0.5 || Math.round(progress * 4) / 4 === 0.75) {
+            const scrollY = window.scrollY;
+            const scrollHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
+            console.log(`円[${index}]アニメーション${(progress * 100).toFixed(0)}% - セクション: ${sectionState.currentIndex}, スクロール: ${scrollPercentage}%`);
+          }
+        }
       });
     });
 
@@ -317,7 +348,7 @@ export default function Page() {
       // ScrollTriggerをクリーンアップ
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [loading]);
+  }, [loading, isMobile, sectionState.currentIndex]);
 
   return (
     <div
@@ -336,12 +367,13 @@ export default function Page() {
 
       {!loading && animationsReady && (
         <>
-          {content.map((item, index) => (
-            <ContentSection
+          {sectionComponents.map((SectionComponent, index) => (
+            <SectionComponent
               key={index}
-              {...item}
               opacity={sectionState.currentIndex === index ? sectionState.opacity : 0}
               isActive={sectionState.activeSection === index}
+              sectionState={sectionState}
+              index={index}
             />
           ))}
         </>
