@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useCallback, useReducer, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// 分割したコンポーネントをインポート
+import { CircleTransition, ContentSection, LoadingScreen } from "./components";
+import { breakpoints } from "./styles";
 
 const colors = ["white", "black", "green"];
 const content = [
@@ -48,98 +51,51 @@ const content = [
   },
 ];
 
-function Section({ title, text, img, textColor, opacity, isActive }) {
-  const contentRef = useRef(null);
-  
-  // コンテンツのアニメーション
-  useEffect(() => {
-    if (typeof window === "undefined" || !contentRef.current) return;
-    
-    // コンテンツ要素
-    const content = contentRef.current;
-    const contentElements = content.querySelectorAll('h1, p, div[data-image]');
-    
-    // 初期状態を設定
-    gsap.set(contentElements, { opacity: 0, y: 30 });
-    
-    // アニメーションが準備完了している場合のみ実行
-    if (isActive && opacity > 0.8) {
-      // モバイルではアニメーションを軽量化
-      const duration = window.innerWidth < 768 ? 0.5 : 0.8;
-      const staggerTime = window.innerWidth < 768 ? 0.15 : 0.2;
-      
-      gsap.to(contentElements, {
-        opacity: 1,
-        y: 0,
-        duration: duration,
-        stagger: staggerTime,
-        ease: "power2.out",
-        delay: 0.3 // 円形トランジションが完了するのを待つ
-      });
-    } else {
-      // 非アクティブになったらリセット
-      gsap.set(contentElements, { opacity: 0, y: 30 });
-    }
-  }, [isActive, opacity]);
-  
-  return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start", // 上揃えに変更してスクロールを可能に
-        padding: "2rem",
-        textAlign: "center",
-        zIndex: 1010,
-        color: textColor,
-        opacity,
-        overflowY: "auto", // スクロールを可能に
-        backgroundColor: "transparent",
-        pointerEvents: opacity > 0.5 ? "auto" : "none", // 非表示時はポインターイベントを無効化
-      }}
-    >
-      <div ref={contentRef} style={{ maxWidth: "800px", paddingTop: "2rem", paddingBottom: "4rem" }}>
-        <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>{title}</h1>
-        <p
-          style={{
-            fontSize: "1.2rem",
-            marginBottom: "2rem",
-            lineHeight: 1.6,
-            whiteSpace: "pre-line",
-          }}
-        >
-          {text}
-        </p>
-        <div data-image style={{ position: 'relative', width: '100%', height: '400px', marginBottom: '2rem' }}>
-          <Image
-            src={img}
-            alt={title}
-            fill
-            sizes="(max-width: 768px) 100vw, 800px"
-            priority
-            style={{
-              objectFit: 'cover',
-              borderRadius: "12px",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+// Section コンポーネントは別ファイルに移動したため削除
+
+// セクション状態を管理するreducer
+const sectionReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_SECTION':
+      return {
+        ...state,
+        currentIndex: action.payload.index,
+        activeSection: action.payload.index,
+        opacity: action.payload.opacity || state.opacity
+      };
+    case 'UPDATE_OPACITY':
+      return {
+        ...state,
+        opacity: action.payload
+      };
+    case 'TRANSITION_START':
+      // トランジション開始時の状態更新
+      return {
+        ...state,
+        isTransitioning: true
+      };
+    case 'TRANSITION_END':
+      // トランジション終了時の状態更新
+      return {
+        ...state,
+        isTransitioning: false
+      };
+    default:
+      return state;
+  }
+};
 
 export default function Page() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [opacity, setOpacity] = useState(1);
+  // 関連する状態をまとめて管理
+  const [sectionState, dispatchSection] = useReducer(sectionReducer, {
+    currentIndex: 0,
+    activeSection: 0,
+    opacity: 1,
+    isTransitioning: false
+  });
+  
   const [loading, setLoading] = useState(true);
   const [animationsReady, setAnimationsReady] = useState(false); // アニメーションの準備状態を追跡
-  const [activeSection, setActiveSection] = useState(0); // アクティブなセクションを追跡
   const [isMobile, setIsMobile] = useState(false); // モバイルデバイスかどうかを追跡
 
   const containerRef = useRef(null);
@@ -148,7 +104,7 @@ export default function Page() {
   // モバイルデバイスかどうかをチェックする関数
   const checkIfMobile = useCallback(() => {
     if (typeof window !== "undefined") {
-      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < breakpoints.mobile;
     }
     return false;
   }, []);
@@ -246,32 +202,43 @@ export default function Page() {
           fastScrollEnd: scrollSettings.fastScrollEnd,
           onEnter: () => {
             if (index === 0) {
-              setCurrentIndex(1);
-              setActiveSection(1);
+              dispatchSection({ 
+                type: 'SET_SECTION', 
+                payload: { index: 1 }
+              });
             }
             if (index === 1) {
-              setCurrentIndex(2);
-              setActiveSection(2);
+              dispatchSection({ 
+                type: 'SET_SECTION', 
+                payload: { index: 2 }
+              });
             }
           },
           onLeaveBack: () => {
             if (index === 0) {
-              setCurrentIndex(0);
-              setActiveSection(0);
+              dispatchSection({ 
+                type: 'SET_SECTION', 
+                payload: { index: 0 }
+              });
             }
             if (index === 1) {
-              setCurrentIndex(1);
-              setActiveSection(1);
+              dispatchSection({ 
+                type: 'SET_SECTION', 
+                payload: { index: 1 }
+              });
             }
           },
           onUpdate: (self) => {
             // フェードエフェクト
             const fadeProgress = self.progress;
-            if (fadeProgress < 0.5) {
-              setOpacity(1 - fadeProgress * 2);
-            } else {
-              setOpacity((fadeProgress - 0.5) * 2);
-            }
+            const newOpacity = fadeProgress < 0.5 
+              ? 1 - fadeProgress * 2 
+              : (fadeProgress - 0.5) * 2;
+              
+            dispatchSection({ 
+              type: 'UPDATE_OPACITY', 
+              payload: newOpacity 
+            });
           },
         }
       }).to(circle, {
@@ -307,71 +274,18 @@ export default function Page() {
         touchAction: "pan-y", // タッチデバイスでの縦スクロールを明示的に許可
       }}
     >
-      {(loading || !animationsReady) && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "white",
-            color: "black",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 2000,
-          }}
-        >
-          <span style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
-            {loading ? "Loading FlowSync Experience..." : "Preparing Animations..."}
-          </span>
-          <div style={{ width: "200px", height: "5px", backgroundColor: "#f0f0f0", borderRadius: "10px", overflow: "hidden" }}>
-            <div 
-              style={{ 
-                height: "100%", 
-                width: loading ? "70%" : "95%", 
-                backgroundColor: "#00c896",
-                transition: "width 0.5s ease-in-out"
-              }}
-            />
-          </div>
-        </div>
-      )}
+      <LoadingScreen loading={loading} animationsReady={animationsReady} />
 
-      <svg
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          pointerEvents: "none", // スクロールを妨げないようにポインターイベントを無効化
-          zIndex: 1000,
-          willChange: 'transform', // パフォーマンス改善
-        }}
-      >
-        {colors.slice(1).map((color, index) => (
-          <circle
-            key={color}
-            ref={(el) => setCircleRef(el, index)}
-            cx="50%"
-            cy="50%"
-            r="0"
-            fill={color}
-          />
-        ))}
-      </svg>
+      <CircleTransition colors={colors} setCircleRef={setCircleRef} />
 
       {!loading && animationsReady && (
         <>
           {content.map((item, index) => (
-            <Section
+            <ContentSection
               key={index}
               {...item}
-              opacity={currentIndex === index ? opacity : 0}
-              isActive={activeSection === index}
+              opacity={sectionState.currentIndex === index ? sectionState.opacity : 0}
+              isActive={sectionState.activeSection === index}
             />
           ))}
         </>
