@@ -225,7 +225,6 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
                   onClick={() => {
                     // TODO: イベント詳細ページにリンクする処理を実装
                     // window.location.href = `/events/${event.id}`
-                    console.log(`イベント詳細: ${event.title}`);
                   }}
                 >
                   詳細

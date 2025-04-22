@@ -105,8 +105,6 @@ export default function EventsPage() {
 
   // activeMonthが変更されたときに発火するuseEffect
   useEffect(() => {
-    console.log("Active month changed:", format(activeMonth, "yyyy-MM"));
-
     // この月のイベントをフィルタリング
     const eventsForMonth = events.filter((event) => {
       const eventDate = parseISO(event.date);
@@ -115,8 +113,6 @@ export default function EventsPage() {
         getYear(eventDate) === getYear(activeMonth)
       );
     });
-
-    console.log("Events for this month:", eventsForMonth.length);
   }, [activeMonth]);
 
   // 選択された月のイベントをフィルタリング
@@ -202,7 +198,6 @@ export default function EventsPage() {
     activeStartDate,
   }: { activeStartDate: Date }) => {
     if (activeStartDate) {
-      console.log("Month changed to:", format(activeStartDate, "yyyy-MM"));
       setActiveMonth(activeStartDate);
     }
   };

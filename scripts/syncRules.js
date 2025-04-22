@@ -21,3 +21,4 @@ fs.readdir(rulesDir, (err, files) => {
   fs.writeFileSync(outputFile, combinedContent, "utf8");
   console.log("Rules have been synchronized into .windsurfrules");
 });
+　

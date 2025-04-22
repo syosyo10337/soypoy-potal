@@ -19,47 +19,45 @@ import { breakpoints, animations, typography, spacing, effects, layout } from ".
  */
 const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectionState, index }) => {
   const contentRef = useRef(null);
-  
+
   // コンテンツの表示制御
   useEffect(() => {
     if (typeof window === "undefined" || !contentRef.current) return;
-    
+
     // コンテンツ要素
     const content = contentRef.current;
     const contentElements = content.querySelectorAll('h1, p, div[data-image]');
-    
+
     // アニメーション進行度とセクション状態に基づいて表示制御
-    const shouldShow = 
+    const shouldShow =
       // アクティブで不透明度が高い
-      (isActive && opacity > 0.8) || 
+      (isActive && opacity > 0.8) ||
       // またはアニメーション進行度が70%以上
-      (sectionState?.contentVisibility === true) || 
+      (sectionState?.contentVisibility === true) ||
       // またはアニメーション完了状態
       (sectionState?.animationComplete === index);
-    
+
     if (shouldShow) {
       // アニメーションなしで表示
       gsap.set(contentElements, { opacity: 1, y: 0 });
-      
+
       // コンテンツ表示時のログ
       const scrollY = window.scrollY;
       const scrollHeight = document.body.scrollHeight - window.innerHeight;
       const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
-      console.log(`コンテンツ[${title}]表示 - セクション: ${isActive ? "アクティブ" : "非アクティブ"}, 不透明度: ${opacity.toFixed(2)}, 進行度: ${sectionState?.animationProgress?.toFixed(2) || 0}, スクロール: ${scrollPercentage}%`);
     } else {
       // 非表示条件の場合
       gsap.set(contentElements, { opacity: 0, y: 0 });
-      
+
       // コンテンツ非表示時のログ
       if (opacity < 0.2 && isActive) {
         const scrollY = window.scrollY;
         const scrollHeight = document.body.scrollHeight - window.innerHeight;
         const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
-        console.log(`コンテンツ[${title}]非表示 - セクション: ${isActive ? "アクティブ" : "非アクティブ"}, 不透明度: ${opacity.toFixed(2)}, 進行度: ${sectionState?.animationProgress?.toFixed(2) || 0}, スクロール: ${scrollPercentage}%`);
       }
     }
   }, [isActive, opacity, sectionState, index]);
-  
+
   return (
     <div
       style={{
@@ -82,12 +80,12 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectio
       }}
       aria-hidden={opacity <= 0.5 ? "true" : "false"} // アクセシビリティのため
     >
-      <div 
-        ref={contentRef} 
-        style={{ 
-          maxWidth: spacing.contentMaxWidth, 
-          paddingTop: spacing.contentPadding.top, 
-          paddingBottom: spacing.contentPadding.bottom 
+      <div
+        ref={contentRef}
+        style={{
+          maxWidth: spacing.contentMaxWidth,
+          paddingTop: spacing.contentPadding.top,
+          paddingBottom: spacing.contentPadding.bottom
         }}
       >
         <h1 style={typography.heading}>{title}</h1>

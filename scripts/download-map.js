@@ -36,10 +36,6 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
-// 地図画像をダウンロード
-console.log('Google Maps Static APIから地図画像をダウンロードしています...');
-console.log(`URL: ${url}`);
-
 https.get(url, (response) => {
   if (response.statusCode !== 200) {
     console.error(`エラー: ステータスコード ${response.statusCode}`);
@@ -52,7 +48,6 @@ https.get(url, (response) => {
 
   file.on('finish', () => {
     file.close();
-    console.log(`地図画像を保存しました: ${outputFile}`);
   });
 }).on('error', (err) => {
   console.error(`ダウンロード中にエラーが発生しました: ${err.message}`);
