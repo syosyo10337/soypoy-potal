@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { typography, spacing } from '../styles';
 
-const Section2 = ({ isActive, opacity, sectionState, index }) => {
+const Section2 = ({ sectionState, index }) => {
   const title = "Powerful Features";
   const textColor = "#fff";
   const text = `Automate tasks, visualize timelines, and collaborate in real-time.
@@ -16,6 +16,7 @@ const Section2 = ({ isActive, opacity, sectionState, index }) => {
 
   return (
     <div
+      data-section="2"
       style={{
         position: "fixed",
         top: 0,
@@ -29,12 +30,10 @@ const Section2 = ({ isActive, opacity, sectionState, index }) => {
         textAlign: "center",
         zIndex: 1010,
         color: textColor,
-        opacity,
         overflowY: "auto",
         backgroundColor: "transparent",
-        pointerEvents: opacity > 0.5 ? "auto" : "none",
       }}
-      aria-hidden={opacity <= 0.5 ? "true" : "false"}
+      data-section-index={index}
     >
       <div 
         style={{ 
@@ -73,5 +72,14 @@ const Section2 = ({ isActive, opacity, sectionState, index }) => {
     </div>
   );
 };
+
+// セクションの情報を静的プロパティとして追加
+Section2.textContent = `Automate tasks, visualize timelines, and collaborate in real-time.
+  FlowSync offers a feature-rich experience including task dependencies, sprint planning, Gantt charts, and more.
+  Whether you're managing software development or marketing campaigns, our tools are flexible to fit your workflow.
+  Real-time editing and notifications keep your entire team up-to-date.
+  Don't just manage projects — drive them forward with clarity and control.`;
+Section2.imageCount = 1;
+Section2.complexity = 1.5; // 機能説明のため少し複雑
 
 export default Section2;

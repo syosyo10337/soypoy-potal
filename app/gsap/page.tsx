@@ -38,39 +38,23 @@ const sectionReducer = (state, action) => {
         ...state,
         currentIndex: action.payload.index,
         activeSection: action.payload.index,
-        opacity: action.payload.opacity || state.opacity
+        isAnimating: false,
+        progress: 0
       };
-    case 'UPDATE_OPACITY':
+    case 'ANIMATION_START':
       return {
         ...state,
-        opacity: action.payload
-      };
-    case 'TRANSITION_START':
-      // トランジション開始時の状態更新
-      return {
-        ...state,
-        isTransitioning: true
-      };
-    case 'TRANSITION_END':
-      // トランジション終了時の状態更新
-      return {
-        ...state,
-        isTransitioning: false
+        isAnimating: true
       };
     case 'ANIMATION_COMPLETE':
-      // アニメーション完了時の状態更新
       return {
         ...state,
-        animationComplete: action.payload.index,
-        contentVisibility: true,
-        animationProgress: 1.0 // アニメーション進行度を100%に設定
+        isAnimating: false
       };
     case 'ANIMATION_PROGRESS':
-      // アニメーション進行度の更新
       return {
         ...state,
-        animationProgress: action.payload.progress,
-        contentVisibility: action.payload.progress > 0.7 // 70%以上で表示
+        progress: action.payload.progress
       };
     default:
       return state;
@@ -82,8 +66,8 @@ export default function Page() {
   const [sectionState, dispatchSection] = useReducer(sectionReducer, {
     currentIndex: 0,
     activeSection: 0,
-    opacity: 1,
-    isTransitioning: false
+    isAnimating: false,
+    progress: 0
   });
 
   const [loading, setLoading] = useState(true);
@@ -113,10 +97,56 @@ export default function Page() {
     }
   }, [checkIfMobile]);
 
+  // 前回のスクロール位置を記憶する参照
+  const prevScrollY = useRef(0);
+
   // 円の参照を設定するための関数
   const setCircleRef = (el, index) => {
     circlesRef.current[index] = el;
   };
+
+  // スクロール位置の監視関数
+  const handleScroll = useCallback(() => {
+    if (typeof window === "undefined") return;
+    
+    // スクロール位置の計算
+    const scrollY = window.scrollY;
+    const scrollHeight = document.body.scrollHeight - window.innerHeight;
+    const scrollPercentage = scrollY / scrollHeight;
+    
+    // デバッグ用ログ出力（スクロール0～100%の間で50ログ以下に制限）
+    // セクションの切り替わり付近のスクロール位置を推定
+    const section1Threshold = 0.33; // 第1セクションから第2セクションへの切り替わり付近
+    const section2Threshold = 0.66; // 第2セクションから第3セクションへの切り替わり付近
+    
+    // スクロール位置を最大50区間に分割し、区間が変わった時のみログを出力
+    const totalLogPoints = 50; // スクロール全体での最大ログ数
+    const currentLogPoint = Math.floor(scrollPercentage * totalLogPoints);
+    const previousLogPoint = Math.floor((prevScrollY.current / scrollHeight) * totalLogPoints);
+    
+    // 区間が変わった場合、またはセクション切り替わり付近の場合のみログを出力
+    if (currentLogPoint !== previousLogPoint || 
+        (scrollPercentage > section1Threshold - 0.03 && scrollPercentage < section1Threshold + 0.03) || 
+        (scrollPercentage > section2Threshold - 0.03 && scrollPercentage < section2Threshold + 0.03)) {
+      
+      console.log(`スクロール: ${scrollY.toFixed(0)}px, ${(scrollPercentage * 100).toFixed(2)}%, セクション: ${sectionState.currentIndex}`);
+      
+      // 各セクションのOpacityをログ出力
+      const section1El = document.querySelector('[data-section="1"]');
+      const section2El = document.querySelector('[data-section="2"]');
+      const section3El = document.querySelector('[data-section="3"]');
+      
+      if (section1El || section2El || section3El) {
+        const section1Opacity = section1El ? getComputedStyle(section1El).opacity : 'N/A';
+        const section2Opacity = section2El ? getComputedStyle(section2El).opacity : 'N/A';
+        const section3Opacity = section3El ? getComputedStyle(section3El).opacity : 'N/A';
+        
+        console.log(`セクションOpacity - 1: ${section1Opacity}, 2: ${section2Opacity}, 3: ${section3Opacity}`);
+      }
+    }
+    
+    prevScrollY.current = scrollY;
+  }, [sectionState.currentIndex]);
 
   // 画像のプリロード関数
   const preloadImages = async () => {
@@ -145,6 +175,16 @@ export default function Page() {
       return false;
     }
   };
+
+  // スクロールイベントリスナーの設定
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [handleScroll]);
 
   // GSAPの初期化とリソース読み込み
   useEffect(() => {
@@ -208,13 +248,15 @@ export default function Page() {
 
   // アニメーションの設定
   useEffect(() => {
-    // クライアントサイドでのみ実行、かつローディングが完了している場合
-    if (typeof window === "undefined" || loading) return;
+    // クライアントサイドでのみ実行、かつローディングが完了していてアニメーション準備完了後
+    if (typeof window === "undefined" || loading || !animationsReady) return;
 
     console.log("GSAP Animation Setup");
 
     // ScrollTriggerの設定をクリア
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    // bodyが完全に表示されるように
+    gsap.to("body", { duration: 0.3, opacity: 1, ease: "power1.out" });
 
     // 画面のサイズに基づいて最大半径を計算
     const diagonal = Math.sqrt(
@@ -223,33 +265,40 @@ export default function Page() {
 
     // モバイル用の設定を調整
     const scrollSettings = {
-      scrub: isMobile ? 1 : 0.5, // モバイルではスクロールの動きをよりスムーズに
+      scrub: isMobile ? 1 : 0.5,
       preventOverlaps: true,
       fastScrollEnd: true,
     };
 
-    // 初期アニメーション（ローディング完了時）
-    gsap.to("body", { duration: 0.3, opacity: 1, ease: "power1.out" });
-
-    // セクションの数を取得
     const sectionCount = sectionComponents.length;
-    // 各セクションの割合を計算
     const sectionPercentage = 100 / sectionCount;
 
-    // 各セクションのアニメーションを設定
+    // *** 初期状態設定 ***
+    const sections = containerRef.current?.querySelectorAll('[data-section-index]');
+    sections?.forEach((section, idx) => {
+      gsap.set(section, { opacity: idx === 0 ? 1 : 0 }); // 最初のセクションのみ表示
+    });
+    circlesRef.current.forEach(circle => {
+      if (circle) gsap.set(circle, { attr: { r: 0 } }); // 円を初期化
+    });
+
+    // 各セクションの間のアニメーションを設定
     colors.slice(1).forEach((_, index) => {
       const circle = circlesRef.current[index];
       if (!circle) return;
 
-      // 初期状態では円を非表示に
-      gsap.set(circle, { attr: { r: 0 } });
+      const currentSectionIndex = index;
+      const nextSectionIndex = index + 1;
+      // data-section-index属性を使って要素を取得
+      const currentSectionEl = containerRef.current?.querySelector(`[data-section-index="${currentSectionIndex}"]`);
+      const nextSectionEl = containerRef.current?.querySelector(`[data-section-index="${nextSectionIndex}"]`);
 
       // セクションの開始と終了位置を動的に計算
       const startPosition = `${index * sectionPercentage}% top`;
       const endPosition = `${(index + 1) * sectionPercentage}% top`;
 
-      // スクロールに連動したアニメーション
-      gsap.timeline({
+      // スクロールに連動したタイムラインを作成
+      const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: startPosition,
@@ -258,9 +307,7 @@ export default function Page() {
           preventOverlaps: scrollSettings.preventOverlaps,
           fastScrollEnd: scrollSettings.fastScrollEnd,
           onEnter: () => {
-            // 次のセクションインデックスを計算
-            const nextSectionIndex = index + 1;
-            // 有効なセクションインデックスかチェック
+            // 次のセクションインデックスを計算して状態を更新
             if (nextSectionIndex < sectionCount) {
               dispatchSection({
                 type: 'SET_SECTION',
@@ -269,86 +316,56 @@ export default function Page() {
             }
           },
           onLeaveBack: () => {
-            // 前のセクションインデックスを計算
-            const prevSectionIndex = index;
-            // 有効なセクションインデックスかチェック
-            if (prevSectionIndex >= 0) {
+            // 前のセクションインデックスを計算して状態を更新
+            if (currentSectionIndex >= 0) {
               dispatchSection({
                 type: 'SET_SECTION',
-                payload: { index: prevSectionIndex }
+                payload: { index: currentSectionIndex }
               });
             }
           },
-          onUpdate: (self) => {
-            // フェードエフェクト
-            const fadeProgress = self.progress;
-            const newOpacity = fadeProgress < 0.5
-              ? 1 - fadeProgress * 2
-              : (fadeProgress - 0.5) * 2;
-
-            dispatchSection({
-              type: 'UPDATE_OPACITY',
-              payload: newOpacity
-            });
-          },
-        }
-      }).to(circle, {
-        attr: { r: diagonal },
-        ease: "none",
-        duration: 1,
-        onStart: function() {
-          // 円のアニメーション開始時のログ
-          const scrollY = window.scrollY;
-          const scrollHeight = document.body.scrollHeight - window.innerHeight;
-          const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
-          console.log(`円[${index}]アニメーション開始 - セクション: ${sectionState.currentIndex}, スクロール: ${scrollPercentage}%`);
-        },
-        onComplete: function() {
-          // アニメーション完了時に状態を更新
-          dispatchSection({
-            type: 'ANIMATION_COMPLETE',
-            payload: { index: index }
-          });
-
-          // 円のアニメーション終了時のログ
-          const scrollY = window.scrollY;
-          const scrollHeight = document.body.scrollHeight - window.innerHeight;
-          const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
-          console.log(`円[${index}]アニメーション終了 - セクション: ${sectionState.currentIndex}, スクロール: ${scrollPercentage}%`);
-        },
-        onUpdate: function() {
-          // アニメーション進行度を状態に反映
-          const progress = this.progress();
-          dispatchSection({
-            type: 'ANIMATION_PROGRESS',
-            payload: { progress: progress }
-          });
-
-          // 円のアニメーション進行中のログ (25%, 50%, 75%の時のみ)
-          if (Math.round(progress * 4) / 4 === 0.25 || Math.round(progress * 4) / 4 === 0.5 || Math.round(progress * 4) / 4 === 0.75) {
-            const scrollY = window.scrollY;
-            const scrollHeight = document.body.scrollHeight - window.innerHeight;
-            const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
-            console.log(`円[${index}]アニメーション${(progress * 100).toFixed(0)}% - セクション: ${sectionState.currentIndex}, スクロール: ${scrollPercentage}%`);
-          }
         }
       });
+
+      // アニメーションシーケンスをタイムラインに追加
+      if (currentSectionEl) {
+        // 現在のセクションをフェードアウト (タイムラインの0% -> 40%)
+        timeline.to(currentSectionEl, { opacity: 0, ease: 'power1.in', duration: 0.4 }, 0);
+      }
+      // 円を拡大 (タイムラインの0% -> 100%)
+      timeline.to(circle, { attr: { r: diagonal }, ease: 'none', duration: 1 }, 0);
+      if (nextSectionEl) {
+        // 次のセクションをフェードイン (タイムラインの60% -> 100%)
+        timeline.fromTo(nextSectionEl, { opacity: 0 }, { opacity: 1, ease: 'power1.out', duration: 0.4 }, 0.6);
+      }
+
+      // タイムラインのイベントコールバック
+      timeline.eventCallback("onStart", () => dispatchSection({ type: 'ANIMATION_START' }));
+      timeline.eventCallback("onUpdate", function() {
+        dispatchSection({ type: 'ANIMATION_PROGRESS', payload: { progress: this.progress() } });
+      });
+      timeline.eventCallback("onComplete", () => dispatchSection({ type: 'ANIMATION_COMPLETE', payload: { index } }));
+
     });
+
+    // 全ての設定後にScrollTriggerを再計算
+    ScrollTrigger.refresh(true);
 
     // ウィンドウリサイズ時の処理
     const handleResize = () => {
       // ScrollTriggerを更新
       ScrollTrigger.refresh();
     };
-
     window.addEventListener("resize", handleResize);
 
+    // クリーンアップ関数
     return () => {
       window.removeEventListener("resize", handleResize);
-      // ScrollTriggerをクリーンアップ
+      // コンポーネントアンマウント時にScrollTriggerインスタンスを破棄
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [loading, isMobile, sectionState.currentIndex]);
+    // 依存配列に loading, animationsReady, isMobile を追加
+  }, [loading, animationsReady, isMobile]);
 
   return (
     <div
@@ -370,8 +387,6 @@ export default function Page() {
           {sectionComponents.map((SectionComponent, index) => (
             <SectionComponent
               key={index}
-              opacity={sectionState.currentIndex === index ? sectionState.opacity : 0}
-              isActive={sectionState.activeSection === index}
               sectionState={sectionState}
               index={index}
             />

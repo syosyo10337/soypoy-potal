@@ -4,18 +4,37 @@ import React from 'react';
 import Image from 'next/image';
 import { typography, spacing } from '../styles';
 
-const Section1 = ({ isActive, opacity, sectionState, index }) => {
+// セクション情報を静的プロパティとして定義
+const Section1 = ({ sectionState, index }) => {
   const title = "Welcome to FlowSync";
   const textColor = "#000";
   const text = `Streamline your workflow with intuitive project management tools, built for teams of all sizes.
   Our platform helps you plan, track, and collaborate effortlessly.
   With FlowSync, you can break down silos and align your team's efforts.
   Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
-  Start with a few clicks and experience a new era of team collaboration.`;
+  Start with a few clicks and experience a new era of team collaboration.
+  Our platform helps you plan, track, and collaborate effortlessly.
+  With FlowSync, you can break down silos and align your team's efforts.
+  Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+  Start with a few clicks and experience a new era of team collaboration.
+  Our platform helps you plan, track, and collaborate effortlessly.
+  With FlowSync, you can break down silos and align your team's efforts.
+  Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+  Start with a few clicks and experience a new era of team collaboration.
+  Our platform helps you plan, track, and collaborate effortlessly.
+  With FlowSync, you can break down silos and align your team's efforts.
+  Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+  Start with a few clicks and experience a new era of team collaboration.
+  Our platform helps you plan, track, and collaborate effortlessly.
+  With FlowSync, you can break down silos and align your team's efforts.
+  Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+  Start with a few clicks and experience a new era of team collaboration.
+  `;
   const img = "https://picsum.photos/800/400?random=1";
 
   return (
     <div
+      data-section="1"
       style={{
         position: "fixed",
         top: 0,
@@ -29,18 +48,17 @@ const Section1 = ({ isActive, opacity, sectionState, index }) => {
         textAlign: "center",
         zIndex: 1010,
         color: textColor,
-        opacity,
         overflowY: "auto",
         backgroundColor: "transparent",
-        pointerEvents: opacity > 0.5 ? "auto" : "none",
+        pointerEvents: "auto",
       }}
-      aria-hidden={opacity <= 0.5 ? "true" : "false"}
+      data-section-index={index}
     >
-      <div 
-        style={{ 
-          maxWidth: spacing.contentMaxWidth, 
-          paddingTop: spacing.contentPadding.top, 
-          paddingBottom: spacing.contentPadding.bottom 
+      <div
+        style={{
+          maxWidth: spacing.contentMaxWidth,
+          paddingTop: spacing.contentPadding.top,
+          paddingBottom: spacing.contentPadding.bottom
         }}
       >
         <h1 style={typography.heading}>{title}</h1>
@@ -73,5 +91,14 @@ const Section1 = ({ isActive, opacity, sectionState, index }) => {
     </div>
   );
 };
+
+// セクションの情報を静的プロパティとして追加
+Section1.textContent = `Streamline your workflow with intuitive project management tools, built for teams of all sizes.
+  Our platform helps you plan, track, and collaborate effortlessly.
+  With FlowSync, you can break down silos and align your team's efforts.
+  Use customizable dashboards, detailed analytics, and integrations with your favorite tools to boost productivity.
+  Start with a few clicks and experience a new era of team collaboration.`;
+Section1.imageCount = 1;
+Section1.complexity = 1.2; // 比較的シンプルなセクション
 
 export default Section1;
