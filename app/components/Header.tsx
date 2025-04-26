@@ -47,9 +47,7 @@ export default function Header() {
         <div className="relative w-6 h-5">
           <span
             className={`absolute left-0 w-full h-0.5 bg-black transition-all duration-300 ${
-              isOpen
-                ? "top-2 rotate-45"
-                : "top-0"
+              isOpen ? "top-2 rotate-45" : "top-0"
             }`}
           />
           <span
@@ -59,79 +57,82 @@ export default function Header() {
           />
           <span
             className={`absolute left-0 w-full h-0.5 bg-black transition-all duration-300 ${
-              isOpen
-                ? "top-2 -rotate-45"
-                : "top-4"
+              isOpen ? "top-2 -rotate-45" : "top-4"
             }`}
           />
         </div>
       </motion.button>
 
-      {mounted && createPortal(
-        <>
-          <div 
-            className={`fixed inset-0 bg-black/80 backdrop-blur-md z-[9998] transition-opacity duration-300 ${
-              isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            aria-hidden="true"
-            onClick={() => setIsOpen(false)}
-          />
-          <div 
-            className={`fixed inset-0 z-[9999] flex flex-col h-screen transition-all duration-500 ${
-              isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"
-            }`}
-          >
-            <div className="flex justify-end p-4">
-              <button
-                type="button"
-                aria-label="メニューを閉じる"
-                onClick={() => setIsOpen(false)}
-                className="text-white p-2 hover:text-gray-300 transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-8 h-8"
-                  aria-hidden="true"
+      {mounted &&
+        createPortal(
+          <>
+            <div
+              className={`fixed inset-0 bg-black/80 backdrop-blur-md z-[9998] transition-opacity duration-300 ${
+                isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+              }`}
+              aria-hidden="true"
+              onClick={() => setIsOpen(false)}
+            />
+            <div
+              className={`fixed inset-0 z-[9999] flex flex-col h-screen transition-all duration-500 ${
+                isOpen
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8 pointer-events-none"
+              }`}
+            >
+              <div className="flex justify-end p-4">
+                <button
+                  type="button"
+                  aria-label="メニューを閉じる"
+                  onClick={() => setIsOpen(false)}
+                  className="text-white p-2 hover:text-gray-300 transition-colors"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <nav className="flex items-center justify-center flex-1 w-full">
-              <ul className="w-full max-w-md mx-auto space-y-8 p-8">
-                {navItems.map((item, index) => (
-                  <li
-                    key={item.name}
-                    className="overflow-hidden"
-                    style={{
-                      transform: isOpen ? "translateY(0)" : "translateY(20px)",
-                      opacity: isOpen ? 1 : 0,
-                      transition: `all 0.5s ease ${index * 0.1 + 0.2}s`,
-                    }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                    aria-hidden="true"
                   >
-                    <Link
-                      href={item.href}
-                      className="block text-white text-3xl font-zen-old-mincho hover:text-gray-300 transition-colors duration-300 py-4 text-center"
-                      onClick={() => setIsOpen(false)}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <nav className="flex items-center justify-center flex-1 w-full">
+                <ul className="w-full max-w-md mx-auto space-y-8 p-8">
+                  {navItems.map((item, index) => (
+                    <li
+                      key={item.name}
+                      className="overflow-hidden"
+                      style={{
+                        transform: isOpen
+                          ? "translateY(0)"
+                          : "translateY(20px)",
+                        opacity: isOpen ? 1 : 0,
+                        transition: `all 0.5s ease ${index * 0.1 + 0.2}s`,
+                      }}
                     >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        </>,
-        document.body
-      )}
+                      <Link
+                        href={item.href}
+                        className="block text-white text-3xl font-zen-old-mincho hover:text-gray-300 transition-colors duration-300 py-4 text-center"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+          </>,
+          document.body,
+        )}
     </header>
   );
 }

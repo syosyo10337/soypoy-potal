@@ -12,12 +12,31 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "formatWithErrors": true
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "double",
       "semicolons": "always"
     }
+  },
+  "files": {
+    "maxSize": 2000000,
+    "ignore": [
+      ".next",
+      "node_modules",
+      "dist",
+      "build",
+      "public",
+      "**/*.css",
+      "**/*.scss",
+      "**/*.html",
+      "**/*.mjs",
+      "**/*.mts",
+      ".vscode/**/*",
+      ".pnpm-store/**/*"
+    ],
+    "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "**/*.json"]
   }
 }

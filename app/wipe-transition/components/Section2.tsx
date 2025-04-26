@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from "react";
 
 const Section2: React.FC = () => {
   return (

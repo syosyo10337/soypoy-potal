@@ -18,43 +18,46 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
   const imageVisibleRef = useRef(false);
   // 画像が初期化されたかどうかを追跡
   const [imageInitialized, setImageInitialized] = useState(false);
-  
+
   // 静的地図画像のパス
   const staticMapPath = "/images/soypoy-map.png";
-  
+
   // 要素の可視性を監視するIntersectionObserverを設定
   useEffect(() => {
     // 既に画像が初期化されている場合は何もしない
     if (imageInitialized) return;
-    
+
     // セクションが表示されたときに画像を読み込む
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        // セクションが表示された場合
-        if (entry.isIntersecting && !imageVisibleRef.current) {
-          imageVisibleRef.current = true;
-          setImageInitialized(true);
-          // オブザーバーを停止
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.3 }); // 30%表示されたらトリガー
-    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // セクションが表示された場合
+          if (entry.isIntersecting && !imageVisibleRef.current) {
+            imageVisibleRef.current = true;
+            setImageInitialized(true);
+            // オブザーバーを停止
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 },
+    ); // 30%表示されたらトリガー
+
     // セクションを監視
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
-    
+
     return () => {
       observer.disconnect();
     };
   }, [imageInitialized]);
-  
+
   // 画像が読み込まれたときのハンドラー
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
-  
+
   // コンポーネントがマウントされてから一定時間後にスケルトンを非表示にする
   // (onLoadイベントが信頼できない場合のフォールバック)
   useEffect(() => {
@@ -62,7 +65,7 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
       const timer = setTimeout(() => {
         setImageLoaded(true);
       }, 2000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [imageInitialized, imageLoaded]);
@@ -75,7 +78,7 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: "3rem"
+        gap: "3rem",
       }}
       showArrow
       onArrowClick={onArrowClick}
@@ -87,8 +90,8 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
         <div className="w-full md:w-1/2 h-[400px] rounded-lg overflow-hidden relative">
           {!imageLoaded && (
             <div className="absolute inset-0 z-10">
-              <Skeleton 
-                className="h-full w-full bg-gray-300/20" 
+              <Skeleton
+                className="h-full w-full bg-gray-300/20"
                 rounded="rounded-lg"
               />
             </div>
@@ -111,8 +114,17 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
                   rel="noopener noreferrer"
                   className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 rounded-full text-xs shadow-md transition-colors duration-300 flex items-center"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 mr-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Google Mapsで見る
                 </a>
@@ -124,7 +136,10 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
         {/* 店舗情報 */}
         <div className="w-full md:w-1/2">
           <h3 className="text-2xl font-bold mb-4">
-            yosemic PUB SOY-POY <span className="text-lg font-normal">[ヨセミック PUB SOY-POY]</span>
+            yosemic PUB SOY-POY{" "}
+            <span className="text-lg font-normal">
+              [ヨセミック PUB SOY-POY]
+            </span>
           </h3>
 
           <div className="mb-6">

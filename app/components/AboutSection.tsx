@@ -20,76 +20,80 @@ type AboutSectionProps = {
 export default function AboutSection({ onArrowClick }: AboutSectionProps) {
   // キャッシュコンテキストを使用
   const { addImageToCache, getImageFromCache } = useCache();
-  
+
   // 画像の読み込み状態を管理する状態
   const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
   // キャッシュされた画像のURLを管理
   const [cachedImages, setCachedImages] = useState<Record<number, string>>({});
-  
+
   // 画像のリストをメモ化
-  const images = useMemo(() => [
-    {
-      id: 1,
-      src: "https://picsum.photos/id/42/1200/800",
-      alt: "SOY-POYの様子1",
-      title: "音楽との出会い",
-    },
-    {
-      id: 2,
-      src: "https://picsum.photos/id/54/1200/800",
-      alt: "SOY-POYの様子2",
-      title: "特別な空間",
-    },
-    {
-      id: 3,
-      src: "https://picsum.photos/id/110/1200/800",
-      alt: "SOY-POYの様子3",
-      title: "アートと交流",
-    },
-    {
-      id: 4,
-      src: "https://picsum.photos/id/225/1200/800",
-      alt: "SOY-POYの様子4",
-      title: "ライブパフォーマンス",
-    },
-    {
-      id: 5,
-      src: "https://picsum.photos/id/338/1200/800",
-      alt: "SOY-POYの様子5",
-      title: "新しい出会い",
-    },
-  ], []);
-  
+  const images = useMemo(
+    () => [
+      {
+        id: 1,
+        src: "https://picsum.photos/id/42/1200/800",
+        alt: "SOY-POYの様子1",
+        title: "音楽との出会い",
+      },
+      {
+        id: 2,
+        src: "https://picsum.photos/id/54/1200/800",
+        alt: "SOY-POYの様子2",
+        title: "特別な空間",
+      },
+      {
+        id: 3,
+        src: "https://picsum.photos/id/110/1200/800",
+        alt: "SOY-POYの様子3",
+        title: "アートと交流",
+      },
+      {
+        id: 4,
+        src: "https://picsum.photos/id/225/1200/800",
+        alt: "SOY-POYの様子4",
+        title: "ライブパフォーマンス",
+      },
+      {
+        id: 5,
+        src: "https://picsum.photos/id/338/1200/800",
+        alt: "SOY-POYの様子5",
+        title: "新しい出会い",
+      },
+    ],
+    [],
+  );
+
   // コンポーネントマウント時に画像をキャッシュ
   useEffect(() => {
     const cacheImages = async () => {
       const cachedUrls: Record<number, string> = {};
-      
+
       for (const image of images) {
         // キャッシュから画像を取得または新たにキャッシュ
-        const cachedUrl = getImageFromCache(image.src) || await addImageToCache(image.src);
+        const cachedUrl =
+          getImageFromCache(image.src) || (await addImageToCache(image.src));
         cachedUrls[image.id] = cachedUrl;
-        
+
         // 画像がキャッシュされたら読み込み完了とみなす
         if (cachedUrl) {
-          setImagesLoaded(prev => ({
+          setImagesLoaded((prev) => ({
             ...prev,
-            [image.id]: true
+            [image.id]: true,
           }));
         }
       }
-      
+
       setCachedImages(cachedUrls);
     };
-    
+
     cacheImages();
   }, [addImageToCache, getImageFromCache, images]);
-  
+
   // 画像が読み込まれたときのハンドラー
   const handleImageLoad = (id: number) => {
-    setImagesLoaded(prev => ({
+    setImagesLoaded((prev) => ({
       ...prev,
-      [id]: true
+      [id]: true,
     }));
   };
 
@@ -152,8 +156,8 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
               <div className="relative h-[300px] overflow-hidden rounded-xl transition-all duration-500 hover:shadow-lg">
                 {!imagesLoaded[image.id] && (
                   <div className="absolute inset-0 z-10">
-                    <Skeleton 
-                      className="h-full w-full bg-gray-300/20" 
+                    <Skeleton
+                      className="h-full w-full bg-gray-300/20"
                       rounded="rounded-xl"
                     />
                   </div>

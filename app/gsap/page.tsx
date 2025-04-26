@@ -10,51 +10,47 @@ import {
   LoadingScreen,
   Section1,
   Section2,
-  Section3
+  Section3,
 } from "./components";
 import { breakpoints } from "./styles";
 
 const colors = ["white", "black", "green"];
 
 // セクションコンポーネントの配列
-const sectionComponents = [
-  Section1,
-  Section2,
-  Section3
-];
+const sectionComponents = [Section1, Section2, Section3];
 
 // 画像のURLを配列として定義
 const images = [
   "https://picsum.photos/800/400?random=1",
   "https://picsum.photos/800/400?random=2",
-  "https://picsum.photos/800/400?random=3"
+  "https://picsum.photos/800/400?random=3",
 ];
 
 // セクション状態を管理するreducer
 const sectionReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_SECTION':
+    case "SET_SECTION":
       return {
         ...state,
         currentIndex: action.payload.index,
         activeSection: action.payload.index,
         isAnimating: false,
-        progress: 0
+        progress: 0,
       };
-    case 'ANIMATION_START':
+    case "ANIMATION_START":
       return {
         ...state,
-        isAnimating: true
+        isAnimating: true,
       };
-    case 'ANIMATION_COMPLETE':
+    case "ANIMATION_COMPLETE":
       return {
         ...state,
-        isAnimating: false
+        isAnimating: false,
       };
-    case 'ANIMATION_PROGRESS':
+    case "ANIMATION_PROGRESS":
       return {
         ...state,
-        progress: action.payload.progress
+        progress: action.payload.progress,
       };
     default:
       return state;
@@ -67,7 +63,7 @@ export default function Page() {
     currentIndex: 0,
     activeSection: 0,
     isAnimating: false,
-    progress: 0
+    progress: 0,
   });
 
   const [loading, setLoading] = useState(true);
@@ -80,7 +76,10 @@ export default function Page() {
   // モバイルデバイスかどうかをチェックする関数
   const checkIfMobile = useCallback(() => {
     if (typeof window !== "undefined") {
-      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < breakpoints.mobile;
+      return (
+        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+        window.innerWidth < breakpoints.mobile
+      );
     }
     return false;
   }, []);
@@ -108,50 +107,65 @@ export default function Page() {
   // スクロール位置の監視関数
   const handleScroll = useCallback(() => {
     if (typeof window === "undefined") return;
-    
+
     // スクロール位置の計算
     const scrollY = window.scrollY;
     const scrollHeight = document.body.scrollHeight - window.innerHeight;
     const scrollPercentage = scrollY / scrollHeight;
-    
+
     // デバッグ用ログ出力（スクロール0～100%の間で50ログ以下に制限）
     // セクションの切り替わり付近のスクロール位置を推定
     const section1Threshold = 0.33; // 第1セクションから第2セクションへの切り替わり付近
     const section2Threshold = 0.66; // 第2セクションから第3セクションへの切り替わり付近
-    
+
     // スクロール位置を最大50区間に分割し、区間が変わった時のみログを出力
     const totalLogPoints = 50; // スクロール全体での最大ログ数
     const currentLogPoint = Math.floor(scrollPercentage * totalLogPoints);
-    const previousLogPoint = Math.floor((prevScrollY.current / scrollHeight) * totalLogPoints);
-    
+    const previousLogPoint = Math.floor(
+      (prevScrollY.current / scrollHeight) * totalLogPoints,
+    );
+
     // 区間が変わった場合、またはセクション切り替わり付近の場合のみログを出力
-    if (currentLogPoint !== previousLogPoint || 
-        (scrollPercentage > section1Threshold - 0.03 && scrollPercentage < section1Threshold + 0.03) || 
-        (scrollPercentage > section2Threshold - 0.03 && scrollPercentage < section2Threshold + 0.03)) {
-      
-      console.log(`スクロール: ${scrollY.toFixed(0)}px, ${(scrollPercentage * 100).toFixed(2)}%, セクション: ${sectionState.currentIndex}`);
-      
+    if (
+      currentLogPoint !== previousLogPoint ||
+      (scrollPercentage > section1Threshold - 0.03 &&
+        scrollPercentage < section1Threshold + 0.03) ||
+      (scrollPercentage > section2Threshold - 0.03 &&
+        scrollPercentage < section2Threshold + 0.03)
+    ) {
+      console.log(
+        `スクロール: ${scrollY.toFixed(0)}px, ${(scrollPercentage * 100).toFixed(2)}%, セクション: ${sectionState.currentIndex}`,
+      );
+
       // 各セクションのOpacityをログ出力
       const section1El = document.querySelector('[data-section="1"]');
       const section2El = document.querySelector('[data-section="2"]');
       const section3El = document.querySelector('[data-section="3"]');
-      
+
       if (section1El || section2El || section3El) {
-        const section1Opacity = section1El ? getComputedStyle(section1El).opacity : 'N/A';
-        const section2Opacity = section2El ? getComputedStyle(section2El).opacity : 'N/A';
-        const section3Opacity = section3El ? getComputedStyle(section3El).opacity : 'N/A';
-        
-        console.log(`セクションOpacity - 1: ${section1Opacity}, 2: ${section2Opacity}, 3: ${section3Opacity}`);
+        const section1Opacity = section1El
+          ? getComputedStyle(section1El).opacity
+          : "N/A";
+        const section2Opacity = section2El
+          ? getComputedStyle(section2El).opacity
+          : "N/A";
+        const section3Opacity = section3El
+          ? getComputedStyle(section3El).opacity
+          : "N/A";
+
+        console.log(
+          `セクションOpacity - 1: ${section1Opacity}, 2: ${section2Opacity}, 3: ${section3Opacity}`,
+        );
       }
     }
-    
+
     prevScrollY.current = scrollY;
   }, [sectionState.currentIndex]);
 
   // 画像のプリロード関数
   const preloadImages = async () => {
     try {
-      console.log('画像のプリロード開始');
+      console.log("画像のプリロード開始");
       const imagePromises = images.map((imgSrc, index) => {
         return new Promise((resolve, reject) => {
           const img = new Image();
@@ -168,10 +182,10 @@ export default function Page() {
       });
 
       await Promise.all(imagePromises);
-      console.log('全ての画像のプリロード完了');
+      console.log("全ての画像のプリロード完了");
       return true;
     } catch (error) {
-      console.error('画像プリロード中にエラーが発生:', error);
+      console.error("画像プリロード中にエラーが発生:", error);
       return false;
     }
   };
@@ -196,25 +210,25 @@ export default function Page() {
       // モバイル用の設定
       ScrollTrigger.config({
         ignoreMobileResize: true, // モバイルのリサイズイベントを無視
-        autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" // 自動更新するイベントを限定
+        autoRefreshEvents: "visibilitychange,DOMContentLoaded,load", // 自動更新するイベントを限定
       });
 
       // ドキュメントの読み込み完了を監視
       const checkDocumentReady = () => {
-        return document.readyState === 'complete';
+        return document.readyState === "complete";
       };
 
       // 全てのリソースの読み込みを待つ
       const loadAllResources = async () => {
         // ドキュメントの読み込み完了を待つ
         if (!checkDocumentReady()) {
-          await new Promise<void>(resolve => {
+          await new Promise<void>((resolve) => {
             const onLoad = () => resolve();
-            window.addEventListener('load', onLoad, { once: true });
+            window.addEventListener("load", onLoad, { once: true });
           });
         }
 
-        console.log('ドキュメント読み込み完了');
+        console.log("ドキュメント読み込み完了");
 
         // 画像のプリロード
         await preloadImages();
@@ -223,17 +237,20 @@ export default function Page() {
         setLoading(false);
 
         // アニメーションの準備が整うまで少し待つ
-        setTimeout(() => {
-          setAnimationsReady(true);
-          // ScrollTriggerを確実に更新
-          ScrollTrigger.refresh(true);
-          console.log('アニメーション準備完了');
-        }, isMobile ? 300 : 200);
+        setTimeout(
+          () => {
+            setAnimationsReady(true);
+            // ScrollTriggerを確実に更新
+            ScrollTrigger.refresh(true);
+            console.log("アニメーション準備完了");
+          },
+          isMobile ? 300 : 200,
+        );
       };
 
       // リソース読み込み開始
-      loadAllResources().catch(error => {
-        console.error('リソース読み込み中にエラーが発生:', error);
+      loadAllResources().catch((error) => {
+        console.error("リソース読み込み中にエラーが発生:", error);
         // エラーが発生しても進める
         setLoading(false);
         setTimeout(() => setAnimationsReady(true), 200);
@@ -254,13 +271,13 @@ export default function Page() {
     console.log("GSAP Animation Setup");
 
     // ScrollTriggerの設定をクリア
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     // bodyが完全に表示されるように
     gsap.to("body", { duration: 0.3, opacity: 1, ease: "power1.out" });
 
     // 画面のサイズに基づいて最大半径を計算
     const diagonal = Math.sqrt(
-      window.innerWidth ** 2 + window.innerHeight ** 2
+      window.innerWidth ** 2 + window.innerHeight ** 2,
     );
 
     // モバイル用の設定を調整
@@ -274,11 +291,13 @@ export default function Page() {
     const sectionPercentage = 100 / sectionCount;
 
     // *** 初期状態設定 ***
-    const sections = containerRef.current?.querySelectorAll('[data-section-index]');
+    const sections = containerRef.current?.querySelectorAll(
+      "[data-section-index]",
+    );
     sections?.forEach((section, idx) => {
       gsap.set(section, { opacity: idx === 0 ? 1 : 0 }); // 最初のセクションのみ表示
     });
-    circlesRef.current.forEach(circle => {
+    circlesRef.current.forEach((circle) => {
       if (circle) gsap.set(circle, { attr: { r: 0 } }); // 円を初期化
     });
 
@@ -290,8 +309,12 @@ export default function Page() {
       const currentSectionIndex = index;
       const nextSectionIndex = index + 1;
       // data-section-index属性を使って要素を取得
-      const currentSectionEl = containerRef.current?.querySelector(`[data-section-index="${currentSectionIndex}"]`);
-      const nextSectionEl = containerRef.current?.querySelector(`[data-section-index="${nextSectionIndex}"]`);
+      const currentSectionEl = containerRef.current?.querySelector(
+        `[data-section-index="${currentSectionIndex}"]`,
+      );
+      const nextSectionEl = containerRef.current?.querySelector(
+        `[data-section-index="${nextSectionIndex}"]`,
+      );
 
       // セクションの開始と終了位置を動的に計算
       const startPosition = `${index * sectionPercentage}% top`;
@@ -310,8 +333,8 @@ export default function Page() {
             // 次のセクションインデックスを計算して状態を更新
             if (nextSectionIndex < sectionCount) {
               dispatchSection({
-                type: 'SET_SECTION',
-                payload: { index: nextSectionIndex }
+                type: "SET_SECTION",
+                payload: { index: nextSectionIndex },
               });
             }
           },
@@ -319,33 +342,52 @@ export default function Page() {
             // 前のセクションインデックスを計算して状態を更新
             if (currentSectionIndex >= 0) {
               dispatchSection({
-                type: 'SET_SECTION',
-                payload: { index: currentSectionIndex }
+                type: "SET_SECTION",
+                payload: { index: currentSectionIndex },
               });
             }
           },
-        }
+        },
       });
 
       // アニメーションシーケンスをタイムラインに追加
       if (currentSectionEl) {
         // 現在のセクションをフェードアウト (タイムラインの0% -> 40%)
-        timeline.to(currentSectionEl, { opacity: 0, ease: 'power1.in', duration: 0.4 }, 0);
+        timeline.to(
+          currentSectionEl,
+          { opacity: 0, ease: "power1.in", duration: 0.4 },
+          0,
+        );
       }
       // 円を拡大 (タイムラインの0% -> 100%)
-      timeline.to(circle, { attr: { r: diagonal }, ease: 'none', duration: 1 }, 0);
+      timeline.to(
+        circle,
+        { attr: { r: diagonal }, ease: "none", duration: 1 },
+        0,
+      );
       if (nextSectionEl) {
         // 次のセクションをフェードイン (タイムラインの60% -> 100%)
-        timeline.fromTo(nextSectionEl, { opacity: 0 }, { opacity: 1, ease: 'power1.out', duration: 0.4 }, 0.6);
+        timeline.fromTo(
+          nextSectionEl,
+          { opacity: 0 },
+          { opacity: 1, ease: "power1.out", duration: 0.4 },
+          0.6,
+        );
       }
 
       // タイムラインのイベントコールバック
-      timeline.eventCallback("onStart", () => dispatchSection({ type: 'ANIMATION_START' }));
-      timeline.eventCallback("onUpdate", function() {
-        dispatchSection({ type: 'ANIMATION_PROGRESS', payload: { progress: this.progress() } });
+      timeline.eventCallback("onStart", () =>
+        dispatchSection({ type: "ANIMATION_START" }),
+      );
+      timeline.eventCallback("onUpdate", function () {
+        dispatchSection({
+          type: "ANIMATION_PROGRESS",
+          payload: { progress: this.progress() },
+        });
       });
-      timeline.eventCallback("onComplete", () => dispatchSection({ type: 'ANIMATION_COMPLETE', payload: { index } }));
-
+      timeline.eventCallback("onComplete", () =>
+        dispatchSection({ type: "ANIMATION_COMPLETE", payload: { index } }),
+      );
     });
 
     // 全ての設定後にScrollTriggerを再計算
@@ -362,7 +404,7 @@ export default function Page() {
     return () => {
       window.removeEventListener("resize", handleResize);
       // コンポーネントアンマウント時にScrollTriggerインスタンスを破棄
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
     // 依存配列に loading, animationsReady, isMobile を追加
   }, [loading, animationsReady, isMobile]);

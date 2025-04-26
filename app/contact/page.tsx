@@ -39,9 +39,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-2 text-white">
-                営業時間
-              </h3>
+              <h3 className="text-lg font-medium mb-2 text-white">営業時間</h3>
               <p className="text-gray-300">
                 火曜日 〜 日曜日: 17:00 - 24:00
                 <br />

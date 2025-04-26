@@ -1,8 +1,8 @@
 "use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { typography, spacing } from '../styles';
+import React from "react";
+import Image from "next/image";
+import { typography, spacing } from "../styles";
 
 const Section3 = ({ sectionState, index }) => {
   const title = "Join a Global Community";
@@ -36,11 +36,11 @@ const Section3 = ({ sectionState, index }) => {
       }}
       data-section-index={index}
     >
-      <div 
-        style={{ 
-          maxWidth: spacing.contentMaxWidth, 
-          paddingTop: spacing.contentPadding.top, 
-          paddingBottom: spacing.contentPadding.bottom 
+      <div
+        style={{
+          maxWidth: spacing.contentMaxWidth,
+          paddingTop: spacing.contentPadding.top,
+          paddingBottom: spacing.contentPadding.bottom,
         }}
       >
         <h1 style={typography.heading}>{title}</h1>

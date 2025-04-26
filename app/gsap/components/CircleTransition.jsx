@@ -21,7 +21,7 @@ const CircleTransition = ({ colors, setCircleRef }) => {
         height: layout.fullViewport.height,
         pointerEvents: "none", // u30b9u30afu30edu30fcu30ebu3092u59a8u3052u306au3044u3088u3046u306bu30ddu30a4u30f3u30bfu30fcu30a4u30d9u30f3u30c8u3092u7121u52b9u5316
         zIndex: zIndexes.circleTransition,
-        willChange: 'transform', // u30d1u30d5u30a9u30fcu30deu30f3u30b9u6539u5584
+        willChange: "transform", // u30d1u30d5u30a9u30fcu30deu30f3u30b9u6539u5584
       }}
       aria-hidden="true" // u30a2u30afu30bbu30b7u30d3u30eau30c6u30a3u306eu305fu3081u306bu975eu8868u793au8981u7d20u3068u3057u3066u30deu30fcu30af
     >
