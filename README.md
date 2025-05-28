@@ -52,6 +52,17 @@ code .
 
 ブラウザで [http://localhost:3000](http://localhost:3000) を開くと、アプリケーションが表示されます。
 
+## 開発環境の停止
+
+開発環境を停止するには、以下のいずれかの方法を使用できます：
+
+1. VSCodeのコマンドパレット（Mac: `Cmd + Shift + P`、Windows: `Ctrl + Shift + P`）を開き、`Dev Containers: Reopen Folder Locally` を選択
+
+2. ターミナルから直接停止する場合：
+```bash
+docker compose down
+```
+
 ## ローカル開発用コマンド
 dev containerを活用せず、localの環境でbiome LSPなどを起動して開発する場合には、
 ```
