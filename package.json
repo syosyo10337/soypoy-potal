@@ -10,9 +10,7 @@
     "format": "biome format --write .",
     "sync_rules": "node scripts/syncRules.js",
     "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio",
-    "docker:dev": "docker-compose up",
-    "docker:build": "docker build -t soypoy-portal ."
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.17",
