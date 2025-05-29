@@ -18,13 +18,13 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - コードの静的解析（lint）:
 ```bash
-npm run lint        # コードの静的解析を実行
-npm run lint:fix    # 自動修正可能な問題を修正
+pnpm lint        # コードの静的解析を実行
+pnpm lint:fix    # 自動修正可能な問題を修正
 ```
 
 - コードのフォーマット:
 ```bash
-npm run format      # コードのフォーマットを実行（--writeオプション付きで自動修正）
+pnpm format      # コードのフォーマットを実行（--writeオプション付きで自動修正）
 ```
 
 ### 設定
