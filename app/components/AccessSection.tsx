@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import SectionWrapper from "./SectionWrapper";
 import Skeleton from "./ui/Skeleton";
 
@@ -30,15 +30,14 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
     // セクションが表示されたときに画像を読み込む
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          // セクションが表示された場合
-          if (entry.isIntersecting && !imageVisibleRef.current) {
-            imageVisibleRef.current = true;
-            setImageInitialized(true);
-            // オブザーバーを停止
-            observer.disconnect();
-          }
-        });
+        for (const entry of entries) {
+          if (!entry.isIntersecting || imageVisibleRef.current) continue;
+
+          imageVisibleRef.current = true;
+          setImageInitialized(true);
+          // オブザーバーを停止
+          observer.disconnect();
+        }
       },
       { threshold: 0.3 },
     ); // 30%表示されたらトリガー
@@ -115,11 +114,13 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
                   className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 rounded-full text-xs shadow-md transition-colors duration-300 flex items-center"
                 >
                   <svg
+                    aria-label="Google Maps"
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4 mr-1"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
+                    <title>Google Maps</title>
                     <path
                       fillRule="evenodd"
                       d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"

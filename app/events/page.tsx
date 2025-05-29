@@ -103,18 +103,6 @@ export default function EventsPage() {
     setIsClient(true);
   }, []);
 
-  // activeMonthが変更されたときに発火するuseEffect
-  useEffect(() => {
-    // この月のイベントをフィルタリング
-    const eventsForMonth = events.filter((event) => {
-      const eventDate = parseISO(event.date);
-      return (
-        getMonth(eventDate) === getMonth(activeMonth) &&
-        getYear(eventDate) === getYear(activeMonth)
-      );
-    });
-  }, [activeMonth]);
-
   // 選択された月のイベントをフィルタリング
   const filteredEvents = events.filter((event) => {
     const eventDate = parseISO(event.date);
@@ -142,42 +130,40 @@ export default function EventsPage() {
     const formattedDate = format(date, "yyyy-MM-dd");
     const eventsForDay = events.filter((event) => event.date === formattedDate);
 
-    if (eventsForDay.length > 0) {
-      return (
-        <div className="event-marker">
-          {eventsForDay.map((event, index) => (
-            <div
-              key={event.id}
-              className="text-xs text-white bg-purple-600 rounded px-1 mt-1 truncate w-full text-left cursor-pointer hover:bg-purple-500"
-              style={{
-                marginTop: index > 0 ? "2px" : "0",
-                zIndex: 50,
-                position: "relative",
-              }}
-              onClick={(e) => {
+    if (eventsForDay.length === 0) return null;
+
+    return (
+      <div className="event-marker">
+        {eventsForDay.map((event, index) => (
+          <button
+            key={event.id}
+            className="text-xs text-white bg-purple-600 rounded px-1 mt-1 truncate w-full text-left cursor-pointer hover:bg-purple-500"
+            style={{
+              marginTop: index > 0 ? "2px" : "0",
+              zIndex: 50,
+              position: "relative",
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleEventClick(event.id);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 e.stopPropagation();
                 handleEventClick(event.id);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleEventClick(event.id);
-                }
-              }}
-              tabIndex={0}
-              role="button"
-              aria-label={`${event.title}のイベントを表示`}
-            >
-              {event.title}
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    return null;
+              }
+            }}
+            tabIndex={0}
+            type="button"
+            aria-label={`${event.title}のイベントを表示`}
+          >
+            {event.title}
+          </button>
+        ))}
+      </div>
+    );
   };
 
   // onChange ハンドラー

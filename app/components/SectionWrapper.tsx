@@ -1,13 +1,13 @@
 "use client";
 
-import {
-  type ReactNode,
-  type CSSProperties,
-  memo,
-  forwardRef,
-  type ForwardedRef,
-} from "react";
 import { ChevronDown } from "lucide-react";
+import {
+  type CSSProperties,
+  type ForwardedRef,
+  type ReactNode,
+  forwardRef,
+  memo,
+} from "react";
 
 // ベーススタイル定義
 export const baseStyle: CSSProperties = {
@@ -46,6 +46,7 @@ const SectionWrapper = memo(
         {children}
         {showArrow && onArrowClick && (
           <button
+            type="button"
             onClick={onArrowClick}
             className="mt-10 animate-bounce flex justify-center w-full"
             aria-label="Scroll to next section"

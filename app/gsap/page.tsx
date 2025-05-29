@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useReducer, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 
 // 分割したコンポーネントをインポート
 import {
@@ -163,7 +163,7 @@ export default function Page() {
   }, [sectionState.currentIndex]);
 
   // 画像のプリロード関数
-  const preloadImages = async () => {
+  const preloadImages = useCallback(async () => {
     try {
       console.log("画像のプリロード開始");
       const imagePromises = images.map((imgSrc, index) => {
@@ -171,7 +171,7 @@ export default function Page() {
           const img = new Image();
           img.onload = () => {
             console.log(`画像読み込み完了: ${index + 1}/${images.length}`);
-            resolve();
+            resolve(undefined);
           };
           img.onerror = (err) => {
             console.error(`画像読み込みエラー: ${imgSrc}`, err);
@@ -188,7 +188,7 @@ export default function Page() {
       console.error("画像プリロード中にエラーが発生:", error);
       return false;
     }
-  };
+  }, []);
 
   // スクロールイベントリスナーの設定
   useEffect(() => {
@@ -261,7 +261,7 @@ export default function Page() {
         // 必要に応じてイベントリスナーをクリーンアップ
       };
     }
-  }, [isMobile]);
+  }, [isMobile, preloadImages]);
 
   // アニメーションの設定
   useEffect(() => {
@@ -271,7 +271,9 @@ export default function Page() {
     console.log("GSAP Animation Setup");
 
     // ScrollTriggerの設定をクリア
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    for (const trigger of ScrollTrigger.getAll()) {
+      trigger.kill();
+    }
     // bodyが完全に表示されるように
     gsap.to("body", { duration: 0.3, opacity: 1, ease: "power1.out" });
 
@@ -297,9 +299,9 @@ export default function Page() {
     sections?.forEach((section, idx) => {
       gsap.set(section, { opacity: idx === 0 ? 1 : 0 }); // 最初のセクションのみ表示
     });
-    circlesRef.current.forEach((circle) => {
+    for (const circle of circlesRef.current) {
       if (circle) gsap.set(circle, { attr: { r: 0 } }); // 円を初期化
-    });
+    }
 
     // 各セクションの間のアニメーションを設定
     colors.slice(1).forEach((_, index) => {
@@ -404,7 +406,9 @@ export default function Page() {
     return () => {
       window.removeEventListener("resize", handleResize);
       // コンポーネントアンマウント時にScrollTriggerインスタンスを破棄
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      for (const trigger of ScrollTrigger.getAll()) {
+        trigger.kill();
+      }
     };
     // 依存配列に loading, animationsReady, isMobile を追加
   }, [loading, animationsReady, isMobile]);
@@ -424,17 +428,11 @@ export default function Page() {
 
       <CircleTransition colors={colors} setCircleRef={setCircleRef} />
 
-      {!loading && animationsReady && (
-        <>
-          {sectionComponents.map((SectionComponent, index) => (
-            <SectionComponent
-              key={index}
-              sectionState={sectionState}
-              index={index}
-            />
-          ))}
-        </>
-      )}
+      {!loading &&
+        animationsReady &&
+        sectionComponents.map((SectionComponent, index) => (
+          <SectionComponent key={SectionComponent.name} index={index} />
+        ))}
     </div>
   );
 }

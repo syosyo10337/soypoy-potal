@@ -1,10 +1,8 @@
 "use client";
-
-import React from "react";
 import Image from "next/image";
 import { typography, spacing } from "../styles";
 
-const Section2 = ({ sectionState, index }) => {
+const Section2 = ({ _sectionState, index }) => {
   const title = "Powerful Features";
   const textColor = "#fff";
   const text = `Automate tasks, visualize timelines, and collaborate in real-time.

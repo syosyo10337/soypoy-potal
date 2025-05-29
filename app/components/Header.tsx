@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const navItems = [
   { name: "ABOUT", href: "/about" },
@@ -70,8 +70,14 @@ export default function Header() {
               className={`fixed inset-0 bg-black/80 backdrop-blur-md z-[9998] transition-opacity duration-300 ${
                 isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
-              aria-hidden="true"
               onClick={() => setIsOpen(false)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  setIsOpen(false);
+                }
+              }}
+              role="button"
+              tabIndex={0}
             />
             <div
               className={`fixed inset-0 z-[9999] flex flex-col h-screen transition-all duration-500 ${

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useEffect, useRef, useState } from "react";
 import { EffectCards } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // スタイルのインポート
 import "swiper/css";
@@ -147,7 +147,7 @@ export default function MembersPage() {
         </div>
 
         {/* 間隔を追加 */}
-        <div className="hidden lg:block lg:w-12"></div>
+        <div className="hidden lg:block lg:w-12" />
 
         {/* メンバーアイコン - PCサイズで右側に配置 */}
         <div className="w-full lg:w-1/2 lg:pl-8">

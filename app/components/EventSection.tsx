@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCache } from "../contexts/CacheContext";
 import SectionWrapper from "./SectionWrapper";
 import Skeleton from "./ui/Skeleton";
@@ -29,7 +30,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
   const [, setCachedImages] = useState<Record<string, string>>({});
 
   // 画面サイズに応じてスタイルを調整する関数
-  const adjustStyles = () => {
+  const adjustStyles = useCallback(() => {
     const height = window.innerHeight;
 
     // 画面の高さに応じてフォントサイズを調整
@@ -61,7 +62,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
       setCardPadding("p-6");
       setCardGap("gap-8");
     }
-  };
+  }, []);
 
   // マウント時とリサイズ時にスタイルを調整
   useEffect(() => {
@@ -70,7 +71,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
     return () => {
       window.removeEventListener("resize", adjustStyles);
     };
-  }, []);
+  }, [adjustStyles]);
 
   // 画像が読み込まれたときのハンドラー
   const handleImageLoad = (imageUrl: string) => {
@@ -111,7 +112,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
   useEffect(() => {
     // 画像のプリロードを行う
     const preloadImages = () => {
-      events.forEach((event) => {
+      for (const event of events) {
         // キャッシュからURLを取得
         const cachedUrl = getImageFromCache(event.image);
         if (cachedUrl) {
@@ -159,7 +160,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
             }));
           };
         }
-      });
+      }
     };
 
     preloadImages();
@@ -197,7 +198,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
       >
         {events.map((event, index) => (
           <div
-            key={index}
+            key={event.title}
             className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg transform transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-white/20"
           >
             <div className={`relative ${imageHeight} w-full`}>
@@ -221,6 +222,7 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
               {/* 詳細ボタン */}
               <div className="absolute bottom-3 right-3">
                 <button
+                  type="button"
                   className="bg-[#00c896] hover:bg-[#00b085] text-black font-bold px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-300 shadow-lg"
                   onClick={() => {
                     // TODO: イベント詳細ページにリンクする処理を実装
@@ -246,16 +248,15 @@ export default function EventSection({ onArrowClick }: EventSectionProps) {
         ))}
       </div>
 
-      {/* 「もっと見る」ボタン - Aboutセクションと同様のデザイン */}
       <div className="text-center mt-8 relative z-10">
-        <button className="relative overflow-hidden group bg-[#00c896] hover:bg-transparent text-black font-bold py-3 px-10 rounded-full transition-all duration-300 border-2 border-[#00c896]">
-          <span
-            className="relative z-10 group-hover:text-[#00c896] transition-colors duration-300"
-            onClick={() => (window.location.href = "/events")}
-          >
+        <Link
+          href="/events"
+          className="relative overflow-hidden group bg-[#00c896] hover:bg-transparent text-black font-bold py-3 px-10 rounded-full transition-all duration-300 border-2 border-[#00c896] inline-block"
+        >
+          <span className="relative z-10 group-hover:text-[#00c896] transition-colors duration-300">
             もっと見る
           </span>
-        </button>
+        </Link>
       </div>
     </SectionWrapper>
   );
