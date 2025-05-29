@@ -2,7 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
-
+  // そもそもbiomeでのlintをしているため、eslintは無効化
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // Storyblokのドメインを許可
   images: {
     remotePatterns: [
@@ -12,7 +15,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "picsum.photos",
+        hostname: "picsum.photos"
       },
     ],
   },
