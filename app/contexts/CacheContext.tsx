@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
 
 type CacheContextType = {
   // 画像キャッシュ
@@ -24,17 +30,17 @@ export function CacheProvider({ children }: { children: ReactNode }) {
   // ローカルストレージからキャッシュを復元
   useEffect(() => {
     try {
-      const savedImageCache = localStorage.getItem('soypoy-image-cache');
+      const savedImageCache = localStorage.getItem("soypoy-image-cache");
       if (savedImageCache) {
         setImageCache(JSON.parse(savedImageCache));
       }
-      
-      const savedMapCache = localStorage.getItem('soypoy-map-cache');
+
+      const savedMapCache = localStorage.getItem("soypoy-map-cache");
       if (savedMapCache) {
         setMapCacheState(savedMapCache);
       }
     } catch (error) {
-      console.error('キャッシュの復元に失敗しました:', error);
+      console.error("キャッシュの復元に失敗しました:", error);
     }
   }, []);
 
@@ -42,20 +48,20 @@ export function CacheProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       if (Object.keys(imageCache).length > 0) {
-        localStorage.setItem('soypoy-image-cache', JSON.stringify(imageCache));
+        localStorage.setItem("soypoy-image-cache", JSON.stringify(imageCache));
       }
     } catch (error) {
-      console.error('画像キャッシュの保存に失敗しました:', error);
+      console.error("画像キャッシュの保存に失敗しました:", error);
     }
   }, [imageCache]);
 
   useEffect(() => {
     try {
       if (mapCache) {
-        localStorage.setItem('soypoy-map-cache', mapCache);
+        localStorage.setItem("soypoy-map-cache", mapCache);
       }
     } catch (error) {
-      console.error('マップキャッシュの保存に失敗しました:', error);
+      console.error("マップキャッシュの保存に失敗しました:", error);
     }
   }, [mapCache]);
 
@@ -84,7 +90,7 @@ export function CacheProvider({ children }: { children: ReactNode }) {
         reader.readAsDataURL(blob);
       });
     } catch (error) {
-      console.error('画像のキャッシュに失敗しました:', error);
+      console.error("画像のキャッシュに失敗しました:", error);
       return url; // エラーの場合は元のURLを返す
     }
   };
@@ -114,16 +120,14 @@ export function CacheProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <CacheContext.Provider value={value}>
-      {children}
-    </CacheContext.Provider>
+    <CacheContext.Provider value={value}>{children}</CacheContext.Provider>
   );
 }
 
 export function useCache() {
   const context = useContext(CacheContext);
   if (!context) {
-    throw new Error('useCacheはCacheProviderの中で使用する必要があります');
+    throw new Error("useCacheはCacheProviderの中で使用する必要があります");
   }
   return context;
 }

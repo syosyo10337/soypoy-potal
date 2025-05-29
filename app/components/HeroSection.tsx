@@ -54,7 +54,11 @@ export default function HeroSection({ onArrowClick }: HeroSectionProps) {
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            transition={{
+              repeat: Number.POSITIVE_INFINITY,
+              duration: 1.5,
+              ease: "easeInOut",
+            }}
           >
             <ChevronDown className="w-10 h-10 text-gray-500" />
           </motion.div>

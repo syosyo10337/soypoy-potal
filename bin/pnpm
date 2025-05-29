@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# pnpmコマンドをdocker compose経由で実行するシェルスクリプト
+# 使用方法: ./bin/pnpm install
+#          ./bin/pnpm run test
+
+# コンテナが起動しているか確認
+CONTAINER_RUNNING=$(docker compose ps --status running --services | grep app || true)
+
+if [ -z "$CONTAINER_RUNNING" ]; then
+  echo "ℹ️  開発コンテナが実行されていません。一時的なコンテナで実行します..."
+  echo "🔄 'pnpm $@' を実行中..."
+  docker compose run --rm app pnpm "$@"
+else
+  echo "🔄 開発コンテナ内で 'pnpm $@' を実行中..."
+  docker compose exec app pnpm "$@"
+fi

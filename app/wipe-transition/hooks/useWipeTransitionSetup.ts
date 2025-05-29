@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 // --- Constants ---
-const SECTION_PANEL_SELECTOR = '.section-panel';
+const SECTION_PANEL_SELECTOR = ".section-panel";
 const CLIP_PATH_BUFFER_MULTIPLIER = 1.5; // Ensures clip-path covers corners
 
 interface UseWipeTransitionSetupProps {
@@ -29,18 +29,21 @@ export function useWipeTransitionSetup({
 
     // Ensure refs are available
     if (!scrollContainer || !stickyWrapper) {
-      console.warn('Refs not available for GSAP setup.');
+      console.warn("Refs not available for GSAP setup.");
       return;
     }
 
     const sectionElements = gsap.utils.toArray<HTMLElement>(
       SECTION_PANEL_SELECTOR,
-      stickyWrapper // Context is the stickyWrapper
+      stickyWrapper, // Context is the stickyWrapper
     );
 
     // Ensure sections are rendered
-    if (sectionElements.length === 0 || sectionElements.length !== sections.length) {
-      console.warn('Section elements not found or mismatch count.');
+    if (
+      sectionElements.length === 0 ||
+      sectionElements.length !== sections.length
+    ) {
+      console.warn("Section elements not found or mismatch count.");
       return;
     }
 
@@ -51,7 +54,8 @@ export function useWipeTransitionSetup({
     const radius = diagonal / 2;
     const minDimension = Math.min(viewportWidth, viewportHeight);
     // Ensure radiusPercent calculation is identical, including the buffer
-    const radiusPercent = (radius / minDimension) * 100 * CLIP_PATH_BUFFER_MULTIPLIER;
+    const radiusPercent =
+      (radius / minDimension) * 100 * CLIP_PATH_BUFFER_MULTIPLIER;
     const finalClipPath = `circle(${radiusPercent}% at center)`;
 
     // --- Initial State Setup (kept identical) ---
@@ -61,7 +65,7 @@ export function useWipeTransitionSetup({
     });
     sectionElements.slice(1).forEach((section, index) => {
       gsap.set(section, {
-        clipPath: 'circle(0% at center)',
+        clipPath: "circle(0% at center)",
         zIndex: index + 1,
       });
     });
@@ -80,8 +84,8 @@ export function useWipeTransitionSetup({
       });
       timeline.fromTo(
         sectionToReveal,
-        { clipPath: 'circle(0% at center)' },
-        { clipPath: finalClipPath, ease: 'none' }
+        { clipPath: "circle(0% at center)" },
+        { clipPath: finalClipPath, ease: "none" },
       );
       sectionTimelines.push(timeline);
     });
@@ -91,22 +95,22 @@ export function useWipeTransitionSetup({
     snapPoints.push(1);
     const snapTrigger = ScrollTrigger.create({
       trigger: scrollContainer,
-      start: 'top top',
+      start: "top top",
       end: `+=${sections.length * 100}%`,
       snap: {
         snapTo: snapPoints,
         directional: true,
         duration: { min: 0.2, max: 0.5 },
         delay: 0.1,
-        ease: 'power1.inOut',
+        ease: "power1.inOut",
       },
       // markers: {startColor: "green", endColor: "red", fontSize: "12px"}, // Keep markers commented out
     });
 
     // --- Cleanup (kept identical) ---
     return () => {
-      console.log('Cleaning up Wipe Transition GSAP elements');
-      sectionTimelines.forEach(tl => tl.kill()); // Kill timelines first
+      console.log("Cleaning up Wipe Transition GSAP elements");
+      sectionTimelines.forEach((tl) => tl.kill()); // Kill timelines first
       snapTrigger?.kill(); // Kill snap trigger
       // Optional: A more robust cleanup might involve killing tweens of elements too
       // gsap.killTweensOf(sectionElements);
@@ -114,8 +118,8 @@ export function useWipeTransitionSetup({
       // ScrollTrigger.getAll().forEach(trigger => trigger.kill()); // Original code had this, keep if needed, but potentially overkill if triggers are managed explicitly
     };
   }, [sections, mainContainerRef, stickyContainerRef]); // Keep original dependencies (or lack thereof: [])
-  // Correction: Add dependencies explicitly to adhere to React Hook rules, 
-  // but ensure 'sections' is stable or memoized if passed from parent 
-  // to avoid unnecessary re-runs. If sections array is defined outside 
+  // Correction: Add dependencies explicitly to adhere to React Hook rules,
+  // but ensure 'sections' is stable or memoized if passed from parent
+  // to avoid unnecessary re-runs. If sections array is defined outside
   // component, it's stable. Refs are stable.
 }

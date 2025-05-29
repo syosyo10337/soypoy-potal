@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Docker Composeを使用して開発環境を起動するスクリプト
+# このスクリプトは、Next.jsアプリとStorybookの両方を含む完全な開発環境を起動します
+# 使用方法: ./bin/dev
+
+echo "🚀 開発環境を起動しています..."
+echo "🔹 Next.jsアプリ: http://localhost:3000"
+echo "🔹 Storybook: http://localhost:6006"
+echo ""
+
+docker compose up

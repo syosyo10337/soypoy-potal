@@ -24,7 +24,7 @@ const LoadingScreen = ({ loading, animationsReady }) => {
       duration: 2,
       repeat: -1, // 無限繰り返し
       ease: "linear",
-      transformOrigin: "center center"
+      transformOrigin: "center center",
     });
 
     // クリーンアップ
@@ -59,7 +59,7 @@ const LoadingScreen = ({ loading, animationsReady }) => {
           width: "100px",
           height: "100px",
           marginBottom: "1.5rem",
-          position: "relative"
+          position: "relative",
         }}
       >
         <Image

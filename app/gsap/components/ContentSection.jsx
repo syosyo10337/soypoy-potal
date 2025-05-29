@@ -3,7 +3,14 @@
 import { useRef, useEffect } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
-import { breakpoints, animations, typography, spacing, effects, layout } from "../styles";
+import {
+  breakpoints,
+  animations,
+  typography,
+  spacing,
+  effects,
+  layout,
+} from "../styles";
 
 /**
  * コンテンツセクションコンポーネント
@@ -17,7 +24,16 @@ import { breakpoints, animations, typography, spacing, effects, layout } from ".
  * @param {Object} props.sectionState - セクションの状態情報
  * @param {number} props.index - セクションのインデックス
  */
-const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectionState, index }) => {
+const ContentSection = ({
+  title,
+  text,
+  img,
+  textColor,
+  opacity,
+  isActive,
+  sectionState,
+  index,
+}) => {
   const contentRef = useRef(null);
 
   // コンテンツの表示制御
@@ -26,16 +42,16 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectio
 
     // コンテンツ要素
     const content = contentRef.current;
-    const contentElements = content.querySelectorAll('h1, p, div[data-image]');
+    const contentElements = content.querySelectorAll("h1, p, div[data-image]");
 
     // アニメーション進行度とセクション状態に基づいて表示制御
     const shouldShow =
       // アクティブで不透明度が高い
       (isActive && opacity > 0.8) ||
       // またはアニメーション進行度が70%以上
-      (sectionState?.contentVisibility === true) ||
+      sectionState?.contentVisibility === true ||
       // またはアニメーション完了状態
-      (sectionState?.animationComplete === index);
+      sectionState?.animationComplete === index;
 
     if (shouldShow) {
       // アニメーションなしで表示
@@ -44,7 +60,7 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectio
       // コンテンツ表示時のログ
       const scrollY = window.scrollY;
       const scrollHeight = document.body.scrollHeight - window.innerHeight;
-      const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
+      const scrollPercentage = ((scrollY / scrollHeight) * 100).toFixed(2);
     } else {
       // 非表示条件の場合
       gsap.set(contentElements, { opacity: 0, y: 0 });
@@ -53,7 +69,7 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectio
       if (opacity < 0.2 && isActive) {
         const scrollY = window.scrollY;
         const scrollHeight = document.body.scrollHeight - window.innerHeight;
-        const scrollPercentage = (scrollY / scrollHeight * 100).toFixed(2);
+        const scrollPercentage = ((scrollY / scrollHeight) * 100).toFixed(2);
       }
     }
   }, [isActive, opacity, sectionState, index]);
@@ -85,7 +101,7 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectio
         style={{
           maxWidth: spacing.contentMaxWidth,
           paddingTop: spacing.contentPadding.top,
-          paddingBottom: spacing.contentPadding.bottom
+          paddingBottom: spacing.contentPadding.bottom,
         }}
       >
         <h1 style={typography.heading}>{title}</h1>
@@ -97,7 +113,15 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectio
         >
           {text}
         </p>
-        <div data-image style={{ position: 'relative', width: '100%', height: '400px', marginBottom: '2rem' }}>
+        <div
+          data-image
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "400px",
+            marginBottom: "2rem",
+          }}
+        >
           <Image
             src={img}
             alt={title}
@@ -105,7 +129,7 @@ const ContentSection = ({ title, text, img, textColor, opacity, isActive, sectio
             sizes="(max-width: 768px) 100vw, 800px"
             priority
             style={{
-              objectFit: 'cover',
+              objectFit: "cover",
               borderRadius: effects.borderRadius,
               boxShadow: effects.boxShadow,
             }}

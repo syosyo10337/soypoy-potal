@@ -1,8 +1,8 @@
 "use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { typography, spacing } from '../styles';
+import React from "react";
+import Image from "next/image";
+import { typography, spacing } from "../styles";
 
 // セクション情報を静的プロパティとして定義
 const Section1 = ({ sectionState, index }) => {
@@ -58,7 +58,7 @@ const Section1 = ({ sectionState, index }) => {
         style={{
           maxWidth: spacing.contentMaxWidth,
           paddingTop: spacing.contentPadding.top,
-          paddingBottom: spacing.contentPadding.bottom
+          paddingBottom: spacing.contentPadding.bottom,
         }}
       >
         <h1 style={typography.heading}>{title}</h1>

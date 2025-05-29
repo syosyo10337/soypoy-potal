@@ -1,6 +1,12 @@
 "use client";
 
-import { ReactNode, CSSProperties, memo, forwardRef, ForwardedRef } from "react";
+import {
+  type ReactNode,
+  type CSSProperties,
+  memo,
+  forwardRef,
+  type ForwardedRef,
+} from "react";
 import { ChevronDown } from "lucide-react";
 
 // ベーススタイル定義
@@ -30,34 +36,26 @@ export type SectionProps = {
 };
 
 // セクションラッパーコンポーネント
-const SectionWrapper = memo(forwardRef(function SectionWrapper(
-  {
-    className,
-    style,
-    showArrow,
-    onArrowClick,
-    children
-  }: SectionProps,
-  ref: ForwardedRef<HTMLDivElement>
-) {
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{ ...baseStyle, ...style }}
-    >
-      {children}
-      {showArrow && onArrowClick && (
-        <button
-          onClick={onArrowClick}
-          className="mt-10 animate-bounce flex justify-center w-full"
-          aria-label="Scroll to next section"
-        >
-          <ChevronDown className="w-10 h-10 text-gray-500" />
-        </button>
-      )}
-    </div>
-  );
-}));
+const SectionWrapper = memo(
+  forwardRef(function SectionWrapper(
+    { className, style, showArrow, onArrowClick, children }: SectionProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) {
+    return (
+      <div ref={ref} className={className} style={{ ...baseStyle, ...style }}>
+        {children}
+        {showArrow && onArrowClick && (
+          <button
+            onClick={onArrowClick}
+            className="mt-10 animate-bounce flex justify-center w-full"
+            aria-label="Scroll to next section"
+          >
+            <ChevronDown className="w-10 h-10 text-gray-500" />
+          </button>
+        )}
+      </div>
+    );
+  }),
+);
 
 export default SectionWrapper;

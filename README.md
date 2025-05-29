@@ -1,36 +1,74 @@
+# Soypoy Portal
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## 技術スタック
 
-First, run the development server:
+- **フロントエンド**
+  - [Next.js](https://nextjs.org) - Reactフレームワーク
+  - [TypeScript](https://www.typescriptlang.org/) - 型安全なJavaScript
+  - [Tailwind CSS](https://tailwindcss.com/) - ユーティリティファーストCSSフレームワーク
+  - [Biome](https://biomejs.dev/) - 高速なJavaScript/TypeScriptツールチェーン
 
+- **開発環境**
+  - [Docker](https://www.docker.com/) - コンテナ化
+  - [Dev Container](https://code.visualstudio.com/docs/devcontainers/containers) - VSCodeの開発コンテナ機能
+  - [pnpm](https://pnpm.io/) - 高速なパッケージマネージャー
+
+## 環境構築
+
+### 前提条件
+
+- [VSCode](https://code.visualstudio.com/)
+- [Docker](https://www.docker.com/)
+- [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) VSCode拡張機能
+
+### 初回セットアップ
+
+1. リポジトリをクローン
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [リポジトリURL]
+cd soypoy-portal
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. VSCodeでプロジェクトを開く
+```bash
+code .
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. VSCodeの通知から「Reopen in Container」を選択
+   - または、コマンドパレット（Cmd/Ctrl + Shift + P）から「Dev Containers: Reopen in Container」を選択
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. コンテナのビルドと起動が完了するまで待機
+   - 初回は依存関係のインストールに時間がかかる場合があります
 
-## Learn More
+## 開発サーバーの起動
 
-To learn more about Next.js, take a look at the following resources:
+コンテナ内で開発サーバーを起動するには、以下のコマンドを実行します：
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+./bin/dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+ブラウザで [http://localhost:3000](http://localhost:3000) を開くと、アプリケーションが表示されます。
 
-## Deploy on Vercel
+## 開発環境の停止
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+開発環境を停止するには、以下のいずれかの方法を使用できます：
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. VSCodeのコマンドパレット（Mac: `Cmd + Shift + P`、Windows: `Ctrl + Shift + P`）を開き、`Dev Containers: Reopen Folder Locally` を選択
+
+2. ターミナルから直接停止する場合：
+```bash
+docker compose down
+```
+
+## ローカル開発用コマンド
+dev containerを活用せず、localの環境でbiome LSPなどを起動して開発する場合には、
+```
+.bin/bev
+```
+
+プロジェクトルートの`bin`ディレクトリには、ローカル環境からDockerコンテナ内のコマンドを実行するためのラッパースクリプトが格納されています。
+
+詳細は[bin/README.md](bin/README.md)を参照してください。
