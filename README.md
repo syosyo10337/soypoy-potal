@@ -10,6 +10,27 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
   - [Tailwind CSS](https://tailwindcss.com/) - ユーティリティファーストCSSフレームワーク
   - [Biome](https://biomejs.dev/) - 高速なJavaScript/TypeScriptツールチェーン
 
+## Biomeについて
+
+[Biome](https://biomejs.dev/)は、Rustで書かれた高速なJavaScript/TypeScriptツールチェーンです。このプロジェクトでは、コードの品質を保つために、linterとformatterとして利用しています。
+
+### 使用方法
+
+- コードの静的解析（lint）:
+```bash
+npm run lint        # コードの静的解析を実行
+npm run lint:fix    # 自動修正可能な問題を修正
+```
+
+- コードのフォーマット:
+```bash
+npm run format      # コードのフォーマットを実行（--writeオプション付きで自動修正）
+```
+
+### 設定
+
+プロジェクトのルートディレクトリにある`biome.json`で、lintとformatのルールを設定しています。詳細な設定は[Biomeの公式ドキュメント](https://biomejs.dev/linter/rules/)を参照してください。
+
 - **開発環境**
   - [Docker](https://www.docker.com/) - コンテナ化
   - [Dev Container](https://code.visualstudio.com/docs/devcontainers/containers) - VSCodeの開発コンテナ機能
