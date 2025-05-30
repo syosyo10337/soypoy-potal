@@ -1,16 +1,9 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import Image from "next/image";
 import { gsap } from "gsap";
-import {
-  breakpoints,
-  animations,
-  typography,
-  spacing,
-  effects,
-  layout,
-} from "../styles";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+import { effects, layout, spacing, typography } from "../styles";
 
 /**
  * コンテンツセクションコンポーネント
@@ -54,23 +47,10 @@ const ContentSection = ({
       sectionState?.animationComplete === index;
 
     if (shouldShow) {
-      // アニメーションなしで表示
       gsap.set(contentElements, { opacity: 1, y: 0 });
-
-      // コンテンツ表示時のログ
-      const scrollY = window.scrollY;
-      const scrollHeight = document.body.scrollHeight - window.innerHeight;
-      const scrollPercentage = ((scrollY / scrollHeight) * 100).toFixed(2);
     } else {
       // 非表示条件の場合
       gsap.set(contentElements, { opacity: 0, y: 0 });
-
-      // コンテンツ非表示時のログ
-      if (opacity < 0.2 && isActive) {
-        const scrollY = window.scrollY;
-        const scrollHeight = document.body.scrollHeight - window.innerHeight;
-        const scrollPercentage = ((scrollY / scrollHeight) * 100).toFixed(2);
-      }
     }
   }, [isActive, opacity, sectionState, index]);
 

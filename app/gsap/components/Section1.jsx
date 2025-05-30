@@ -1,11 +1,9 @@
 "use client";
-
-import React from "react";
 import Image from "next/image";
-import { typography, spacing } from "../styles";
+import { spacing, typography } from "../styles";
 
 // セクション情報を静的プロパティとして定義
-const Section1 = ({ sectionState, index }) => {
+const Section1 = ({ index }) => {
   const title = "Welcome to FlowSync";
   const textColor = "#000";
   const text = `Streamline your workflow with intuitive project management tools, built for teams of all sizes.

@@ -1,10 +1,8 @@
 "use client";
-
-import React from "react";
 import Image from "next/image";
 import { typography, spacing } from "../styles";
 
-const Section3 = ({ sectionState, index }) => {
+const Section3 = ({ _sectionState, index }) => {
   const title = "Join a Global Community";
   const textColor = "#fff";
   const text = `Thousands of teams around the world trust FlowSync to keep their projects on track.

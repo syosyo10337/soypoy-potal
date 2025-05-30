@@ -110,7 +110,9 @@ export function useWipeTransitionSetup({
     // --- Cleanup (kept identical) ---
     return () => {
       console.log("Cleaning up Wipe Transition GSAP elements");
-      sectionTimelines.forEach((tl) => tl.kill()); // Kill timelines first
+      for (const tl of sectionTimelines) {
+        tl.kill();
+      }
       snapTrigger?.kill(); // Kill snap trigger
       // Optional: A more robust cleanup might involve killing tweens of elements too
       // gsap.killTweensOf(sectionElements);

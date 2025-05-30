@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Section1, Section2, Section3 } from "./components";
 import { useWipeTransitionSetup } from "./hooks/useWipeTransitionSetup";
 
@@ -25,9 +25,9 @@ const WipeTransitionPage = () => {
         ref={stickyContainerRef}
         className="sticky top-0 h-screen w-full overflow-hidden"
       >
-        {sections.map((SectionComponent, index) => (
+        {sections.map((SectionComponent, _) => (
           <div
-            key={index}
+            key={SectionComponent.name}
             className="section-panel absolute top-0 left-0 h-full w-full"
             style={{ willChange: "clip-path" }} // Performance hint
           >
