@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { notion, DATABASE_ID } from "../../../api/notion/client";
-import { Event } from "../../events/types";
+import type { Event } from "../../events/types";
+import { notion, notionDB } from "../_config";
 
 export async function GET() {
   try {
     const response = await notion.databases.query({
-      database_id: DATABASE_ID,
+      database_id: notionDB.events,
       sorts: [
         {
           property: "Date",
@@ -14,13 +14,16 @@ export async function GET() {
       ],
     });
 
-    //TODO: Notionでプロパティを定義する
-    const events: Partial<Event>[] = response.results.map((page: any) => {
+    // biome-ignore lint/suspicious/noExplicitAny: Notionの型定義が複雑なため TODO: 型定義を修正する
+    const events: Event[] = response.results.map((page: any) => {
       const properties = page.properties;
+
       return {
-        id: page.id,
+        id: properties.ID.unique_id.number,
         title: properties.Name.title[0]?.plain_text || "",
         date: properties.Date.date?.start || "",
+        description: properties.Description.rich_text[0]?.plain_text || "",
+        imageUrl: properties.ImageUrl.files[0]?.file.url || "",
       };
     });
 
