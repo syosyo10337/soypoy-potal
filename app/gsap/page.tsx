@@ -70,8 +70,8 @@ export default function Page() {
   const [animationsReady, setAnimationsReady] = useState(false); // アニメーションの準備状態を追跡
   const [isMobile, setIsMobile] = useState(false); // モバイルデバイスかどうかを追跡
 
-  const containerRef = useRef(null);
-  const circlesRef = useRef([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const circlesRef = useRef<(SVGCircleElement | null)[]>([]);
 
   // モバイルデバイスかどうかをチェックする関数
   const checkIfMobile = useCallback(() => {
@@ -100,7 +100,7 @@ export default function Page() {
   const prevScrollY = useRef(0);
 
   // 円の参照を設定するための関数
-  const setCircleRef = (el, index) => {
+  const setCircleRef = (el: SVGCircleElement | null, index: number) => {
     circlesRef.current[index] = el;
   };
 

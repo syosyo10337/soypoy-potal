@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { EffectCards } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, type SwiperRef, SwiperSlide } from "swiper/react";
 
 // スタイルのインポート
 import "swiper/css";
@@ -80,7 +80,7 @@ const members = [
 export default function MembersPage() {
   const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const swiperRef = useRef(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
   // hydrationエラー対策
   useEffect(() => {

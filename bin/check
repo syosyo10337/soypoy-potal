@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Run biome lint and tsc in parallel
+pnpm biome lint . &
+BIOME_PID=$!
+pnpm typecheck &
+TSC_PID=$!
+
+# Wait for both processes to complete and store their exit status
+wait $BIOME_PID
+BIOME_STATUS=$?
+wait $TSC_PID
+TSC_STATUS=$?
+
+# Check if either process failed
+if [ $BIOME_STATUS -ne 0 ] || [ $TSC_STATUS -ne 0 ]; then
+  echo "❌ Checks failed"
+  exit 1
+fi
+
+echo "✅ All checks passed" 

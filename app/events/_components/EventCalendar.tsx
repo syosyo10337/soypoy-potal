@@ -77,7 +77,11 @@ export default function EventCalendar({ events }: EventCalendarProps) {
             locale="ja-JP"
             tileContent={tileContent}
             className="bg-transparent border-0 text-white"
-            onActiveStartDateChange={handleActiveStartDateChange}
+            onActiveStartDateChange={(args) => {
+              if (args.activeStartDate) {
+                handleActiveStartDateChange({ activeStartDate: args.activeStartDate });
+              }
+            }}
             minDate={MIN_DATE}
             maxDate={MAX_DATE}
             minDetail="year"
@@ -99,7 +103,7 @@ export default function EventCalendar({ events }: EventCalendarProps) {
               <EventListItem
                 key={event.id}
                 event={event}
-                selectedEventId={selectedEventId}
+                selectedEventId={selectedEventId || undefined}
               />
             ))}
           </div>

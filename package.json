@@ -11,7 +11,8 @@
     "format": "biome format --write .",
     "sync_rules": "node scripts/syncRules.js",
     "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.17",
