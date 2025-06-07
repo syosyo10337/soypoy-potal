@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import EventCalendar from "./components/EventCalendar";
+import EventCalendar from "./_components/EventCalendar";
 import type { Event } from "./types";
 
 async function getEvents(): Promise<Event[]> {
