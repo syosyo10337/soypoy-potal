@@ -17,6 +17,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: "https",
+        //NOTE: Notionからデータを取ってくるため。
+        hostname: "prod-files-secure.s3.us-west-2.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

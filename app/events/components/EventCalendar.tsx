@@ -5,9 +5,9 @@ import { ja } from "date-fns/locale";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
-import EventListItem from "./EventListItem";
+import type { Event } from "../types";
 import EventCalendarTile from "./EventCalendarTile";
-import { Event } from "../types";
+import EventListItem from "./EventListItem";
 
 // カレンダーをクライアントサイドのみでレンダリングするためのダイナミックインポート
 const Calendar = dynamic(() => import("react-calendar"), {

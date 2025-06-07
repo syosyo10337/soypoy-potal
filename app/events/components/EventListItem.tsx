@@ -1,17 +1,8 @@
-import Image from "next/image";
-import { format, parseISO } from "date-fns";
-import { ja } from "date-fns/locale";
 import clsx from "clsx";
+import { DateTime } from "luxon";
+import Image from "next/image";
 import Link from "next/link";
-
-interface Event {
-  id: number;
-  title: string;
-  imageUrl: string;
-  date: string;
-  time: string;
-  description: string;
-}
+import type { Event } from "../types";
 
 interface EventListItemProps {
   event: Event;
@@ -22,6 +13,9 @@ export default function EventListItem({
   event,
   selectedEventId,
 }: EventListItemProps) {
+  // JSTタイムゾーンで日付をパース
+  const eventDate = DateTime.fromISO(event.date, { zone: "Asia/Tokyo" });
+
   return (
     <div
       id={`event-${event.id}`}
@@ -62,11 +56,7 @@ export default function EventListItem({
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span>
-                {format(parseISO(event.date), "yyyy年MM月dd日", {
-                  locale: ja,
-                })}
-              </span>
+              <span>{eventDate.toFormat("yyyy年MM月dd日")}</span>
             </div>
             <div className="flex items-center text-gray-400">
               <svg
@@ -84,7 +74,7 @@ export default function EventListItem({
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>{event.time}</span>
+              <span>{eventDate.toFormat("HH:mm")}</span>
             </div>
           </div>
           <p className="text-gray-300 mb-4 flex-grow">{event.description}</p>
