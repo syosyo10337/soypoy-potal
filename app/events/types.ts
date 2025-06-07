@@ -5,4 +5,4 @@ export interface Event {
   time: string;
   description: string;
   imageUrl: string;
-} 
+}

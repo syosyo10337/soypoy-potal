@@ -59,7 +59,9 @@ export default function EventCalendar({ events }: EventCalendarProps) {
   );
 
   // 月が変更された時のハンドラー
-  const handleActiveStartDateChange = ({activeStartDate}: {activeStartDate: Date}) => {
+  const handleActiveStartDateChange = ({
+    activeStartDate,
+  }: { activeStartDate: Date }) => {
     if (activeStartDate) {
       setActiveMonth(activeStartDate);
     }
@@ -88,9 +90,9 @@ export default function EventCalendar({ events }: EventCalendarProps) {
           {format(activeMonth, "yyyy年MM月", { locale: ja })}のイベント
         </h2>
 
-        {eventsForMonth.length === 0 
-        ?   <p className="text-gray-400">この月のイベントはありません。</p>
-        : (
+        {eventsForMonth.length === 0 ? (
+          <p className="text-gray-400">この月のイベントはありません。</p>
+        ) : (
           <div className="flex flex-col gap-6">
             {eventsForMonth.map((event) => (
               <EventListItem
@@ -104,4 +106,4 @@ export default function EventCalendar({ events }: EventCalendarProps) {
       </div>
     </div>
   );
-} 
+}

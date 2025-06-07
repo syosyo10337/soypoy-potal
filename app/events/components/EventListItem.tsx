@@ -28,7 +28,7 @@ export default function EventListItem({
       key={event.id}
       className={clsx(
         "bg-gray-900/70 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg transition-all duration-300",
-        selectedEventId === event.id && "ring-2 ring-purple-500"
+        selectedEventId === event.id && "ring-2 ring-purple-500",
       )}
     >
       <div className="md:flex">
@@ -87,9 +87,7 @@ export default function EventListItem({
               <span>{event.time}</span>
             </div>
           </div>
-          <p className="text-gray-300 mb-4 flex-grow">
-            {event.description}
-          </p>
+          <p className="text-gray-300 mb-4 flex-grow">{event.description}</p>
           <Link
             href={`/events/${event.id}`}
             className="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition-colors mt-auto w-fit"
@@ -100,4 +98,4 @@ export default function EventListItem({
       </div>
     </div>
   );
-} 
+}
