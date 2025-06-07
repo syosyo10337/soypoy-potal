@@ -23,6 +23,7 @@
     "@storyblok/react": "^4.5.4",
     "@supabase/supabase-js": "^2.49.4",
     "@types/lodash": "^4.17.16",
+    "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "framer-motion": "^12.6.3",
