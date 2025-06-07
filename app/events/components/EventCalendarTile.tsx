@@ -1,7 +1,8 @@
-import { format } from "date-fns";
-import { events } from "../dummy/events";
+import { DateTime } from "luxon";
+import type { Event } from "../types";
 
 interface EventCalendarTileProps {
+  events: Event[];
   date: Date;
   view: string;
   onEventClick: (eventId: number) => void;
@@ -9,15 +10,18 @@ interface EventCalendarTileProps {
 
 // TODO: propsを見直す。
 export default function EventCalendarTile({
+  events,
   date,
   view,
   onEventClick,
 }: EventCalendarTileProps) {
   if (view !== "month") return null;
 
-  // その日に開催されるすべてのイベントを検索
-  const formattedDate = format(date, "yyyy-MM-dd");
-  const eventsForDay = events.filter((event) => event.date === formattedDate);
+  const currentDate = DateTime.fromJSDate(date).startOf("day").toISO();
+  const eventsForDay = events.filter((event) => {
+    const eventDate = DateTime.fromISO(event.date).startOf("day").toISO();
+    return eventDate === currentDate;
+  });
 
   if (eventsForDay.length === 0) return null;
 
@@ -37,15 +41,15 @@ export default function EventCalendarTile({
             e.stopPropagation();
             onEventClick(event.id);
           }}
+          // biome-ignore lint/a11y/useSemanticElements: this elemeent is nested by button
+          role="button"
+          tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              e.stopPropagation();
               onEventClick(event.id);
             }
           }}
-          tabIndex={0}
-          role="button"
           aria-label={`${event.title}のイベントを表示`}
         >
           {event.title}

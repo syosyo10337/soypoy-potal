@@ -52,6 +52,7 @@ export default function EventCalendar({ events }: EventCalendarProps) {
   // カレンダー上のタイル（日付）のコンテンツをカスタマイズ
   const tileContent = ({ date, view }: { date: Date; view: string }) => (
     <EventCalendarTile
+      events={events}
       date={date}
       view={view}
       onEventClick={handleEventClick}
