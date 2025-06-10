@@ -5,6 +5,8 @@ import type { Event } from "./types";
 async function getEvents(): Promise<Event[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events`);
   if (!res.ok) {
+    console.error(`Failed to fetch events ${res.statusText}`);
+    console.error(await res.text());
     throw new Error("Failed to fetch events");
   }
 
