@@ -1,17 +1,6 @@
 import { notFound } from "next/navigation";
 import EventCalendar from "./_components/EventCalendar";
-import type { Event } from "./types";
-
-async function getEvents(): Promise<Event[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events`);
-  if (!res.ok) {
-    console.error(`Failed to fetch events ${res.statusText}`);
-    console.error(await res.text());
-    throw new Error("Failed to fetch events");
-  }
-
-  return res.json();
-}
+import { getEvents } from "@/app/events/ _api/endpoints";
 
 export default async function EventsPage() {
   const events = await getEvents();

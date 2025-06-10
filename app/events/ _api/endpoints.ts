@@ -1,8 +1,7 @@
-import { NextResponse } from "next/server";
-import type { Event } from "../../events/types";
-import { notion, notionDB } from "../_config";
+import { notion, notionDB } from "@/api/_config";
+import type { Event } from "./model";
 
-export async function GET() {
+export async function getEvents(): Promise<Event[]> {
   try {
     const response = await notion.databases.query({
       database_id: notionDB.events,
@@ -27,12 +26,9 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json(events);
+    return events;
   } catch (error) {
     console.error("Error fetching events:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch events" },
-      { status: 500 },
-    );
+    throw new Error("Failed to fetch events");
   }
 }

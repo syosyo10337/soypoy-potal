@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
-import type { Event } from "../types";
+import type { Event } from "../ _api/model";
 
 interface EventListItemProps {
   event: Event;

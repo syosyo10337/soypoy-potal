@@ -5,7 +5,7 @@ import { ja } from "date-fns/locale";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
-import type { Event } from "../types";
+import type { Event } from "../ _api/model";
 import EventCalendarTile from "./EventCalendarTile";
 import EventListItem from "./EventListItem";
 
