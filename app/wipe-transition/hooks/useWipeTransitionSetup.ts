@@ -9,8 +9,8 @@ const SECTION_PANEL_SELECTOR = ".section-panel";
 const CLIP_PATH_BUFFER_MULTIPLIER = 1.5; // Ensures clip-path covers corners
 
 interface UseWipeTransitionSetupProps {
-  mainContainerRef: React.RefObject<HTMLDivElement>;
-  stickyContainerRef: React.RefObject<HTMLDivElement>;
+  mainContainerRef: React.RefObject<HTMLDivElement | null>;
+  stickyContainerRef: React.RefObject<HTMLDivElement | null>;
   sections: React.ComponentType<Record<string, never>>[]; // Expect an array of components
 }
 
