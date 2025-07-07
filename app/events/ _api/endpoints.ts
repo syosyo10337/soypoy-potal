@@ -1,10 +1,11 @@
-import { notion, notionDB } from "@/api/_config";
+import { notionDBKeys } from "@/api/_config";
+import { queryDatabase } from "@/api/_config/notionUtils";
 import type { Event } from "./model";
+import { EVENTS_SCHEMA } from "./model";
 
 export async function getEvents(): Promise<Event[]> {
   try {
-    const response = await notion.databases.query({
-      database_id: notionDB.events,
+    return await queryDatabase<Event>(notionDBKeys.events, EVENTS_SCHEMA, {
       sorts: [
         {
           property: "Date",
@@ -12,21 +13,6 @@ export async function getEvents(): Promise<Event[]> {
         },
       ],
     });
-
-    // biome-ignore lint/suspicious/noExplicitAny: Notionの型定義が複雑なため TODO: 型定義を修正する
-    const events: Event[] = response.results.map((page: any) => {
-      const properties = page.properties;
-
-      return {
-        id: properties.ID.unique_id.number,
-        title: properties.Name.title[0]?.plain_text || "",
-        date: properties.Date.date?.start || "",
-        description: properties.Description.rich_text[0]?.plain_text || "",
-        imageUrl: properties.ImageUrl.files[0]?.file.url || "",
-      };
-    });
-
-    return events;
   } catch (error) {
     console.error("Error fetching events:", error);
     throw new Error("Failed to fetch events");
