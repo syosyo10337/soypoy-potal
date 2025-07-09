@@ -1,12 +1,8 @@
-import type {
-  CreateEventData,
-  EventEntity,
-  UpdateEventData,
-} from "../entities/event";
+import type { EventEntity } from "../entities/event";
 
 /**
  * イベントリポジトリインターフェース
- * データアクセスの抽象化
+ * データアクセスの抽象化（読み取り専用）
  */
 export interface EventRepository {
   /**
@@ -18,19 +14,4 @@ export interface EventRepository {
    * IDによるイベント取得
    */
   findById(id: string): Promise<EventEntity | null>;
-
-  /**
-   * イベントを作成
-   */
-  create(data: CreateEventData): Promise<EventEntity>;
-
-  /**
-   * イベントを更新
-   */
-  update(id: string, data: UpdateEventData): Promise<EventEntity | null>;
-
-  /**
-   * イベントを削除
-   */
-  delete(id: string): Promise<boolean>;
 }

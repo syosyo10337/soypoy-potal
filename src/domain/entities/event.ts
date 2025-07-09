@@ -9,23 +9,3 @@ export interface EventEntity {
   description: string;
   imageUrl: string;
 }
-
-/**
- * イベント作成用のデータ
- */
-export interface CreateEventData {
-  title: string;
-  date: Date;
-  description: string;
-  imageUrl?: string;
-}
-
-/**
- * イベント更新用のデータ
- */
-export interface UpdateEventData {
-  title?: string;
-  date?: Date;
-  description?: string;
-  imageUrl?: string;
-}
