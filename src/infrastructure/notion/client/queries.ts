@@ -1,12 +1,12 @@
 import type { PageObjectResponse } from "@notionhq/client";
 import { isFullPage } from "@notionhq/client";
 import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
-import { notion } from "../notionClient";
 import type {
   DatabaseSchema,
   PropertyValueType,
   UsedNotionPropertyType,
-} from "../types";
+} from "../config/types";
+import { notion } from "./notionClient";
 
 /**
  * 汎用的なデータベースクエリ関数（List取得）

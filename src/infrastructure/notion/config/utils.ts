@@ -2,7 +2,7 @@ import type {
   PropertyDefinition,
   PropertyValueType,
   UsedNotionPropertyType,
-} from "../types";
+} from "./types";
 
 /**
  * 型安全なスキーマ作成用のヘルパー関数

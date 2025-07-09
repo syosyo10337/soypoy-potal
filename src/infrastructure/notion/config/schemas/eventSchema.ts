@@ -3,7 +3,7 @@ import {
   type InferSchemaType,
   NOTION_PROPERTY_TYPES,
   createPropertyDefinition,
-} from "@/api";
+} from "../index";
 
 // Eventsデータベースのスキーマ定義（型安全 & クリーン）
 export const EVENTS_SCHEMA = {
@@ -30,4 +30,4 @@ export const EVENTS_SCHEMA = {
   }),
 } as const satisfies DatabaseSchema;
 
-export type Event = InferSchemaType<typeof EVENTS_SCHEMA>;
+export type NotionEvent = InferSchemaType<typeof EVENTS_SCHEMA>;

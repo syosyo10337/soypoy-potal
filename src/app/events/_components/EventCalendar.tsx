@@ -1,11 +1,11 @@
 "use client";
 
-import { format, getMonth, getYear, parseISO } from "date-fns";
+import { format, getMonth, getYear } from "date-fns";
 import { ja } from "date-fns/locale";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
-import type { Event } from "@/app/events/_api/model";
+import type { EventEntity } from "@/domain/entities/event";
 import EventCalendarTile from "./EventCalendarTile";
 import EventListItem from "./EventListItem";
 
@@ -23,16 +23,16 @@ const MIN_DATE = new Date(2023, 0, 1);
 const MAX_DATE = new Date(2025, 11, 31);
 
 interface EventCalendarProps {
-  events: Event[];
+  events: EventEntity[];
 }
 
 export default function EventCalendar({ events }: EventCalendarProps) {
   const [activeMonth, setActiveMonth] = useState<Date>(new Date());
-  const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   // 選択された月のイベントをフィルタリング
   const eventsForMonth = events.filter((event) => {
-    const eventDate = parseISO(event.date);
+    const eventDate = event.date;
     return (
       getMonth(eventDate) === getMonth(activeMonth) &&
       getYear(eventDate) === getYear(activeMonth)
@@ -40,7 +40,7 @@ export default function EventCalendar({ events }: EventCalendarProps) {
   });
 
   // イベントをクリックした時のハンドラー
-  const handleEventClick = (eventId: number) => {
+  const handleEventClick = (eventId: string) => {
     setSelectedEventId(eventId);
     // イベントIDがわかる位置までスクロール
     const element = document.getElementById(`event-${eventId}`);

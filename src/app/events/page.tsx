@@ -1,9 +1,9 @@
+import { eventService } from "@/services/eventService";
 import { notFound } from "next/navigation";
-import { getEvents } from "./_api/endpoints";
 import EventCalendar from "./_components/EventCalendar";
 
 export default async function EventsPage() {
-  const events = await getEvents();
+  const events = await eventService.getAllEvents();
   if (events.length === 0) notFound();
 
   return (

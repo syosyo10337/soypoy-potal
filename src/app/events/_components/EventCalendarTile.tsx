@@ -1,11 +1,11 @@
+import type { EventEntity } from "@/domain/entities/event";
 import { DateTime } from "luxon";
-import type { Event } from "@/app/events/_api/model";
 
 interface EventCalendarTileProps {
-  events: Event[];
+  events: EventEntity[];
   date: Date;
   view: string;
-  onEventClick: (eventId: number) => void;
+  onEventClick: (eventId: string) => void;
 }
 
 // TODO: propsを見直す。
@@ -19,7 +19,7 @@ export default function EventCalendarTile({
 
   const currentDate = DateTime.fromJSDate(date).startOf("day").toISO();
   const eventsForDay = events.filter((event) => {
-    const eventDate = DateTime.fromISO(event.date).startOf("day").toISO();
+    const eventDate = DateTime.fromJSDate(event.date).startOf("day").toISO();
     return eventDate === currentDate;
   });
 
