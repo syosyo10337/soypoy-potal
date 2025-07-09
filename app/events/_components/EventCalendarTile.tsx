@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import type { Event } from "../ _api/model";
+import type { Event } from "@/app/events/_api/model";
 
 interface EventCalendarTileProps {
   events: Event[];

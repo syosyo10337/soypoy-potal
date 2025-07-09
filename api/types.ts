@@ -1,10 +1,12 @@
 import type { PageObjectResponse } from "@notionhq/client";
 
 // Notionの実際の型定義から動的に抽出
-export type NotionPropertyType =
-  PageObjectResponse["properties"][string]["type"];
+type NotionPropertyType = PageObjectResponse["properties"][string]["type"];
 
-// プロジェクトで実際に使用するプロパティ型のサブセット
+/**
+ * プロジェクトで実際に使用するプロパティ型のサブセット
+ * getPropertyValueはでは未サポートのタイプを処理できないため、使用するプロパティをサブセットにしている
+ */
 export type UsedNotionPropertyType = Extract<
   NotionPropertyType,
   | "title"
@@ -18,10 +20,9 @@ export type UsedNotionPropertyType = Extract<
   | "checkbox"
   | "url"
   | "email"
-  | "phone_number"
 >;
 
-export type PropertyValueTypeMap = {
+type PropertyValueTypeMap = {
   title: string;
   rich_text: string;
   date: string;

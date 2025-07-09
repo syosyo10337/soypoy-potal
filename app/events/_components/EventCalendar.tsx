@@ -5,7 +5,7 @@ import { ja } from "date-fns/locale";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
-import type { Event } from "../ _api/model";
+import type { Event } from "@/app/events/_api/model";
 import EventCalendarTile from "./EventCalendarTile";
 import EventListItem from "./EventListItem";
 
@@ -79,7 +79,9 @@ export default function EventCalendar({ events }: EventCalendarProps) {
             className="bg-transparent border-0 text-white"
             onActiveStartDateChange={(args) => {
               if (args.activeStartDate) {
-                handleActiveStartDateChange({ activeStartDate: args.activeStartDate });
+                handleActiveStartDateChange({
+                  activeStartDate: args.activeStartDate,
+                });
               }
             }}
             minDate={MIN_DATE}

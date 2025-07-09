@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
+import { getEvents } from "./_api/endpoints";
 import EventCalendar from "./_components/EventCalendar";
-import { getEvents } from "@/app/events/ _api/endpoints";
 
 export default async function EventsPage() {
   const events = await getEvents();
