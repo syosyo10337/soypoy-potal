@@ -1,33 +1,27 @@
 import {
-  type DatabaseSchema,
+  type NotionDBSchema,
   type InferSchemaType,
-  NOTION_PROPERTY_TYPES,
-  createPropertyDefinition,
-} from "../index";
+  NOTION_PROPERTY,
+} from "@/infrastructure/notion/config";
 
-// Eventsデータベースのスキーマ定義（型安全 & クリーン）
-export const EVENTS_SCHEMA = {
-  id: createPropertyDefinition("ID", NOTION_PROPERTY_TYPES.UNIQUE_ID, {
-    required: true,
-  }),
-  title: createPropertyDefinition("Name", NOTION_PROPERTY_TYPES.TITLE, {
-    required: true,
-  }),
-  date: createPropertyDefinition("Date", NOTION_PROPERTY_TYPES.DATE, {
-    required: true,
-  }),
-  description: createPropertyDefinition(
-    "Description",
-    NOTION_PROPERTY_TYPES.RICH_TEXT,
-    {
-      required: false,
-      defaultValue: "",
-    },
-  ),
-  imageUrl: createPropertyDefinition("ImageUrl", NOTION_PROPERTY_TYPES.FILES, {
-    required: false,
+export const eventSchema = {
+  id: { name: "ID", type: NOTION_PROPERTY.UNIQUE_ID },
+  publicationStatus: {
+    name: "Status",
+    type: NOTION_PROPERTY.SELECT,
+  },
+  title: { name: "Name", type: NOTION_PROPERTY.TITLE },
+  date: { name: "Date", type: NOTION_PROPERTY.DATE },
+  description: {
+    name: "Description",
+    type: NOTION_PROPERTY.RICH_TEXT,
     defaultValue: "",
-  }),
-} as const satisfies DatabaseSchema;
+  },
+  imageUrl: {
+    name: "ImageUrl",
+    type: NOTION_PROPERTY.FILES,
+    defaultValue: "",
+  },
+} as const satisfies NotionDBSchema;
 
-export type NotionEvent = InferSchemaType<typeof EVENTS_SCHEMA>;
+export type NotionEvent = InferSchemaType<typeof eventSchema>;

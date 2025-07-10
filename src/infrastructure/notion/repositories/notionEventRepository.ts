@@ -2,7 +2,8 @@ import type { EventEntity } from "@/domain/entities/event";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { getPage, queryDatabase } from "../client/queries";
 import { NOTION_DB_KEYS } from "../config/constants";
-import { EVENTS_SCHEMA, type NotionEvent } from "../config/schemas/eventSchema";
+import { eventSchema, type NotionEvent } from "../config/schemas/eventSchema";
+import { DateTime } from "luxon";
 
 /**
  * Notion実装のEventRepository（読み取り専用）
@@ -15,7 +16,7 @@ export class NotionEventRepository implements EventRepository {
     try {
       const notionEvents = await queryDatabase<NotionEvent>(
         NOTION_DB_KEYS.events,
-        EVENTS_SCHEMA,
+        eventSchema,
         {
           sorts: [{ property: "Date", direction: "ascending" }],
         },
@@ -33,7 +34,7 @@ export class NotionEventRepository implements EventRepository {
    */
   async findById(id: string): Promise<EventEntity | null> {
     try {
-      const notionEvent = await getPage<NotionEvent>(id, EVENTS_SCHEMA);
+      const notionEvent = await getPage<NotionEvent>(id, eventSchema);
       return notionEvent ? this.toDomainEntity(notionEvent) : null;
     } catch (error) {
       console.error("Error fetching event:", error);
@@ -46,9 +47,10 @@ export class NotionEventRepository implements EventRepository {
    */
   private toDomainEntity(notionEvent: NotionEvent): EventEntity {
     return {
-      id: notionEvent.id.toString(),
+      id: notionEvent.id,
+      publicationStatus: notionEvent.publicationStatus,
       title: notionEvent.title,
-      date: new Date(notionEvent.date),
+      date: DateTime.fromISO(notionEvent.date),
       description: notionEvent.description,
       imageUrl: notionEvent.imageUrl,
     };

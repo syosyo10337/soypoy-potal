@@ -2,10 +2,10 @@ import type { PageObjectResponse } from "@notionhq/client";
 import { isFullPage } from "@notionhq/client";
 import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
 import type {
-  DatabaseSchema,
-  PropertyValueType,
-  UsedNotionPropertyType,
-} from "../config/types";
+  NotionDBSchema,
+  NotionPropertyTypeToTS,
+  SupportedNotionPropertyType,
+} from "../config";
 import { notion } from "./notionClient";
 
 /**
@@ -17,7 +17,7 @@ import { notion } from "./notionClient";
  */
 export async function queryDatabase<T extends Record<string, unknown>>(
   databaseId: string,
-  schema: DatabaseSchema,
+  schema: NotionDBSchema,
   options?: {
     sorts?: QueryDatabaseParameters["sorts"];
     filter?: QueryDatabaseParameters["filter"];
@@ -49,7 +49,7 @@ export async function queryDatabase<T extends Record<string, unknown>>(
  */
 export async function getPage<T extends Record<string, unknown>>(
   pageId: string,
-  schema: DatabaseSchema,
+  schema: NotionDBSchema,
 ): Promise<T | null> {
   try {
     const response = await notion.pages.retrieve({ page_id: pageId });
@@ -66,14 +66,14 @@ export async function getPage<T extends Record<string, unknown>>(
 }
 
 /**
- * 汎用的なNotionページからオブジェクトへの変換関数
+ * Notionページオブジェクトから、スキーマに定義した型のオブジェクトへの変換関数
  * @param page Notionページ
  * @param schema スキーマ
  * @returns 変換後のオブジェクト
  */
 function parseNotionPage<T extends Record<string, unknown>>(
   page: PageObjectResponse,
-  schema: DatabaseSchema,
+  schema: NotionDBSchema,
 ): T {
   const result: Record<string, unknown> = {};
 
@@ -86,17 +86,31 @@ function parseNotionPage<T extends Record<string, unknown>>(
 }
 
 /**
- * プロパティ値を取得するヘルパー関数
- * @param page ページ
- * @param propertyName プロパティ名
- * @param propertyType プロパティ型
- * @returns プロパティ値
+ * raw responseから、プロパティの値を取得するヘルパー関数
+ * それぞれのpropertyタイプごとに、異なるデータの取得方法を定義する。
+ *
+ * e.g. "published"の値のセレクトボックスの時 raw responseは以下のようになる。
+ * ```
+ *  "Status": {
+ *    "id": "Ibl%5C",
+ *    "type": "select",
+ *    "select": {
+ *      "id": "7f078b19-5a0f-40f5-9981-0a10361b28ce",
+ *      "name": "published",
+ *      "color": "green"
+ *    }
+ *  },
+ * ```
+ * @param page ページのレスポンスオブジェクト
+ * @param propertyName Notionのプロパティ名
+ * @param propertyType Notionのプロパティ型
+ * @returns プロパティの値
  */
 function getPropertyValue(
   page: PageObjectResponse,
   propertyName: string,
-  propertyType: UsedNotionPropertyType,
-): PropertyValueType<UsedNotionPropertyType> | null {
+  propertyType: SupportedNotionPropertyType,
+): NotionPropertyTypeToTS<SupportedNotionPropertyType> | null {
   const property = page.properties[propertyName];
   if (!property || property.type !== propertyType) return null;
 

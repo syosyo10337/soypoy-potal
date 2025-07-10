@@ -1,60 +1,55 @@
 import type { PageObjectResponse } from "@notionhq/client";
-
-// Notionの実際の型定義から動的に抽出
-type NotionPropertyType = PageObjectResponse["properties"][string]["type"];
+import type { NotionPropertyTypeToTS } from "./typeUtils";
 
 /**
  * プロジェクトで実際に使用するプロパティ型のサブセット
- * getPropertyValueはでは未サポートのタイプを処理できないため、使用するプロパティをサブセットにしている
+ * PropertyValueTypeMapのキーから自動生成される
+ * getPropertyValueでは未サポートのタイプを処理できないため、使用するプロパティをサブセットにしている
  */
-export type UsedNotionPropertyType = Extract<
+export type SupportedNotionPropertyType = Extract<
   NotionPropertyType,
-  | "title"
-  | "rich_text"
-  | "date"
-  | "files"
-  | "number"
-  | "unique_id"
-  | "select"
-  | "multi_select"
-  | "checkbox"
-  | "url"
-  | "email"
+  keyof NotionPropertyTypeToTSMap
 >;
-
-type PropertyValueTypeMap = {
+/**
+ * NotionのプロパティタイプのUnion
+ */
+type NotionPropertyType = PageObjectResponse["properties"][string]["type"];
+/**
+ * NotionDBのプロパティタイプとアプリ内での型をマッピング
+ */
+export interface NotionPropertyTypeToTSMap {
   title: string;
   rich_text: string;
   date: string;
   files: string;
   number: number;
-  unique_id: number;
+  unique_id: string;
   select: string;
   multi_select: string[];
   checkbox: boolean;
   url: string;
   email: string;
-  phone_number: string;
-};
-
-export type PropertyValueType<T extends UsedNotionPropertyType> =
-  PropertyValueTypeMap[T];
-
-export interface PropertyDefinition<
-  T extends UsedNotionPropertyType = UsedNotionPropertyType,
-> {
-  name: string;
-  type: T;
-  required?: boolean;
-  defaultValue?: PropertyValueType<T>;
 }
 
-// データベーススキーマの型
-export interface DatabaseSchema {
+/**
+ * データベーススキーマの型
+ */
+export interface NotionDBSchema {
   [key: string]: PropertyDefinition;
 }
 
-// スキーマから型を自動推論するユーティリティ型
-export type InferSchemaType<T extends DatabaseSchema> = {
-  [K in keyof T]: PropertyValueType<T[K]["type"]>;
-};
+/**
+ * データベーススキーマのプロパティ定義
+ *
+ * @template T プロパティのタイプ
+ */
+interface PropertyDefinition<
+  T extends SupportedNotionPropertyType = SupportedNotionPropertyType,
+> {
+  /** Notionデータベース内での実際のプロパティ名 */
+  name: string;
+  /** プロパティのタイプ */
+  type: T;
+  /** デフォルト値（オプション） */
+  defaultValue?: NotionPropertyTypeToTS<T>;
+}
