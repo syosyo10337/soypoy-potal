@@ -1,21 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
-# Run biome lint and tsc in parallel
-pnpm biome lint . &
-BIOME_PID=$!
-pnpm typecheck &
-TSC_PID=$!
+# checkコマンドをdocker compose経由で実行するシェルスクリプト
+# 使用方法: ./bin/check
 
-# Wait for both processes to complete and store their exit status
-wait $BIOME_PID
-BIOME_STATUS=$?
-wait $TSC_PID
-TSC_STATUS=$?
+# コンテナが起動しているか確認
+CONTAINER_RUNNING=$(docker compose ps --status running --services | grep app || true)
 
-# Check if either process failed
-if [ $BIOME_STATUS -ne 0 ] || [ $TSC_STATUS -ne 0 ]; then
-  echo "❌ Checks failed"
-  exit 1
-fi
-
-echo "✅ All checks passed" 
+if [ -z "$CONTAINER_RUNNING" ]; then
+  echo "ℹ️  開発コンテナが実行されていません。一時的なコンテナで実行します..."
+  echo "🔄 'pnpm check' を実行中..."
+  docker compose run --rm app pnpm check
+else
+  echo "🔄 開発コンテナ内で 'pnpm check' を実行中..."
+  docker compose exec app pnpm check
+fi 
