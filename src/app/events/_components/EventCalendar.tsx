@@ -1,13 +1,13 @@
 "use client";
 
-import { format, getMonth, getYear } from "date-fns";
+import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import type { EventEntity } from "@/domain/entities/event";
-import EventCalendarTile from "./EventCalendarTile";
-import EventListItem from "./EventListItem";
+import { EventCalendarTile } from "./EventCalendarTile";
+import { EventListItem } from "./EventListItem";
 
 // カレンダーをクライアントサイドのみでレンダリングするためのダイナミックインポート
 const Calendar = dynamic(() => import("react-calendar"), {
@@ -34,8 +34,8 @@ export default function EventCalendar({ events }: EventCalendarProps) {
   const eventsForMonth = events.filter((event) => {
     const eventDate = event.date;
     return (
-      getMonth(eventDate) === getMonth(activeMonth) &&
-      getYear(eventDate) === getYear(activeMonth)
+      eventDate.month === activeMonth.getMonth() + 1 &&
+      eventDate.year === activeMonth.getFullYear()
     );
   });
 

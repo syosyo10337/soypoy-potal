@@ -9,7 +9,7 @@ interface EventCalendarTileProps {
 }
 
 // TODO: propsを見直す。
-export default function EventCalendarTile({
+export function EventCalendarTile({
   events,
   date,
   view,
@@ -19,7 +19,7 @@ export default function EventCalendarTile({
 
   const currentDate = DateTime.fromJSDate(date).startOf("day").toISO();
   const eventsForDay = events.filter((event) => {
-    const eventDate = DateTime.fromJSDate(event.date).startOf("day").toISO();
+    const eventDate = event.date.setZone("Asia/Tokyo").startOf("day").toISO();
     return eventDate === currentDate;
   });
 

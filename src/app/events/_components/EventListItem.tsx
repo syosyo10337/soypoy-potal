@@ -1,6 +1,5 @@
 import type { EventEntity } from "@/domain/entities/event";
 import clsx from "clsx";
-import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,12 +8,9 @@ interface EventListItemProps {
   selectedEventId?: string;
 }
 
-export default function EventListItem({
-  event,
-  selectedEventId,
-}: EventListItemProps) {
+export function EventListItem({ event, selectedEventId }: EventListItemProps) {
   // JSTタイムゾーンで日付をパース
-  const eventDate = DateTime.fromJSDate(event.date, { zone: "Asia/Tokyo" });
+  const eventDate = event.date.setZone("Asia/Tokyo");
 
   return (
     <div
