@@ -11,6 +11,7 @@
 - `./bin/lint`: コンテナ内でコードの静的解析を実行します
 - `./bin/lint:fix`: コンテナ内で自動修正可能な問題を修正します
 - `./bin/format`: コンテナ内でコードのフォーマットを実行します
+- `./bin/check`: コンテナ内でtsc・lint:fix・formatを順次実行します
 
 ## 使用方法
 
@@ -31,6 +32,7 @@
 ./bin/lint        # コードの静的解析を実行
 ./bin/lint:fix    # 自動修正可能な問題を修正
 ./bin/format      # コードのフォーマットを実行
+./bin/check       # tsc・lint:fix・formatをまとめて実行
 ```
 
 ## 注意事項
