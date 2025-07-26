@@ -11,7 +11,6 @@
     "format": "biome format --write .",
     "tsc": "tsc --noEmit",
     "check": "concurrently --kill-others-on-fail \"pnpm tsc\" \"pnpm lint:fix\" && pnpm format",
-    "sync_rules": "node scripts/syncRules.js",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio"
   },
