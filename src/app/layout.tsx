@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Zen_Old_Mincho } from "next/font/google";
+import { Geist, Geist_Mono, Zen_Old_Mincho } from "next/font/google";
 import "./globals.css";
-import { apiPlugin, storyblokInit } from "@storyblok/react";
 import Header from "./components/Header";
 import { CacheProvider } from "./contexts/CacheContext";
-
-// Storyblokの初期化
-storyblokInit({
-  accessToken: process.env.STORYBLOK_API_TOKEN,
-  use: [apiPlugin],
-  apiOptions: {
-    region: "eu",
-  },
-});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
