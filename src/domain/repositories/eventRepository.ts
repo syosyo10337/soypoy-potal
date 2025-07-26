@@ -13,5 +13,5 @@ export interface EventRepository {
   /**
    * IDによるイベント取得
    */
-  findById(id: string): Promise<EventEntity | null>;
+  findById(id: string): Promise<EventEntity | undefined>;
 }

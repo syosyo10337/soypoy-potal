@@ -1,4 +1,5 @@
 import type { EventEntity } from "@/domain/entities/event";
+import { dateTimeFromISO } from "@/utils/date";
 import { DateTime } from "luxon";
 
 interface EventCalendarTileProps {
@@ -19,7 +20,7 @@ export function EventCalendarTile({
 
   const currentDate = DateTime.fromJSDate(date).startOf("day").toISO();
   const eventsForDay = events.filter((event) => {
-    const eventDate = event.date.setZone("Asia/Tokyo").startOf("day").toISO();
+    const eventDate = dateTimeFromISO(event.date).startOf("day").toISO();
     return eventDate === currentDate;
   });
 

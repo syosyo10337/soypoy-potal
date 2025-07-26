@@ -19,7 +19,7 @@ export class EventService {
   /**
    * IDによるイベント取得
    */
-  async getEventById(id: string): Promise<EventEntity | null> {
+  async getEventById(id: string): Promise<EventEntity | undefined> {
     return await this.repository.findById(id);
   }
 }

@@ -1,4 +1,5 @@
 import type { EventEntity } from "@/domain/entities/event";
+import { formatDateJP, formatTime } from "@/utils/date";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +10,8 @@ interface EventListItemProps {
 }
 
 export function EventListItem({ event, selectedEventId }: EventListItemProps) {
-  // JSTタイムゾーンで日付をパース
-  const eventDate = event.date.setZone("Asia/Tokyo");
+  const imageUrl =
+    event.imageUrl === "" ? "/images/no-image.png" : event.imageUrl;
 
   return (
     <div
@@ -24,7 +25,7 @@ export function EventListItem({ event, selectedEventId }: EventListItemProps) {
       <div className="md:flex">
         <div className="md:w-1/3 relative">
           <Image
-            src={event.imageUrl}
+            src={imageUrl}
             alt={event.title}
             className="w-full h-48 md:h-full object-cover"
             width={800}
@@ -52,7 +53,7 @@ export function EventListItem({ event, selectedEventId }: EventListItemProps) {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span>{eventDate.toFormat("yyyy年MM月dd日")}</span>
+              <span>{formatDateJP(event.date)}</span>
             </div>
             <div className="flex items-center text-gray-400">
               <svg
@@ -70,7 +71,7 @@ export function EventListItem({ event, selectedEventId }: EventListItemProps) {
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span>{eventDate.toFormat("HH:mm")}</span>
+              <span>{formatTime(event.date)}</span>
             </div>
           </div>
           <p className="text-gray-300 mb-4 flex-grow">{event.description}</p>

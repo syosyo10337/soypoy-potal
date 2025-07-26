@@ -4,6 +4,7 @@ import EventCalendar from "./_components/EventCalendar";
 
 export default async function EventsPage() {
   const events = await eventService.getAllEvents();
+
   if (events.length === 0) notFound();
 
   return (

@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import type { EventEntity } from "@/domain/entities/event";
+import { dateTimeFromISO } from "@/utils/date";
 import { EventCalendarTile } from "./EventCalendarTile";
 import { EventListItem } from "./EventListItem";
 
@@ -32,7 +33,7 @@ export default function EventCalendar({ events }: EventCalendarProps) {
 
   // 選択された月のイベントをフィルタリング
   const eventsForMonth = events.filter((event) => {
-    const eventDate = event.date;
+    const eventDate = dateTimeFromISO(event.date);
     return (
       eventDate.month === activeMonth.getMonth() + 1 &&
       eventDate.year === activeMonth.getFullYear()
