@@ -13,4 +13,4 @@ if [ -z "$CONTAINER_RUNNING" ]; then
 else
   echo "🔄 開発コンテナ内で 'pnpm check' を実行中..."
   docker compose exec app pnpm check
-fi 
+fi
