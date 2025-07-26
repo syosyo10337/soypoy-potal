@@ -1,0 +1,107 @@
+---
+description: SOY-POYプロジェクトのClean Architecture実装ルールとガイドライン
+globs: 
+alwaysApply: true
+---
+
+# SOY-POY Project Clean Architecture Rules
+
+## Project Overview
+This is a Homepage for community bar named "SOY-POY" built with Next.js App Router and Clean Architecture.
+
+## Directory Structure (Clean Architecture)
+
+```
+src/
+├── app/              # App Router (Presentation Layer) - UI, Pages, Components
+├── domain/           # Domain Layer - Entities, Repository Interfaces
+├── services/         # Application Layer - Business Logic, Use Cases
+└── infrastructure/   # Infrastructure Layer - External System Connections (Notion, DB, APIs)
+```
+
+## Clean Architecture Dependency Rules
+
+### ✅ ALLOWED Dependencies (Inner ← Outer)
+```
+app/           → services/        ✅ (UI can use business logic)
+app/           → domain/          ✅ (UI can use entities)
+services/      → domain/          ✅ (Use cases can use entities)
+infrastructure/ → domain/         ✅ (External adapters can implement domain interfaces)
+```
+
+### ❌ FORBIDDEN Dependencies (Inner → Outer)
+```
+domain/        → infrastructure/  ❌ (Domain must NOT depend on external systems)
+domain/        → services/        ❌ (Entities must NOT depend on use cases)
+domain/        → app/             ❌ (Domain must NOT depend on UI)
+services/      → infrastructure/  ❌ (Use cases should NOT directly depend on external systems)
+services/      → app/             ❌ (Business logic must NOT depend on UI)
+```
+
+## Implementation Guidelines
+
+### Domain Layer (`src/domain/`)
+- Contains pure business entities and interfaces
+- NO external dependencies (no imports from infrastructure, services, or app)
+- Define repository interfaces that infrastructure will implement
+- Examples: `EventEntity`, `EventRepository` interface
+
+### Services Layer (`src/services/`)
+- Contains business logic and use cases
+- Can ONLY depend on domain layer
+- Accepts repository interfaces via dependency injection
+- Examples: `EventService`, use case implementations
+
+### Infrastructure Layer (`src/infrastructure/`)
+- Contains external system implementations
+- Implements domain repository interfaces
+- Can depend on domain layer for interfaces
+- Examples: `NotionEventRepository`, database connections, API clients
+
+### App Layer (`src/app/`)
+- Contains UI components, pages, hooks
+- Can use services and domain entities
+- Should NOT directly use infrastructure implementations
+- Use dependency injection to connect services to infrastructure
+
+## Code Style
+
+### Import Rules
+```typescript
+// ✅ GOOD: Importing from inner layers
+import { EventEntity } from '@/domain/entities/event';
+import { eventService } from '@/services/eventService';
+
+// ❌ BAD: Domain importing from outer layers  
+// In domain/: import { NotionClient } from '@/infrastructure/notion';
+```
+
+### Dependency Injection Pattern
+```typescript
+// ✅ GOOD: Service accepts repository interface
+export class EventService {
+  constructor(private repository: EventRepository) {}
+}
+
+// ✅ GOOD: Infrastructure implements domain interface
+export class NotionEventRepository implements EventRepository {
+  // implementation
+}
+
+// ✅ GOOD: Wiring in services layer
+export const eventService = new EventService(new NotionEventRepository());
+```
+
+## Technology Stack
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Package Manager**: pnpm
+- **Data Source**: Notion API (current), designed for easy migration to other DBs/APIs
+- **Architecture**: Clean Architecture with Repository Pattern
+
+## Development Rules
+- Always follow Clean Architecture dependency rules
+- Use Repository Pattern for data access abstraction
+- Implement interfaces in domain, concrete classes in infrastructure
+- Keep domain layer pure and framework-agnostic
+- Use dependency injection for connecting layers
