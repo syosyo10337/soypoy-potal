@@ -3,21 +3,15 @@
 import { motion } from "framer-motion";
 import { throttle } from "lodash";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import AboutSection from "./components/AboutSection";
-import AccessSection from "./components/AccessSection";
-import EventSection from "./components/EventSection";
-import HeroSection from "./components/HeroSection";
+import AboutSection from "./ _components/AboutSection";
+import AccessSection from "./ _components/AccessSection";
+import HeroSection from "./ _components/HeroSection";
 
 // セクション名の定義
-const sectionNames = ["hero", "about", "event", "access"];
+const sectionNames = ["hero", "about", "access"];
 
 // セクションコンポーネントの配列
-const sectionComponents = [
-  HeroSection,
-  AboutSection,
-  EventSection,
-  AccessSection,
-];
+const sectionComponents = [HeroSection, AboutSection, AccessSection];
 
 export default function Page() {
   const [radius, setRadius] = useState(0);
