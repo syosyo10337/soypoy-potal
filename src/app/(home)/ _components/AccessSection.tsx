@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import Skeleton from "../../components/ui/Skeleton";
 import SectionWrapper from "./SectionWrapper";
-import Skeleton from "./ui/Skeleton";
 
 type AccessSectionProps = {
   onArrowClick?: () => void;
