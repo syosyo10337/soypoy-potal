@@ -6,13 +6,8 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Storyblokのドメインを許可
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "*.storyblok.com",
-      },
       {
         protocol: "https",
         hostname: "picsum.photos",

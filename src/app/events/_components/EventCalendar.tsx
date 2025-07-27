@@ -63,7 +63,9 @@ export default function EventCalendar({ events }: EventCalendarProps) {
   // 月が変更された時のハンドラー
   const handleActiveStartDateChange = ({
     activeStartDate,
-  }: { activeStartDate: Date }) => {
+  }: {
+    activeStartDate: Date;
+  }) => {
     if (activeStartDate) {
       setActiveMonth(activeStartDate);
     }

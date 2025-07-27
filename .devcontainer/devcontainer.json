@@ -1,6 +1,6 @@
 {
   "name": "soypoy-portal-devcontainer",
-  "dockerComposeFile": "../docker-compose.yml",
+  "dockerComposeFile": "../compose.yml",
   "service": "app",
   "workspaceFolder": "/app",
   "customizations": {
