@@ -1,26 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import SectionWrapper from "./SectionWrapper";
-import Skeleton from "./ui/Skeleton";
-
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Skeleton from "../../components/ui/Skeleton";
+import SectionWrapper from "./SectionWrapper";
 
 // Swiperのスタイルをインポート
 import "swiper/css";
 import "swiper/css/autoplay";
-import { useState, useEffect, useMemo } from "react";
-import { useCache } from "../contexts/CacheContext";
+import { useEffect, useMemo, useState } from "react";
 
 type AboutSectionProps = {
   onArrowClick?: () => void;
 };
 
 export default function AboutSection({ onArrowClick }: AboutSectionProps) {
-  // キャッシュコンテキストを使用
-  const { addImageToCache, getImageFromCache } = useCache();
-
   // 画像の読み込み状態を管理する状態
   const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
   // キャッシュされた画像のURLを管理
@@ -70,12 +65,10 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
 
       for (const image of images) {
         // キャッシュから画像を取得または新たにキャッシュ
-        const cachedUrl =
-          getImageFromCache(image.src) || (await addImageToCache(image.src));
-        cachedUrls[image.id] = cachedUrl;
+        cachedUrls[image.id] = image.src;
 
         // 画像がキャッシュされたら読み込み完了とみなす
-        if (cachedUrl) {
+        if (image.src) {
           setImagesLoaded((prev) => ({
             ...prev,
             [image.id]: true,
@@ -87,7 +80,7 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
     };
 
     cacheImages();
-  }, [addImageToCache, getImageFromCache, images]);
+  }, [images]);
 
   // 画像が読み込まれたときのハンドラー
   const handleImageLoad = (id: number) => {

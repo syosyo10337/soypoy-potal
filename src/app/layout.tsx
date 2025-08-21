@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Zen_Old_Mincho } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
-import { CacheProvider } from "./contexts/CacheContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,10 +37,8 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${zenOldMincho.variable} antialiased min-h-screen flex flex-col relative`}
       >
-        <CacheProvider>
-          <Header />
-          <main className="flex-grow z-10 relative">{children}</main>
-        </CacheProvider>
+        <Header />
+        <main className="flex-grow z-10 relative">{children}</main>
       </body>
     </html>
   );
