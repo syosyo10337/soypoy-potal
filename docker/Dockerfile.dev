@@ -1,7 +1,7 @@
-FROM node:22.15.0-alpine3.21
+FROM node:24-alpine
+
 
 WORKDIR /app
-
 RUN apk update && apk add --no-cache \
     vim \
     git \
@@ -12,8 +12,11 @@ RUN apk update && apk add --no-cache \
 # cf. https://zenn.dev/monicle/articles/b7a9314f9f1efb
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+RUN chown -R node:node /app
+USER node
+
 # 依存関係をコピー
-COPY package.json pnpm-lock.yaml* ./
+COPY --chown=node:node package.json pnpm-lock.yaml* ./
 
 # 依存関係をインストール
 RUN pnpm install
@@ -23,11 +26,5 @@ COPY . .
 
 # ポートを公開
 EXPOSE 3000
-
-RUN chown -R node:node /app
-
-# nodeユーザーに切り替え
-USER node
-
 # コマンドを実行
 CMD ["pnpm", "dev"]
