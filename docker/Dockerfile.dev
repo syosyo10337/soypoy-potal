@@ -1,12 +1,11 @@
-FROM node:24-alpine
-
+FROM node:24
 
 WORKDIR /app
-RUN apk update && apk add --no-cache \
-    vim \
-    git \
-    curl \
-    bash
+# RUN apk update && apk add --no-cache \
+#     vim \
+#     git \
+#     curl \
+#     bash
 
 # pnpmインストール NOTE:corepackはNodeから分離されるので、依存し続けるか検討
 # cf. https://zenn.dev/monicle/articles/b7a9314f9f1efb
@@ -26,5 +25,8 @@ COPY . .
 
 # ポートを公開
 EXPOSE 3000
+EXPOSE 8787
+EXPOSE 8976
+
 # コマンドを実行
 CMD ["pnpm", "dev"]
