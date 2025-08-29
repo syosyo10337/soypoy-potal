@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { throttle } from "lodash";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import AboutSection from "./ _components/AboutSection";
-import AccessSection from "./ _components/AccessSection";
-import HeroSection from "./ _components/HeroSection";
+import AboutSection from "./_components/AboutSection";
+import AccessSection from "./_components/AccessSection";
+import HeroSection from "./_components/HeroSection";
 
 // セクション名の定義
 const sectionNames = ["hero", "about", "access"];

@@ -1,19 +1,21 @@
-FROM node:22.15.0-alpine3.21
+FROM node:24
 
 WORKDIR /app
-
-RUN apk update && apk add --no-cache \
-    vim \
-    git \
-    curl \
-    bash
+# RUN apk update && apk add --no-cache \
+#     vim \
+#     git \
+#     curl \
+#     bash
 
 # pnpmインストール NOTE:corepackはNodeから分離されるので、依存し続けるか検討
 # cf. https://zenn.dev/monicle/articles/b7a9314f9f1efb
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+RUN chown -R node:node /app
+USER node
+
 # 依存関係をコピー
-COPY package.json pnpm-lock.yaml* ./
+COPY --chown=node:node package.json pnpm-lock.yaml* ./
 
 # 依存関係をインストール
 RUN pnpm install
@@ -23,11 +25,8 @@ COPY . .
 
 # ポートを公開
 EXPOSE 3000
-
-RUN chown -R node:node /app
-
-# nodeユーザーに切り替え
-USER node
+EXPOSE 8787
+EXPOSE 8976
 
 # コマンドを実行
 CMD ["pnpm", "dev"]
