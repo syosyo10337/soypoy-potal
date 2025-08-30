@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Skeleton from "../../components/ui/Skeleton";
+import Skeleton from "../../_components/ui/Skeleton";
 import SectionWrapper from "./SectionWrapper";
 
 // Swiperのスタイルをインポート
