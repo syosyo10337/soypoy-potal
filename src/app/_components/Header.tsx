@@ -1,14 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
 
 const navItems = [
-  { name: "ABOUT", href: "/about" },
-  { name: "MEMBERS", href: "/members" },
-  { name: "EVENTS", href: "/events" },
+  { name: "About", href: "/about" },
+  { name: "Events", href: "/events" },
+  { name: "History", href: "/history" },
+  { name: "Social", href: "/social" },
   { name: "CONTACT", href: "/contact" },
 ];
 
@@ -34,111 +42,148 @@ export default function Header() {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 right-0 z-50 p-3 md:p-4">
-      <motion.button
-        type="button"
-        aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative z-[10000] p-2 text-black"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
-      >
-        <div className="relative w-6 h-5">
-          <span
-            className={`absolute left-0 w-full h-0.5 bg-black transition-all duration-300 ${
-              isOpen ? "top-2 rotate-45" : "top-0"
-            }`}
-          />
-          <span
-            className={`absolute left-0 top-2 w-full h-0.5 bg-black transition-opacity duration-300 ${
-              isOpen ? "opacity-0" : "opacity-100"
-            }`}
-          />
-          <span
-            className={`absolute left-0 w-full h-0.5 bg-black transition-all duration-300 ${
-              isOpen ? "top-2 -rotate-45" : "top-4"
-            }`}
-          />
-        </div>
-      </motion.button>
+    <header
+      className="fixed top-0 left-0 right-0 z-50 px-4 py-3 border-b"
+      style={{
+        backgroundColor: "#F3F0E6",
+        borderBottomColor: "#E5E0D8",
+      }}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <Link
+            href="/"
+            className="text-2xl font-bold"
+            style={{ color: "#000000" }}
+          >
+            SOYPOY
+          </Link>
+        </motion.div>
 
-      {mounted &&
-        createPortal(
-          <>
-            <div
-              className={`fixed inset-0 bg-black/80 backdrop-blur-md z-[9998] transition-opacity duration-300 ${
-                isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}
-              onClick={() => setIsOpen(false)}
-              onKeyDown={(e) => {
-                if (e.key === "Escape") {
-                  setIsOpen(false);
-                }
-              }}
-              role="button"
-              tabIndex={0}
-            />
-            <div
-              className={`fixed inset-0 z-[9999] flex flex-col h-screen transition-all duration-500 ${
-                isOpen
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8 pointer-events-none"
-              }`}
-            >
-              <div className="flex justify-end p-4">
-                <button
-                  type="button"
-                  aria-label="メニューを閉じる"
-                  onClick={() => setIsOpen(false)}
-                  className="text-white p-2 hover:text-gray-300 transition-colors"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-8 h-8"
-                    aria-hidden="true"
+        {/* Desktop Navigation */}
+        <motion.div
+          className="hidden md:block"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+        >
+          <NavigationMenu>
+            <NavigationMenuList className="gap-6">
+              {navItems.map((item, index) => (
+                <NavigationMenuItem key={item.name}>
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: 0.2 + index * 0.1,
+                      ease: "easeOut",
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <nav className="flex items-center justify-center flex-1 w-full">
-                <ul className="w-full max-w-md mx-auto space-y-8 p-8">
-                  {navItems.map((item, index) => (
-                    <li
-                      key={item.name}
-                      className="overflow-hidden"
-                      style={{
-                        transform: isOpen
-                          ? "translateY(0)"
-                          : "translateY(20px)",
-                        opacity: isOpen ? 1 : 0,
-                        transition: `all 0.5s ease ${index * 0.1 + 0.2}s`,
-                      }}
-                    >
+                    <NavigationMenuLink asChild>
                       <Link
                         href={item.href}
-                        className="block text-white text-3xl font-zen-old-mincho hover:text-gray-300 transition-colors duration-300 py-4 text-center"
-                        onClick={() => setIsOpen(false)}
+                        className="px-4 py-2 transition-colors duration-200 hover:bg-black/5 rounded-md font-medium"
+                        style={{ color: "#000000" }}
                       >
                         {item.name}
                       </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+                    </NavigationMenuLink>
+                  </motion.div>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+        </motion.div>
+
+        {/* Mobile Menu Button */}
+        <motion.div
+          className="md:hidden"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
+            className="p-2 hover:bg-black/5"
+            style={{ color: "#000000" }}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </Button>
+        </motion.div>
+      </div>
+
+      {/* Mobile Navigation Overlay */}
+      {mounted && isOpen && (
+        <motion.div
+          className="fixed inset-0 z-[9999] md:hidden"
+          style={{ backgroundColor: "#F3F0E6" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="flex flex-col h-screen">
+            {/* Mobile Header */}
+            <div
+              className="flex items-center justify-between p-4 border-b"
+              style={{ borderBottomColor: "#E5E0D8" }}
+            >
+              <Link
+                href="/"
+                className="text-2xl font-bold"
+                style={{ color: "#000000" }}
+              >
+                SOYPOY
+              </Link>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsOpen(false)}
+                className="p-2 hover:bg-black/5"
+                style={{ color: "#000000" }}
+              >
+                <X size={24} />
+              </Button>
             </div>
-          </>,
-          document.body,
-        )}
+
+            {/* Mobile Navigation */}
+            <nav className="flex-1 px-4 py-8">
+              <ul className="space-y-6">
+                {navItems.map((item, index) => (
+                  <motion.li
+                    key={item.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      duration: 0.4,
+                      delay: index * 0.1,
+                      ease: "easeOut",
+                    }}
+                  >
+                    <Link
+                      href={item.href}
+                      className="block text-xl font-medium py-3 px-4 rounded-md transition-colors duration-200 hover:bg-black/5"
+                      style={{ color: "#000000" }}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </motion.div>
+      )}
     </header>
   );
 }
