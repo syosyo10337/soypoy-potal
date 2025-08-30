@@ -3,13 +3,14 @@
 import Image from "next/image";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Skeleton from "../../components/ui/Skeleton";
+
 import SectionWrapper from "./SectionWrapper";
 
 // Swiperのスタイルをインポート
 import "swiper/css";
 import "swiper/css/autoplay";
 import { useEffect, useMemo, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type AboutSectionProps = {
   onArrowClick?: () => void;
@@ -149,10 +150,7 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
               <div className="relative h-[300px] overflow-hidden rounded-xl transition-all duration-500 hover:shadow-lg">
                 {!imagesLoaded[image.id] && (
                   <div className="absolute inset-0 z-10">
-                    <Skeleton
-                      className="h-full w-full bg-gray-300/20"
-                      rounded="rounded-xl"
-                    />
+                    <Skeleton className="h-full w-full"/>
                   </div>
                 )}
                 <Image

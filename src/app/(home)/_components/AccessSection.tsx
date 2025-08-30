@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import Skeleton from "../../components/ui/Skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import SectionWrapper from "./SectionWrapper";
 
 type AccessSectionProps = {
@@ -89,10 +89,7 @@ export default function AccessSection({ onArrowClick }: AccessSectionProps) {
         <div className="w-full md:w-1/2 h-[400px] rounded-lg overflow-hidden relative">
           {!imageLoaded && (
             <div className="absolute inset-0 z-10">
-              <Skeleton
-                className="h-full w-full bg-gray-300/20"
-                rounded="rounded-lg"
-              />
+              <Skeleton className="h-full w-full" />
             </div>
           )}
           {/* 画像が初期化された場合のみ表示 */}
