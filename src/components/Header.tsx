@@ -25,14 +25,8 @@ const navItems = [
 
 export default function Header() {
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 px-4 py-3 border-b bg-soypoy-main"
-      style={{
-        borderBottomColor: "#E5E0D8",
-      }}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 py-3 border-b border-soypoy-border bg-soypoy-main">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
         <div>
           <Link href="/" className="text-2xl font-bold text-soypoy-secondary">
             SOYPOY
@@ -48,8 +42,7 @@ export default function Header() {
                   <NavigationMenuLink asChild>
                     <Link
                       href={item.href}
-                      className="px-6 py-3 transition-colors duration-200 hover:bg-black/5 rounded-md font-medium text-soypoy-secondary tracking-wide"
-                      style={{ fontFamily: "var(--font-inter)" }}
+                      className="px-6 py-3 transition-colors duration-200 hover:bg-black/5 rounded-md font-medium tracking-wide font-inter text-soypoy-secondary"
                     >
                       {item.name}
                     </Link>
@@ -75,13 +68,9 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="bg-soypoy-main border-r"
-              style={{ borderRightColor: "#E5E0D8" }}
+              className="bg-soypoy-main border-r border-soypoy-border"
             >
-              <SheetHeader
-                className="border-b pb-4"
-                style={{ borderBottomColor: "#E5E0D8" }}
-              >
+              <SheetHeader className="border-b border-soypoy-border pb-4">
                 <SheetTitle>
                   <Link
                     href="/"
@@ -99,8 +88,7 @@ export default function Header() {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className="block text-lg font-medium py-4 px-4 rounded-lg transition-colors duration-200 hover:bg-black/5 text-soypoy-secondary"
-                        style={{ fontFamily: "var(--font-inter)" }}
+                        className="block text-lg font-medium py-4 px-4 rounded-lg transition-colors duration-200 hover:bg-black/5 font-inter text-soypoy-secondary"
                       >
                         {item.name}
                       </Link>
