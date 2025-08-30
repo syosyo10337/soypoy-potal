@@ -1,9 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -11,6 +7,13 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const navItems = [
   { name: "About", href: "/about" },
@@ -21,26 +24,6 @@ const navItems = [
 ];
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
-
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 px-4 py-3 border-b bg-soypoy-main"
@@ -50,129 +33,85 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
+        <div>
           <Link href="/" className="text-2xl font-bold text-soypoy-secondary">
             SOYPOY
           </Link>
-        </motion.div>
+        </div>
 
         {/* Desktop Navigation */}
-        <motion.div
-          className="hidden md:block"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-        >
+        <div className="hidden md:block">
           <NavigationMenu>
-            <NavigationMenuList className="gap-6">
-              {navItems.map((item, index) => (
+            <NavigationMenuList className="gap-8">
+              {navItems.map((item) => (
                 <NavigationMenuItem key={item.name}>
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: 0.2 + index * 0.1,
-                      ease: "easeOut",
-                    }}
-                  >
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href={item.href}
-                        className="px-4 py-2 transition-colors duration-200 hover:bg-black/5 rounded-md font-medium text-soypoy-secondary"
-                      >
-                        {item.name}
-                      </Link>
-                    </NavigationMenuLink>
-                  </motion.div>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={item.href}
+                      className="px-6 py-3 transition-colors duration-200 hover:bg-black/5 rounded-md font-medium text-soypoy-secondary tracking-wide"
+                      style={{ fontFamily: "var(--font-inter)" }}
+                    >
+                      {item.name}
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-        </motion.div>
+        </div>
 
-        {/* Mobile Menu Button */}
-        <motion.div
-          className="md:hidden"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
-            className="p-2 hover:bg-black/5 text-soypoy-secondary"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </Button>
-        </motion.div>
-      </div>
-
-      {/* Mobile Navigation Overlay */}
-      {mounted && isOpen && (
-        <motion.div
-          className="fixed inset-0 z-[9999] md:hidden bg-soypoy-main"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="flex flex-col h-screen">
-            {/* Mobile Header */}
-            <div
-              className="flex items-center justify-between p-4 border-b"
-              style={{ borderBottomColor: "#E5E0D8" }}
-            >
-              <Link
-                href="/"
-                className="text-2xl font-bold text-soypoy-secondary"
-              >
-                SOYPOY
-              </Link>
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-black/5 text-soypoy-secondary"
+                className="p-3 hover:bg-black/5 text-soypoy-secondary"
+                aria-label="メニューを開く"
               >
-                <X size={24} />
+                <Menu size={24} />
               </Button>
-            </div>
-
-            {/* Mobile Navigation */}
-            <nav className="flex-1 px-4 py-8">
-              <ul className="space-y-6">
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.1,
-                      ease: "easeOut",
-                    }}
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="bg-soypoy-main border-r"
+              style={{ borderRightColor: "#E5E0D8" }}
+            >
+              <SheetHeader
+                className="border-b pb-4"
+                style={{ borderBottomColor: "#E5E0D8" }}
+              >
+                <SheetTitle>
+                  <Link
+                    href="/"
+                    className="text-2xl font-bold text-soypoy-secondary"
                   >
-                    <Link
-                      href={item.href}
-                      className="block text-xl font-medium py-3 px-4 rounded-md transition-colors duration-200 hover:bg-black/5 text-soypoy-secondary"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        </motion.div>
-      )}
+                    SOYPOY
+                  </Link>
+                </SheetTitle>
+              </SheetHeader>
+
+              {/* Mobile Navigation */}
+              <nav className="flex-1 py-6">
+                <ul className="space-y-2">
+                  {navItems.map((item) => (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="block text-lg font-medium py-4 px-4 rounded-lg transition-colors duration-200 hover:bg-black/5 text-soypoy-secondary"
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
     </header>
   );
 }

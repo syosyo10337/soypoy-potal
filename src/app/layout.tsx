@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Zen_Old_Mincho } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Zen_Old_Mincho } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
@@ -21,6 +21,14 @@ const zenOldMincho = Zen_Old_Mincho({
   display: "swap",
 });
 
+// TODO: Navigation用フォントデータわからないので暫定対応
+const inter = Inter({
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "SOY-POY | Community Bar",
   description:
@@ -35,7 +43,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="ja">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${zenOldMincho.variable} antialiased min-h-screen flex flex-col relative`}
+        className={`${geistSans.variable} ${geistMono.variable} ${zenOldMincho.variable} ${inter.variable} antialiased min-h-screen flex flex-col relative`}
       >
         <Header />
         <main className="flex-grow z-10 relative">{children}</main>
