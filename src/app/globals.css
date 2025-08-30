@@ -5,18 +5,25 @@
 @import "tailwindcss/preflight";
 
 :root {
+  /* SOY-POY カラーテーマ */
+  --soypoy-main: #F3F0E6;
+  --soypoy-secondary: #000000;
+  --soypoy-accent: #F0433C;
+  
+  /* レガシーカラー（互換性のため残す） */
   --soypoy-red: #e63946;
   --soypoy-teal: #1d3557;
   --soypoy-yellow: #f1c40f;
   --soypoy-white: #f1faee;
-  --foreground-rgb: 255, 255, 255;
-  --background-rgb: 0, 0, 0;
-  --font-zen-old-mincho: "Zen Old Mincho", serif;
   --soypoy-green: #00c896;
   --soypoy-dark-green: #00a67d;
   --soypoy-black: #0a0a0a;
   --soypoy-gray: #333333;
   --soypoy-light-gray: #666666;
+  
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 0, 0, 0;
+  --font-zen-old-mincho: "Zen Old Mincho", serif;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);
@@ -52,6 +59,11 @@
 }
 
 @theme inline {
+  /* SOY-POY カラーテーマ */
+  --color-soypoy-main: var(--soypoy-main);
+  --color-soypoy-secondary: var(--soypoy-secondary);
+  --color-soypoy-accent: var(--soypoy-accent);
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -94,6 +106,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* 新しいカラーテーマ - ダークモード */
+    --soypoy-main: #F3F0E6;
+    --soypoy-secondary: #000000;
+    --soypoy-accent: #F0433C;
+    
     --foreground-rgb: 255, 255, 255;
     --background-rgb: 0, 0, 0;
     --soypoy-green: #00c896;
@@ -115,9 +132,9 @@ body {
   .soypoy-gradient-text {
     background: linear-gradient(
       to right,
-      var(--soypoy-red),
-      var(--soypoy-teal),
-      var(--soypoy-yellow)
+      var(--soypoy-accent),
+      var(--soypoy-main),
+      var(--soypoy-secondary)
     );
     -webkit-background-clip: text;
     color: transparent;
@@ -126,12 +143,27 @@ body {
   .gradient-text {
     background: linear-gradient(
       to right,
-      var(--soypoy-green),
-      var(--soypoy-yellow)
+      var(--soypoy-accent),
+      var(--soypoy-main)
     );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+  /* 新しいテーマベースのグラデーション */
+  .soypoy-accent-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--soypoy-accent),
+      var(--soypoy-main)
+    );
+  }
+  .soypoy-main-gradient {
+    background: linear-gradient(
+      to bottom,
+      var(--soypoy-main),
+      var(--soypoy-secondary)
+    );
   }
 }
 
@@ -187,7 +219,7 @@ body {
 }
 
 .event-swiper .swiper-pagination-bullet-active {
-  background-color: var(--soypoy-yellow);
+  background-color: var(--soypoy-accent);
   opacity: 1;
 }
 
@@ -197,7 +229,7 @@ body {
 }
 
 .swiper-pagination-bullet-active {
-  background-color: var(--soypoy-green) !important;
+  background-color: var(--soypoy-accent) !important;
   opacity: 1 !important;
 }
 

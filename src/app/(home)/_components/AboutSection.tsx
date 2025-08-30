@@ -150,7 +150,7 @@ export default function AboutSection({ onArrowClick }: AboutSectionProps) {
               <div className="relative h-[300px] overflow-hidden rounded-xl transition-all duration-500 hover:shadow-lg">
                 {!imagesLoaded[image.id] && (
                   <div className="absolute inset-0 z-10">
-                    <Skeleton className="h-full w-full"/>
+                    <Skeleton className="h-full w-full" />
                   </div>
                 )}
                 <Image

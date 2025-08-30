@@ -43,9 +43,8 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 px-4 py-3 border-b"
+      className="fixed top-0 left-0 right-0 z-50 px-4 py-3 border-b bg-soypoy-main"
       style={{
-        backgroundColor: "#F3F0E6",
         borderBottomColor: "#E5E0D8",
       }}
     >
@@ -56,11 +55,7 @@ export default function Header() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <Link
-            href="/"
-            className="text-2xl font-bold"
-            style={{ color: "#000000" }}
-          >
+          <Link href="/" className="text-2xl font-bold text-soypoy-secondary">
             SOYPOY
           </Link>
         </motion.div>
@@ -88,8 +83,7 @@ export default function Header() {
                     <NavigationMenuLink asChild>
                       <Link
                         href={item.href}
-                        className="px-4 py-2 transition-colors duration-200 hover:bg-black/5 rounded-md font-medium"
-                        style={{ color: "#000000" }}
+                        className="px-4 py-2 transition-colors duration-200 hover:bg-black/5 rounded-md font-medium text-soypoy-secondary"
                       >
                         {item.name}
                       </Link>
@@ -113,8 +107,7 @@ export default function Header() {
             size="sm"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "メニューを閉じる" : "メニューを開く"}
-            className="p-2 hover:bg-black/5"
-            style={{ color: "#000000" }}
+            className="p-2 hover:bg-black/5 text-soypoy-secondary"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
@@ -124,8 +117,7 @@ export default function Header() {
       {/* Mobile Navigation Overlay */}
       {mounted && isOpen && (
         <motion.div
-          className="fixed inset-0 z-[9999] md:hidden"
-          style={{ backgroundColor: "#F3F0E6" }}
+          className="fixed inset-0 z-[9999] md:hidden bg-soypoy-main"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -139,8 +131,7 @@ export default function Header() {
             >
               <Link
                 href="/"
-                className="text-2xl font-bold"
-                style={{ color: "#000000" }}
+                className="text-2xl font-bold text-soypoy-secondary"
               >
                 SOYPOY
               </Link>
@@ -148,8 +139,7 @@ export default function Header() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-black/5"
-                style={{ color: "#000000" }}
+                className="p-2 hover:bg-black/5 text-soypoy-secondary"
               >
                 <X size={24} />
               </Button>
@@ -171,8 +161,7 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      className="block text-xl font-medium py-3 px-4 rounded-md transition-colors duration-200 hover:bg-black/5"
-                      style={{ color: "#000000" }}
+                      className="block text-xl font-medium py-3 px-4 rounded-md transition-colors duration-200 hover:bg-black/5 text-soypoy-secondary"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.name}
