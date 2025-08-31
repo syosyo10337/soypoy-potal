@@ -19,7 +19,6 @@
   
   --foreground-rgb: 255, 255, 255;
   --background-rgb: 0, 0, 0;
-  --font-zen-old-mincho: "Zen Old Mincho", serif;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);
@@ -56,17 +55,19 @@
 
 @theme {
   /* SOY-POY カラーテーマ */
-  --color-soypoy-main: #F3F0E6;
-  --color-soypoy-secondary: #000000;
-  --color-soypoy-accent: #F0433C;
-  --color-soypoy-border: #E5E0D8;
+  --color-soypoy-main: oklch(95.4% 0.013 92.); /* #F3F0E6を再現してみた */
+  --color-soypoy-secondary: oklch(0% 0 0);
+  --color-soypoy-accent: oklch(58.7% 0.217 23);
+  --color-soypoy-border: oklch(91.5% 0.034 95);
   
   /* フォント設定 */
-  --font-inter: var(--font-inter), sans-serif;
-  --font-sans: var(--font-geist-sans), sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
-  --font-zen-old-mincho: var(--font-zen-old-mincho), serif;
+  --font-bricolage-grotesque: var(--font-bricolage-grotesque), sans-serif;
   
+  /* カスタムテキストサイズ 
+  FIXME: text-lgでうまく動かないのでとりあえず
+  */
+  --font-size-18: 18px;
+
   /* システムカラー */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -94,73 +95,12 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* 新しいカラーテーマ - ダークモード */
-    --soypoy-main: #F3F0E6;
-    --soypoy-secondary: #000000;
-    --soypoy-accent: #F0433C;
-    
-    --foreground-rgb: 255, 255, 255;
-    --background-rgb: 0, 0, 0;
-    --soypoy-green: #00c896;
-    --soypoy-dark-green: #00a67d;
-    --soypoy-black: #0a0a0a;
-    --soypoy-gray: #333333;
-    --soypoy-light-gray: #666666;
-    --soypoy-yellow: #f1c40f;
-    --soypoy-white: #f1faee;
-  }
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
+  line-height: var(--text-default-line-height);
 }
 
-@layer components {
-  .soypoy-gradient-text {
-    background: linear-gradient(
-      to right,
-      var(--soypoy-accent),
-      var(--soypoy-main),
-      var(--soypoy-secondary)
-    );
-    -webkit-background-clip: text;
-    color: transparent;
-    background-clip: text;
-  }
-  .gradient-text {
-    background: linear-gradient(
-      to right,
-      var(--soypoy-accent),
-      var(--soypoy-main)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  /* 新しいテーマベースのグラデーション */
-  .soypoy-accent-gradient {
-    background: linear-gradient(
-      135deg,
-      var(--soypoy-accent),
-      var(--soypoy-main)
-    );
-  }
-  .soypoy-main-gradient {
-    background: linear-gradient(
-      to bottom,
-      var(--soypoy-main),
-      var(--soypoy-secondary)
-    );
-  }
-}
-
-/* カスタムフォントクラス */
-.font-zen-old-mincho {
-  font-family: var(--font-zen-old-mincho);
-}
 
 /* セクションの高さを画面いっぱいに設定 */
 .section-full-height {
@@ -231,19 +171,6 @@ body {
   bottom: 0 !important;
 }
 
-/* 画像スクロールアニメーション */
-.image-scroll {
-  display: flex;
-  width: max-content;
-  animation: scroll 30s linear infinite;
-}
-
-.image-scroll-reverse {
-  display: flex;
-  width: max-content;
-  animation: scroll-reverse 30s linear infinite;
-}
-
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -262,14 +189,6 @@ body {
   }
 }
 
-/* 横スクロールアニメーション */
-.image-scroll {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 1rem 0;
-  animation: scroll 30s linear infinite;
-}
 
 /* スクロールバーを非表示にする */
 .no-scrollbar::-webkit-scrollbar {
@@ -404,38 +323,11 @@ html {
   scroll-behavior: smooth;
 }
 
-.dark {
-  --background: oklch(0.147 0.004 49.25);
-  --foreground: oklch(0.985 0.001 106.423);
-  --card: oklch(0.216 0.006 56.043);
-  --card-foreground: oklch(0.985 0.001 106.423);
-  --popover: oklch(0.216 0.006 56.043);
-  --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: oklch(0.923 0.003 48.717);
-  --primary-foreground: oklch(0.216 0.006 56.043);
-  --secondary: oklch(0.268 0.007 34.298);
-  --secondary-foreground: oklch(0.985 0.001 106.423);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.01 56.259);
-  --accent: oklch(0.268 0.007 34.298);
-  --accent-foreground: oklch(0.985 0.001 106.423);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.216 0.006 56.043);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.268 0.007 34.298);
-  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
+@layer utilities {
+  /* カスタムテキストサイズユーティリティ */
+  .text-18 {
+    font-size: var(--font-size-18);
+  }
 }
 
 @layer base {
