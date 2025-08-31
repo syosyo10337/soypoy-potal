@@ -75,7 +75,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-full h-full bg-soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
+              className="w-full h-full soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
             >
               <SheetHeader className="absolute top-0 left-0 w-0 h-0 overflow-hidden">
                 <SheetTitle className="sr-only">
