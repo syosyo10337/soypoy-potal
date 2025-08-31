@@ -54,7 +54,9 @@
       "!**/*.mjs",
       "!**/*.mts",
       "!**/.vscode/**/*",
-      "!**/.pnpm-store/**/*"
+      "!**/.pnpm-store/**/*",
+      "!**/.open-next/**/*",
+      "!**/.wrangler/**/*"
     ]
   }
 }
