@@ -66,38 +66,30 @@ export default function Header() {
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
-                size="sm"
+                size="lg"
                 className="p-3 hover:bg-black/5 text-soypoy-secondary"
                 aria-label="メニューを開く"
               >
-                <Menu size={24} />
+                <Menu className="size-8" />
               </Button>
             </SheetTrigger>
             <SheetContent
-              side="left"
-              className="bg-soypoy-main border-r border-soypoy-border"
+              side="right"
+              className="w-full h-full bg-soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
             >
-              <SheetHeader className="border-b border-soypoy-border pb-4">
-                <SheetTitle>
-                  <Link href="/" className="flex items-center">
-                    <Image
-                      src="/images/soypoy_logo_black.png"
-                      alt="SOYPOY"
-                      width={100}
-                      height={33}
-                      className="object-contain"
-                    />
-                  </Link>
+              <SheetHeader className="absolute top-0 left-0 w-0 h-0 overflow-hidden">
+                <SheetTitle className="sr-only">
+                  ナビゲーションメニュー
                 </SheetTitle>
               </SheetHeader>
 
-              <nav className="flex-1 py-6">
-                <ul className="space-y-2">
+              <nav className="flex-1 py-16 px-8 text-right">
+                <ul className="space-y-4 text-right">
                   {navItems.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className="block text-18 font-bold py-4 px-4 rounded-lg hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary"
+                        className="block text-18 font-bold py-6 px-4 hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary text-right"
                       >
                         {item.name}
                       </Link>
