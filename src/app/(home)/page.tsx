@@ -5,20 +5,6 @@ export default function Page() {
     <div className="min-h-screen bg-soypoy-main">
       <HeroSection />
 
-      {/* Hero Section */}
-      <section className="section-full-height bg-soypoy-main text-soypoy-secondary">
-        <div className="container mx-auto px-6 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-6xl md:text-8xl font-bold mb-4">SOY-POY</h1>
-          <p className="text-xl md:text-2xl mb-8 text-soypoy-secondary-80">
-            Community Bar
-          </p>
-          <p className="text-lg max-w-2xl text-soypoy-secondary-70">
-            音楽とアートが交差する特別な場所。
-            <br />
-            人と人が出会い、新しいつながりが生まれるコミュニティバーです。
-          </p>
-        </div>
-      </section>
 
       {/* About Section */}
       <section className="section-full-height bg-[#1E88E5] text-white">
