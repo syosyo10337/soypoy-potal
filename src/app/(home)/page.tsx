@@ -5,7 +5,6 @@ export default function Page() {
     <div className="min-h-screen bg-soypoy-main">
       <HeroSection />
 
-
       {/* About Section */}
       <section className="section-full-height bg-[#1E88E5] text-white">
         <div className="container mx-auto px-6 h-full flex flex-col justify-center items-center text-center">
