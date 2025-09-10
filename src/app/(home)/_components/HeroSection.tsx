@@ -1,5 +1,5 @@
-import HeroSectionTopFrame from "@/assets/HeroSectionTopFrame.optimized.svg";
-import HeroSecBottomFrame from "@/assets/HeroSecBottomFrame.optimized.svg";
+import HeroSectionTopFrame from "@/assets/HeroSectionTopFrame.svg";
+import HeroSecBottomFrame from "@/assets/HeroSecBottomFrame.svg";
 import Image from "next/image";
 
 export default function HeroSection() {
