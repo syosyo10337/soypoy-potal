@@ -2,21 +2,35 @@ import type { NextConfig } from "next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-  // Turbopack設定（開発環境）
-  turbopack: {
-    rules: {
-      "*.svg": {
-        loaders: ["@svgr/webpack"],
-        as: "*.js",
+  webpack(config, { isServer }) {
+    // SVGファイルをReactコンポーネントとして処理するための設定
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.(".svg"),
+    );
+
+    config.module.rules.push(
+      // Reapply the existing rule, but only for svg imports ending in ?url
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // *.svg?url
       },
-    },
-  },
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ["@svgr/webpack"],
-    });
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: { not: /\.(css|scss|sass)$/ },
+        resourceQuery: { not: /url/ }, // exclude if *.svg?url
+        loader: "@svgr/webpack",
+        options: {
+          dimensions: false,
+          titleProp: true,
+        },
+      },
+    );
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i;
+
     return config;
   },
   output: "standalone",
