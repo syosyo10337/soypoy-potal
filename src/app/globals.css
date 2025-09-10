@@ -1,67 +1,11 @@
 @import "tailwindcss";
 
-:root {
-  /* SOY-POY カラーテーマ */
-  --soypoy-main: #F3F0E6;
-  --soypoy-secondary: #000000;
-  --soypoy-accent: #F0433C;
-  
-  /* レガシーカラー（互換性のため残す） */
-  --soypoy-red: #e63946;
-  --soypoy-teal: #1d3557;
-  --soypoy-yellow: #f1c40f;
-  --soypoy-white: #f1faee;
-  --soypoy-green: #00c896;
-  --soypoy-dark-green: #00a67d;
-  --soypoy-black: #0a0a0a;
-  --soypoy-gray: #333333;
-  --soypoy-light-gray: #666666;
-  
-  --foreground-rgb: 255, 255, 255;
-  --background-rgb: 0, 0, 0;
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  --secondary: oklch(0.97 0.001 106.424);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.97 0.001 106.424);
-  --accent-foreground: oklch(0.216 0.006 56.043);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
-  --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.01 56.259);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.001 106.423);
-  --sidebar-foreground: oklch(0.147 0.004 49.25);
-  --sidebar-primary: oklch(0.216 0.006 56.043);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.97 0.001 106.424);
-  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
-  --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
-}
-
 @theme {
   /* SOY-POY カラーテーマ */
-  --color-soypoy-main: oklch(95.4% 0.013 92.); /* #F3F0E6を再現してみた */
-  --color-soypoy-secondary: oklch(0% 0 0);
-  --color-soypoy-accent: oklch(58.7% 0.217 23);
-  --color-soypoy-border: oklch(91.5% 0.034 95);
-  
-  /* フォント設定 */
-  --font-bricolage-grotesque: var(--font-bricolage-grotesque), sans-serif;
+  --color-soypoy-main: #F3F0E6;
+  --color-soypoy-secondary: #000000;
+  --color-soypoy-accent: #F0433C;
+  --color-soypoy-border: #E0DDD0;
   
   /* カスタムテキストサイズ 
   FIXME: text-lgでうまく動かないのでとりあえず
@@ -69,38 +13,45 @@
   --font-size-18: 18px;
 
   /* システムカラー */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.147 0.004 49.25);
+  --color-primary: oklch(0.216 0.006 56.043);
+  --color-primary-foreground: oklch(0.985 0.001 106.423);
+  --color-secondary: oklch(0.97 0.001 106.424);
+  --color-secondary-foreground: oklch(0.216 0.006 56.043);
+  --color-muted: oklch(0.97 0.001 106.424);
+  --color-muted-foreground: oklch(0.553 0.013 58.071);
+  --color-accent: oklch(0.97 0.001 106.424);
+  --color-accent-foreground: oklch(0.216 0.006 56.043);
+  --color-destructive: oklch(0.577 0.245 27.325);
+  --color-destructive-foreground: oklch(0.985 0.001 106.423);
+  --color-border: oklch(0.923 0.003 48.717);
+  --color-input: oklch(0.923 0.003 48.717);
+  --color-ring: oklch(0.709 0.01 56.259);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.147 0.004 49.25);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.147 0.004 49.25);
   
   /* Border radius */
+  --radius: 0.625rem;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-  line-height: var(--text-default-line-height);
+@layer utilities {
+  /* カスタムテキストサイズユーティリティ */
+  .text-18 {
+    font-size: var(--font-size-18);
+  }
 }
 
+/* スムーズスクロール */
+html {
+  scroll-behavior: smooth;
+}
 
 /* セクションの高さを画面いっぱいに設定 */
 .section-full-height {
@@ -109,108 +60,6 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-}
-
-/* スクロール矢印のスタイル */
-.scroll-arrow {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: bounce 2s infinite;
-  cursor: pointer;
-  z-index: 50;
-}
-
-@keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  40% {
-    transform: translateX(-50%) translateY(-10px);
-  }
-  60% {
-    transform: translateX(-50%) translateY(-5px);
-  }
-}
-
-/* Swiperカスタムスタイル */
-.event-swiper {
-  padding-bottom: 40px;
-}
-
-.event-swiper .swiper-pagination-bullet {
-  background-color: white;
-  opacity: 0.5;
-}
-
-.event-swiper .swiper-pagination-bullet-active {
-  background-color: var(--soypoy-accent);
-  opacity: 1;
-}
-
-.swiper-pagination-bullet {
-  background-color: white !important;
-  opacity: 0.5 !important;
-}
-
-.swiper-pagination-bullet-active {
-  background-color: var(--soypoy-accent) !important;
-  opacity: 1 !important;
-}
-
-.event-swiper {
-  padding-bottom: 40px !important;
-}
-
-.event-swiper .swiper-pagination {
-  bottom: 0 !important;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes scroll-reverse {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-
-/* スクロールバーを非表示にする */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Aboutセクションのアニメーション */
-@keyframes pulse-shadow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(0, 200, 150, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(0, 200, 150, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(0, 200, 150, 0);
-  }
 }
 
 /* カスタムカレンダースタイル */
@@ -243,7 +92,7 @@ body {
 }
 
 .react-calendar__month-view__weekdays {
-  color: var(--soypoy-green) !important;
+  color: var(--color-soypoy-accent) !important;
   font-weight: bold !important;
   text-transform: uppercase !important;
   font-size: 0.8em !important;
@@ -318,23 +167,4 @@ body {
   position: relative !important;
 }
 
-/* スムーズスクロール */
-html {
-  scroll-behavior: smooth;
-}
 
-@layer utilities {
-  /* カスタムテキストサイズユーティリティ */
-  .text-18 {
-    font-size: var(--font-size-18);
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
