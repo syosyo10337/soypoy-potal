@@ -1,3 +1,5 @@
+import MoonIcon from "@/assets/Moon.svg";
+import SunIcon from "@/assets/Sun.svg";
 import { Separator } from "@/components/ui/separator";
 
 export default function ContentArea() {
@@ -18,8 +20,12 @@ export default function ContentArea() {
 
 function HeroSecHeader() {
   return (
-    <div className="text-center">
-      <h2 className="text-xl font-bold">About SOY-POY</h2>
+    <div className="text-center mb-6">
+      <h2 className="text-xl font-bold font-anymale flex items-center justify-center">
+        <SunIcon className="w-10 h-10" />
+        <span className="text-2xl">About SOY-POY</span>
+        <MoonIcon className="w-10 h-10" />
+      </h2>
     </div>
   );
 }
@@ -81,13 +87,13 @@ function SoypoySlogan() {
           {slogans.map((slogan) => (
             <div className="flex items-start" key={slogan.title}>
               <div>
-                <h3 className="font-bold">
+                <h3 className="font-bold font-anymale">
                   <span className="text-xl font-black text-soypoy-accent">
                     {slogan.title[0]}
                   </span>
                   {slogan.title.slice(1)}
                 </h3>
-                <p className="text-sm">{slogan.description}</p>
+                <p className="text-sm font-bernard-mt ">{slogan.description}</p>
               </div>
             </div>
           ))}
