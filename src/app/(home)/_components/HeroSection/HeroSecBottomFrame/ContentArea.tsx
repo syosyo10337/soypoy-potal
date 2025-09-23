@@ -83,9 +83,12 @@ function SoypoySlogan() {
   return (
     <div className="md:w-3/10 space-y-4">
       <div className="space-y-3">
-        <div className="flex items-start flex-col gap-2">
+        <div className="flex items-center md:items-start flex-col gap-2">
           {slogans.map((slogan) => (
-            <div className="flex items-start" key={slogan.title}>
+            <div
+              className="flex items-start text-center md:text-left"
+              key={slogan.title}
+            >
               <div>
                 <h3 className="font-bold font-anymale">
                   <span className="text-xl font-black text-soypoy-accent">
