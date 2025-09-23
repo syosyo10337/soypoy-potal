@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
+import { Bricolage_Grotesque, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
 const bricolageGrotesque = Bricolage_Grotesque({
   variable: "--font-bricolage-grotesque",
   subsets: ["latin"],
+});
+
+const notoSansJP = Noto_Sans_JP({
+  variable: "--font-noto-sans-jp",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +26,8 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="ja" className={bricolageGrotesque.className}>
-      <body className={"antialiased min-h-screen flex flex-col relative"}>
+    <html lang="ja" className={`${bricolageGrotesque.variable} ${notoSansJP.variable}`}>
+      <body className={"antialiased min-h-screen flex flex-col relative font-noto-sans-jp"}>
         <Header />
         <main className="flex-grow z-10 relative">{children}</main>
       </body>
