@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-  webpack(config, { isServer }) {
+  webpack(config) {
     // SVGファイルをReactコンポーネントとして処理するための設定
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg"),

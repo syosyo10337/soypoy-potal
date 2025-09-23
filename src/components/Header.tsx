@@ -49,7 +49,8 @@ export default function Header() {
                   <NavigationMenuLink asChild>
                     <Link
                       href={item.href}
-                      className="px-2 py-3 text-18 font-bold hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary"
+                      // NOTE: NavigationMenuLinkのtext-smが優先されるので、text-lgを強制的に指定
+                      className="px-2 py-3 !text-lg font-bold hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary"
                     >
                       {item.name}
                     </Link>
@@ -89,7 +90,7 @@ export default function Header() {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className="block text-18 font-bold py-6 px-4 hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary text-right"
+                        className="block text-lg font-bold py-6 px-4 hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary text-right"
                       >
                         {item.name}
                       </Link>
