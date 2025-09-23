@@ -20,7 +20,7 @@ export default function ContentArea() {
 
 function HeroSecHeader() {
   return (
-    <div className="text-center mb-6">
+    <div className="text-center mb-2">
       <h2 className="text-xl font-bold font-anymale flex items-center justify-center">
         <SunIcon className="w-10 h-10" />
         <span className="text-2xl">About SOY-POY</span>
@@ -33,7 +33,7 @@ function HeroSecHeader() {
 function HeroSecMainContent() {
   return (
     <div className="flex-1 md:w-7/10">
-      <p className="text-base leading-relaxed">
+      <p className="text-sm md:text-base leading-relaxed">
         SOY-POYは「好きに生きて、一緒に生きる」をコンセプトに
         オープンしたバーとステージのある週末限定のパブリックハウス
         （PUB）です。下北沢に拠点を構えるSOY-POYは、ジャンル
