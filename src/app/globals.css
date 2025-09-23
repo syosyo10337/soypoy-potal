@@ -6,11 +6,6 @@
   --color-soypoy-secondary: #000000;
   --color-soypoy-accent: #F0433C;
   --color-soypoy-border: #E0DDD0;
-  
-  /* カスタムテキストサイズ 
-  FIXME: text-lgでうまく動かないのでとりあえず
-  */
-  --font-size-18: 18px;
 
   /* システムカラー */
   --color-background: oklch(1 0 0);
@@ -41,12 +36,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-@layer utilities {
-  /* カスタムテキストサイズユーティリティ */
-  .text-18 {
-    font-size: var(--font-size-18);
-  }
-}
+
 
 /* スムーズスクロール */
 html {
