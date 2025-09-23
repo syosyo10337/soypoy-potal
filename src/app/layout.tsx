@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Noto_Sans_JP } from "next/font/google";
-import { Bricolage_Grotesque, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { anymale, bernardMT } from "../../lib/fonts";
@@ -8,12 +7,6 @@ import { anymale, bernardMT } from "../../lib/fonts";
 const bricolageGrotesque = Bricolage_Grotesque({
   variable: "--font-bricolage-grotesque",
   subsets: ["latin"],
-});
-
-const notoSansJP = Noto_Sans_JP({
-  variable: "--font-noto-sans-jp",
-  subsets: ["latin"],
-  display: "swap",
 });
 
 const notoSansJP = Noto_Sans_JP({
