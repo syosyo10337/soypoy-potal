@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { anymale, bernardMT } from "../../lib/fonts";
 
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       >
         <Header />
         <main className="flex-grow z-10 relative">{children}</main>
+        <Footer />
       </body>
     </html>
   );

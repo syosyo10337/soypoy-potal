@@ -49,15 +49,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* セクションの高さを画面いっぱいに設定 */
-.section-full-height {
-  min-height: 100vh;
-  padding: 2rem 0;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
 /* カスタムカレンダースタイル */
 .react-calendar {
   width: 100% !important;
