@@ -1,11 +1,11 @@
 import Image from "next/image";
-import HeroSecBottomFrame from "@/assets/HeroSecBottomFrame.svg";
 import HeroSectionTopFrame from "@/assets/HeroSectionTopFrame.svg";
+import HeroSecDescription from "./HeroSecDescription";
 
 export default function HeroSection() {
   return (
     <section className="relative w-full h-screen overflow-hidden hero-section">
-      {/* 背景画像 */}
+      {/* {TODO: 動画に差し替える} */}
       <Image
         src="/images/top_demo.jpg"
         alt="Hero Section Background"
@@ -13,8 +13,11 @@ export default function HeroSection() {
         className="object-cover z-0"
         priority
       />
-      <HeroSectionTopFrame className="absolute top-0 left-0 w-full pointer-events-none z-10" />
-      <HeroSecBottomFrame className="absolute bottom-0 left-0 w-full pointer-events-none z-10" />
+      <HeroSectionTopFrame className="absolute top-1 left-0 w-full pointer-events-none z-10" />
+      <HeroSecDescription
+        className="absolute bottom-2 z-10 left-0 w-full
+        md:left-1/2 md:-translate-x-1/2 md:w-7/10"
+      />
     </section>
   );
 }
