@@ -1,6 +1,6 @@
 import Image from "next/image";
 import HeroSectionTopFrame from "@/assets/HeroSectionTopFrame.svg";
-import HeroSecDescription from "./HeroSecDescription";
+import HeroSecBottomFrame from "./HeroSecBottomFrame";
 
 export default function HeroSection() {
   return (
@@ -14,7 +14,7 @@ export default function HeroSection() {
         priority
       />
       <HeroSectionTopFrame className="absolute top-1 left-0 w-full pointer-events-none z-10" />
-      <HeroSecDescription
+      <HeroSecBottomFrame
         className="absolute bottom-2 z-10 left-0 w-full
         md:left-1/2 md:-translate-x-1/2 md:w-7/10"
       />

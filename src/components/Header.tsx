@@ -50,7 +50,7 @@ export default function Header() {
                     <Link
                       href={item.href}
                       // NOTE: NavigationMenuLinkのtext-smが優先されるので、text-lgを強制的に指定
-                      className="px-2 py-3 !text-lg font-bold hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary"
+                      className="px-2 py-3 !text-lg font-bold hover:bg-black/5 transition-colors duration-200 text-soypoy-secondary font-display"
                     >
                       {item.name}
                     </Link>
@@ -68,7 +68,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="lg"
-                className="p-3 hover:bg-black/5 text-soypoy-secondary"
+                className="p-3 hover:bg-black/5 text-soypoy-secondary  font-display"
                 aria-label="メニューを開く"
               >
                 <Menu className="size-8" />
