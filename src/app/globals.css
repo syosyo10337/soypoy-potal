@@ -28,6 +28,10 @@
   --color-popover: oklch(1 0 0);
   --color-popover-foreground: oklch(0.147 0.004 49.25);
   
+  /* フォントファミリー */
+  --font-sans: var(--font-noto-sans-jp), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage-grotesque), var(--font-noto-sans-jp), ui-sans-serif, system-ui, sans-serif;
+  
   /* Border radius */
   --radius: 0.625rem;
   --radius-sm: calc(var(--radius) - 4px);
