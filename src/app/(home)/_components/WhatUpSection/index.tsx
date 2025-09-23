@@ -3,7 +3,7 @@ import WhatUpButton from "./WhatUpButton";
 
 export default function WhatUpSection() {
   return (
-    <section className="w-full max-w-[80vw] mx-auto py-8 md:py-12 lg:py-16">
+    <section className="relative w-full max-w-[80vw] mx-auto py-8 md:py-12 lg:py-16 z-30">
       <div className="relative w-full h-5 mb-1">
         <Image
           src="/images/whatup/what_up_line.png"
