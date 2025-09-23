@@ -163,4 +163,29 @@ html {
   position: relative !important;
 }
 
+/* フィルムロール下流れアニメーション - background-position方式 */
+@keyframes film-roll-flow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100vh;
+  }
+}
+
+.film-roll-flow {
+  background-repeat: repeat-y;
+  background-size: 100% auto; /* 幅を要素いっぱいに拡大、高さは自動 */
+  animation: film-roll-flow 16s linear infinite;
+}
+
+/* Tailwind用カスタム背景画像クラス */
+.bg-filmroll-left {
+  background-image: url('/images/layouts/fuda_filmroll_left.png');
+}
+
+.bg-filmroll-right {
+  background-image: url('/images/layouts/fuda_filmroll_right.png');
+}
+
 
