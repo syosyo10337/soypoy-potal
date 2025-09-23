@@ -1,5 +1,5 @@
-import MoonIcon from "@/assets/Moon.svg";
-import SunIcon from "@/assets/Sun.svg";
+import MoonIcon from "@/assets/moon.svg";
+import SunIcon from "@/assets/sun.svg";
 import { Separator } from "@/components/ui/separator";
 
 export default function ContentArea() {

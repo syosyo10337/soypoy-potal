@@ -19,9 +19,7 @@ import {
 const navItems = [
   { name: "About", href: "/about" },
   { name: "Events", href: "/events" },
-  { name: "History", href: "/history" },
-  { name: "Social", href: "/social" },
-  { name: "CONTACT", href: "/contact" },
+  { name: "What's Up", href: "/whats-up" },
 ];
 
 export default function Header() {
