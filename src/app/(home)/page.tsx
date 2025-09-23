@@ -1,8 +1,10 @@
+import FudaFilmRollBg from "./_components/FudaFilmRollBg";
 import HeroSection from "./_components/HeroSection";
 
 export default function Page() {
   return (
     <div className="min-h-screen bg-soypoy-main">
+      <FudaFilmRollBg />
       <HeroSection />
 
       {/* About Section */}
