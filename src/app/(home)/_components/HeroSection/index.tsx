@@ -1,18 +1,14 @@
-import Image from "next/image";
+import { Suspense } from "react";
 import HeroSectionTopFrame from "@/assets/HeroSectionTopFrame.svg";
 import HeroSecBottomFrame from "./HeroSecBottomFrame";
+import VideoComponent from "./VideoComponent";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-screen overflow-hidden hero-section">
-      {/* {TODO: 動画に差し替える} */}
-      <Image
-        src="/images/top_demo.jpg"
-        alt="Hero Section Background"
-        fill
-        className="object-cover z-0"
-        priority
-      />
+    <section className="relative w-full h-[80vh] overflow-hidden hero-section">
+      <Suspense fallback={<div>Loading...</div>}>
+        <VideoComponent />
+      </Suspense>
       <HeroSectionTopFrame className="absolute top-1 left-0 w-full pointer-events-none z-10" />
       <HeroSecBottomFrame
         className="absolute bottom-2 z-10 left-0 w-full
