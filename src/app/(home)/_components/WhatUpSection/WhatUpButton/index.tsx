@@ -45,11 +45,18 @@ export default function WhatUpButton({
     >
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center space-x-2 px-2">
-          <span className="pl-2 font-bernard-mt text-lg md:text-2xl text-soypoy-accent group-hover:text-soypoy-main transition-colors duration-300">
+          <span
+            className="
+            pl-2 font-bernard-mt text-soypoy-accent group-hover:text-soypoy-main transition-colors duration-300  text-base md:text-lg lg:text-2xl"
+          >
             {prefix}
           </span>
-          <div className="font-anymale font-bold text-4xl md:text-5xl uppercase text-soypoy-secondary group-hover:text-soypoy-main transition-colors duration-300">
-            <span className="text-5xl md:text-6xl">{title[0]}</span>
+          <div
+            className="
+            font-anymale font-bold uppercase text-soypoy-secondary group-hover:text-soypoy-main transition-colors duration-300
+            text-3xl md:text-4xl xl:text-5xl"
+          >
+            <span className="text-4xl md:text-5xl lg:text-6xl">{title[0]}</span>
             {title.slice(1)}
           </div>
         </div>
