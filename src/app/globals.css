@@ -45,7 +45,42 @@
   --marquee-duration: 20s;
   --marquee-timing: linear;
   --marquee-iteration: infinite;
+  
+  /* Film roll animations */
+  --film-roll-duration: 16s;
+  --film-roll-timing: linear;
+  --film-roll-iteration: infinite;
+  --film-roll-distance: 100vh;
 }
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes film-roll-flow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 theme(--film-roll-distance);
+  }
+}
+
 
 @layer utilities {
   /* Marquee Container */
@@ -90,23 +125,54 @@
       gap: theme(spacing.8);
     }
   }
-}
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
+  /* Film Roll Animation */
+  .film-roll-flow {
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    animation: film-roll-flow theme(--film-roll-duration) theme(--film-roll-timing) theme(--film-roll-iteration);
   }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
-@keyframes marquee-reverse {
-  0% {
-    transform: translateX(-50%);
+  /* Film Roll Background Images */
+  .bg-filmroll-left {
+    background-image: url('/images/layouts/fuda_filmroll_left.png');
   }
-  100% {
-    transform: translateX(0);
+
+  .bg-filmroll-right {
+    background-image: url('/images/layouts/fuda_filmroll_right.png');
+  }
+
+  /* Film Roll Container */
+  .film-roll-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .film-roll-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100%;
+  }
+
+  .film-roll-side {
+    flex-shrink: 0;
+    height: 100vh;
+    width: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .film-roll-side {
+      width: 3.5rem;
+    }
   }
 }
 
@@ -220,30 +286,3 @@ html {
 .react-calendar__month-view__days__day {
   position: relative !important;
 }
-
-/* フィルムロール下流れアニメーション - background-position方式 */
-@keyframes film-roll-flow {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 0 100vh;
-  }
-}
-
-.film-roll-flow {
-  background-repeat: repeat-y;
-  background-size: 100% auto; /* 幅を要素いっぱいに拡大、高さは自動 */
-  animation: film-roll-flow 16s linear infinite;
-}
-
-/* Tailwind用カスタム背景画像クラス */
-.bg-filmroll-left {
-  background-image: url('/images/layouts/fuda_filmroll_left.png');
-}
-
-.bg-filmroll-right {
-  background-image: url('/images/layouts/fuda_filmroll_right.png');
-}
-
-

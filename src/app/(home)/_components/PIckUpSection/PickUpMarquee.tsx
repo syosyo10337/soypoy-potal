@@ -1,5 +1,5 @@
 const text = "PICK UP EVENT!";
-const repeatCount = 20;
+const repeatCount = 14;
 
 function PickUpMarquee() {
   return (
