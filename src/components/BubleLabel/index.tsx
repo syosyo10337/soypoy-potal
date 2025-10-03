@@ -67,7 +67,7 @@ interface BubleLabelProps
 export default function BubleLabel({
   className,
   variant,
-  size = 48,
+  size = 34,
   ...props
 }: BubleLabelProps) {
   const { image, label } = variantMap[variant];

@@ -8,7 +8,7 @@ interface EventGridProps {
 export default function EventGrid({ events }: EventGridProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 w-full max-w-6xl mx-auto text-center divide-x-1 divide-y-1 md:divide-y-0">
-      {events.map((event, _index) => (
+      {events.map((event, index) => (
         <GridItem
           key={event.id}
           thumbnail={event.thumbnail}
@@ -16,6 +16,7 @@ export default function EventGrid({ events }: EventGridProps) {
           link={event.link}
           date={event.date}
           eventType={event.eventType}
+          index={index}
         />
       ))}
     </div>

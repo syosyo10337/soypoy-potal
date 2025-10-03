@@ -40,6 +40,6 @@ export const samplePickUpEvents: PickUpEvent[] = [
     title: "Tsuya-nii Session Party",
     date: "2025-01-01",
     link: "/events/tsuya-nii-session",
-    eventType: EventType.Music,
+    eventType: EventType.Workshop,
   },
 ];
