@@ -14,10 +14,7 @@ export default function EventGrid({ events }: EventGridProps) {
           thumbnail={event.thumbnail}
           title={event.title}
           link={event.link}
-          className={`
-
-            border-soypoy-secondary
-            `}
+          date={event.date}
         />
       ))}
     </div>

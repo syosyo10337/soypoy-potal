@@ -5,17 +5,19 @@ interface GridItemProps {
   thumbnail: string;
   title: string;
   link: string;
-  className?: string;
+  date: string;
 }
 
+// TODO: 全体をリンクにする。
+// TODO: 文字の折り返しを設定する。
 export default function GridItem({
   thumbnail,
   title,
   link,
-  className,
+  date,
 }: GridItemProps) {
   return (
-    <div className={`group cursor-pointer py-6 px-4 ${className}`}>
+    <div className={"group cursor-pointer py-6 px-4 border-soypoy-secondary"}>
       <div className="relative overflow-hidden  mb-2 aspect-square">
         <Image
           src={thumbnail}
@@ -25,12 +27,13 @@ export default function GridItem({
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
-      <h3 className="text-lg font-semibold mb-2 text-white group-hover:text-soypoy-secondary transition-colors">
+      <p className="text-xs text-soypoy-muted m-2 md:m-4">{date}</p>
+      <h3 className="text-lg text-soypoy-secondary group-hover:text-soypoy-accent transition-colors break-words hyphens-auto leading-tight">
         {title}
       </h3>
       <Link
         href={link}
-        className="inline-flex items-center text-soypoy-secondary hover:text-white transition-colors text-sm font-medium"
+        className="inline-flex items-center text-muted-foreground hover:text-soypoy-main transition-colors text-sm"
       >
         Read More &gt;
       </Link>

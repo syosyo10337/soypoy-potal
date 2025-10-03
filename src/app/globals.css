@@ -5,7 +5,8 @@
   --color-soypoy-main: #F3F0E6;
   --color-soypoy-secondary: #000000;
   --color-soypoy-accent: #F0433C;
-  --color-soypoy-border: #E0DDD0;
+  --color-soypoy-muted: #8E8E8E;
+
 
   /* システムカラー */
   --color-background: oklch(1 0 0);

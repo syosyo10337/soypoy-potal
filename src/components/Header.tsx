@@ -24,7 +24,7 @@ const navItems = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 left-0 right-0 z-50 px-4 py-3 border-b border-soypoy-border bg-soypoy-main">
+    <header className="sticky top-0 left-0 right-0 z-50 px-4 py-3 bg-soypoy-main">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div>
           <Link href="/" className="pl-2 flex items-center">
