@@ -1,28 +1,13 @@
+import { EventType } from "@/domain/entities/eventType";
+
 export interface PickUpEvent {
   id: string;
   thumbnail: string; //画像だけど、
   title: string;
   date: string;
   link: string;
-  eventType: (typeof EventType)[keyof typeof EventType];
+  eventType: EventType;
 }
-
-// NOTE: DBでも似たような定義をする必要がある。
-const EventType = {
-  art: "art",
-  comedy: "comedy",
-  dance: "dance",
-  design: "design",
-  impro: "impro",
-  impro_kanji: "impro_kanji",
-  movie: "movie",
-  music: "music",
-  photo: "photo",
-  talk: "talk",
-  theater: "theater",
-  workshop: "workshop",
-  other: "other",
-} as const satisfies Record<string, string>;
 
 export const samplePickUpEvents: PickUpEvent[] = [
   {
@@ -31,7 +16,7 @@ export const samplePickUpEvents: PickUpEvent[] = [
     title: "風音ひとり芝居公演 「キャンバスと一角」",
     date: "2025-10-01",
     link: "/events/canvas-and-corner",
-    eventType: EventType.theater,
+    eventType: EventType.Theater,
   },
   {
     id: "2",
@@ -39,7 +24,7 @@ export const samplePickUpEvents: PickUpEvent[] = [
     title: "OPEN MIC",
     date: "2025-10-24",
     link: "/events/open-mic",
-    eventType: EventType.impro,
+    eventType: EventType.Impro,
   },
   {
     id: "3",
@@ -47,7 +32,7 @@ export const samplePickUpEvents: PickUpEvent[] = [
     title: '近藤大夢 Solo Concert Vol. 3 "Passion"',
     date: "2025-11-11",
     link: "/events/hiromu-kondo-concert",
-    eventType: EventType.music,
+    eventType: EventType.Music,
   },
   {
     id: "4",
@@ -55,6 +40,6 @@ export const samplePickUpEvents: PickUpEvent[] = [
     title: "Tsuya-nii Session Party",
     date: "2025-01-01",
     link: "/events/tsuya-nii-session",
-    eventType: EventType.music,
+    eventType: EventType.Music,
   },
 ];

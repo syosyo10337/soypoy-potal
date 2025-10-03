@@ -15,6 +15,7 @@ export default function EventGrid({ events }: EventGridProps) {
           title={event.title}
           link={event.link}
           date={event.date}
+          eventType={event.eventType}
         />
       ))}
     </div>
