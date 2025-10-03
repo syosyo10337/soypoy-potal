@@ -1,0 +1,12 @@
+export { default as ArtLabelImage } from "./art.png";
+export { default as ComedyLabelImage } from "./comeday.png";
+export { default as DanceLabelImage } from "./dance.png";
+export { default as DesignLabelImage } from "./design.png";
+export { default as ImproKanjiLabelImage } from "./impor_kanji.png";
+export { default as ImproLabelImage } from "./impro.png";
+export { default as MovieLabelImage } from "./movie.png";
+export { default as MusicLabelImage } from "./music.png";
+export { default as PhotoLabelImage } from "./photo.png";
+export { default as TalkLabelImage } from "./talk.png";
+export { default as TheaterLabelImage } from "./theater.png";
+export { default as WorkshopLabelImage } from "./workshop.png";

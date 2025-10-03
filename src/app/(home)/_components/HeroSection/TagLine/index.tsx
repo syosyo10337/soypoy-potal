@@ -1,5 +1,5 @@
-import HeroSecRibon from "@/assets/HeroSecRibon.svg";
 import { cn } from "@/utils/cn";
+import { HeroSecRibon } from "./assets";
 import ContentArea from "./ContentArea";
 
 interface HeroSecDescriptionProps {

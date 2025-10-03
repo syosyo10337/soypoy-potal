@@ -1,8 +1,9 @@
-import type { EventEntity } from "@/domain/entities/event";
-import { formatDateJP, formatTime } from "@/utils/date";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import NoImage from "@/assets/no-image.png";
+import type { EventEntity } from "@/domain/entities/event";
+import { formatDateJP, formatTime } from "@/utils/date";
 
 interface EventListItemProps {
   event: EventEntity;
@@ -10,8 +11,7 @@ interface EventListItemProps {
 }
 
 export function EventListItem({ event, selectedEventId }: EventListItemProps) {
-  const imageUrl =
-    event.imageUrl === "" ? "/images/no-image.png" : event.imageUrl;
+  const imageUrl = event.imageUrl === "" ? NoImage : event.imageUrl;
 
   return (
     <div

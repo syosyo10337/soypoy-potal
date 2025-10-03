@@ -25,7 +25,11 @@ export default function GridItem({
   index,
 }: GridItemProps) {
   return (
-    <div className={"group cursor-pointer py-6 px-4 md:px-5 border-soypoy-secondary"}>
+    <div
+      className={
+        "group cursor-pointer py-6 px-4 md:px-5 border-soypoy-secondary"
+      }
+    >
       <div className="relative  mb-2 aspect-square">
         <Image
           src={thumbnail}
@@ -34,7 +38,12 @@ export default function GridItem({
           height={400}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 overflow-hidden"
         />
-        <div className={cn(getLabelPositionClasses(index), "scale-100 md:scale-110")}>
+        <div
+          className={cn(
+            getLabelPositionClasses(index),
+            "scale-100 md:scale-110",
+          )}
+        >
           <BubleLabel variant={eventType} />
         </div>
       </div>

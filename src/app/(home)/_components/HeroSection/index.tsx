@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import HeroSectionTopFrame from "@/assets/HeroSectionTopFrame.svg";
 import FudaOverLay from "./FudaOverLay";
-import HeroSecBottomFrame from "./HeroSecBottomFrame";
+import HeroSectionTopFrame from "./heroSectionTopFrame.svg";
+import HeroSecBottomFrame from "./TagLine";
 import VideoComponent from "./VideoComponent";
 
 export default function HeroSection() {

@@ -1,9 +1,25 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Noto_Sans_JP } from "next/font/google";
-import "./globals.css";
+import "@/assets/globals.css";
+import localFont from "next/font/local";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import { anymale, bernardMT } from "../../lib/fonts";
+import Header from "@/components/Header/Header";
+
+export const anymale = localFont({
+  src: "../assets/fonts/anymale/AnyMale.ttf",
+  weight: "400",
+  style: "normal",
+  variable: "--font-anymale",
+  display: "swap",
+});
+
+export const bernardMT = localFont({
+  src: "../assets/fonts/bernard/BernardMTCondensed.ttf",
+  weight: "400",
+  style: "normal",
+  variable: "--font-bernard-mt",
+  display: "swap",
+});
 
 const bricolageGrotesque = Bricolage_Grotesque({
   variable: "--font-bricolage-grotesque",

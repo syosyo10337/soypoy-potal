@@ -1,5 +1,5 @@
-import { eventService } from "@/services/eventService";
 import { notFound } from "next/navigation";
+import { eventService } from "@/services/eventService";
 import EventCalendar from "./_components/EventCalendar";
 
 export default async function EventsPage() {

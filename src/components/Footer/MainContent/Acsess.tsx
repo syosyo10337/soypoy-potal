@@ -1,6 +1,8 @@
 export default function Acsess({ className }: { className: string }) {
   return (
-    <div className={`flex flex-col md:flex-row md:justify-between gap-6 ${className}`}>
+    <div
+      className={`flex flex-col md:flex-row md:justify-between gap-6 ${className}`}
+    >
       <div className="text-left">
         <h2 className="text-[32px] font-bold">Access</h2>
         <div className="text-lg">
