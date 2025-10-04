@@ -1,3 +1,4 @@
+// NOTE: Imageコンポーネントによる実装を検討したが、bg-imageとしての活用なので、現在の実装のままにする。
 export default function FudaFilmRollBg() {
   return (
     <div className="film-roll-container">
