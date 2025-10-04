@@ -135,7 +135,6 @@
   }
 
   /* Film Roll Background Images */
-  /* TODO: パスを変更する。 */
   .bg-filmroll-left {
     background-image: url('/layouts/fuda_filmroll_left.png');
   }
