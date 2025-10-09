@@ -6,7 +6,7 @@ import VideoComponent from "./VideoComponent";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[140vh] md:h-[100vh] z-10">
+    <section className="relative w-full h-[80vh] md:h-[90vh] z-10">
       <Suspense fallback={<div>Loading...</div>}>
         <VideoComponent />
       </Suspense>
