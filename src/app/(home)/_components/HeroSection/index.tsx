@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import HeroSectionTopFrame from "@/assets/HeroSectionTopFrame.svg";
 import FudaOverLay from "./FudaOverLay";
-import HeroSecBottomFrame from "./HeroSecBottomFrame";
+import HeroSectionTopFrame from "./heroSectionTopFrame.svg";
+import HeroSecBottomFrame from "./TagLine";
 import VideoComponent from "./VideoComponent";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[140vh] md:h-[80vh] z-10">
+    <section className="relative w-full h-[140vh] md:h-[100vh] z-10">
       <Suspense fallback={<div>Loading...</div>}>
         <VideoComponent />
       </Suspense>

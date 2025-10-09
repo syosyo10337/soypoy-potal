@@ -1,20 +1,21 @@
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+} from "@/components/shadcn/navigation-menu";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/components/shadcn/sheet";
+import SopyoyLogoBlackImage from "./soypoyLogoBk.png";
 
 const navItems = [
   { name: "About", href: "/about" },
@@ -29,10 +30,10 @@ export default function Header() {
         <div>
           <Link href="/" className="pl-2 flex items-center">
             <Image
-              src="/images/soypoy_logo_black.png"
+              src={SopyoyLogoBlackImage}
               alt="SOYPOY"
-              width={120}
-              height={40}
+              width={144}
+              height={48}
               priority
               className="object-contain"
             />

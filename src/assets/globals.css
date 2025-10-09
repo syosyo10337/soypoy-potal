@@ -136,11 +136,11 @@
 
   /* Film Roll Background Images */
   .bg-filmroll-left {
-    background-image: url('/images/layouts/fuda_filmroll_left.png');
+    background-image: url('/layouts/fuda_filmroll_left.png');
   }
 
   .bg-filmroll-right {
-    background-image: url('/images/layouts/fuda_filmroll_right.png');
+    background-image: url('/layouts/fuda_filmroll_right.png');
   }
 
   /* Film Roll Container */

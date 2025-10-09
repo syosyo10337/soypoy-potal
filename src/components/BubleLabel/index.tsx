@@ -1,62 +1,79 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import type * as React from "react";
 import { EventType } from "@/domain/entities/eventType";
 import { cn } from "@/utils/cn";
+import {
+  ArtLabelImage,
+  ComedyLabelImage,
+  DanceLabelImage,
+  DesignLabelImage,
+  ImproKanjiLabelImage,
+  ImproLabelImage,
+  MovieLabelImage,
+  MusicLabelImage,
+  PhotoLabelImage,
+  TalkLabelImage,
+  TheaterLabelImage,
+  WorkshopLabelImage,
+} from "./assets";
 
 const variantMap = {
   [EventType.Art]: {
-    image: "/images/bubleLabel/art.png",
+    image: ArtLabelImage,
     label: "アート",
   },
   [EventType.Comedy]: {
-    image: "/images/bubleLabel/comeday.png",
+    image: ComedyLabelImage,
     label: "お笑い",
   },
   [EventType.Dance]: {
-    image: "/images/bubleLabel/dance.png",
+    image: DanceLabelImage,
     label: "ダンス",
   },
   [EventType.Design]: {
-    image: "/images/bubleLabel/design.png",
+    image: DesignLabelImage,
     label: "デザイン",
   },
   [EventType.Impro]: {
-    image: "/images/bubleLabel/impro.png",
+    image: ImproLabelImage,
     label: "インプロ",
   },
   [EventType.Impro_Kanji]: {
-    image: "/images/bubleLabel/impor_kanji.png",
+    image: ImproKanjiLabelImage,
     label: "即興",
   },
   [EventType.Movie]: {
-    image: "/images/bubleLabel/movie.png",
+    image: MovieLabelImage,
     label: "映画",
   },
   [EventType.Music]: {
-    image: "/images/bubleLabel/music.png",
+    image: MusicLabelImage,
     label: "音楽",
   },
   [EventType.Photo]: {
-    image: "/images/bubleLabel/photo.png",
+    image: PhotoLabelImage,
     label: "写真",
   },
   [EventType.Talk]: {
-    image: "/images/bubleLabel/talk.png",
+    image: TalkLabelImage,
     label: "トーク",
   },
   [EventType.Theater]: {
-    image: "/images/bubleLabel/theater.png",
+    image: TheaterLabelImage,
     label: "演劇",
   },
   [EventType.Workshop]: {
-    image: "/images/bubleLabel/workshop.png",
+    image: WorkshopLabelImage,
     label: "ワークショップ",
   },
   [EventType.Other]: {
-    image: "/images/bubleLabel/art.png",
+    image: ArtLabelImage,
     label: "その他",
   },
-} as const satisfies Record<EventType, { image: string; label: string }>;
+} as const satisfies Record<
+  EventType,
+  { image: StaticImageData; label: string }
+>;
 
 interface BubleLabelProps
   extends Omit<React.ComponentProps<"div">, "children"> {
