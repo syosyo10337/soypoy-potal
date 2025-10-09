@@ -25,15 +25,15 @@ const navItems = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 left-0 right-0 z-50 px-4 py-3 bg-soypoy-main">
+    <header className="sticky top-0 left-0 right-0 z-50 px-4 bg-soypoy-main">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div>
-          <Link href="/" className="pl-2 flex items-center">
+          <Link href="/" className="px-3 flex items-center">
             <Image
               src={SopyoyLogoBlackImage}
               alt="SOYPOY"
-              width={144}
-              height={48}
+              width={160}
+              height={90}
               priority
               className="object-contain"
             />
