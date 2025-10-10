@@ -109,6 +109,97 @@
   }
 }
 
+/* Fuda Float Animations - ゆらゆら揺れるアニメーション */
+@keyframes float-1 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  25% {
+    transform: translate(2px, -3px) rotate(calc(var(--rotate, 0deg) + 2deg));
+  }
+  50% {
+    transform: translate(-1px, -5px) rotate(calc(var(--rotate, 0deg) - 1deg));
+  }
+  75% {
+    transform: translate(-3px, -2px) rotate(calc(var(--rotate, 0deg) + 1deg));
+  }
+}
+
+@keyframes float-2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  30% {
+    transform: translate(-2px, -4px) rotate(calc(var(--rotate, 0deg) - 2deg));
+  }
+  60% {
+    transform: translate(3px, -6px) rotate(calc(var(--rotate, 0deg) + 2deg));
+  }
+  90% {
+    transform: translate(1px, -3px) rotate(calc(var(--rotate, 0deg) - 1deg));
+  }
+}
+
+@keyframes float-3 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  20% {
+    transform: translate(3px, -2px) rotate(calc(var(--rotate, 0deg) + 1deg));
+  }
+  55% {
+    transform: translate(-2px, -5px) rotate(calc(var(--rotate, 0deg) - 2deg));
+  }
+  85% {
+    transform: translate(2px, -4px) rotate(calc(var(--rotate, 0deg) + 1deg));
+  }
+}
+
+@keyframes float-4 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  35% {
+    transform: translate(-3px, -3px) rotate(calc(var(--rotate, 0deg) - 1deg));
+  }
+  65% {
+    transform: translate(2px, -6px) rotate(calc(var(--rotate, 0deg) + 2deg));
+  }
+  95% {
+    transform: translate(-1px, -2px) rotate(calc(var(--rotate, 0deg) - 1deg));
+  }
+}
+
+@keyframes float-5 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  25% {
+    transform: translate(2px, -5px) rotate(calc(var(--rotate, 0deg) + 2deg));
+  }
+  60% {
+    transform: translate(-3px, -3px) rotate(calc(var(--rotate, 0deg) - 1deg));
+  }
+  80% {
+    transform: translate(1px, -4px) rotate(calc(var(--rotate, 0deg) + 1deg));
+  }
+}
+
+@keyframes float-6 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  40% {
+    transform: translate(-2px, -4px) rotate(calc(var(--rotate, 0deg) - 2deg));
+  }
+  70% {
+    transform: translate(3px, -5px) rotate(calc(var(--rotate, 0deg) + 1deg));
+  }
+  90% {
+    transform: translate(-1px, -3px) rotate(calc(var(--rotate, 0deg) - 1deg));
+  }
+}
+
 
 @layer utilities {
   /* Marquee Container */
@@ -210,6 +301,31 @@
     .film-roll-side {
       width: 3.5rem;
     }
+  }
+
+  /* Fuda Float Animation Classes */
+  .animate-float-1 {
+    animation: float-1 6s ease-in-out infinite;
+  }
+
+  .animate-float-2 {
+    animation: float-2 7s ease-in-out infinite;
+  }
+
+  .animate-float-3 {
+    animation: float-3 8s ease-in-out infinite;
+  }
+
+  .animate-float-4 {
+    animation: float-4 6.5s ease-in-out infinite;
+  }
+
+  .animate-float-5 {
+    animation: float-5 7.5s ease-in-out infinite;
+  }
+
+  .animate-float-6 {
+    animation: float-6 5.5s ease-in-out infinite;
   }
 }
 
