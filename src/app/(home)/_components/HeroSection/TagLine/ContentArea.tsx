@@ -3,10 +3,7 @@ import { MoonIcon, SunIcon } from "./assets";
 
 export default function ContentArea() {
   return (
-    <div
-      className="bg-soypoy-main/95 backdrop-blur-sm rounded-3xl
-                       p-6 "
-    >
+    <div className="bg-soypoy-main/95 backdrop-blur-sm rounded-3xl p-4 ">
       <HeroSecHeader />
       <div className="flex flex-col md:flex-row gap-4">
         <HeroSecMainContent />

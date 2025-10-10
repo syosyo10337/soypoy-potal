@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import FudaOverLay from "./FudaOverLay";
 import HeroSectionTopFrame from "./heroSectionTopFrame.svg";
 import HeroSecBottomFrame from "./TagLine";
-import VideoComponent from "./VideoComponent";
+import { VideoComponent } from "./VideoComponent";
 
 export default function HeroSection() {
   return (
