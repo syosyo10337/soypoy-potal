@@ -7,7 +7,7 @@ import {
   notoSansJP,
 } from "@/assets/fonts";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header/Header";
+import Header from "@/components/Header";
 import { cn } from "@/utils/cn";
 
 export const metadata: Metadata = {

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @theme {
   /* SOY-POY カラーテーマ */
@@ -52,6 +53,14 @@
   --film-roll-timing: linear;
   --film-roll-iteration: infinite;
   --film-roll-distance: 100vh;
+  
+  /* Sheet animations */
+  --sheet-slide-duration: 300ms;
+  --sheet-slide-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Animation definitions */
+  --animate-slide-in-right: slideInFromRight var(--sheet-slide-duration) var(--sheet-slide-timing);
+  --animate-slide-out-right: slideOutToRight var(--sheet-slide-duration) var(--sheet-slide-timing);
 }
 
 
@@ -79,6 +88,24 @@
   }
   100% {
     background-position: 0 theme(--film-roll-distance);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }
 
@@ -141,6 +168,15 @@
 
   .bg-filmroll-right {
     background-image: url('/layouts/fuda_filmroll_right.png');
+  }
+
+  /* Sheet Animations */
+  .animate-slide-in-right {
+    animation: slideInFromRight 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-slide-out-right {
+    animation: slideOutToRight 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Film Roll Container */
