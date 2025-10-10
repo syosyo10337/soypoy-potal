@@ -43,12 +43,12 @@
   --radius-xl: calc(var(--radius) + 4px);
   
   /* Marquee animations */
-  --marquee-duration: 20s;
+  --marquee-duration: 3s;
   --marquee-timing: linear;
   --marquee-iteration: infinite;
   
   /* Film roll animations */
-  --film-roll-duration: 16s;
+  --film-roll-duration: 18s;
   --film-roll-timing: linear;
   --film-roll-iteration: infinite;
   --film-roll-distance: 100vh;

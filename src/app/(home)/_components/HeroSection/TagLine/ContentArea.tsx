@@ -5,7 +5,7 @@ export default function ContentArea() {
   return (
     <div
       className="bg-soypoy-main/95 backdrop-blur-sm rounded-3xl
-                      border-t-0 border-l-1 border-r-4 border-b-6 border-soypoy-secondary p-6 "
+                       p-6 "
     >
       <HeroSecHeader />
       <div className="flex flex-col md:flex-row gap-4">

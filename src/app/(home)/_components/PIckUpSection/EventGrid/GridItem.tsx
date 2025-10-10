@@ -47,13 +47,13 @@ export default function GridItem({
           <BubleLabel variant={eventType} />
         </div>
       </div>
-      <p className="text-xs text-soypoy-muted m-2 md:m-4">{date}</p>
+      <p className="text-sm text-soypoy-muted m-2 md:m-4">{date}</p>
       <h3 className="text-lg text-soypoy-secondary group-hover:text-soypoy-accent transition-colors break-words hyphens-auto leading-tight">
         {title}
       </h3>
       <Link
         href={link}
-        className="inline-flex items-center text-muted-foreground hover:text-soypoy-main transition-colors text-sm"
+        className="inline-flex items-center text-muted-foreground text-xs mt-3"
       >
         Read More &gt;
       </Link>
