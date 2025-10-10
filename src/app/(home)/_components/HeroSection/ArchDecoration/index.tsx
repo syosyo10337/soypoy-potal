@@ -1,4 +1,5 @@
 import Image from "next/image";
+import FudaOverLay from "./FudaOverLay";
 import ArchImage from "./soypoyArch.png";
 
 export default function ArchDecoration({ className }: { className: string }) {
@@ -13,6 +14,8 @@ export default function ArchDecoration({ className }: { className: string }) {
           height={426}
           className="w-full h-auto"
         />
+        {/* FudaOverLayを同じaspect-ratio内に配置 */}
+        <FudaOverLay className="hidden md:block absolute inset-0 pointer-events-none" />
       </div>
     </div>
   );
