@@ -7,7 +7,7 @@ interface HeroSecDescriptionProps {
 }
 
 // TODO: fontを適用する。
-export default function HeroSecBottomFrame({
+export default function RibonDescription({
   className = "",
 }: HeroSecDescriptionProps) {
   return (
