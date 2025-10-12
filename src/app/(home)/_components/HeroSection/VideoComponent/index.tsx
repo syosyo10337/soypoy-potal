@@ -1,3 +1,5 @@
+import { cn } from "@/utils/cn";
+
 export function VideoComponent() {
   const createClipPath = () => {
     const straightHeight = "58.5%";
@@ -14,66 +16,28 @@ export function VideoComponent() {
   };
 
   return (
-    <div className="absolute inset-0 w-full h-1/2 md:h-full overflow-hidden aspect-video">
-      {/* SP版: md未満で表示 */}
-      <div
-        className="md:hidden aspect-video"
-        style={{
-          clipPath: createClipPath(),
-        }}
+    <div
+      className={cn(
+        "absolute inset-0 w-full",
+        "aspect-smartphone md:aspect-retro lg:aspect-video",
+      )}
+      style={{
+        clipPath: createClipPath(),
+      }}
+    >
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="w-full h-full object-cover"
+        aria-label="soy-poy promotional background video"
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute top-0 left-0 w-full h-full"
-          aria-label="soy-poy promotional background video"
-        >
-          <source
-            src="/videos/hero.webm"
-            type="video/webm"
-            media="(max-width: 767px)"
-          />
-          {/* NOTE: fallback mp4 */}
-          <source
-            src="/videos/hero.mp4"
-            type="video/mp4"
-            media="(max-width: 767px)"
-          />
-        </video>
-      </div>
-
-      {/* PC版: md以上で表示 */}
-      <div
-        className="hidden md:block w-full md:aspect-retro lg:aspect-video"
-        style={{
-          clipPath: createClipPath(),
-        }}
-      >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="w-full h-full object-cover"
-          aria-label="soy-poy promotional background video"
-        >
-          <source
-            src="/videos/hero.webm"
-            type="video/webm"
-            media="(min-width: 768px)"
-          />
-          {/* NOTE: fallback mp4 */}
-          <source
-            src="/videos/hero-desktop.mp4"
-            type="video/mp4"
-            media="(min-width: 768px)"
-          />
-        </video>
-      </div>
+        <source src="/videos/hero.webm" type="video/webm" />
+        {/* NOTE: fallback mp4 */}
+        <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+      </video>
     </div>
   );
 }

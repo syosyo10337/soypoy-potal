@@ -44,6 +44,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   --aspect-retro: 4 / 3; 
+  --aspect-smartphone: 9 / 16;
   
   /* Marquee animations */
   --marquee-duration: 3s;

@@ -18,9 +18,19 @@ interface FudaOverLayProps {
 }
 
 // NOTE: ビューポート幅基準の幅（w-[vw]）でサイズ調整。アスペクト比を維持しつつ、レスポンシブ時に比例的に縮小。
+// 下の素材の配置を変更する。
 export default function FudaOverLay({ className }: FudaOverLayProps) {
   return (
     <div className={cn(className)}>
+      <FudaOverLayTop />
+      <FudaOverLayBottom />
+    </div>
+  );
+}
+
+function FudaOverLayTop() {
+  return (
+    <>
       <div
         className="absolute top-[20%] left-[23%] will-change-transform animate-float-1"
         style={{ "--rotate": "-23deg" } as React.CSSProperties}
@@ -88,9 +98,21 @@ export default function FudaOverLay({ className }: FudaOverLayProps) {
       >
         <FudaImage src={MovieFudaImage} alt="Movie" className="w-[3.5vw]" />
       </div>
+    </>
+  );
+}
 
+function FudaOverLayBottom() {
+  return (
+    <div>
       {/* 左下エリア - アニメーションなし */}
-      <div className="absolute top-[105%] -left-[6%] transform -rotate-1">
+      <div
+        className={cn(
+          "absolute transform -rotate-1 -left-[6%]",
+          "top-[calc(105%+35%)]",
+          "lg:top-[105%]",
+        )}
+      >
         <FudaImage
           src={StationAndGinImage}
           alt="Shimokitazawa Station"
@@ -99,7 +121,13 @@ export default function FudaOverLay({ className }: FudaOverLayProps) {
       </div>
 
       {/* 右下エリア - 自由の女神はアニメーションなし、写真札はあり */}
-      <div className="absolute top-[83%] right-[1%] transform -rotate-21">
+      <div
+        className={cn(
+          "absolute transform -rotate-21 right-[1%]",
+          "top-[calc(83%+35%)]",
+          "lg:top-[83%]",
+        )}
+      >
         <FudaImage
           src={StatueOfLibertyImage}
           alt="Statue of Liberty"
@@ -107,7 +135,12 @@ export default function FudaOverLay({ className }: FudaOverLayProps) {
         />
       </div>
       <div
-        className="absolute top-[150%] right-[7%] will-change-transform animate-float-2"
+        className={cn(
+          "absolute will-change-transform animate-float-2",
+          "right-[7%]",
+          "top-[calc(150%+35%)]",
+          "lg:top-[150%]",
+        )}
         style={
           {
             "--rotate": "10deg",
