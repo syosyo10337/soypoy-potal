@@ -6,18 +6,25 @@ interface HeroSecDescriptionProps {
   className?: string;
 }
 
-// TODO: fontを適用する。
+// TODO: spようのアニメーションに合わせて配置を要検討
 export default function RibonDescription({
   className = "",
 }: HeroSecDescriptionProps) {
   return (
-    <div className={cn("w-full max-w-4xl mx-auto relative", className)}>
-      <div className="absolute top-4 left-0 right-0 w-full z-20 md:-top-24">
-        <HeroSecRibon className="w-full h-auto" />
-      </div>
-      <div className="relative z-10 pt-26 px-2 sm:px-6 md:px-14">
-        <ContentArea />
-      </div>
+    <div className={cn("w-full max-w-4xl", className)}>
+      <HeroSecRibon className="relative w-full z-20" />
+
+      {/* コンテンツエリア - SP: absolute(リボンの下), MD以上: relative */}
+      <ContentArea
+        className={cn(
+          "z-10",
+          "px-12 md:px-24 lg:px-22",
+          // SP: absoluteでリボンの下に配置
+          "absolute top-26 left-0 right-0",
+          // MD以上: relativeで通常フロー（リボンの下に配置）
+          "md:relative md:top-auto md:-mt-16",
+        )}
+      />
     </div>
   );
 }

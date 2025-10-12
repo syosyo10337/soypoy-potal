@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 
-export function VideoComponent() {
+export default function VideoComponent() {
   const createClipPath = () => {
     const straightHeight = "58.5%";
     const curve1Height = "85%";

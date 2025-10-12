@@ -1,11 +1,16 @@
 import { Separator } from "@/components/shadcn/separator";
+import { cn } from "@/utils/cn";
 import { MoonIcon, SunIcon } from "./assets";
 
-export default function ContentArea() {
+interface ContentAreaProps {
+  className?: string;
+}
+
+export default function ContentArea({ className }: ContentAreaProps) {
   return (
-    <div className="bg-soypoy-main/95 backdrop-blur-sm rounded-3xl p-4 ">
+    <div className={cn("p-4", className)}>
       <HeroSecHeader />
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         <HeroSecMainContent />
         <HeroSecSeparator />
         <SoypoySlogan />
@@ -28,8 +33,8 @@ function HeroSecHeader() {
 
 function HeroSecMainContent() {
   return (
-    <div className="flex-1 md:w-7/10">
-      <p className="text-sm md:text-base leading-relaxed">
+    <div className="flex-1 lg:w-7/10">
+      <p className={cn("leading-relaxed", "text-sm md:text-lg")}>
         SOY-POYは「好きに生きて、一緒に生きる」をコンセプトに
         オープンしたバーとステージのある週末限定のパブリックハウス
         （PUB）です。下北沢に拠点を構えるSOY-POYは、ジャンル
@@ -77,12 +82,14 @@ function SoypoySlogan() {
   ];
 
   return (
-    <div className="md:w-3/10 space-y-4">
+    <div className="lg:w-3/10 space-y-4">
       <div className="space-y-3">
-        <div className="flex items-center md:items-start flex-col gap-2">
+        <div
+          className={cn("flex flex-col gap-2", "items-center lg:items-start")}
+        >
           {slogans.map((slogan) => (
             <div
-              className="flex items-start text-center md:text-left"
+              className="flex items-start text-center lg:text-left"
               key={slogan.title}
             >
               <div>

@@ -1,18 +1,27 @@
 import { Suspense } from "react";
+import { cn } from "@/utils/cn";
 import ArchDecoration from "./ArchDecoration";
-import { VideoComponent } from "./VideoComponent";
+import RibonDescription from "./RibonDescription";
+import VideoComponent from "./VideoComponent";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[140vh] md:h-[120vh] z-10 overflow-x-hidden">
+    <section
+      className={cn(
+        "relative w-full z-10 overflow-x-hidden",
+        "h-[140vh] md:h-[120vh]",
+      )}
+    >
       <Suspense fallback={<div>Loading...</div>}>
         <VideoComponent />
       </Suspense>
       <ArchDecoration className="absolute pt-2 px-2 w-full h-full pointer-events-none z-10" />
-      {/* <RibonDescription
-        className="absolute top-[75vh] md:top-[80vh] lg:top-[70vh] z-10 w-full px-8
-        md:left-1/2 md:-translate-x-1/2 md:w-7/10 md:px-0"
-      /> */}
+      <RibonDescription
+        className={cn(
+          "absolute z-10 md:left-1/2 md:-translate-x-1/2",
+          "bottom-[10vh] md:bottom-[30vh] lg:bottom-[40vh] xl:bottom-[30vh] 2xl:bottom-[42vh]",
+        )}
+      />
     </section>
   );
 }
