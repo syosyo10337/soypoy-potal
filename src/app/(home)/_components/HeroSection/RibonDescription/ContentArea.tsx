@@ -10,7 +10,13 @@ export default function ContentArea({ className }: ContentAreaProps) {
   return (
     <div className={cn("p-4", className)}>
       <HeroSecHeader />
-      <div className="flex flex-col lg:flex-row gap-4">
+      <div
+        className={cn(
+          "flex",
+          "flex-col lg:flex-row",
+          "gap-3 md:gap-0 lg:gap-4",
+        )}
+      >
         <HeroSecMainContent />
         <HeroSecSeparator />
         <SoypoySlogan />
@@ -21,7 +27,7 @@ export default function ContentArea({ className }: ContentAreaProps) {
 
 function HeroSecHeader() {
   return (
-    <div className="text-center mb-2">
+    <div className={cn("text-center", "pb-2 pt-2 md:pb-0")}>
       <h2 className="text-xl font-bold font-anymale flex items-center justify-center">
         <SunIcon className="w-10 h-10" />
         <span className="text-2xl">About SOY-POY</span>
@@ -34,7 +40,9 @@ function HeroSecHeader() {
 function HeroSecMainContent() {
   return (
     <div className="flex-1 lg:w-7/10">
-      <p className={cn("leading-relaxed", "text-sm md:text-lg")}>
+      <p
+        className={cn("leading-relaxed", "text-sm/6 md:text-lg/8 font-medium")}
+      >
         SOY-POYは「好きに生きて、一緒に生きる」をコンセプトに
         オープンしたバーとステージのある週末限定のパブリックハウス
         （PUB）です。下北沢に拠点を構えるSOY-POYは、ジャンル
@@ -49,16 +57,16 @@ function HeroSecMainContent() {
 function HeroSecSeparator() {
   return (
     <>
-      <div className="hidden md:block">
+      <div className="hidden md:block lg:pb- lg:pt-2">
         <Separator
           orientation="vertical"
-          className="h-full border-soypoy-secondary border-1"
+          className="h-full !w-[2px] bg-soypoy-secondary"
         />
       </div>
       <div className="block md:hidden">
         <Separator
           orientation="horizontal"
-          className="border-soypoy-secondary border-1"
+          className="!h-[1px] bg-soypoy-secondary"
         />
       </div>
     </>
@@ -92,14 +100,31 @@ function SoypoySlogan() {
               className="flex items-start text-center lg:text-left"
               key={slogan.title}
             >
-              <div>
-                <h3 className="font-bold font-anymale">
-                  <span className="text-xl font-black text-soypoy-accent">
+              <div className="pb-1">
+                <h3
+                  className={cn(
+                    "font-bold font-anymale",
+                    "text-xl md:text-2xl",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "text-2xl md:text-3xl ",
+                      "font-black text-soypoy-accent",
+                    )}
+                  >
                     {slogan.title[0]}
                   </span>
                   {slogan.title.slice(1)}
                 </h3>
-                <p className="text-sm font-bernard-mt ">{slogan.description}</p>
+                <p
+                  className={cn(
+                    "text-base md:text-lg",
+                    "font-zen-old-mincho leading-none",
+                  )}
+                >
+                  {slogan.description}
+                </p>
               </div>
             </div>
           ))}

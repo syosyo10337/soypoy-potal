@@ -11,14 +11,14 @@ export default function RibonDescription({
   className = "",
 }: HeroSecDescriptionProps) {
   return (
-    <div className={cn("w-full max-w-4xl", className)}>
+    <div className={cn("w-full max-w-4xl xl:max-w-5xl", className)}>
       <HeroSecRibon className="relative w-full z-20" />
 
       {/* コンテンツエリア - SP: absolute(リボンの下), MD以上: relative */}
       <ContentArea
         className={cn(
           "z-10",
-          "px-12 md:px-24 lg:px-22",
+          "px-14 md:px-27 lg:px-19",
           // SP: absoluteでリボンの下に配置
           "absolute top-26 left-0 right-0",
           // MD以上: relativeで通常フロー（リボンの下に配置）

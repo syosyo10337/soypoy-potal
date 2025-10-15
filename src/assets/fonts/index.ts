@@ -1,4 +1,8 @@
-import { Bricolage_Grotesque, Noto_Sans_JP } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  Noto_Sans_JP,
+  Zen_Old_Mincho,
+} from "next/font/google";
 import localFont from "next/font/local";
 
 export const anymale = localFont({
@@ -25,5 +29,12 @@ export const bricolageGrotesque = Bricolage_Grotesque({
 export const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
   subsets: ["latin"],
+  display: "swap",
+});
+
+export const zenOldMincho = Zen_Old_Mincho({
+  variable: "--font-zen-old-mincho",
+  subsets: ["latin"],
+  weight: "600",
   display: "swap",
 });

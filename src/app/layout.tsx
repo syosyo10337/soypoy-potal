@@ -5,6 +5,7 @@ import {
   bernardMT,
   bricolageGrotesque,
   notoSansJP,
+  zenOldMincho,
 } from "@/assets/fonts";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         notoSansJP.variable,
         anymale.variable,
         bernardMT.variable,
+        zenOldMincho.variable,
       )}
     >
       <body

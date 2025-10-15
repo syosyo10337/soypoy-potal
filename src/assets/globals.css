@@ -35,6 +35,7 @@
   --font-display: var(--font-bricolage-grotesque), var(--font-noto-sans-jp), ui-sans-serif, system-ui, sans-serif;
   --font-anymale: var(--font-anymale), ui-sans-serif, system-ui, sans-serif;
   --font-bernard-mt: var(--font-bernard-mt), ui-sans-serif, system-ui, sans-serif;
+  --font-zen-old-mincho: var(--font-zen-old-mincho), ui-sans-serif, system-ui, sans-serif;
   
   /* Border radius */
   --radius: 0.625rem;

@@ -25,15 +25,22 @@ export default function HeroSection() {
             // TODO: SP: Videoコンテナの下端から下に配置（一旦シンプルに）
             "bottom-[-60%] left-0 right-0",
             // NOTE: tablet/pc: Videoの高さに対する割合で配置（下端からの相対位置を維持）
-            "md:top-[70%] md:bottom-auto ",
+            "md:top-[72%] md:bottom-auto ",
             "lg:top-[70%]",
             "xl:top-[74%]",
           )}
         />
       </div>
-
-      {/* NOTE: RibonDescriptionが見切れないように下部に余白を確保 */}
-      <div className="h-[100vh] md:h-[30vh] lg:h-[25vh] xl:h-[20vh]" />
+      {/* NOTE: RibonDescriptionを見切れないように下部に余白を確保 */}
+      <div
+        className={cn(
+          "h-[60vh]", //TODO:  SP: bottom-[-60%]に合わせて調整 一旦
+          "md:h-[42vh]",
+          "lg:h-[29vh]",
+          "xl:h-[31vh]",
+        )}
+        aria-hidden="true"
+      />
     </section>
   );
 }
