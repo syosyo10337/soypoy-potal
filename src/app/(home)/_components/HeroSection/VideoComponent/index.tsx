@@ -1,5 +1,3 @@
-import { cn } from "@/utils/cn";
-
 export default function VideoComponent() {
   const createClipPath = () => {
     const straightHeight = "58.5%";
@@ -17,10 +15,7 @@ export default function VideoComponent() {
 
   return (
     <div
-      className={cn(
-        "absolute inset-0 w-full",
-        "aspect-smartphone md:aspect-retro lg:aspect-video",
-      )}
+      className="absolute inset-0 w-full h-full"
       style={{
         clipPath: createClipPath(),
       }}
