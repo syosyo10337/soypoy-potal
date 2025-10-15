@@ -5,9 +5,10 @@ import {
   bernardMT,
   bricolageGrotesque,
   notoSansJP,
+  zenOldMincho,
 } from "@/assets/fonts";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header/Header";
+import Header from "@/components/Header";
 import { cn } from "@/utils/cn";
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         notoSansJP.variable,
         anymale.variable,
         bernardMT.variable,
+        zenOldMincho.variable,
       )}
     >
       <body

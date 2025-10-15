@@ -1,0 +1,14 @@
+export { default as ArtFudaImage } from "./art.png";
+export { default as ComedyFudaImage } from "./comedy.png";
+export { default as DanceFudaImage } from "./dance.png";
+export { default as DesignFudaImage } from "./design.png";
+export { default as ImproFudaImage } from "./impro.png";
+export { default as MovieFudaImage } from "./movie.png";
+export { default as MusicFudaImage } from "./music.png";
+export { default as PhotoFudaImage } from "./photo.png";
+export { default as SessionFudaImage } from "./session.png";
+export { default as StationAndGinImage } from "./stationAndGin.png";
+export { default as StatueOfLibertyImage } from "./statueOfLiberty.png";
+export { default as TalkFudaImage } from "./talk.png";
+export { default as TheaterFudaImage } from "./theater.png";
+export { default as WorkshopFudaImage } from "./workshop.png";
