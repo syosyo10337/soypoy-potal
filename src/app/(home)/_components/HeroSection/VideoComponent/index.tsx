@@ -31,7 +31,10 @@ export default function VideoComponent() {
       >
         <source src="/videos/hero.webm" type="video/webm" />
         {/* NOTE: fallback mp4 */}
-        <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+        <source src="/videos/hero.mp4" type="video/mp4" />
+
+        <source src="/videos/hero_sp.webm" type="video/webm" />
+        <source src="/videos/hero_sp.mp4" type="video/mp4" />
       </video>
     </div>
   );
