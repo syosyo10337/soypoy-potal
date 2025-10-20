@@ -5,11 +5,7 @@ import {
   IllustrationRecord,
 } from "./Illustration";
 import WhatUpButton from "./WhatUpButton";
-import {
-  WhatUpLine,
-  WhatUpLineIntermediate,
-  WhatUpLineReverse,
-} from "./WhatUpLine";
+import { WhatUpLine } from "./WhatUpLine";
 
 export default function WhatUpSection() {
   return (
@@ -21,24 +17,26 @@ export default function WhatUpSection() {
       )}
     >
       <WhatUpLine />
-      {/* スマホ用のレイアウト */}
+      {/* sp/tab用のレイアウト */}
       <div className="xl:hidden">
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
           <WhatUpButton prefix="Shop" title="Artworks" />
           <IllustrationRecord className="row-span-2" />
         </div>
-        <WhatUpLineIntermediate />
+        <WhatUpLine hasWord={false} className="my-1" />
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
           <IllustrationBar className="row-span-2" />
           <WhatUpButton prefix="Marebito" title="Radio" />
         </div>
-        <WhatUpLineIntermediate />
+        <WhatUpLine hasWord={false} className="my-1" />
+
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
           <WhatUpButton prefix="Youtube" title="Channel" />
           <IllustrationLighter className="row-span-2" />
         </div>
       </div>
-      {/* タブレット以上のレイアウト */}
+
+      {/* pc用のレイアウト */}
       <div className="hidden xl:grid grid-flow-col grid-cols-3 grid-rows-3 gap-1">
         <WhatUpButton prefix="Shop" title="Artworks" />
         <IllustrationRecord className="row-span-2" />
@@ -48,7 +46,7 @@ export default function WhatUpSection() {
         <IllustrationLighter className="row-span-2" />
       </div>
 
-      <WhatUpLineReverse />
+      <WhatUpLine direction="reverse" />
     </section>
   );
 }
