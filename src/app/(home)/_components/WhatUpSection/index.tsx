@@ -1,3 +1,4 @@
+import { cn } from "@/utils/cn";
 import {
   IllustrationBar,
   IllustrationLighter,
@@ -13,13 +14,15 @@ import {
 export default function WhatUpSection() {
   return (
     <section
-      className="
-        w-full max-w-[80vw] mx-auto z-30
-        py-8 md:py-12 lg:py-16"
+      className={cn(
+        "w-full mx-auto z-30",
+        "max-w-[80vw] md:max-w-[560px] xl:max-w-[80vw] 2xl:max-w-[70vw]", //NOTE: md~xlはタブレット表示なので横幅固定
+        "py-8 md:py-12 lg:py-16",
+      )}
     >
       <WhatUpLine />
       {/* スマホ用のレイアウト */}
-      <div className="md:hidden">
+      <div className="xl:hidden">
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
           <WhatUpButton prefix="Shop" title="Artworks" />
           <IllustrationRecord className="row-span-2" />
@@ -36,7 +39,7 @@ export default function WhatUpSection() {
         </div>
       </div>
       {/* タブレット以上のレイアウト */}
-      <div className="hidden md:grid grid-flow-col grid-cols-3 grid-rows-3 gap-1">
+      <div className="hidden xl:grid grid-flow-col grid-cols-3 grid-rows-3 gap-1">
         <WhatUpButton prefix="Shop" title="Artworks" />
         <IllustrationRecord className="row-span-2" />
         <IllustrationBar className="row-span-2" />
