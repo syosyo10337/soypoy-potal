@@ -1,4 +1,5 @@
 import type { PickUpEvent } from "@/app/(home)/_dummies/pickUpEvent";
+import { cn } from "@/utils/cn";
 import GridItem from "./GridItem";
 
 interface EventGridProps {
@@ -7,7 +8,14 @@ interface EventGridProps {
 
 export default function EventGrid({ events }: EventGridProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 w-full max-w-6xl mx-auto text-center divide-x-1 divide-y-1 md:divide-y-0">
+    <div
+      className={cn(
+        "grid grid-cols-2 xl:grid-cols-4",
+        "w-full max-w-6xl mx-auto text-center",
+        "max-w-[73vw] md:max-w-[560px] xl:max-w-[80vw] 2xl:max-w-[70vw]", //NOTE: md~xlはタブレット表示なので横幅固定
+
+      )}
+    >
       {events.map((event, index) => (
         <GridItem
           key={event.id}

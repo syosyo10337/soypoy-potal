@@ -1,0 +1,93 @@
+/* Fuda Float Animations - 振り子のように対角線方向に揺れる */
+/* 右上→左下の軌道 */
+@keyframes float-1 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: translate(-5px, 8px) rotate(calc(var(--rotate, 0deg) - 3deg));
+  }
+}
+
+/* 左上→右下の軌道 */
+@keyframes float-2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: translate(5px, 8px) rotate(calc(var(--rotate, 0deg) + 3deg));
+  }
+}
+
+/* 右上→左下の軌道（遅め） */
+@keyframes float-3 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: translate(-6px, 9px) rotate(calc(var(--rotate, 0deg) - 3.5deg));
+  }
+}
+
+/* 左上→右下の軌道（速め） */
+@keyframes float-4 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: translate(6px, 9px) rotate(calc(var(--rotate, 0deg) + 3.5deg));
+  }
+}
+
+/* 右上→左下の軌道（中間） */
+@keyframes float-5 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: translate(-5.5px, 8.5px) rotate(calc(var(--rotate, 0deg) - 3.2deg));
+  }
+}
+
+/* 左上→右下の軌道（大きめ） */
+@keyframes float-6 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: translate(6.5px, 9.5px) rotate(calc(var(--rotate, 0deg) + 3.8deg));
+  }
+}
+
+/* Fuda Float Animation Classes */
+/* 上部を起点に揺れる（ピン留めされているイメージ） */
+.animate-float-1 {
+  animation: float-1 1s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-float-2 {
+  animation: float-2 1.3s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-float-3 {
+  animation: float-3 1.5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-float-4 {
+  animation: float-4 1.7s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-float-5 {
+  animation: float-5 1.9s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-float-6 {
+  animation: float-6 1.5s ease-in-out infinite;
+  transform-origin: top center;
+}
+

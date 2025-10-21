@@ -98,7 +98,7 @@ export default function BubleLabel({
         alt={label}
         width={size}
         height={size}
-        className="w-full h-full object-contain drop-shadow-md"
+        className="w-full h-full object-contain drop-shadow-md xl:w-12"
       />
     </div>
   );

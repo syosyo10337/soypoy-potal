@@ -35,7 +35,7 @@ export default function HeroSection() {
       <div
         className={cn(
           "h-[60vh]", //TODO:  SP: bottom-[-60%]に合わせて調整 一旦
-          "md:h-[42vh]",
+          "md:h-[44vh]",
           "lg:h-[29vh]",
           "xl:h-[31vh]",
         )}
