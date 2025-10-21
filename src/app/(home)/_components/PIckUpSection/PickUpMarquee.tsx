@@ -1,28 +1,41 @@
-const text = "PICK UP EVENT!";
-const repeatCount = 14;
+import type { ComponentPropsWithoutRef } from "react";
 
-function PickUpMarquee() {
+const DEFAULT_TEXT = "PICK UP EVENT!";
+const DEFAULT_REPEAT_COUNT = 20;
+
+export const MarqueeDirection = {
+  normal: "normal",
+  reverse: "reverse",
+} as const;
+type MarqueeDirectionType = keyof typeof MarqueeDirection;
+
+interface PickUpMarqueeProps
+  extends Omit<ComponentPropsWithoutRef<"div">, "children"> {
+  direction?: MarqueeDirectionType;
+  text?: string;
+  repeatCount?: number;
+}
+
+export function PickUpMarquee({
+  direction = MarqueeDirection.normal,
+  text = DEFAULT_TEXT,
+  repeatCount = DEFAULT_REPEAT_COUNT,
+}: PickUpMarqueeProps) {
   return (
     <div className="marquee-container marquee-gap-md font-bernard-mt text-2xl bg-soypoy-accent py-1">
-      {Array.from({ length: repeatCount }, (_, _index) => (
-        <div className="marquee-item" key={Math.random()}>
+      {Array.from({ length: repeatCount }, (_, i) => (
+        <div
+          // biome-ignore lint/suspicious/noArrayIndexKey: <リストは動的に変更されないため。>
+          key={i}
+          className={
+            direction === MarqueeDirection.normal
+              ? "marquee-item"
+              : "marquee-item-reverse"
+          }
+        >
           {text}
         </div>
       ))}
     </div>
   );
 }
-
-function PickUpMarqueeReverse() {
-  return (
-    <div className="marquee-container marquee-gap-md font-bernard-mt text-2xl bg-soypoy-accent py-1">
-      {Array.from({ length: repeatCount }, (_, _index) => (
-        <div className="marquee-item-reverse" key={Math.random()}>
-          {text}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-export { PickUpMarquee, PickUpMarqueeReverse };
