@@ -27,7 +27,7 @@ export function PickUpMarquee({
   const items = Array.from({ length: repeatCount }, (_, i) => (
     <span // biome-ignore lint/suspicious/noArrayIndexKey: <リストは動的に変更されないため。>
       key={i}
-      className="inline-block pl-[1.25rem]"
+      className="inline-block pl-[1.25rem] text-soypoy-main"
     >
       {text}
     </span>
