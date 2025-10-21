@@ -91,7 +91,7 @@
     background-position: 0 0;
   }
   100% {
-    background-position: 0 theme(--film-roll-distance);
+    background-position: 0 var(--film-roll-distance);
   }
 }
 
@@ -186,36 +186,36 @@
   /* Marquee Items */
   .marquee-item {
     display: flex;
-    animation: marquee theme(--marquee-duration) theme(--marquee-timing) theme(--marquee-iteration);
+    animation: marquee var(--marquee-duration) var(--marquee-timing) var(--marquee-iteration);
   }
 
   .marquee-item-reverse {
     display: flex;
-    animation: marquee-reverse theme(--marquee-duration) theme(--marquee-timing) theme(--marquee-iteration);
+    animation: marquee-reverse var(--marquee-duration) var(--marquee-timing) var(--marquee-iteration);
   }
 
   /* Marquee Gap Utilities */
   .marquee-gap-sm {
-    gap: theme(spacing.4);
+    gap: var(spacing.4);
   }
 
   .marquee-gap-md {
-    gap: theme(spacing.4);
+    gap: var(spacing.4);
   }
 
   @media (min-width: 768px) {
     .marquee-gap-md {
-      gap: theme(spacing.5);
+      gap: var(spacing.5);
     }
   }
 
   .marquee-gap-lg {
-    gap: theme(spacing.6);
+    gap: var(spacing.6);
   }
 
   @media (min-width: 768px) {
     .marquee-gap-lg {
-      gap: theme(spacing.8);
+      gap: var(spacing.8);
     }
   }
 
@@ -223,7 +223,7 @@
   .film-roll-flow {
     background-repeat: repeat-y;
     background-size: 100% auto;
-    animation: film-roll-flow theme(--film-roll-duration) theme(--film-roll-timing) theme(--film-roll-iteration);
+    animation: film-roll-flow var(--film-roll-duration) var(--film-roll-timing) var(--film-roll-iteration);
   }
 
   /* Film Roll Background Images */

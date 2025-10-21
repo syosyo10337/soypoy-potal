@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from "react";
 
 const DEFAULT_TEXT = "PICK UP EVENT!";
-const DEFAULT_REPEAT_COUNT = 20;
+const DEFAULT_REPEAT_COUNT = 10;
 
 export const MarqueeDirection = {
   normal: "normal",
