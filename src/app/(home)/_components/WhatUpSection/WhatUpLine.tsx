@@ -1,8 +1,9 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/utils/cn";
 
-const LINE_COUNT = 100;
-const WORD = "What’s up";
+const DEFAULT_LINE_COUNT = 100;
+const DEFAULT_WORD = "What’s up";
 
 const whatUpLineVariants = cva("flex items-center overflow-hidden md:gap-1", {
   variants: {
@@ -10,22 +11,9 @@ const whatUpLineVariants = cva("flex items-center overflow-hidden md:gap-1", {
       normal: "flex-row",
       reverse: "flex-row-reverse",
     },
-
-    hasWord: {
-      true: "",
-      false: "",
-    },
   },
-  compoundVariants: [
-    {
-      direction: "reverse",
-      hasWord: true,
-      className: "",
-    },
-  ],
   defaultVariants: {
     direction: "normal",
-    hasWord: true,
   },
 });
 
@@ -41,40 +29,45 @@ const wordVariants = cva("font-bernard-mt text-nowrap text-xl md:text-3xl/10", {
   },
 });
 
-type WhatUpLineProps = VariantProps<typeof whatUpLineVariants> & {
+interface WhatUpLineProps
+  extends Omit<ComponentPropsWithoutRef<"div">, "children">,
+    VariantProps<typeof whatUpLineVariants> {
   word?: string;
-  className?: string;
+  showWord?: boolean;
   lineCount?: number;
-};
+}
 
 export function WhatUpLine({
-  direction = "normal",
-  hasWord = true,
-  word = WORD,
+  direction,
+  word = DEFAULT_WORD,
+  showWord = true,
   className,
-  lineCount,
+  lineCount = DEFAULT_LINE_COUNT,
+  ...restProps
 }: WhatUpLineProps) {
   return (
-    <div className={cn(whatUpLineVariants({ direction, hasWord }), className)}>
-      {hasWord && direction === "normal" && (
-        <h2 className={wordVariants({ direction: "normal" })}>{word}</h2>
-      )}
-      {hasWord && direction === "reverse" && (
-        <h2 className={wordVariants({ direction: "reverse" })}>{word}</h2>
-      )}
-      <WhatUpLineStripe lineCount={lineCount} />
+    <div
+      className={cn(whatUpLineVariants({ direction }), className)}
+      {...restProps}
+    >
+      {showWord && <h2 className={wordVariants({ direction })}>{word}</h2>}
+      <Stripe count={lineCount} />
     </div>
   );
 }
 
-function WhatUpLineStripe({ lineCount = LINE_COUNT }: { lineCount?: number }) {
+interface StripeProps {
+  count: number;
+}
+function Stripe({ count }: StripeProps) {
   return (
-    <div className="flex gap-[3px]">
-      {[...Array(lineCount)].map((_, i) => (
+    <div className="flex gap-[3px]" role="presentation" aria-hidden="true">
+      {Array.from({ length: count }, (_, i) => (
         <div
-          key={Math.random()}
+          // biome-ignore lint/suspicious/noArrayIndexKey: <リストは動的に変更されないため。>
+          key={i}
           className={cn(
-            "w-[10px] h-[18px] md:w-4 md:h-7",
+            "h-[18px] w-[10px] md:h-7 md:w-4",
             i % 2 === 0 ? "bg-soypoy-accent" : "bg-soypoy-secondary",
           )}
         />

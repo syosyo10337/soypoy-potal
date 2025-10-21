@@ -4,7 +4,7 @@ import { BarImage, LighterImage, RecordImage } from "./assets";
 
 function IllustrationRecord({ className }: { className?: string }) {
   return (
-    <IllustrationContainer className={cn(className)}>
+    <IllustrationContainer className={className}>
       <Image
         src={RecordImage}
         alt="Record"
@@ -17,7 +17,7 @@ function IllustrationRecord({ className }: { className?: string }) {
 
 function IllustrationBar({ className }: { className?: string }) {
   return (
-    <IllustrationContainer className={cn(className)}>
+    <IllustrationContainer className={className}>
       <Image
         src={BarImage}
         alt="Bar"
@@ -30,7 +30,7 @@ function IllustrationBar({ className }: { className?: string }) {
 
 function IllustrationLighter({ className }: { className?: string }) {
   return (
-    <IllustrationContainer className={cn(className)}>
+    <IllustrationContainer className={className}>
       <Image
         src={LighterImage}
         alt="Lighter"

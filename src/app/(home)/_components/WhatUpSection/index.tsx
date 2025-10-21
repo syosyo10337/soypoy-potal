@@ -24,7 +24,7 @@ export default function WhatUpSection() {
           <IllustrationRecord className="row-span-2" />
         </div>
 
-        <WhatUpLine hasWord={false} className="my-1 md:hidden" />
+        <WhatUpLine showWord={false} className="my-1 md:hidden" />
         <div className="hidden md:block my-3" />
 
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
@@ -32,7 +32,7 @@ export default function WhatUpSection() {
           <WhatUpButton prefix="Marebito" title="Radio" />
         </div>
 
-        <WhatUpLine hasWord={false} className="my-1 md:hidden" />
+        <WhatUpLine showWord={false} className="my-1 md:hidden" />
         <div className="hidden md:block my-3" />
 
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
