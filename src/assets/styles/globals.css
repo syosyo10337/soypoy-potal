@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import "./marquee-duration.css";
+
 @theme {
   /* SOY-POY カラーテーマ */
   --color-soypoy-main: #F3F0E6;
@@ -47,11 +49,7 @@
   --aspect-retro: 4 / 3; 
   --aspect-smartphone: 9 / 16;
   
-  /* Marquee animations */
-  --marquee-duration: 3s;
-  --marquee-timing: linear;
-  --marquee-iteration: infinite;
-  
+ 
   /* Film roll animations */
   --film-roll-duration: 18s;
   --film-roll-timing: linear;
@@ -61,30 +59,13 @@
   /* Sheet animations */
   --sheet-slide-duration: 300ms;
   --sheet-slide-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
   
   /* Animation definitions */
   --animate-slide-in-right: slideInFromRight var(--sheet-slide-duration) var(--sheet-slide-timing);
   --animate-slide-out-right: slideOutToRight var(--sheet-slide-duration) var(--sheet-slide-timing);
 }
 
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes marquee-reverse {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
 
 @keyframes film-roll-flow {
   0% {
@@ -176,49 +157,6 @@
 
 
 @layer utilities {
-  /* Marquee Container */
-  .marquee-container {
-    display: flex;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  /* Marquee Items */
-  .marquee-item {
-    display: flex;
-    animation: marquee var(--marquee-duration) var(--marquee-timing) var(--marquee-iteration);
-  }
-
-  .marquee-item-reverse {
-    display: flex;
-    animation: marquee-reverse var(--marquee-duration) var(--marquee-timing) var(--marquee-iteration);
-  }
-
-  /* Marquee Gap Utilities */
-  .marquee-gap-sm {
-    gap: var(spacing.4);
-  }
-
-  .marquee-gap-md {
-    gap: var(spacing.4);
-  }
-
-  @media (min-width: 768px) {
-    .marquee-gap-md {
-      gap: var(spacing.5);
-    }
-  }
-
-  .marquee-gap-lg {
-    gap: var(spacing.6);
-  }
-
-  @media (min-width: 768px) {
-    .marquee-gap-lg {
-      gap: var(spacing.8);
-    }
-  }
-
   /* Film Roll Animation */
   .film-roll-flow {
     background-repeat: repeat-y;
