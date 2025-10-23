@@ -1,8 +1,7 @@
 @theme {
-  --film-roll-duration: 18s;
+  --film-roll-duration: 40s;
   --film-roll-timing: linear;
   --film-roll-iteration: infinite;
-  --film-roll-distance: 100vh;
 }
 
 @keyframes film-roll-flow {
@@ -10,7 +9,7 @@
     background-position: 0 0;
   }
   100% {
-    background-position: 0 var(--film-roll-distance);
+    background-position: 0 -100%;
   }
 }
 
@@ -27,38 +26,4 @@
 
 .bg-filmroll-right {
   background-image: url('/layouts/fuda_filmroll_right.png');
-}
-
-
-/* Film Roll Container */
-.film-roll-container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.film-roll-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  height: 100%;
-}
-
-.film-roll-side {
-  flex-shrink: 0;
-  height: 100vh;
-  width: 2rem;
-}
-
-@media (min-width: 768px) {
-  .film-roll-side {
-    width: 3.5rem;
-  }
 }
