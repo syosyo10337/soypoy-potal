@@ -1,5 +1,5 @@
 @theme {
-  --film-roll-duration: 40s;
+  --film-roll-duration: 60s;
   --film-roll-timing: linear;
   --film-roll-iteration: infinite;
 }
