@@ -10,8 +10,7 @@ export default function HeroSection() {
       id="hero-section"
       className="relative w-full z-10 overflow-x-hidden"
     >
-      {/* NOTE:VideoComponentとRibonDescriptionを同じコンテナに配置 */}
-      {/* NOTE:aspect-ratioでVideoの高さが決まり、RibonDescriptionはその高さに対する相対位置で配置される */}
+      {/* VideoLayer: VideoとArchを重ねる */}
       <div
         className={cn(
           "relative w-full",
@@ -22,7 +21,7 @@ export default function HeroSection() {
         <Suspense fallback={<div>Loading...</div>}>
           <VideoComponent />
         </Suspense>
-        <ArchDecoration className="absolute pt-2 px-2 w-full h-full pointer-events-none z-10" />
+        <ArchDecoration className="absolute inset-0 pt-2 px-2 pointer-events-none z-20" />
         <RibonDescription
           className={cn(
             "absolute z-10 md:left-1/2 md:-translate-x-1/2",
