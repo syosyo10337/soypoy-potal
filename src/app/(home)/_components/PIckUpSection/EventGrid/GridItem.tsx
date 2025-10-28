@@ -31,12 +31,12 @@ export default function GridItem({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-soypoy-accent focus-visible:ring-offset-2",
       )}
     >
-      <div className="relative mb-2 aspect-square">
+      <div className="relative mb-2 aspect-[4/5]">
         <Image
           src={thumbnail}
           alt={title}
           width={400}
-          height={400}
+          height={500}
           className={cn(
             "w-full h-full object-cover",
             "transition-transform duration-300 group-active:scale-105  md:group-hover:scale-105",
@@ -51,19 +51,16 @@ export default function GridItem({
           <BubleLabel variant={eventType} />
         </div>
       </div>
-      <p className="text-sm text-soypoy-muted m-2 md:m-4">{date}</p>
-      <h3
+      <p
         className={cn(
-          "text-lg text-soypoy-secondary",
-          " group-active:text-soypoy-accent md:group-hover:text-soypoy-accent",
-          "transition-colors break-words hyphens-auto leading-tight",
+          "text-sm text-soypoy-muted m-1 md:m-2 ",
+          "group-active:text-soypoy-accent md:group-hover:text-soypoy-accent",
+          "transition-colors",
         )}
       >
-        {title}
-      </h3>
-      <span className="inline-flex items-center text-muted-foreground text-xs mt-3">
-        Read More &gt;
-      </span>
+        {date}
+        <span className="block mt-1">Read More &gt;</span>
+      </p>
     </Link>
   );
 }
@@ -80,20 +77,20 @@ const getLabelPositionClassName = (index: number) => {
 };
 
 const getBorderClassName = (index: number) => {
-  // 2列レイアウト（デフォルト〜xl未満）
+  // 2列レイアウト（デフォルト〜lg未満）
   // 0列目（左列）にのみ右borderを追加 → 縦の線1本
   const needsRightBorder2Col = index % 2 === 0;
   // 0行目（上行）にのみ下borderを追加 → 横の線1本
   const needsBottomBorder2Col = index < 2;
 
-  // 4列レイアウト（xl以上）
+  // 4列レイアウト（lg以上）
   // 0,1,2列目（最後以外）にのみ右borderを追加 → 縦の線3本
   const needsRightBorder4Col = index % 4 < 3;
   return cn(
     "border-soypoy-secondary",
     needsRightBorder2Col && "border-r border-soypoy-secondary",
     needsBottomBorder2Col && "border-b border-soypoy-secondary",
-    "xl:border-r-0 xl:border-b-0",
-    needsRightBorder4Col && "xl:border-r xl:border-soypoy-secondary",
+    "lg:border-r-0 lg:border-b-0",
+    needsRightBorder4Col && "lg:border-r lg:border-soypoy-secondary",
   );
 };
