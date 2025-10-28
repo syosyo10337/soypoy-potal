@@ -30,7 +30,6 @@ export default function VideoComponent() {
         aria-label="soy-poy promotional background video"
       >
         <source src="/videos/hero.webm" type="video/webm" />
-        {/* NOTE: fallback mp4 */}
         <source src="/videos/hero.mp4" type="video/mp4" />
 
         <source src="/videos/hero_sp.webm" type="video/webm" />
