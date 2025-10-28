@@ -24,16 +24,14 @@ export default function WhatUpSection() {
           <IllustrationRecord className="row-span-2" />
         </div>
 
-        <WhatUpLine showWord={false} className="my-1 md:hidden" />
-        <div className="hidden md:block my-3" />
+        <WhatUpLine showWord={false} className="my-1" />
 
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
           <IllustrationBar className="row-span-2" />
           <WhatUpButton prefix="Marebito" title="Radio" />
         </div>
 
-        <WhatUpLine showWord={false} className="my-1 md:hidden" />
-        <div className="hidden md:block my-3" />
+        <WhatUpLine showWord={false} className="my-1" />
 
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
           <WhatUpButton prefix="Youtube" title="Channel" />
