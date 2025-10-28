@@ -9,7 +9,7 @@ interface ContentAreaProps {
 export default function ContentArea({ className }: ContentAreaProps) {
   return (
     <div className={cn("p-4", className)}>
-      <HeroSecHeader />
+      <Title />
       <div
         className={cn(
           "flex",
@@ -17,15 +17,15 @@ export default function ContentArea({ className }: ContentAreaProps) {
           "gap-3 md:gap-0 lg:gap-4",
         )}
       >
-        <HeroSecMainContent />
-        <HeroSecSeparator />
+        <MainContent />
+        <StyledSeparator />
         <SoypoySlogan />
       </div>
     </div>
   );
 }
 
-function HeroSecHeader() {
+function Title() {
   return (
     <div className={cn("text-center", "pb-2 pt-2 md:pb-0")}>
       <h2 className="text-xl font-bold font-anymale flex items-center justify-center">
@@ -37,24 +37,26 @@ function HeroSecHeader() {
   );
 }
 
-function HeroSecMainContent() {
+function MainContent() {
+  const text = `SOY-POYは「好きに生きて、一緒に生きる」をコンセプトに
+  オープンしたバーとステージのある週末限定のパブリックハウス
+  （PUB）です。下北沢に拠点を構えるSOY-POYは、ジャンル
+  を問わず、さまざまな表現や創作をする人たちが集い、互いに
+  交流しながら、誰もが自由に表現や創作活動を楽しめるコミュ
+  ニティづくりをおこなっています。`;
+
   return (
     <div className="flex-1 lg:w-7/10">
       <p
         className={cn("leading-relaxed", "text-sm/6 md:text-lg/8 font-medium")}
       >
-        SOY-POYは「好きに生きて、一緒に生きる」をコンセプトに
-        オープンしたバーとステージのある週末限定のパブリックハウス
-        （PUB）です。下北沢に拠点を構えるSOY-POYは、ジャンル
-        を問わず、さまざまな表現や創作をする人たちが集い、互いに
-        交流しながら、誰もが自由に表現や創作活動を楽しめるコミュ
-        ニティづくりをおこなっています。
+        {text}
       </p>
     </div>
   );
 }
 
-function HeroSecSeparator() {
+function StyledSeparator() {
   return (
     <>
       <div className="hidden md:block lg:pb- lg:pt-2">
