@@ -1,7 +1,6 @@
 "use client";
 
 import { type MotionValue, motion } from "motion/react";
-import { CLIP_PATH_IDS } from "./constants";
 
 interface ClipPathDefinitionsProps {
   mobilePath: MotionValue<string>;
@@ -15,10 +14,10 @@ export default function ClipPathDefinitions({
   return (
     <svg width="0" height="0" className="absolute" aria-hidden="true">
       <defs>
-        <clipPath id={CLIP_PATH_IDS.MOBILE} clipPathUnits="objectBoundingBox">
+        <clipPath id="videoClipMobile" clipPathUnits="objectBoundingBox">
           <motion.path d={mobilePath} />
         </clipPath>
-        <clipPath id={CLIP_PATH_IDS.DESKTOP} clipPathUnits="objectBoundingBox">
+        <clipPath id="videoClipDesktop" clipPathUnits="objectBoundingBox">
           <motion.path d={desktopPath} />
         </clipPath>
       </defs>

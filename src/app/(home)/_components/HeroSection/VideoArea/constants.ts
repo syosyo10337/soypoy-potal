@@ -1,8 +1,3 @@
-export const CLIP_PATH_IDS = {
-  MOBILE: "videoClipMobile",
-  DESKTOP: "videoClipDesktop",
-} as const;
-
 export const ANIMATION_CONFIG = {
   DEFAULT_SPRING: {
     stiffness: 12,
