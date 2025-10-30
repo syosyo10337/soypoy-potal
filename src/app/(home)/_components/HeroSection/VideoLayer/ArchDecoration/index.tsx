@@ -1,10 +1,28 @@
+"use client";
+
+import { motion } from "motion/react";
 import Image from "next/image";
+import { useState } from "react";
 import FudaOverLay from "./FudaOverLay";
 import ArchImage from "./soypoyArch.png";
 
 export default function ArchDecoration({ className }: { className: string }) {
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+
   return (
-    <div className={className}>
+    <motion.div
+      className={className}
+      initial={{ scale: 0.05, y: "20%" }}
+      animate={{
+        scale: [0.05, 1],
+        y: ["20%", "0%"],
+      }}
+      transition={{
+        duration: 2,
+        ease: "easeOut",
+      }}
+      onAnimationComplete={() => setIsAnimationComplete(true)}
+    >
       {/* aspect-ratioを固定してレスポンシブ時の位置ずれを防ぐ */}
       <div className="relative w-full aspect-[1420/426]">
         <Image
@@ -15,8 +33,12 @@ export default function ArchDecoration({ className }: { className: string }) {
           className="w-full h-auto"
         />
         {/* FudaOverLayを同じaspect-ratio内に配置 */}
-        <FudaOverLay className="hidden sm:block absolute inset-0 pointer-events-none" />
+        <FudaOverLay
+          className={`hidden sm:block absolute inset-0 pointer-events-none ${
+            isAnimationComplete ? "opacity-100" : "opacity-0"
+          }`}
+        />
       </div>
-    </div>
+    </motion.div>
   );
 }
