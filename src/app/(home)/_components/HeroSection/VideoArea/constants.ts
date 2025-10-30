@@ -19,7 +19,7 @@ export const ANIMATION_CONFIG = {
     damping: 30,
     mass: 1,
   },
-}
+};
 
 // Mobile path coefficients
 export const MOBILE_PATH_COEFFS = {

@@ -10,12 +10,8 @@ interface ArchDecorationProps {
   className: string;
 }
 
-export default function ArchDecoration({
-  className,
-}: ArchDecorationProps) {
+export default function ArchDecoration({ className }: ArchDecorationProps) {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-
-
 
   return (
     <motion.div
