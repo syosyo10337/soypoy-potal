@@ -9,8 +9,8 @@ import { InnerContent } from "./InnerContent";
 export default function RibonArea() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 0}}
+      animate={{ opacity: 1, y: -10 }}
       transition={{
         delay: 2.4,
         duration: 1,
