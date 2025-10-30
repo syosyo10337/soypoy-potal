@@ -10,12 +10,12 @@ export default function HeroSection() {
       id="hero-section"
       className="relative w-full z-10 overflow-x-hidden"
     >
-      {/* VideoLayer: VideoとArchを重ねる */}
       <div
         className={cn(
           "relative w-full",
-          "h-[60vh]",
-          "md:aspect-retro lg:aspect-video",
+          "aspect-smartphone",
+          "sm:aspect-retro",
+          "lg:aspect-video",
         )}
       >
         <Suspense fallback={<div>Loading...</div>}>

@@ -11,7 +11,12 @@ import Logo from "./Logo";
 
 export default function PcHeader() {
   return (
-    <header className="hidden md:block sticky top-0 left-0 right-0 z-50 bg-soypoy-main">
+    <header
+      className={cn(
+        "hidden sm:block",
+        "sticky top-0 left-0 right-0 z-50 bg-soypoy-main",
+      )}
+    >
       <div
         className={cn(
           "max-w-8xl mx-auto flex items-center justify-between",
