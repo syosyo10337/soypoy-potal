@@ -8,7 +8,7 @@ export default function ContentArea() {
       className={cn(
         "relative w-full mx-auto",
         `z-[${Z_INDEX.ribonDescription}]`,
-        "-mt-[clamp(78px,24vw,160px)]",
+        "-mt-[clamp(78px,30vw,180px)]",
         "sm:-mt-[clamp(140px,20vw,180px)]",
         "lg:-mt-[clamp(160px,16vw,220px)]",
         "2xl:-mt-[clamp(180px,12vw,280px)]",
