@@ -23,7 +23,8 @@ export default function MobileHeader() {
   return (
     <motion.header
       className={cn(
-        "md:hidden fixed top-0 left-0 right-0 z-50 bg-soypoy-main",
+        "sm:hidden",
+        "fixed top-0 left-0 right-0 z-50 bg-soypoy-main",
         !isVisible && "pointer-events-none",
       )}
       initial={{ y: -100, opacity: 0 }}

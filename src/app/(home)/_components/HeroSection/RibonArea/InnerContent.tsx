@@ -2,11 +2,11 @@ import { Separator } from "@/components/shadcn/separator";
 import { cn } from "@/utils/cn";
 import { MoonIcon, SunIcon } from "./assets";
 
-interface ContentAreaProps {
+interface InnerContentProps {
   className?: string;
 }
 
-export default function ContentArea({ className }: ContentAreaProps) {
+export function InnerContent({ className }: InnerContentProps) {
   return (
     <div className={cn("p-4", className)}>
       <Title />
