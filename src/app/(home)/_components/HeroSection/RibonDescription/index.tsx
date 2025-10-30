@@ -11,7 +11,15 @@ export default function RibonDescription({
   className = "",
 }: HeroSecDescriptionProps) {
   return (
-    <div className={cn("w-full max-w-4xl xl:max-w-5xl", className)}>
+    <div
+      className={cn(
+        "w-full",
+        "max-w-4xl",
+        " xl:max-w-5xl",
+        " 2xl:max-w-[60vw]",
+        className,
+      )}
+    >
       <HeroSecRibon className="relative w-full z-20" />
 
       {/* コンテンツエリア - SP: absolute(リボンの下), MD以上: relative */}

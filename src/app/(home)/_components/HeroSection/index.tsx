@@ -22,19 +22,21 @@ export default function HeroSection() {
           <VideoComponent />
         </Suspense>
         <ArchDecoration className="absolute inset-0 pt-2 px-2 pointer-events-none z-20" />
-        <RibonDescription
-          className={cn(
-            "absolute z-10 md:left-1/2 md:-translate-x-1/2",
-            "top-[50vh]",
-            "md:top-[72%]",
-            "lg:top-[70%]",
-            "xl:top-[74%]",
-          )}
-        />
       </div>
-      {/* NOTE: RibonDescriptionが見切れないように下部に余白を確保 */}
+      {/* RibonDescription を通常フローに出し、負マージンで下辺へ食い込ませる */}
+      <RibonDescription
+        className={cn(
+          "relative z-10 w-full mx-auto",
+          "-mt-[clamp(78px,24vw,160px)]",
+          "sm:-mt-[clamp(140px,20vw,180px)]",
+          "lg:-mt-[clamp(160px,16vw,220px)]",
+          "2xl:-mt-[clamp(180px,12vw,280px)]",
+        )}
+      />
+
+      {/* 下方向の余白で下のコンテンツとの被りを回避 */}
       <div
-        className={cn("h-[150vh]", "md:h-[42vh]", "lg:h-[29vh]", "xl:h-[31vh]")}
+        className={cn("h-[10vh] sm:h-[6vh] lg:h-[5vh]")}
         aria-hidden="true"
       />
     </section>
