@@ -1,14 +1,6 @@
-import { cn } from "@/utils/cn";
-
 export default function VideoPlayer() {
   return (
-    <div
-      className={cn(
-        "w-full h-full",
-        "[clip-path:url(#videoClipMobile)]",
-        "sm:[clip-path:url(#videoClipDesktop)]",
-      )}
-    >
+    <div className="w-full h-full">
       <video
         autoPlay
         muted

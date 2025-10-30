@@ -6,20 +6,28 @@ import { useState } from "react";
 import FudaOverLay from "./FudaOverLay";
 import ArchImage from "./soypoyArch.png";
 
-export default function ArchDecoration({ className }: { className: string }) {
+interface ArchDecorationProps {
+  className: string;
+}
+
+export default function ArchDecoration({
+  className,
+}: ArchDecorationProps) {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+
+
 
   return (
     <motion.div
       className={className}
-      initial={{ scale: 0.05, y: "20%" }}
+      initial={{ scale: 0.1, y: "10%" }}
       animate={{
-        scale: [0.05, 1],
-        y: ["20%", "0%"],
+        scale: [0.1, 1],
+        y: ["10%", "0%"],
       }}
       transition={{
         duration: 2,
-        ease: "easeOut",
+        ease: "easeInOut",
       }}
       onAnimationComplete={() => setIsAnimationComplete(true)}
     >
