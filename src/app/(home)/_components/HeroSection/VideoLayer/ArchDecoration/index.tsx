@@ -15,7 +15,7 @@ export default function ArchDecoration({ className }: { className: string }) {
           className="w-full h-auto"
         />
         {/* FudaOverLayを同じaspect-ratio内に配置 */}
-        <FudaOverLay className="hidden md:block absolute inset-0 pointer-events-none" />
+        <FudaOverLay className="hidden sm:block absolute inset-0 pointer-events-none" />
       </div>
     </div>
   );
