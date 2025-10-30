@@ -1,16 +1,11 @@
 "use client";
 
-import { type MotionValue, motion } from "motion/react";
+import { motion } from "motion/react";
+import { useClipPathAnimation } from "./useClipPathAnimation";
 
-interface ClipPathDefinitionsProps {
-  mobilePath: MotionValue<string>;
-  desktopPath: MotionValue<string>;
-}
+export default function ClipPathDefinitions() {
+  const { mobilePath, desktopPath } = useClipPathAnimation();
 
-export default function ClipPathDefinitions({
-  mobilePath,
-  desktopPath,
-}: ClipPathDefinitionsProps) {
   return (
     <svg width="0" height="0" className="absolute" aria-hidden="true">
       <defs>

@@ -4,10 +4,10 @@ export const ANIMATION_CONFIG = {
     damping: 9,
     mass: 3,
   },
-  DEFAULT_DELAY: 1500,
+  DEFAULT_DELAY: 1300,
   ANIMATION_CURVE: {
     input: [0, 0.5, 0.8, 1.0],
-    output: [0, 1.2, 0.85, 1.0],
+    output: [0, 1.1, 0.85, 1.0],
   },
   REDUCED_SPRING: {
     stiffness: 300,

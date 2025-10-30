@@ -12,7 +12,7 @@ export default function RibonArea() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        delay: 5,
+        delay: 2.4,
         duration: 1,
         ease: "easeOut",
       }}
