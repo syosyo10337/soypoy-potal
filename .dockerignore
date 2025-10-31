@@ -1,33 +1,47 @@
-# 開発環境用 .dockerignore
-
-# 重い依存関係（コンテナ内で再インストール）
+cat > .dockerignore << 'EOF'
+# === 依存関係 ===
 node_modules/
+.pnpm-store/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# ビルド出力（開発時は動的生成）
+# === ビルド成果物 ===
 dist/
 build/
 .next/
-.nuxt/
 out/
+.nuxt/
+.output/
+.cache/
+coverage/
+*.tsbuildinfo
 
-# 環境設定（機密情報を含む可能性）
-.env.local
-.env.production
-.env.test
-# 開発環境では .env.development は含めることもある
+# === 環境変数 ===
+.env
+.env.*
+!.env.example
 
-# IDEファイル（開発者固有）
-.vscode/settings.json
+# === Git（最重要！）===
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# === IDE ===
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo
 *~
+.cursor/
+.devcontainer/
 
-# OS生成ファイル
+# === OS ===
 .DS_Store
 .DS_Store?
 ._*
@@ -35,41 +49,41 @@ out/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# ログファイル
-logs/
-*.log
-
-# テスト結果（開発時は動的生成）
-coverage/
-.nyc_output/
-test-results/
-
-# 一時ファイル
-tmp/
-temp/
-
-# Git（履歴は重いため除外）
-.git/
-
-# CI/CD（開発環境では不要）
-.github/
-.gitlab-ci.yml
-.travis.yml
-.circleci/
-
-# Docker関連（再帰的ビルドを防ぐ）
+# === Docker ===
 Dockerfile*
 docker-compose*.yml
 .dockerignore
 
-# Cloudflare Workers関連（機密情報）
-.wrangler/
-wrangler.toml.backup
+# === ドキュメント ===
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+docs/
 
-# 開発環境では含めたいファイル
-# README.md は含める（開発者向け情報）
-# package.json は含める（必須）
-# tsconfig.json は含める（TypeScript設定）
-# .eslintrc* は含める（コードフォーマット）
-# .prettierrc* は含める（コードフォーマット）
+# === テスト ===
+__tests__/
+__mocks__/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+.nyc_output/
+test/
+tests/
+jest.config.*
+vitest.config.*
+
+# === ログとテンポラリ ===
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# === その他 ===
+.eslintcache
+.prettier*
+EOF
