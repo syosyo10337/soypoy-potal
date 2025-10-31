@@ -6,6 +6,12 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 WORKDIR /app
+# Gitとssh関連ツールをインストール
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git \
+        openssh-client \
+    && rm -rf /var/lib/apt/lists/*
 
 # == 依存関係ステージ ==
 FROM base AS deps
