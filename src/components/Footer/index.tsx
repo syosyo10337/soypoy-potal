@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 import BottomContent from "./BottomContent";
-import ContactArea from "./ContactArea";
+import { Contact } from "./Contact";
 import MainContent from "./MainContent";
 
 export default function Footer() {
@@ -9,12 +9,14 @@ export default function Footer() {
     <footer
       className={cn(
         "bg-soypoy-secondary text-white text-center z-10",
-        "p-8 sm:p-12 xl:px-10 2xl:px-38",
+        "p-10 sm:p-16 md:p-12 xl:px-10 2xl:px-38",
       )}
     >
-      <h1 className="text-2xl xl:text-3xl font-bold font-anymale mb-8">Infomation</h1>
+      <h1 className="text-2xl xl:text-3xl font-bold font-anymale mb-8">
+        Infomation
+      </h1>
       <MainContent />
-      <ContactArea />
+      <Contact />
       <BottomContent />
     </footer>
   );

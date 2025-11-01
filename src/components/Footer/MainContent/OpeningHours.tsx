@@ -4,7 +4,7 @@ export function OpeningHours({ className }: { className?: string }) {
   return (
     <div className={cn("text-left", className)}>
       <h2 className="text-2xl xl:text-3xl font-bold">PUB「SOY-POY」</h2>
-      <div className="md:pr-22">
+      <div className="">
         <OpeningHoursDetail title="Every FRI." open="19:30" close="23:30" />
         <OpeningHoursDetail
           title="Every SAT. SUN."
