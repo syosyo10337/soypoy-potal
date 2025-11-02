@@ -1,6 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 import type * as React from "react";
-import { EventType } from "@/domain/entities/eventType";
+import { EventType } from "@/domain/entities";
 import { cn } from "@/utils/cn";
 import {
   ArtLabelImage,

@@ -1,6 +1,6 @@
-import type { EventEntity } from "@/domain/entities/event";
+import type { EventEntity } from "@/domain/entities";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
-import { NotionEventRepository } from "@/infrastructure/notion/repositories/notionEventRepository";
+import { DrizzleEventRepository } from "@/infrastructure/db/repositories/drizzleEventRepository";
 
 /**
  * イベントサービス（読み取り専用）
@@ -13,7 +13,7 @@ export class EventService {
    * 全てのイベントを取得
    */
   async getAllEvents(): Promise<EventEntity[]> {
-    return await this.repository.findAll();
+    return await this.repository.list();
   }
 
   /**
@@ -25,4 +25,4 @@ export class EventService {
 }
 
 // デフォルトのサービスインスタンス（Notion実装を使用）
-export const eventService = new EventService(new NotionEventRepository());
+export const eventService = new EventService(new DrizzleEventRepository());

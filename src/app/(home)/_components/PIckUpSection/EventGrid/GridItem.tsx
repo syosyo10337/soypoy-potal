@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import BubleLabel from "@/components/BubleLabel";
-import type { EventType } from "@/domain/entities/eventType";
+import type { EventType } from "@/domain/entities";
 import { cn } from "@/utils/cn";
 
 interface GridItemProps {

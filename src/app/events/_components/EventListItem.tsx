@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import NoImage from "@/assets/no-image.png";
-import type { EventEntity } from "@/domain/entities/event";
+import type { EventEntity } from "@/domain/entities";
 import { formatDateJP, formatTime } from "@/utils/date";
 
 interface EventListItemProps {
@@ -11,7 +11,7 @@ interface EventListItemProps {
 }
 
 export function EventListItem({ event, selectedEventId }: EventListItemProps) {
-  const imageUrl = event.imageUrl === "" ? NoImage : event.imageUrl;
+  const imageUrl = event.thumbnail ?? NoImage;
 
   return (
     <div
@@ -74,7 +74,9 @@ export function EventListItem({ event, selectedEventId }: EventListItemProps) {
               <span>{formatTime(event.date)}</span>
             </div>
           </div>
-          <p className="text-gray-300 mb-4 flex-grow">{event.description}</p>
+          <p className="text-gray-300 mb-4 flex-grow">
+            {event.description ?? ""}
+          </p>
           <Link
             href={`/events/${event.id}`}
             className="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition-colors mt-auto w-fit"

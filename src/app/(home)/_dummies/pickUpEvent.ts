@@ -1,4 +1,4 @@
-import { EventType } from "@/domain/entities/eventType";
+import { EventType } from "@/domain/entities";
 
 export interface PickUpEvent {
   id: string;

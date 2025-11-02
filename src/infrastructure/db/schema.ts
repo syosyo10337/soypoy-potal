@@ -1,3 +1,4 @@
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { pgEnum, pgTable, text, varchar } from "drizzle-orm/pg-core";
 import { EventType, PublicationStatus } from "@/domain/entities";
 
@@ -32,3 +33,6 @@ export const events = pgTable("events", {
   thumbnail: text(),
   type: eventTypeEnum().notNull(),
 });
+
+export type DrizzleEvent = InferSelectModel<typeof events>;
+export type DrizzleEventInsert = InferInsertModel<typeof events>;

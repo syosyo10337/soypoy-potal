@@ -1,8 +1,8 @@
-import type { EventEntity } from "@/domain/entities/event";
+import type { EventEntity } from "@/domain/entities";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { getPage, queryDatabase } from "../client/queries";
 import { NOTION_DB_KEYS } from "../config/constants";
-import { type NotionEvent, eventSchema } from "../config/schemas/eventSchema";
+import { eventSchema, type NotionEvent } from "../config/schemas/eventSchema";
 import { UrlSchema } from "../config/schemas/urlSchema";
 
 /**
@@ -12,7 +12,7 @@ export class NotionEventRepository implements EventRepository {
   /**
    * 全てのイベントを取得
    */
-  async findAll(): Promise<EventEntity[]> {
+  async list(): Promise<EventEntity[]> {
     try {
       const notionEvents = await queryDatabase<NotionEvent>(
         NOTION_DB_KEYS.events,
@@ -53,11 +53,12 @@ export class NotionEventRepository implements EventRepository {
 
       return {
         id: notionEvent.id,
-        publicationStatus: notionEvent.publicationStatus,
+        publicationStatus:
+          notionEvent.publicationStatus as EventEntity["publicationStatus"],
         title: notionEvent.title,
         date: notionEvent.date,
         description: notionEvent.description,
-        imageUrl: imageUrl,
+        thumbnail: imageUrl,
       };
     } catch (error) {
       console.error("Error parsing imageUrl:", error);
