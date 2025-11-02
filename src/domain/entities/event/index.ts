@@ -1,7 +1,7 @@
 import type { EventType } from "./eventType";
 import type { PublicationStatus } from "./publicationStatus";
 
-export  { EventType } from "./eventType";
+export { EventType } from "./eventType";
 export { PublicationStatus } from "./publicationStatus";
 
 /**
@@ -20,7 +20,6 @@ export interface EventEntity {
   description?: string;
   /**
    * 画像URL
-   * nullの場合は画像がないことを表す
    */
   thumbnail?: string;
   type: EventType;

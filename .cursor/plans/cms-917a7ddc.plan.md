@@ -176,12 +176,12 @@ infrastructure/db/repositories/ → domain/EventRepository (implements)
 
 - [x] 必要なパッケージをインストール（refine, trpc, drizzle, neon）
 - [x] Drizzle設定とNeon DB接続の実装（db/index.ts, schema.ts, drizzle.config.ts）
-- [ ] Domain層のリポジトリインターフェースにCRUD操作を追加
-- [ ] Drizzleを使用したEventRepository実装を作成
-- [ ] tRPCルーターとコンテキストの実装（infrastructure/trpc/）
-- [ ] Next.js App Router用のtRPC API Routeを作成
-- [ ] EventServiceにCRUD操作を追加し、Drizzleリポジトリに切り替え
-- [ ] Refine用のtRPCデータプロバイダーを実装
+- [x] Domain層のリポジトリインターフェースにCRUD操作を追加
+- [x] Drizzleを使用したEventRepository実装を作成
+- [x] tRPCルーターとコンテキストの実装（infrastructure/trpc/）
+- [x] Next.js App Router用のtRPC API Routeを作成
+- [x] EventServiceにCRUD操作を追加し、Drizzleリポジトリに切り替え
+- [x] Refine用のtRPCデータプロバイダーを実装
 - [ ] 管理画面のRefineレイアウトとプロバイダー設定
 - [ ] 管理画面のUI実装（イベントCRUD画面）
 - [ ] Drizzle Kitでマイグレーションファイルを生成・実行

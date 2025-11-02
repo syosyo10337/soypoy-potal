@@ -3,26 +3,29 @@ import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { DrizzleEventRepository } from "@/infrastructure/db/repositories/drizzleEventRepository";
 
 /**
- * イベントサービス（読み取り専用）
+ * イベントサービス
  * ビジネスロジックを担当
  */
 export class EventService {
   constructor(private repository: EventRepository) {}
-
-  /**
-   * 全てのイベントを取得
-   */
   async getAllEvents(): Promise<EventEntity[]> {
     return await this.repository.list();
   }
-
-  /**
-   * IDによるイベント取得
-   */
   async getEventById(id: string): Promise<EventEntity | undefined> {
     return await this.repository.findById(id);
   }
+  async createEvent(event: EventEntity): Promise<EventEntity> {
+    return await this.repository.create(event);
+  }
+  async updateEvent(
+    id: string,
+    event: Partial<Omit<EventEntity, "id">>,
+  ): Promise<EventEntity> {
+    return await this.repository.update(id, event);
+  }
+  async deleteEvent(id: string): Promise<void> {
+    return await this.repository.delete(id);
+  }
 }
 
-// デフォルトのサービスインスタンス（Notion実装を使用）
 export const eventService = new EventService(new DrizzleEventRepository());
