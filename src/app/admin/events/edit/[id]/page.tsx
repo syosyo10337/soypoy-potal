@@ -1,6 +1,9 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useOne } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
+import { Controller } from "react-hook-form";
 import {
   EditView,
   EditViewHeader,
@@ -22,25 +25,32 @@ import {
   SelectValue,
 } from "@/components/shadcn/select";
 import { EventType, PublicationStatus } from "@/domain/entities";
+import {
+  type EventFormData,
+  updateEventSchema,
+} from "@/infrastructure/trpc/schemas/eventSchema";
 
 export default function EventEditPage({ params }: { params: { id: string } }) {
+  const { query: queryResult, result: event } = useOne({
+    resource: "events",
+    id: params.id,
+  });
+
   const {
-    refineCore: { onFinish, queryResult },
+    refineCore: { onFinish },
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    setValue,
+    control,
   } = useForm({
+    resolver: zodResolver(updateEventSchema),
     refineCoreProps: {
       resource: "events",
       id: params.id,
     },
   });
 
-  const event = queryResult?.data?.data;
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: EventFormData) => {
     await onFinish({
       title: data.title,
       date: data.date,
@@ -115,22 +125,37 @@ export default function EventEditPage({ params }: { params: { id: string } }) {
               <Label htmlFor="type">
                 種類 <span className="text-destructive">*</span>
               </Label>
-              <Select
+              <Controller
+                name="type"
+                control={control}
                 defaultValue={event.type}
-                value={watch("type") || event.type}
-                onValueChange={(value) => setValue("type", value)}
-              >
-                <SelectTrigger id="type">
-                  <SelectValue placeholder="種類を選択" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(EventType).map(([key, value]) => (
-                    <SelectItem key={value} value={value}>
-                      {key}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                render={({ field }) => (
+                  <Select
+                    value={field.value || event.type}
+                    onValueChange={(value) => {
+                      const validValues = Object.values(EventType);
+                      if (
+                        validValues.includes(
+                          value as (typeof EventType)[keyof typeof EventType],
+                        )
+                      ) {
+                        field.onChange(value);
+                      }
+                    }}
+                  >
+                    <SelectTrigger id="type">
+                      <SelectValue placeholder="種類を選択" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(EventType).map(([key, value]) => (
+                        <SelectItem key={value} value={value}>
+                          {key}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.type && (
                 <p className="text-sm text-destructive">
                   {errors.type.message as string}
@@ -140,26 +165,32 @@ export default function EventEditPage({ params }: { params: { id: string } }) {
 
             <div className="space-y-2">
               <Label htmlFor="publicationStatus">公開ステータス</Label>
-              <Select
+              <Controller
+                name="publicationStatus"
+                control={control}
                 defaultValue={event.publicationStatus}
-                value={watch("publicationStatus") || event.publicationStatus}
-                onValueChange={(value) => setValue("publicationStatus", value)}
-              >
-                <SelectTrigger id="publicationStatus">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={PublicationStatus.Draft}>
-                    下書き
-                  </SelectItem>
-                  <SelectItem value={PublicationStatus.Published}>
-                    公開中
-                  </SelectItem>
-                  <SelectItem value={PublicationStatus.Archived}>
-                    アーカイブ
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                render={({ field }) => (
+                  <Select
+                    value={field.value || event.publicationStatus}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger id="publicationStatus">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={PublicationStatus.Draft}>
+                        下書き
+                      </SelectItem>
+                      <SelectItem value={PublicationStatus.Published}>
+                        公開中
+                      </SelectItem>
+                      <SelectItem value={PublicationStatus.Archived}>
+                        アーカイブ
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
 
             <div className="space-y-2">

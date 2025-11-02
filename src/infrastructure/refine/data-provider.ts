@@ -39,18 +39,18 @@ const toBaseKeyString = (id: BaseKey): string => {
  */
 export const dataProvider: DataProvider = {
   // TODO: pagination, filters, sortersを実装する
-  getList: async ({ resource }) => {
+  getList: async <TData extends BaseRecord = BaseRecord>({ resource }) => {
     if (resource !== "events") {
       throw new Error(`Unsupported resource: ${resource}`);
     }
     const events = await trpcClient.events.list.query();
 
     return {
-      data: events,
+      data: events as unknown as TData[],
       total: events.length,
     };
   },
-  getOne: async ({ resource, id }) => {
+  getOne: async <TData extends BaseRecord = BaseRecord>({ resource, id }) => {
     if (resource !== "events") {
       throw new Error(`Unsupported resource: ${resource}`);
     }
@@ -62,10 +62,13 @@ export const dataProvider: DataProvider = {
     }
 
     return {
-      data: event,
+      data: event as unknown as TData,
     };
   },
-  create: async ({ resource, variables }) => {
+  create: async <TData extends BaseRecord = BaseRecord>({
+    resource,
+    variables,
+  }) => {
     if (resource !== "events") {
       throw new Error(`Unsupported resource: ${resource}`);
     }
@@ -76,10 +79,14 @@ export const dataProvider: DataProvider = {
     );
 
     return {
-      data: event,
+      data: event as unknown as TData,
     };
   },
-  update: async ({ resource, id, variables }) => {
+  update: async <TData extends BaseRecord = BaseRecord>({
+    resource,
+    id,
+    variables,
+  }) => {
     if (resource !== "events") {
       throw new Error(`Unsupported resource: ${resource}`);
     }
@@ -93,7 +100,7 @@ export const dataProvider: DataProvider = {
     });
 
     return {
-      data: event,
+      data: event as unknown as TData,
     };
   },
   deleteOne: async <TData extends BaseRecord = BaseRecord>({

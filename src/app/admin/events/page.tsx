@@ -21,12 +21,16 @@ import type { EventEntity } from "@/domain/entities";
 import { PublicationStatus } from "@/domain/entities";
 
 export default function EventsListPage() {
-  const { data, isLoading } = useList<EventEntity>({
+  const { result, query } = useList<EventEntity>({
     resource: "events",
+    pagination: {
+      pageSize: 10,
+    },
   });
 
-  const events = data?.data ?? [];
-  const total = data?.total ?? 0;
+  const total = result?.total ?? 0;
+  const isLoading = query?.isLoading ?? false;
+  const data = result?.data ?? [];
 
   return (
     <ListView>
@@ -49,14 +53,14 @@ export default function EventsListPage() {
                   読み込み中...
                 </TableCell>
               </TableRow>
-            ) : events.length === 0 ? (
+            ) : data.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center py-8">
                   イベントがありません
                 </TableCell>
               </TableRow>
             ) : (
-              events.map((event) => (
+              data.map((event) => (
                 <TableRow key={event.id}>
                   <TableCell className="font-medium">{event.title}</TableCell>
                   <TableCell>{event.date}</TableCell>

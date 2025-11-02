@@ -1,65 +1,8 @@
 import { z } from "zod";
-import { EventType, PublicationStatus } from "@/domain/entities";
 import { publicProcedure, router } from "../context";
+import { createEventSchema, updateEventSchema } from "../schemas/eventSchema";
 
-const createEventSchema = z.object({
-  id: z.string(),
-  publicationStatus: z.enum([
-    PublicationStatus.Draft,
-    PublicationStatus.Published,
-    PublicationStatus.Archived,
-  ]),
-  title: z.string(),
-  date: z.string(),
-  description: z.string().optional(),
-  thumbnail: z.string().optional(),
-  type: z.enum([
-    EventType.Art,
-    EventType.Comedy,
-    EventType.Dance,
-    EventType.Design,
-    EventType.Impro,
-    EventType.Impro_Kanji,
-    EventType.Movie,
-    EventType.Music,
-    EventType.Photo,
-    EventType.Talk,
-    EventType.Theater,
-    EventType.Workshop,
-    EventType.Other,
-  ]),
-});
-
-const updateEventSchema = z.object({
-  publicationStatus: z
-    .enum([
-      PublicationStatus.Draft,
-      PublicationStatus.Published,
-      PublicationStatus.Archived,
-    ])
-    .optional(),
-  title: z.string().optional(),
-  date: z.string().optional(),
-  description: z.string().optional(),
-  thumbnail: z.string().optional(),
-  type: z
-    .enum([
-      EventType.Art,
-      EventType.Comedy,
-      EventType.Dance,
-      EventType.Design,
-      EventType.Impro,
-      EventType.Impro_Kanji,
-      EventType.Movie,
-      EventType.Music,
-      EventType.Photo,
-      EventType.Talk,
-      EventType.Theater,
-      EventType.Workshop,
-      EventType.Other,
-    ])
-    .optional(),
-});
+export { type EventFormData, eventFormSchema } from "../schemas/eventSchema";
 
 /**
  * イベント操作ルーター

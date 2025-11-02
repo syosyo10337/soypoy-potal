@@ -1,6 +1,7 @@
 "use client";
 
-import { useShow } from "@refinedev/core";
+import { useOne } from "@refinedev/core";
+import Image from "next/image";
 import {
   ShowView,
   ShowViewHeader,
@@ -15,15 +16,13 @@ import {
 import { PublicationStatus } from "@/domain/entities";
 
 export default function EventShowPage({ params }: { params: { id: string } }) {
-  const { queryResult } = useShow({
+  // TODO: useShowが使えないか確認する;
+  const { query: queryResult, result: event } = useOne({
     resource: "events",
     id: params.id,
   });
 
-  const { data, isLoading } = queryResult;
-  const event = data?.data;
-
-  if (isLoading) {
+  if (queryResult?.isLoading) {
     return (
       <ShowView>
         <ShowViewHeader />
@@ -105,7 +104,7 @@ export default function EventShowPage({ params }: { params: { id: string } }) {
               <h3 className="text-sm font-medium text-muted-foreground mb-1">
                 サムネイル
               </h3>
-              <img
+              <Image
                 src={event.thumbnail}
                 alt={event.title}
                 className="max-w-md rounded-md border"

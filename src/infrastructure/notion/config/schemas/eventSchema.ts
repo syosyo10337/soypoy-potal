@@ -1,7 +1,7 @@
 import {
-  type NotionDBSchema,
   type InferSchemaType,
   NOTION_PROPERTY,
+  type NotionDBSchema,
 } from "@/infrastructure/notion/config";
 
 export const eventSchema = {
@@ -12,6 +12,10 @@ export const eventSchema = {
   },
   title: { name: "Name", type: NOTION_PROPERTY.TITLE },
   date: { name: "Date", type: NOTION_PROPERTY.DATE },
+  type: {
+    name: "Type",
+    type: NOTION_PROPERTY.SELECT,
+  },
   description: {
     name: "Description",
     type: NOTION_PROPERTY.RICH_TEXT,

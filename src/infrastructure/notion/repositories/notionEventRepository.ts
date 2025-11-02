@@ -1,4 +1,5 @@
 import type { EventEntity } from "@/domain/entities";
+import { EventType } from "@/domain/entities";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { getPage, queryDatabase } from "../client/queries";
 import { NOTION_DB_KEYS } from "../config/constants";
@@ -57,6 +58,7 @@ export class NotionEventRepository implements EventRepository {
           notionEvent.publicationStatus as EventEntity["publicationStatus"],
         title: notionEvent.title,
         date: notionEvent.date,
+        type: (notionEvent.type as EventType) ?? EventType.Other,
         description: notionEvent.description,
         thumbnail: imageUrl,
       };
@@ -64,5 +66,38 @@ export class NotionEventRepository implements EventRepository {
       console.error("Error parsing imageUrl:", error);
       throw new Error("Failed to parse imageUrl");
     }
+  }
+
+  /**
+   * イベントを作成
+   * Notionは読み取り専用のため、未実装
+   */
+  async create(_event: EventEntity): Promise<EventEntity> {
+    throw new Error(
+      "Notion repository is read-only. Use tRPC API for mutations.",
+    );
+  }
+
+  /**
+   * イベントを更新
+   * Notionは読み取り専用のため、未実装
+   */
+  async update(
+    _id: string,
+    _event: Partial<Omit<EventEntity, "id">>,
+  ): Promise<EventEntity> {
+    throw new Error(
+      "Notion repository is read-only. Use tRPC API for mutations.",
+    );
+  }
+
+  /**
+   * イベントを削除
+   * Notionは読み取り専用のため、未実装
+   */
+  async delete(_id: string): Promise<void> {
+    throw new Error(
+      "Notion repository is read-only. Use tRPC API for mutations.",
+    );
   }
 }
