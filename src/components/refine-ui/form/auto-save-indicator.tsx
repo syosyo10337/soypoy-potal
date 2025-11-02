@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTranslate, type AutoSaveIndicatorProps } from "@refinedev/core";
-import { AlertTriangle, Clock, CheckCircle2, Loader2 } from "lucide-react";
-import { cn } from "@/utils";
+import { type AutoSaveIndicatorProps, useTranslate } from "@refinedev/core";
+import { AlertTriangle, CheckCircle2, Clock, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { cn } from "@/utils/cn";
 
 type Props = AutoSaveIndicatorProps;
 

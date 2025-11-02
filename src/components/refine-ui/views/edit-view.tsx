@@ -1,17 +1,17 @@
 "use client";
 
-import { cn } from "@/utils";
 import {
   useBack,
   useResourceParams,
   useUserFriendlyName,
 } from "@refinedev/core";
-import type { PropsWithChildren } from "react";
-import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
-import { Separator } from "@/components/shadcn/separator";
-import { Button } from "@/components/shadcn/button";
-import { RefreshButton } from "@/components/refine-ui/buttons/refresh";
 import { ArrowLeftIcon } from "lucide-react";
+import type { PropsWithChildren } from "react";
+import { RefreshButton } from "@/components/refine-ui/buttons/refresh";
+import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
+import { Button } from "@/components/shadcn/button";
+import { Separator } from "@/components/shadcn/separator";
+import { cn } from "@/utils/cn";
 
 type EditViewProps = PropsWithChildren<{
   className?: string;

@@ -1,18 +1,18 @@
 "use client";
 
-import type { PropsWithChildren } from "react";
-
-import { ArrowLeftIcon } from "lucide-react";
 import {
   useBack,
   useResourceParams,
   useUserFriendlyName,
 } from "@refinedev/core";
-import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
-import { Separator } from "@/components/shadcn/separator";
-import { Button } from "@/components/shadcn/button";
+
+import { ArrowLeftIcon } from "lucide-react";
+import type { PropsWithChildren } from "react";
 import { RefreshButton } from "@/components/refine-ui/buttons/refresh";
-import { cn } from "@/utils";
+import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
+import { Button } from "@/components/shadcn/button";
+import { Separator } from "@/components/shadcn/separator";
+import { cn } from "@/utils/cn";
 import { EditButton } from "../buttons/edit";
 
 type ShowViewProps = PropsWithChildren<{

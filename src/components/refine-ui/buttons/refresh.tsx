@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
 import { type BaseKey, useRefreshButton } from "@refinedev/core";
 import { RefreshCcw } from "lucide-react";
+import React from "react";
 import { Button } from "@/components/shadcn/button";
-import { cn } from "@/utils";
+import { cn } from "@/utils/cn";
 
 type RefreshButtonProps = {
   /**

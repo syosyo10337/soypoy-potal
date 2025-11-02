@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/utils";
+import * as React from "react";
+import { cn } from "@/utils/cn";
 
 interface LoadingOverlayProps extends React.HTMLAttributes<HTMLDivElement> {
   loading?: boolean;

@@ -307,15 +307,14 @@ infrastructure/db/repositories/ → domain/EventRepository (implements)
 
 #### Phase 4: App層の実装 + shadcn/ui統合
 
-- [ ] Phase 4.1: tRPCクライアント設定（src/infrastructure/trpc/client.ts）
-- [ ] Phase 4.2: shadcn/ui基本コンポーネントの追加
-- [ ] Phase 4.2: Refineのshadcn/ui統合コンポーネントの追加
-- [ ] Phase 4.3: Refineプロバイダー設定（src/app/admin/layout.tsx）
-- [ ] Phase 4.3: 管理画面ダッシュボード（src/app/admin/page.tsx）
-- [ ] Phase 4.4: イベント一覧画面（src/app/admin/events/page.tsx）
-- [ ] Phase 4.4: イベント作成画面（src/app/admin/events/create/page.tsx）
-- [ ] Phase 4.4: イベント編集画面（src/app/admin/events/edit/[id]/page.tsx）
-- [ ] Phase 4.4: イベント詳細画面（src/app/admin/events/show/[id]/page.tsx）
+- [x] Phase 4.2: shadcn/ui基本コンポーネントの追加
+- [x] Phase 4.2: Refineのshadcn/ui統合コンポーネントの追加
+- [x] Phase 4.3: Refineプロバイダー設定（src/app/admin/layout.tsx）
+- [x] Phase 4.3: 管理画面ダッシュボード（src/app/admin/page.tsx）
+- [x] Phase 4.4: イベント一覧画面（src/app/admin/events/page.tsx）
+- [x] Phase 4.4: イベント作成画面（src/app/admin/events/create/page.tsx）
+- [x] Phase 4.4: イベント編集画面（src/app/admin/events/edit/[id]/page.tsx）
+- [x] Phase 4.4: イベント詳細画面（src/app/admin/events/show/[id]/page.tsx）
 
 #### Phase 5: マイグレーション
 
