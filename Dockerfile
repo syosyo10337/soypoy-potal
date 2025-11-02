@@ -14,21 +14,19 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # == 依存関係ステージ ==
-FROM base AS deps
-
+FROM base AS prod-deps
 COPY pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     pnpm fetch --frozen-lockfile
 COPY package.json ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --frozen-lockfile --offline
+    pnpm install --prod --frozen-lockfile --offline
 
 # === 開発ステージ ===
 FROM base AS dev
+ENV NODE_ENV=development
 
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 EXPOSE 3000
-ENV NODE_ENV=development
-CMD ["pnpm", "dev"]
+CMD ["sh", "-c", "pnpm install --frozen-lockfile && pnpm dev"]
