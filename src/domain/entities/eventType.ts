@@ -1,4 +1,3 @@
-// NOTE: buble labelの数仮定義
 export const EventType = {
   Art: "art",
   Comedy: "comedy",

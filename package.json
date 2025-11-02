@@ -11,7 +11,10 @@
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
     "tsc": "tsc --noEmit",
-    "check": "concurrently --kill-others-on-fail \"pnpm tsc\" \"pnpm lint:fix\" && pnpm format"
+    "check": "concurrently --kill-others-on-fail \"pnpm tsc\" \"pnpm lint:fix\" && pnpm format",
+    "drzl:gen": "drizzle-kit generate",
+    "drzl:migrate": "drizzle-kit migrate",
+    "drzl:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
