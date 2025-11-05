@@ -33,7 +33,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           projectId: "soypoy-admin",
         }}
       >
-        {children}
+        <div className="p-4">{children}</div>
       </Refine>
     </TRPCProvider>
   );

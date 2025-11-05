@@ -1,4 +1,4 @@
-import { samplePickUpEvents } from "@/app/(home)/_dummies/pickUpEvent";
+import { samplePickUpEvents } from "@/app/(user)/(home)/_dummies/pickUpEvent";
 import EventGrid from "./EventGrid";
 import { MarqueeDirection, PickUpMarquee } from "./PickUpMarquee";
 

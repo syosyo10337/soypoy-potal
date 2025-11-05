@@ -7,8 +7,6 @@ import {
   notoSansJP,
   zenOldMincho,
 } from "@/assets/fonts";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { cn } from "@/utils/cn";
 
 export const metadata: Metadata = {
@@ -38,9 +36,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           "antialiased min-h-screen flex flex-col relative font-noto-sans-jp"
         }
       >
-        <Header />
-        <main className="flex-grow z-10 relative">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

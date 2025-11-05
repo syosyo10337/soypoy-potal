@@ -1,4 +1,4 @@
-import type { PickUpEvent } from "@/app/(home)/_dummies/pickUpEvent";
+import type { PickUpEvent } from "@/app/(user)/(home)/_dummies/pickUpEvent";
 import { cn } from "@/utils/cn";
 import GridItem from "./GridItem";
 
