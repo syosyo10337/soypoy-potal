@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/assets/styles/globals.css";
+import FudaFilmRollBg from "@/app/(home)/_components/FudaFilmRollBg";
 import {
   anymale,
   bernardMT,
@@ -35,11 +36,12 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     >
       <body
         className={
-          "antialiased min-h-screen flex flex-col relative font-noto-sans-jp"
+          "antialiased min-h-screen flex flex-col relative font-noto-sans-jp bg-soypoy-main"
         }
       >
+        <FudaFilmRollBg />
         <Header />
-        <main className="flex-grow z-10 relative">{children}</main>
+        <main className="flex-grow relative z-10">{children}</main>
         <Footer />
       </body>
     </html>
