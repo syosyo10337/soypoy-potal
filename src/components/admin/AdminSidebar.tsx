@@ -47,8 +47,8 @@ export function AdminSidebar() {
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
-      <SheetTitle className="sr-only">管理画面サイドバー</SheetTitle>
       <SheetContent side="left" className="w-64 p-0">
+        <SheetTitle className="sr-only">管理画面サイドバー</SheetTitle>
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">管理画面</h2>
