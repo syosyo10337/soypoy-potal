@@ -1,7 +1,7 @@
 import { defineConfig } from "drizzle-kit";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
+if (!process.env.NETLIFY_DATABASE_URL) {
+  throw new Error("NETLIFY_DATABASE_URL environment variable is not set");
 }
 
 export default defineConfig({
@@ -10,6 +10,6 @@ export default defineConfig({
   dialect: "postgresql",
   casing: "snake_case",
   dbCredentials: {
-    url: process.env.DATABASE_URL,
+    url: process.env.NETLIFY_DATABASE_URL,
   },
 });

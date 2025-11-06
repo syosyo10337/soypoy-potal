@@ -44,11 +44,14 @@ pnpm format      # コードのフォーマットを実行（--writeオプショ
 
 ### 初回セットアップ
 
-1. リポジトリをクローン
+0. リポジトリをクローン
 ```bash
 git clone [リポジトリURL]
 cd soypoy-portal
 ```
+
+1. env.localを展開する。
+現状masanaoのみが把握しているので個人的にもらってください。
 
 2. VSCodeでプロジェクトを開く
 ```bash
