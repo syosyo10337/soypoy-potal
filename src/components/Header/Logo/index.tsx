@@ -12,7 +12,11 @@ export default function Logo() {
         width={167}
         height={27}
         priority
-        className={cn("object-contain", "w-24 sm:w-34 lg:w-42")}
+        className={cn(
+          "object-contain",
+          "w-24 sm:w-34 lg:w-42",
+          "brightness-0 invert",
+        )}
       />
     </Link>
   );

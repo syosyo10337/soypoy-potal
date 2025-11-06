@@ -24,7 +24,8 @@ export default function MobileHeader() {
     <motion.header
       className={cn(
         "sm:hidden",
-        "fixed top-0 left-0 right-0 z-50 bg-soypoy-main",
+        "fixed top-0 left-0 right-0 z-50",
+        "text-white mix-blend-difference",
         !isVisible && "pointer-events-none",
       )}
       initial={{ y: -100, opacity: 0 }}
@@ -56,7 +57,7 @@ function MobileMenu({ navItems }: { navItems: NavItem[] }) {
         <Button
           variant="ghost"
           size="lg"
-          className="p-3 hover:bg-black/5 text-soypoy-secondary  font-display"
+          className="p-3 hover:bg-white/10 text-inherit font-display"
           aria-label="メニューを開く"
         >
           <Menu className="size-8" strokeWidth={1.2} />
@@ -64,7 +65,7 @@ function MobileMenu({ navItems }: { navItems: NavItem[] }) {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full h-full soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
+        className="w-full h-full bg-soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
       >
         <SheetHeader className="absolute top-0 left-0 w-0 h-0 overflow-hidden">
           <SheetTitle className="sr-only">ナビゲーションメニュー</SheetTitle>
