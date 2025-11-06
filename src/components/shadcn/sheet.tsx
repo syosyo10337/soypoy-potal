@@ -59,14 +59,13 @@ function SheetContent({
         data-slot="sheet-content"
         className={cn(
           "bg-background fixed z-50 flex flex-col gap-4 shadow-lg",
-          "data-[state=open]:animate-slide-in-right data-[state=closed]:animate-slide-out-right",
           "transition-transform duration-300 ease-in-out",
           side === "right" &&
-            "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
+            "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm data-[state=open]:animate-slide-in-right data-[state=closed]:animate-slide-out-right",
           side === "left" &&
-            "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
-          side === "top" && "inset-x-0 top-0 h-auto border-b",
-          side === "bottom" && "inset-x-0 bottom-0 h-auto border-t",
+            "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm data-[state=open]:animate-slide-in-left data-[state=closed]:animate-slide-out-left",
+          side === "top" && "inset-x-0 top-0 h-auto border-b data-[state=open]:animate-slide-in-right data-[state=closed]:animate-slide-out-right",
+          side === "bottom" && "inset-x-0 bottom-0 h-auto border-t data-[state=open]:animate-slide-in-right data-[state=closed]:animate-slide-out-right",
           className,
         )}
         {...props}
