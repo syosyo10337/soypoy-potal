@@ -2,16 +2,34 @@ import type { EventEntity } from "../entities/event";
 
 /**
  * イベントリポジトリインターフェース
- * データアクセスの抽象化（読み取り専用）
+ * データアクセスの抽象化
  */
 export interface EventRepository {
   /**
    * 全てのイベントを取得
    */
-  findAll(): Promise<EventEntity[]>;
+  list(): Promise<EventEntity[]>;
 
   /**
    * IDによるイベント取得
    */
   findById(id: string): Promise<EventEntity | undefined>;
+
+  /**
+   * イベントを作成
+   */
+  create(event: EventEntity): Promise<EventEntity>;
+
+  /**
+   * イベントを更新
+   */
+  update(
+    id: string,
+    event: Partial<Omit<EventEntity, "id">>,
+  ): Promise<EventEntity>;
+
+  /**
+   * イベントを削除
+   */
+  delete(id: string): Promise<void>;
 }

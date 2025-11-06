@@ -34,6 +34,5 @@
       ]
     }
   },
-  "remoteUser": "node",
   "shutdownAction": "stopCompose"
 }
