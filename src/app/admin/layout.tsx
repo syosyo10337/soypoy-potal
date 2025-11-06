@@ -3,6 +3,7 @@
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/nextjs-router/app";
 import { Suspense } from "react";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { dataProvider } from "@/infrastructure/refine/data-provider";
 import { TRPCProvider } from "@/infrastructure/trpc/provider";
 import AdminLoading from "./loading";
@@ -37,7 +38,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             projectId: "soypoy-admin",
           }}
         >
-          <div className="p-4">{children}</div>
+          <div className="admin-theme min-h-screen">
+            <AdminSidebar />
+            <main className="p-16">{children}</main>
+          </div>
         </Refine>
       </Suspense>
     </TRPCProvider>

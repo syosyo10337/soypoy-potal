@@ -3,6 +3,8 @@
   --sheet-slide-timing: cubic-bezier(0.4, 0, 0.2, 1);
   --animate-slide-in-right: slideInFromRight var(--sheet-slide-duration) var(--sheet-slide-timing);
   --animate-slide-out-right: slideOutToRight var(--sheet-slide-duration) var(--sheet-slide-timing);
+  --animate-slide-in-left: slideInFromLeft var(--sheet-slide-duration) var(--sheet-slide-timing);
+  --animate-slide-out-left: slideOutToLeft var(--sheet-slide-duration) var(--sheet-slide-timing);
 }
 
 @keyframes slideInFromRight {
@@ -20,5 +22,23 @@
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
   }
 }
