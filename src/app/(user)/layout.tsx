@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import FudaFilmRollBg from "./(home)/_components/FudaFilmRollBg";
 
 interface UserLayoutProps {
   children: React.ReactNode;
@@ -8,8 +9,9 @@ interface UserLayoutProps {
 export default function UserLayout({ children }: Readonly<UserLayoutProps>) {
   return (
     <div>
+      <FudaFilmRollBg />
       <Header />
-      <main className="flex-grow z-10 relative">{children}</main>
+      <main className="flex-grow relative z-10">{children}</main>
       <Footer />
     </div>
   );

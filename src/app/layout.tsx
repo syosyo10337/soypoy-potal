@@ -7,10 +7,7 @@ import {
   notoSansJP,
   zenOldMincho,
 } from "@/assets/fonts";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { cn } from "@/utils/cn";
-import FudaFilmRollBg from "./(user)/(home)/_components/FudaFilmRollBg";
 
 export const metadata: Metadata = {
   title: "SOY-POY | Community Bar",
@@ -39,10 +36,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           "antialiased min-h-screen flex flex-col relative font-noto-sans-jp bg-soypoy-main"
         }
       >
-        <FudaFilmRollBg />
-        <Header />
-        <main className="flex-grow relative z-10">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
