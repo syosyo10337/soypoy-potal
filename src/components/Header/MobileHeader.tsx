@@ -25,7 +25,7 @@ export default function MobileHeader() {
       className={cn(
         "sm:hidden",
         "fixed top-0 left-0 right-0 z-50",
-        "text-white mix-blend-difference",
+        "text-soypoy-main mix-blend-exclusion",
         !isVisible && "pointer-events-none",
       )}
       initial={{ y: -100, opacity: 0 }}
