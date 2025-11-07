@@ -157,11 +157,106 @@ function hasTimeInfo(dateString: string): boolean {
   return dateString.includes("T");
 }
 
+/**
+ * MM/DD Day形式で日付を返す
+ * 例: "12/25 Sat"
+ */
+function formatMonthDay(dateString: string): string {
+  try {
+    const dt = dateTimeFromISO(dateString);
+    if (!dt.isValid) {
+      console.warn(`Invalid date string: ${dateString}`);
+      return DATE_PLACEHOLDER_TEXT;
+    }
+    const month = dt.month.toString().padStart(2, "0");
+    const day = dt.day.toString().padStart(2, "0");
+    const dayOfWeek = dt.toFormat("EEE");
+    return `${month}/${day} ${dayOfWeek}`;
+  } catch (error) {
+    console.error("Date formatting error:", error);
+    return DATE_PLACEHOLDER_TEXT;
+  }
+}
+
+/**
+ * 指定月の金・土・日を取得
+ */
+function getWeekendDatesInMonth(
+  year: number,
+  month: number,
+): Array<{ date: string; dayOfWeek: string }> {
+  const dates: Array<{ date: string; dayOfWeek: string }> = [];
+  const dt = DateTime.fromObject(
+    { year, month },
+    { zone: APP_TIMEZONE, locale: LOCALE },
+  );
+
+  if (!dt.isValid) {
+    console.warn(`Invalid year/month: ${year}/${month}`);
+    return dates;
+  }
+
+  const daysInMonth = dt.daysInMonth || 0;
+  for (let day = 1; day <= daysInMonth; day++) {
+    const currentDate = DateTime.fromObject(
+      { year, month, day },
+      { zone: APP_TIMEZONE, locale: LOCALE },
+    );
+
+    if (!currentDate.isValid) continue;
+
+    const weekday = currentDate.weekday;
+    if (weekday === 5 || weekday === 6 || weekday === 7) {
+      const dateStr = currentDate.toISODate();
+      if (dateStr) {
+        dates.push({
+          date: dateStr,
+          dayOfWeek: currentDate.toFormat("EEE"),
+        });
+      }
+    }
+  }
+
+  return dates;
+}
+
+/**
+ * 月名を取得
+ */
+function getMonthName(
+  year: number,
+  month: number,
+  locale: "ja" | "en" = "en",
+): string {
+  try {
+    const dt = DateTime.fromObject(
+      { year, month },
+      { zone: APP_TIMEZONE, locale: locale === "ja" ? "ja" : "en" },
+    );
+
+    if (!dt.isValid) {
+      console.warn(`Invalid year/month: ${year}/${month}`);
+      return "";
+    }
+
+    if (locale === "ja") {
+      return dt.toFormat("M月");
+    }
+    return dt.toFormat("MMMM");
+  } catch (error) {
+    console.error("Month name formatting error:", error);
+    return "";
+  }
+}
+
 export {
   format,
   formatFullDateJP,
   formatDateJP,
   formatTime,
+  formatMonthDay,
+  getWeekendDatesInMonth,
+  getMonthName,
   isPast,
   isFuture,
   compare,

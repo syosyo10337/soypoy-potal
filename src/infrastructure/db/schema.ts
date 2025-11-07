@@ -34,5 +34,12 @@ export const events = pgTable("events", {
   type: eventTypeEnum().notNull(),
 });
 
+export const closedDays = pgTable("closed_days", {
+  id: text().primaryKey(),
+  date: varchar({ length: 255 }).notNull(),
+});
+
 export type DrizzleEvent = InferSelectModel<typeof events>;
 export type DrizzleEventInsert = InferInsertModel<typeof events>;
+export type DrizzleClosedDay = InferSelectModel<typeof closedDays>;
+export type DrizzleClosedDayInsert = InferInsertModel<typeof closedDays>;
