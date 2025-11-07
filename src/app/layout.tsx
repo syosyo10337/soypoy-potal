@@ -8,7 +8,6 @@ import {
   zenOldMincho,
 } from "@/assets/fonts";
 import Footer from "@/components/Footer";
-
 import Header from "@/components/Header";
 import { cn } from "@/utils/cn";
 import FudaFilmRollBg from "./(user)/(home)/_components/FudaFilmRollBg";
