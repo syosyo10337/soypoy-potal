@@ -16,7 +16,7 @@ src/
 ├── app/              # App Router (Presentation Layer) - UI, Pages, Components
 ├── domain/           # Domain Layer - Entities, Repository Interfaces
 ├── services/         # Application Layer - Business Logic, Use Cases
-└── infrastructure/   # Infrastructure Layer - External System Connections (Notion, DB, APIs)
+└── infrastructure/   # Infrastructure Layer - External System Connections (DB, APIs)
 ```
 
 ## Clean Architecture Dependency Rules
@@ -53,10 +53,10 @@ services/      → app/             ❌ (Business logic must NOT depend on UI)
 - Examples: `EventService`, use case implementations
 
 ### Infrastructure Layer (`src/infrastructure/`)
-- Contains external system implementations
+- Contains external system implementations (Neon Database + Drizzle ORM)
 - Implements domain repository interfaces
 - Can depend on domain layer for interfaces
-- Examples: `NotionEventRepository`, database connections, API clients
+- Examples: `DrizzleEventRepository`, database schemas, tRPC routers
 
 ### App Layer (`src/app/`)
 - Contains UI components, pages, hooks
@@ -73,7 +73,7 @@ import { EventEntity } from '@/domain/entities/event';
 import { eventService } from '@/services/eventService';
 
 // ❌ BAD: Domain importing from outer layers  
-// In domain/: import { NotionClient } from '@/infrastructure/notion';
+// In domain/: import { db } from '@/infrastructure/db';
 ```
 
 ### Dependency Injection Pattern
@@ -84,19 +84,19 @@ export class EventService {
 }
 
 // ✅ GOOD: Infrastructure implements domain interface
-export class NotionEventRepository implements EventRepository {
+export class DrizzleEventRepository implements EventRepository {
   // implementation
 }
 
 // ✅ GOOD: Wiring in services layer
-export const eventService = new EventService(new NotionEventRepository());
+export const eventService = new EventService(new DrizzleEventRepository());
 ```
 
 ## Technology Stack
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Package Manager**: pnpm
-- **Data Source**: Notion API (current), designed for easy migration to other DBs/APIs
+- **Data Source**: Neon Database (PostgreSQL) with Drizzle ORM
 - **Architecture**: Clean Architecture with Repository Pattern
 
 ## Development Rules

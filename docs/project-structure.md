@@ -70,25 +70,28 @@ services/
 - リポジトリを依存性注入で受け取る
 
 #### 4. Infrastructure層 (`/app/src/infrastructure/`) - インフラストラクチャ層
-外部システム（Notion API）との接続を実装。
+外部システム（Neon Database + Drizzle ORM）との接続を実装。
 
 ```
 infrastructure/
-└── notion/                # Notion API実装
-    ├── client/            # Notionクライアント
-    │   ├── notionClient.ts
-    │   └── queries.ts
-    ├── config/            # 設定とスキーマ
-    │   ├── constants.ts
-    │   ├── schemas/       # Zodスキーマ
-    │   └── types.ts
-    └── repositories/      # リポジトリ実装
-        └── notionEventRepository.ts
+├── db/                    # Neon Database + Drizzle実装
+│   ├── index.ts           # データベース接続設定
+│   ├── schema.ts          # Drizzleスキーマ定義
+│   └── repositories/      # リポジトリ実装
+│       └── drizzleEventRepository.ts
+├── trpc/                  # tRPC設定
+│   ├── context.ts         # tRPCコンテキスト
+│   ├── router.ts          # ルーター統合
+│   ├── routers/           # ルーター実装
+│   └── schemas/           # Zodスキーマ
+└── refine/                # Refine設定
+    └── data-provider.ts   # Refineデータプロバイダー
 ```
 
 **特徴**:
 - ドメインのリポジトリインターフェースを実装
-- 外部APIとの通信を担当
+- Neon Database（PostgreSQL）との接続を担当
+- Drizzle ORMを使用した型安全なデータアクセス
 - データ変換とエラーハンドリング
 
 #### 5. 共通リソース

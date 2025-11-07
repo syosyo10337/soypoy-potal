@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "@/assets/styles/globals.css";
-import FudaFilmRollBg from "@/app/(home)/_components/FudaFilmRollBg";
 import {
   anymale,
   bernardMT,
@@ -9,8 +8,10 @@ import {
   zenOldMincho,
 } from "@/assets/fonts";
 import Footer from "@/components/Footer";
+
 import Header from "@/components/Header";
 import { cn } from "@/utils/cn";
+import FudaFilmRollBg from "./(user)/(home)/_components/FudaFilmRollBg";
 
 export const metadata: Metadata = {
   title: "SOY-POY | Community Bar",
