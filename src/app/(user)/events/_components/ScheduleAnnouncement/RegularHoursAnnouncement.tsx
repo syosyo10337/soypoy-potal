@@ -1,9 +1,6 @@
 import type { ClosedDayEntity, EventEntity } from "@/domain/entities";
-import {
-  formatMonthDay,
-  getMonthName,
-  getWeekendDatesInMonth,
-} from "@/utils/date";
+import { getMonthName, getWeekendDatesInMonth } from "@/utils/date";
+import { DateTile } from "./DateTile";
 
 interface RegularHoursAnnouncementProps {
   year: number;
@@ -32,30 +29,19 @@ export function RegularHoursAnnouncement({
       !eventDates.has(weekend.date) && !closedDayDates.has(weekend.date),
   );
 
-  if (regularHoursDates.length === 0) {
-    return null;
-  }
-
   const monthName = getMonthName(year, month, "ja");
 
   return (
-    <div className="mt-8 md:mt-12">
-      <h2 className="text-xl md:text-2xl font-bold mb-2 text-white">
+    <div className="mt-8 md:mt-12 text-soypoy-secondary">
+      <h2 className="text-xl md:text-2xl font-bold mb-2 mx-auto">
         {monthName}の通常営業日
       </h2>
-      <p className="text-sm md:text-base text-gray-300 mb-4">
+      <p className="text-sm md:text-base mb-4">
         イベントのない金・土・日は、ゆったりお酒を楽しめるバー営業となっております
       </p>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4">
         {regularHoursDates.map((date) => (
-          <div
-            key={date.date}
-            className="flex items-center justify-between border-b border-gray-600 pb-1"
-          >
-            <span className="text-sm md:text-base text-white">
-              {formatMonthDay(date.date)}
-            </span>
-          </div>
+          <DateTile key={date.date} date={date.date} />
         ))}
       </div>
     </div>

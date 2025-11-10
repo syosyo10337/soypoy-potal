@@ -16,7 +16,7 @@ export function ScheduleAnnouncement({
   closedDays,
 }: ScheduleAnnouncementProps) {
   return (
-    <>
+    <div className='font-semibold'>
       <RegularHoursAnnouncement
         year={year}
         month={month}
@@ -28,6 +28,6 @@ export function ScheduleAnnouncement({
         month={month}
         closedDays={closedDays}
       />
-    </>
+    </div>
   );
 }

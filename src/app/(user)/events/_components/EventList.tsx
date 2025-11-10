@@ -5,7 +5,6 @@ import { Separator } from "@/components/shadcn/separator";
 import { trpc } from "@/infrastructure/trpc/client";
 import { EventListItem } from "./EventListItem";
 import { EventListSkeleton } from "./EventListSkeleton";
-import { ScheduleAnnouncement } from "./ScheduleAnnouncement";
 
 export function EventList() {
   const searchParams = useSearchParams();
@@ -23,16 +22,12 @@ export function EventList() {
     : now.getMonth() + 1;
 
   const eventsQuery = trpc.events.listByMonth.useQuery({ year, month });
-  const closedDaysQuery = trpc.closedDays.listByMonth.useQuery({
-    year,
-    month,
-  });
 
-  if (eventsQuery.isLoading || closedDaysQuery.isLoading) {
+  if (eventsQuery.isLoading) {
     return <EventListSkeleton />;
   }
 
-  if (eventsQuery.error || closedDaysQuery.error) {
+  if (eventsQuery.error) {
     return (
       <div className="text-red-500">
         データの取得に失敗しました。もう一度お試しください。
@@ -41,7 +36,6 @@ export function EventList() {
   }
 
   const events = eventsQuery.data || [];
-  const closedDays = closedDaysQuery.data || [];
 
   return (
     <div>
@@ -59,13 +53,6 @@ export function EventList() {
           ))}
         </div>
       )}
-
-      <ScheduleAnnouncement
-        year={year}
-        month={month}
-        events={events}
-        closedDays={closedDays}
-      />
     </div>
   );
 }

@@ -170,7 +170,7 @@ function formatMonthDay(dateString: string): string {
     }
     const month = dt.month.toString().padStart(2, "0");
     const day = dt.day.toString().padStart(2, "0");
-    const dayOfWeek = dt.toFormat("EEE");
+    const dayOfWeek = dt.setLocale("en").toFormat("EEE");
     return `${month}/${day} ${dayOfWeek}`;
   } catch (error) {
     console.error("Date formatting error:", error);
