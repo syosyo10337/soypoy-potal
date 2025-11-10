@@ -2,11 +2,16 @@
 
 import { useSearchParams } from "next/navigation";
 import { Separator } from "@/components/shadcn/separator";
+import type { EventEntity } from "@/domain/entities";
 import { trpc } from "@/infrastructure/trpc/client";
+import { EventListSkeleton } from "../EventListSkeleton";
 import { EventListItem } from "./EventListItem";
-import { EventListSkeleton } from "./EventListSkeleton";
 
-export function EventList() {
+interface EventListProps {
+  events?: EventEntity[];
+}
+
+export function EventList({ events: propsEvents }: EventListProps) {
   const searchParams = useSearchParams();
   const monthParam = searchParams.get("month");
 
@@ -21,7 +26,33 @@ export function EventList() {
       )
     : now.getMonth() + 1;
 
-  const eventsQuery = trpc.events.listByMonth.useQuery({ year, month });
+  const eventsQuery = trpc.events.listByMonth.useQuery(
+    { year, month },
+    { enabled: !propsEvents },
+  );
+
+  if (propsEvents) {
+    const events = propsEvents;
+
+    return (
+      <div>
+        {events.length === 0 ? (
+          <p className="text-gray-400 py-8">この月のイベントはありません。</p>
+        ) : (
+          <div className="space-y-0">
+            {events.map((event, index) => (
+              <div key={event.id}>
+                <EventListItem event={event} isPickUp={index === 0} />
+                {index < events.length - 1 && (
+                  <Separator className="bg-gray-700" />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if (eventsQuery.isLoading) {
     return <EventListSkeleton />;
