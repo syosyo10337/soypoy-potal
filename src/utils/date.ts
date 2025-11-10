@@ -179,6 +179,44 @@ function formatMonthDay(dateString: string): string {
 }
 
 /**
+ * MM/DD形式で日付を返す
+ * 例: "12/25"
+ */
+function formatMonthDayOnly(dateString: string): string {
+  try {
+    const dt = dateTimeFromISO(dateString);
+    if (!dt.isValid) {
+      console.warn(`Invalid date string: ${dateString}`);
+      return DATE_PLACEHOLDER_TEXT;
+    }
+    const month = dt.month.toString().padStart(2, "0");
+    const day = dt.day.toString().padStart(2, "0");
+    return `${month}/${day}`;
+  } catch (error) {
+    console.error("Date formatting error:", error);
+    return DATE_PLACEHOLDER_TEXT;
+  }
+}
+
+/**
+ * 曜日を短縮形で返す
+ * 例: "Sat."
+ */
+function formatDayOfWeek(dateString: string): string {
+  try {
+    const dt = dateTimeFromISO(dateString);
+    if (!dt.isValid) {
+      console.warn(`Invalid date string: ${dateString}`);
+      return "";
+    }
+    return `${dt.setLocale("en").toFormat("EEE")}.`;
+  } catch (error) {
+    console.error("Date formatting error:", error);
+    return "";
+  }
+}
+
+/**
  * 指定月の金・土・日を取得
  */
 function getWeekendDatesInMonth(
@@ -255,6 +293,8 @@ export {
   formatDateJP,
   formatTime,
   formatMonthDay,
+  formatMonthDayOnly,
+  formatDayOfWeek,
   getWeekendDatesInMonth,
   getMonthName,
   isPast,

@@ -1,12 +1,13 @@
 import { Suspense } from "react";
 import { EventList } from "./_components/EventList";
 import { EventListHeader } from "./_components/EventListHeader";
-import { EventListSkeleton } from "./_components/EventListSkeleton";
+import { EventListSkeleton } from "./_components/EventList/EventListSkeleton";
 import { MonthNavigation } from "./_components/MonthNavigation";
 import { ScheduleAnnouncement } from "./_components/ScheduleAnnouncement";
 import { createDummyClosedDays, createDummyEvents } from "./_dummies/event";
 export const revalidate = 6;
 
+//TODO: 曜日によって色を変える。
 interface EventsPageProps {
   searchParams: Promise<{ month: string }>;
 }

@@ -1,6 +1,16 @@
+import { cn } from "@/utils/cn";
+
 export function PickUpLabel() {
   return (
-    <div className="absolute top-2 right-2 md:top-4 md:right-4 bg-red-500 text-white px-3 py-1 text-xs md:text-sm font-bold transform rotate-12 z-10">
+    <div
+      className={cn(
+        "bg-soypoy-accent text-soypoy-main font-bernard-mt",
+        "text-base/4 md:text-lg",
+        "px-2 py-1",
+        "transform -rotate-12",
+        "z-10 absolute bottom-10 right-8",
+      )}
+    >
       PICK UP EVENT!
     </div>
   );

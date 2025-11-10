@@ -4,7 +4,7 @@ import { PublicationStatus } from "@/domain/entities/event/publicationStatus";
 
 export function createDummyEvents(year: number, month: number): EventEntity[] {
   const daysInMonth = new Date(year, month, 0).getDate();
-  const events: EventEntity[] = [];
+  const events: (EventEntity & { isPickUp?: boolean })[] = [];
 
   for (let day = 1; day <= daysInMonth; day += 3) {
     const date = new Date(year, month - 1, day);
@@ -20,6 +20,7 @@ export function createDummyEvents(year: number, month: number): EventEntity[] {
       description: `これは${day}日のサンプルイベントです。フリーカンパ制+1ドリンクです。`,
       thumbnail: `https://picsum.photos/400/300?random=${day}`,
       type: EventType.Music,
+      isPickUp: day === 1 ? true : undefined,
     });
   }
 
