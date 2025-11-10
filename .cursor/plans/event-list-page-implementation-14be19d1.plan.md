@@ -12,7 +12,7 @@
 #### 1-1. ClosedDayエンティティの定義と実装方針
 
 - `src/domain/entities/closedDay/index.ts`を新規作成
-                                - `ClosedDayEntity`インターフェース定義
+                                                                                                                                - `ClosedDayEntity`インターフェース定義
     ```typescript
     /**
      * 休業日エンティティ
@@ -29,21 +29,21 @@
     }
     ```
 
-                                - 実装方針:
-                                                                - 最小限の情報のみ保持（idとdateのみ）
-                                                                - dateはYYYY-MM-DD形式の文字列（時刻情報なし）
-                                                                - EventEntityとは別のエンティティとして定義（正規化）
-                                                                - バリデーションはRepository層で実施（日付形式の検証）
+                                                                                                                                - 実装方針:
+                                                                                                                                                                                                                                                                - 最小限の情報のみ保持（idとdateのみ）
+                                                                                                                                                                                                                                                                - dateはYYYY-MM-DD形式の文字列（時刻情報なし）
+                                                                                                                                                                                                                                                                - EventEntityとは別のエンティティとして定義（正規化）
+                                                                                                                                                                                                                                                                - バリデーションはRepository層で実施（日付形式の検証）
 - `src/domain/entities/index.ts`にエクスポート追加
-                                - `export type { ClosedDayEntity } from "./closedDay";`
-                                - EventEntityと同様のパターンでエクスポート
+                                                                                                                                - `export type { ClosedDayEntity } from "./closedDay";`
+                                                                                                                                - EventEntityと同様のパターンでエクスポート
 
 #### 1-2. ClosedDayRepositoryインターフェースの定義
 
 - `src/domain/repositories/closedDayRepository.ts`を新規作成
-                                - `ClosedDayRepository`インターフェース定義
-                                - `listByMonth(year: number, month: number): Promise<ClosedDayEntity[]>`メソッド
-                                - EventRepositoryと同様のパターンで定義
+                                                                                                                                - `ClosedDayRepository`インターフェース定義
+                                                                                                                                - `listByMonth(year: number, month: number): Promise<ClosedDayEntity[]>`メソッド
+                                                                                                                                - EventRepositoryと同様のパターンで定義
 
 #### 1-3. DBスキーマ拡張
 
@@ -63,22 +63,22 @@
 - マイグレーションを実行: `pnpm drzl:migrate`
 - マイグレーション手順:
 
-                                1. `src/infrastructure/db/schema.ts`に`closed_days`テーブル定義を追加
-                                2. `pnpm drzl:gen`でマイグレーションファイル生成
-                                3. 生成されたSQLファイルを確認（`drizzle/XXXX_*.sql`）
-                                4. `pnpm drzl:migrate`でデータベースに適用
+                                                                                                                                1. `src/infrastructure/db/schema.ts`に`closed_days`テーブル定義を追加
+                                                                                                                                2. `pnpm drzl:gen`でマイグレーションファイル生成
+                                                                                                                                3. 生成されたSQLファイルを確認（`drizzle/XXXX_*.sql`）
+                                                                                                                                4. `pnpm drzl:migrate`でデータベースに適用
 
 #### 1-5. DrizzleClosedDayRepository実装
 
 - `src/infrastructure/db/repositories/drizzleClosedDayRepository.ts`を新規作成
 - `ClosedDayRepository`インターフェースを実装
 - 実装方針:
-                                - `DrizzleEventRepository`と同様の構造で実装
-                                - `toDomainEntity`メソッドでDrizzleデータを`ClosedDayEntity`に変換
-                                - `listByMonth`で指定月の休業日を取得
-                                                                - 日付文字列（YYYY-MM-DD形式）を`dateTimeFromISO`でパース
-                                                                - 年と月でフィルタリング（`year === targetYear && month === targetMonth`）
-                                - エラーハンドリング: 無効な日付形式の場合はスキップまたはログ出力
+                                                                                                                                - `DrizzleEventRepository`と同様の構造で実装
+                                                                                                                                - `toDomainEntity`メソッドでDrizzleデータを`ClosedDayEntity`に変換
+                                                                                                                                - `listByMonth`で指定月の休業日を取得
+                                                                                                                                                                                                                                                                - 日付文字列（YYYY-MM-DD形式）を`dateTimeFromISO`でパース
+                                                                                                                                                                                                                                                                - 年と月でフィルタリング（`year === targetYear && month === targetMonth`）
+                                                                                                                                - エラーハンドリング: 無効な日付形式の場合はスキップまたはログ出力
 
 #### 1-6. ClosedDayService実装
 
@@ -118,9 +118,9 @@
 #### 2-2. 日付ユーティリティ拡張
 
 - `src/utils/date.ts`に以下を追加:
-                                - `formatMonthDay(dateString: string): string` - "MM/DD Day"形式（例: "12/25 Sat"）
-                                - `getWeekendDatesInMonth(year: number, month: number): Array<{ date: string, dayOfWeek: string }>` - 指定月の金・土・日を取得
-                                - `getMonthName(year: number, month: number, locale: 'ja' | 'en'): string` - 月名取得（"August"など）
+                                                                                                                                - `formatMonthDay(dateString: string): string` - "MM/DD Day"形式（例: "12/25 Sat"）
+                                                                                                                                - `getWeekendDatesInMonth(year: number, month: number): Array<{ date: string, dayOfWeek: string }>` - 指定月の金・土・日を取得
+                                                                                                                                - `getMonthName(year: number, month: number, locale: 'ja' | 'en'): string` - 月名取得（"August"など）
 
 ### 3. フロントエンドコンポーネント実装
 
@@ -149,11 +149,11 @@
 - `src/app/(user)/events/_components/EventList.tsx`を新規作成
 - `EventListContainer` - リストコンテナ
 - `EventListItem` - 既存をデザイン案に合わせて再実装
-                                - `EventListItemDate` - "MM/DD Day"形式
-                                - `EventListItemImage` - サムネイル画像
-                                - `EventListItemInfo` - イベント情報
-                                - `EventListItemTitle` - タイトル（50文字でtruncate）
-                                - `PickUpLabel` - "PICK UP EVENT!"ラベル（条件付き表示）
+                                                                                                                                - `EventListItemDate` - "MM/DD Day"形式
+                                                                                                                                - `EventListItemImage` - サムネイル画像
+                                                                                                                                - `EventListItemInfo` - イベント情報
+                                                                                                                                - `EventListItemTitle` - タイトル（50文字でtruncate）
+                                                                                                                                - `PickUpLabel` - "PICK UP EVENT!"ラベル（条件付き表示）
 - `EventListItemSkeleton` - スケルトンローディング用
 - `EventListSeparator` - 区切り線（shadcn Separator使用）
 
@@ -245,33 +245,33 @@ src/
 
 1. **バックエンド層の拡張（Domain → Infrastructure → Service → tRPC）**
 
-                                                - ClosedDayエンティティとRepositoryインターフェース定義
-                                                - DBスキーマ拡張（closed_daysテーブル追加）
-                                                - マイグレーション実行（`pnpm drzl:gen` → `pnpm drzl:migrate`）
-                                                - DrizzleClosedDayRepository実装
-                                                - ClosedDayService実装
-                                                - EventRepository/Service拡張（listByMonth追加）
-                                                - tRPCルーター拡張（events.listByMonth, closedDays.listByMonth）
+                                                                                                                                                                                                - ClosedDayエンティティとRepositoryインターフェース定義
+                                                                                                                                                                                                - DBスキーマ拡張（closed_daysテーブル追加）
+                                                                                                                                                                                                - マイグレーション実行（`pnpm drzl:gen` → `pnpm drzl:migrate`）
+                                                                                                                                                                                                - DrizzleClosedDayRepository実装
+                                                                                                                                                                                                - ClosedDayService実装
+                                                                                                                                                                                                - EventRepository/Service拡張（listByMonth追加）
+                                                                                                                                                                                                - tRPCルーター拡張（events.listByMonth, closedDays.listByMonth）
 
 2. **ユーティリティ関数の実装**
 
-                                                - truncate関数
-                                                - 日付ユーティリティ拡張
+                                                                                                                                                                                                - truncate関数
+                                                                                                                                                                                                - 日付ユーティリティ拡張
 
 3. **フロントエンドコンポーネント（下位コンポーネントから順に）**
 
-                                                - EventPageHeader
-                                                - MonthNavigation
-                                                - EventListItem関連
-                                                - RegularHoursAnnouncement
-                                                - ClosedDaysAnnouncement
-                                                - ScheduleAnnouncement
-                                                - EventListSkeleton
+                                                                                                                                                                                                - EventPageHeader
+                                                                                                                                                                                                - MonthNavigation
+                                                                                                                                                                                                - EventListItem関連
+                                                                                                                                                                                                - RegularHoursAnnouncement
+                                                                                                                                                                                                - ClosedDaysAnnouncement
+                                                                                                                                                                                                - ScheduleAnnouncement
+                                                                                                                                                                                                - EventListSkeleton
 
 4. **ページコンポーネントと統合**
 
-                                                - EventListコンポーネント（2つのAPIを並列取得）
-                                                - page.tsxでSuspense設定
+                                                                                                                                                                                                - EventListコンポーネント（2つのAPIを並列取得）
+                                                                                                                                                                                                - page.tsxでSuspense設定
 
 5. **レスポンシブ調整とスタイリング**
 
