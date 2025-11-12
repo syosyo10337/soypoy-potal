@@ -6,6 +6,7 @@ interface DateTileProps {
 }
 
 export function DateTile({ date }: DateTileProps) {
+  // TODO: refactor this not to use dateTimeFromISO here
   const dt = dateTimeFromISO(date);
   const day = dt.isValid ? dt.day.toString().padStart(2, "0") : "";
   const dayOfWeek = dt.isValid ? dt.setLocale("en").toFormat("EEE") : "";
