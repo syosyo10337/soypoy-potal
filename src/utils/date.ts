@@ -287,6 +287,20 @@ function getMonthName(
   }
 }
 
+/**
+ * 曜日に応じた色クラスを取得
+ * 土曜日(6): #594DD8, 日曜日(7): soypoy-accent, その他: 空文字列
+ */
+function getDayOfWeekColorClass(dateString: string): string {
+  const dt = dateTimeFromISO(dateString);
+  if (!dt.isValid) return "";
+
+  const weekday = dt.weekday;
+  if (weekday < 6) return "";
+
+  return weekday === 6 ? "text-[#594DD8]" : "text-soypoy-accent";
+}
+
 export {
   format,
   formatFullDateJP,
@@ -297,6 +311,7 @@ export {
   formatDayOfWeek,
   getWeekendDatesInMonth,
   getMonthName,
+  getDayOfWeekColorClass,
   isPast,
   isFuture,
   compare,

@@ -2,7 +2,12 @@ import Image from "next/image";
 import NoImage from "@/assets/no-image.png";
 import type { EventEntity } from "@/domain/entities";
 import { cn } from "@/utils/cn";
-import { formatDayOfWeek, formatMonthDayOnly, formatTime } from "@/utils/date";
+import {
+  formatDayOfWeek,
+  formatMonthDayOnly,
+  formatTime,
+  getDayOfWeekColorClass,
+} from "@/utils/date";
 import { truncate } from "@/utils/text";
 import { PickUpLabel } from "./PickUpLabel";
 
@@ -34,7 +39,12 @@ export function EventListItem({ event }: EventListItemProps) {
           <div className="text-3xl md:text-4xl font-medium">
             {formatMonthDayOnly(event.date)}
           </div>
-          <div className="text-base/2 md:text-lg font-semibold">
+          <div
+            className={cn(
+              "text-base/2 md:text-lg font-semibold",
+              getDayOfWeekColorClass(event.date),
+            )}
+          >
             {formatDayOfWeek(event.date)}
           </div>
         </div>
