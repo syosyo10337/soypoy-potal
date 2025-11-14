@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { EventList } from "./_components/EventList";
-import { EventListHeader } from "./_components/EventListHeader";
 import { EventListSkeleton } from "./_components/EventList/EventListSkeleton";
+import { EventListTitle } from "./_components/EventListTitle";
 import { MonthNavigation } from "./_components/MonthNavigation";
 import { ScheduleAnnouncement } from "./_components/ScheduleAnnouncement";
 import { createDummyClosedDays, createDummyEvents } from "./_dummies/event";
@@ -34,7 +34,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
 
   return (
     <div className="max-w-5xl mx-auto px-12 md:px-16 py-8 md:py-12">
-      <EventListHeader />
+      <EventListTitle />
       <MonthNavigation year={year} month={month} />
       <Suspense fallback={<EventListSkeleton />}>
         <EventList events={dummyEvents} />

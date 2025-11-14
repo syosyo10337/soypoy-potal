@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 
-export function EventListHeader() {
+export function EventListTitle() {
   const title = "EVENTS";
   const firstChar = title[0];
   const restChars = title.slice(1);
