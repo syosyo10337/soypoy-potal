@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
 
 /**
- * HeroSectionの位置を監視し、Headerの表示/非表示を制御するフック
+ * Headerの表示/非表示を制御するフック
  *
- * HeroSectionの下限が画面の60%ラインより上に来たら表示
+ * ページ全体のスクロール位置が60%を超えたら表示
  */
-export function useHeaderVisibility(heroSectionId: string) {
+export function useHeaderVisibility() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const heroSection = document.getElementById(heroSectionId);
-    if (!heroSection) return;
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = window.innerHeight;
+      const scrollTop = window.scrollY;
+      const scrollableHeight = scrollHeight - clientHeight;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // NOTE: HeroSectionの下限が画面の60%ラインより上に来たら表示
-        setIsVisible(!entry.isIntersecting);
-      },
-      {
-        rootMargin: "-60% 0px 40% 0px",
-        threshold: 0,
-      },
-    );
+      if (scrollableHeight <= 0) {
+        setIsVisible(false);
+        return;
+      }
 
-    observer.observe(heroSection);
+      const scrollPercentage = scrollTop / scrollableHeight;
+      setIsVisible(scrollPercentage > 0.3);
+    };
 
-    return () => observer.disconnect();
-  }, [heroSectionId]);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return isVisible;
 }
