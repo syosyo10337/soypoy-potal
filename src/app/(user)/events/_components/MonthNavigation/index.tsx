@@ -1,28 +1,17 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/utils/cn";
 import { getMonthName } from "@/utils/date";
 import { NextMonthButton, PreviousMonthButton } from "./Button";
+import { useNavigateMonth } from "./useNavigateMonth";
 
 interface MonthNavigationProps {
   year: number;
   month: number;
 }
 
-// TODO: routerの実装をカスタムフックに分離する。
 export function MonthNavigation({ year, month }: MonthNavigationProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const navigateMonth = (delta: number) => {
-    const newDate = new Date(year, month - 1 + delta, 1);
-    const newYear = newDate.getFullYear();
-    const newMonth = newDate.getMonth() + 1;
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("month", `${newYear}-${String(newMonth).padStart(2, "0")}`);
-    router.push(`/events?${params.toString()}`);
-  };
+  const navigateMonth = useNavigateMonth(year, month);
 
   const goToPreviousMonth = () => navigateMonth(-1);
   const goToNextMonth = () => navigateMonth(1);

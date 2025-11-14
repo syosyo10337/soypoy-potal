@@ -16,18 +16,7 @@ interface EventsPageProps {
 // defaultは今月 yearも分けた方がよさそう。
 export default async function EventsPage({ searchParams }: EventsPageProps) {
   const resolvedSearchParams = await searchParams;
-  const monthParam = resolvedSearchParams.month;
-
-  const now = new Date();
-  const year = monthParam
-    ? Number.parseInt(monthParam.split("-")[0] || String(now.getFullYear()), 10)
-    : now.getFullYear();
-  const month = monthParam
-    ? Number.parseInt(
-        monthParam.split("-")[1] || String(now.getMonth() + 1),
-        10,
-      )
-    : now.getMonth() + 1;
+  const { year, month } = getYearAndMonthFromSearchParams(resolvedSearchParams.month);
 
   const dummyEvents = createDummyEvents(year, month);
   const dummyClosedDays = createDummyClosedDays(year, month);
@@ -47,4 +36,16 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
       />
     </div>
   );
+}
+
+function getYearAndMonthFromSearchParams(monthParam: string | undefined) {
+  if (!monthParam) {
+    const now = new Date();
+    return { year: now.getFullYear(), month: now.getMonth() + 1 };
+  }
+  const [yearStr, monthStr] = monthParam.split("-");
+  return {
+    year: Number.parseInt(yearStr, 10),
+    month: Number.parseInt(monthStr, 10),
+  };
 }

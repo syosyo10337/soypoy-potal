@@ -17,33 +17,26 @@ export function ScheduleAnnouncement({
 }: ScheduleAnnouncementProps) {
   const monthName = getMonthName(year, month, "ja");
 
-  const weekendDates = getWeekendDatesInMonth(year, month);
-  const eventDates = new Set(
-    events.map((event) => {
-      const dateStr = event.date.split("T")[0];
-      return dateStr;
-    }),
-  );
-  const closedDayDates = new Set(closedDays.map((cd) => cd.date));
+  const weekendDates = getWeekendDatesInMonth(year, month).map((wd) => wd.date);
+  const eventDates = events.map((event) => event.date.split("T")[0]);
+  const closedDayDates = closedDays.map((cd) => cd.date);
 
   const regularHoursDates = weekendDates.filter(
-    (weekend) =>
-      !eventDates.has(weekend.date) && !closedDayDates.has(weekend.date),
+    (weekendDate) =>
+      !eventDates.includes(weekendDate) &&
+      !closedDayDates.includes(weekendDate),
   );
-
-  const regularHoursDatesArray = regularHoursDates.map((d) => d.date);
-  const closedDaysDatesArray = closedDays.map((cd) => cd.date);
 
   return (
     <div className="font-semibold">
       <BaseScheduleAnnouncement
         title={`${monthName}の通常営業日`}
-        dates={regularHoursDatesArray}
+        dates={regularHoursDates}
         description="イベントのない金・土・日は、ゆったりお酒を楽しめるバー営業となっております"
       />
       <BaseScheduleAnnouncement
         title={`${monthName}の休業日`}
-        dates={closedDaysDatesArray}
+        dates={closedDayDates}
       />
     </div>
   );
