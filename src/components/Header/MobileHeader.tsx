@@ -18,7 +18,7 @@ import Logo from "./Logo";
 import { useHeaderVisibility } from "./useHeaderVisibility";
 
 export default function MobileHeader() {
-  const isVisible = useHeaderVisibility("hero-section");
+  const isVisible = useHeaderVisibility();
 
   return (
     <motion.header
@@ -33,9 +33,7 @@ export default function MobileHeader() {
         y: isVisible ? 0 : -100,
         opacity: isVisible ? 1 : 0,
       }}
-      transition={
-        isVisible ? { duration: 0.3, ease: "easeInOut" } : { duration: 0 }
-      }
+      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <div
         className={cn(

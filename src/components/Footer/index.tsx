@@ -8,7 +8,7 @@ export default function Footer() {
     // NOTE: z-10を追加して、流れるFudaFilmRollBgよりも上に配置する。
     <footer
       className={cn(
-        "bg-soypoy-secondary text-white text-center z-10",
+        "relative bg-soypoy-secondary text-white text-center z-20",
         "p-10 sm:p-16 md:p-12 xl:px-10 2xl:px-38",
       )}
     >
