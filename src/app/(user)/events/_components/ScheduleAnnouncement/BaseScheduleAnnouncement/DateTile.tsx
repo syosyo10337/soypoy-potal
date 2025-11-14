@@ -1,16 +1,12 @@
 import { cn } from "@/utils/cn";
-import { dateTimeFromISO, getDayOfWeekColorClass } from "@/utils/date";
 
 interface DateTileProps {
-  date: string;
+  day: string;
+  dayOfWeek: string;
+  colorClass: string;
 }
 
-export function DateTile({ date }: DateTileProps) {
-  // TODO: refactor this not to use dateTimeFromISO here
-  const dt = dateTimeFromISO(date);
-  const day = dt.isValid ? dt.day.toString().padStart(2, "0") : "";
-  const dayOfWeek = dt.isValid ? dt.setLocale("en").toFormat("EEE") : "";
-
+export function DateTile({ day, dayOfWeek, colorClass }: DateTileProps) {
   return (
     <div
       className={cn(
@@ -20,12 +16,7 @@ export function DateTile({ date }: DateTileProps) {
       )}
     >
       <div className="text-3xl md:text-4xl font-medium">{day}</div>
-      <div
-        className={cn(
-          "text-lg md:text-2xl font-semibold",
-          getDayOfWeekColorClass(date),
-        )}
-      >
+      <div className={cn("text-lg md:text-2xl font-semibold", colorClass)}>
         {dayOfWeek}
       </div>
     </div>

@@ -32,11 +32,7 @@ export default function MobileHeader() {
         y: isVisible ? 0 : -100,
         opacity: isVisible ? 1 : 0,
       }}
-      transition={
-        isVisible
-          ? { duration: 0.3, ease: "easeInOut" }
-          : { duration: 0.3, ease: "easeInOut" }
-      }
+      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <div
         className={cn(

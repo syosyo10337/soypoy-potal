@@ -2,7 +2,7 @@
 
 import { cn } from "@/utils/cn";
 import { getMonthName } from "@/utils/date";
-import { NextMonthButton, PreviousMonthButton } from "./Button";
+import { NextMonthButton, PreviousMonthButton } from "./NavigateButton";
 import { useNavigateMonth } from "./useNavigateMonth";
 
 interface MonthNavigationProps {

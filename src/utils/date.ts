@@ -162,20 +162,13 @@ function hasTimeInfo(dateString: string): boolean {
  * 例: "12/25 Sat"
  */
 function formatMonthDay(dateString: string): string {
-  try {
-    const dt = dateTimeFromISO(dateString);
-    if (!dt.isValid) {
-      console.warn(`Invalid date string: ${dateString}`);
-      return DATE_PLACEHOLDER_TEXT;
-    }
-    const month = dt.month.toString().padStart(2, "0");
-    const day = dt.day.toString().padStart(2, "0");
-    const dayOfWeek = dt.setLocale("en").toFormat("EEE");
-    return `${month}/${day} ${dayOfWeek}`;
-  } catch (error) {
-    console.error("Date formatting error:", error);
-    return DATE_PLACEHOLDER_TEXT;
-  }
+  const dt = parseDateTimeSafely(dateString);
+  if (!dt) return DATE_PLACEHOLDER_TEXT;
+
+  const month = dt.month.toString().padStart(2, "0");
+  const day = dt.day.toString().padStart(2, "0");
+  const dayOfWeek = dt.setLocale("en").toFormat("EEE");
+  return `${month}/${day} ${dayOfWeek}`;
 }
 
 /**
@@ -183,19 +176,12 @@ function formatMonthDay(dateString: string): string {
  * 例: "12/25"
  */
 function formatMonthDayOnly(dateString: string): string {
-  try {
-    const dt = dateTimeFromISO(dateString);
-    if (!dt.isValid) {
-      console.warn(`Invalid date string: ${dateString}`);
-      return DATE_PLACEHOLDER_TEXT;
-    }
-    const month = dt.month.toString().padStart(2, "0");
-    const day = dt.day.toString().padStart(2, "0");
-    return `${month}/${day}`;
-  } catch (error) {
-    console.error("Date formatting error:", error);
-    return DATE_PLACEHOLDER_TEXT;
-  }
+  const dt = parseDateTimeSafely(dateString);
+  if (!dt) return DATE_PLACEHOLDER_TEXT;
+
+  const month = dt.month.toString().padStart(2, "0");
+  const day = dt.day.toString().padStart(2, "0");
+  return `${month}/${day}`;
 }
 
 /**
@@ -203,16 +189,26 @@ function formatMonthDayOnly(dateString: string): string {
  * 例: "Sat."
  */
 function formatDayOfWeek(dateString: string): string {
+  const dt = parseDateTimeSafely(dateString);
+
+  if (!dt) return "";
+  return `${dt.setLocale("en").toFormat("EEE")}.`;
+}
+
+/**
+ * 日付文字列を安全にパースする共通関数
+ */
+function parseDateTimeSafely(dateString: string): DateTime | undefined {
   try {
     const dt = dateTimeFromISO(dateString);
     if (!dt.isValid) {
       console.warn(`Invalid date string: ${dateString}`);
-      return "";
+      return undefined;
     }
-    return `${dt.setLocale("en").toFormat("EEE")}.`;
+    return dt;
   } catch (error) {
     console.error("Date formatting error:", error);
-    return "";
+    return undefined;
   }
 }
 

@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { cn } from "@/utils/cn";
+import { dateTimeFromISO, getDayOfWeekColorClass } from "@/utils/date";
 import { useRowLayout } from "../useRowLayout";
 import { DateTile } from "./DateTile";
 
@@ -48,7 +49,7 @@ export function BaseScheduleAnnouncement({
                 "w-[calc((100%-32px)/4)] sm:w-[calc((100%-40px)/6)] md:w-[calc((100%-56px)/8)] lg:w-[calc((100%-72px)/10)]",
               )}
             >
-              <DateTile date={item} />
+              <DateTile {...getDateTileProps(item)} />
               {/* Vertical separator */}
               {showVerticalSeparator && (
                 <div className="absolute top-0 bottom-0 flex items-center -right-1">
@@ -67,4 +68,12 @@ export function BaseScheduleAnnouncement({
       </div>
     </div>
   );
+}
+
+function getDateTileProps(date: string) {
+  const dt = dateTimeFromISO(date);
+  const day = dt.isValid ? dt.day.toString().padStart(2, "0") : "";
+  const dayOfWeek = dt.isValid ? dt.setLocale("en").toFormat("EEE") : "";
+  const colorClass = getDayOfWeekColorClass(date);
+  return { day, dayOfWeek, colorClass };
 }

@@ -1,12 +1,11 @@
 "use client";
 import { type RefObject, useEffect, useState } from "react";
 
-export interface ItemPosition {
+interface ItemPosition {
   row: number;
   isLastInRow: boolean;
   isInLastRow: boolean;
 }
-
 interface UseRowLayoutOptions {
   threshold?: number;
   itemSelector?: string;
@@ -14,65 +13,6 @@ interface UseRowLayoutOptions {
 
 const DEFAULT_THRESHOLD = 5;
 const DEFAULT_ITEM_SELECTOR = "[data-calendar-item]";
-
-// TODO: understand this code
-function calculateRowLayout(
-  items: HTMLDivElement[],
-  threshold: number,
-): { positions: Record<number, ItemPosition>; hasMultipleRows: boolean } {
-  if (items.length === 0) {
-    return { positions: {}, hasMultipleRows: false };
-  }
-
-  const positions: Record<number, ItemPosition> = {};
-  let currentRow = 0;
-  let currentTop = items[0].offsetTop;
-  let previousIndex = 0;
-  let lastRowStartIndex = 0;
-
-  items.forEach((item, index) => {
-    const itemTop = item.offsetTop;
-    const isNewRow = Math.abs(itemTop - currentTop) > threshold;
-
-    if (isNewRow) {
-      positions[previousIndex] = {
-        row: currentRow,
-        isLastInRow: true,
-        isInLastRow: false,
-      };
-      currentRow++;
-      currentTop = itemTop;
-      lastRowStartIndex = index;
-    }
-
-    positions[index] = {
-      row: currentRow,
-      isLastInRow: false,
-      isInLastRow: false,
-    };
-
-    previousIndex = index;
-  });
-
-  if (items.length > 0) {
-    positions[previousIndex] = {
-      ...positions[previousIndex],
-      isLastInRow: true,
-      isInLastRow: true,
-    };
-
-    const hasMultipleRows = currentRow > 0;
-    const startIndex = hasMultipleRows ? lastRowStartIndex : 0;
-    for (let i = startIndex; i <= previousIndex; i++) {
-      positions[i] = {
-        ...positions[i],
-        isInLastRow: true,
-      };
-    }
-  }
-
-  return { positions, hasMultipleRows: currentRow > 0 };
-}
 
 export function useRowLayout(
   containerRef: RefObject<HTMLDivElement | null>,
@@ -119,4 +59,59 @@ export function useRowLayout(
   }, [containerRef, threshold, itemSelector]);
 
   return { itemPositions, hasMultipleRows };
+}
+
+/** TODO ロジック見直し */
+function calculateRowLayout(
+  items: HTMLDivElement[],
+  threshold: number,
+): { positions: Record<number, ItemPosition>; hasMultipleRows: boolean } {
+  if (items.length === 0) {
+    return { positions: {}, hasMultipleRows: false };
+  }
+
+  const positions: Record<number, ItemPosition> = {};
+  const state = {
+    currentRow: 0,
+    currentTop: items[0].offsetTop,
+    lastProcessedIndex: 0,
+    lastRowStartIndex: 0,
+  };
+
+  items.forEach((item, index) => {
+    const itemTop = item.offsetTop;
+    const isNewRow = Math.abs(itemTop - state.currentTop) > threshold;
+
+    if (isNewRow) {
+      positions[state.lastProcessedIndex] = {
+        row: state.currentRow,
+        isLastInRow: true,
+        isInLastRow: false,
+      };
+      state.currentRow++;
+      state.currentTop = itemTop;
+      state.lastRowStartIndex = index;
+    }
+
+    positions[index] = {
+      row: state.currentRow,
+      isLastInRow: false,
+      isInLastRow: false,
+    };
+
+    state.lastProcessedIndex = index;
+  });
+
+  if (items.length > 0) {
+    const startIndex = state.currentRow > 0 ? state.lastRowStartIndex : 0;
+    for (let i = startIndex; i <= state.lastProcessedIndex; i++) {
+      positions[i] = {
+        ...positions[i],
+        isInLastRow: true,
+        isLastInRow: i === state.lastProcessedIndex,
+      };
+    }
+  }
+
+  return { positions, hasMultipleRows: state.currentRow > 0 };
 }

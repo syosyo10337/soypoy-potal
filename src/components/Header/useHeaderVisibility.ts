@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 /**
  * Headerの表示/非表示を制御するフック
  *
- * ページ全体のスクロール位置が60%を超えたら表示
+ * ページ全体のスクロール位置が30%を超えたら表示
  */
 export function useHeaderVisibility() {
   const [isVisible, setIsVisible] = useState(false);

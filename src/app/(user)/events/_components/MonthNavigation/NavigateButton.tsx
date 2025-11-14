@@ -12,7 +12,7 @@ function PreviousMonthButton({ onClick }: MonthNavigationButtonProps) {
       className="w-12 h-12 rounded-full bg-soypoy-accent"
       aria-label="前月へ"
     >
-      <ArrowLeftIcon />
+      <ArrowLeftIcon aria-hidden="true" />
     </button>
   );
 }
@@ -24,7 +24,7 @@ function NextMonthButton({ onClick }: MonthNavigationButtonProps) {
       className="w-12 h-12 rounded-full bg-soypoy-accent"
       aria-label="次月へ"
     >
-      <ArrowRightIcon />
+      <ArrowRightIcon aria-hidden="true" />
     </button>
   );
 }
