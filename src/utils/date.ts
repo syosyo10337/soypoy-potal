@@ -157,11 +157,157 @@ function hasTimeInfo(dateString: string): boolean {
   return dateString.includes("T");
 }
 
+/**
+ * MM/DD Day形式で日付を返す
+ * 例: "12/25 Sat"
+ */
+function formatMonthDay(dateString: string): string {
+  const dt = parseDateTimeSafely(dateString);
+  if (!dt) return DATE_PLACEHOLDER_TEXT;
+
+  const month = dt.month.toString().padStart(2, "0");
+  const day = dt.day.toString().padStart(2, "0");
+  const dayOfWeek = dt.setLocale("en").toFormat("EEE");
+  return `${month}/${day} ${dayOfWeek}`;
+}
+
+/**
+ * MM/DD形式で日付を返す
+ * 例: "12/25"
+ */
+function formatMonthDayOnly(dateString: string): string {
+  const dt = parseDateTimeSafely(dateString);
+  if (!dt) return DATE_PLACEHOLDER_TEXT;
+
+  const month = dt.month.toString().padStart(2, "0");
+  const day = dt.day.toString().padStart(2, "0");
+  return `${month}/${day}`;
+}
+
+/**
+ * 曜日を短縮形で返す
+ * 例: "Sat."
+ */
+function formatDayOfWeek(dateString: string): string {
+  const dt = parseDateTimeSafely(dateString);
+
+  if (!dt) return "";
+  return `${dt.setLocale("en").toFormat("EEE")}.`;
+}
+
+/**
+ * 日付文字列を安全にパースする共通関数
+ */
+function parseDateTimeSafely(dateString: string): DateTime | undefined {
+  try {
+    const dt = dateTimeFromISO(dateString);
+    if (!dt.isValid) {
+      console.warn(`Invalid date string: ${dateString}`);
+      return undefined;
+    }
+    return dt;
+  } catch (error) {
+    console.error("Date formatting error:", error);
+    return undefined;
+  }
+}
+
+/**
+ * 指定月の金・土・日を取得
+ */
+function getWeekendDatesInMonth(
+  year: number,
+  month: number,
+): Array<{ date: string; dayOfWeek: string }> {
+  const dates: Array<{ date: string; dayOfWeek: string }> = [];
+  const dt = DateTime.fromObject(
+    { year, month },
+    { zone: APP_TIMEZONE, locale: LOCALE },
+  );
+
+  if (!dt.isValid) {
+    console.warn(`Invalid year/month: ${year}/${month}`);
+    return dates;
+  }
+
+  const daysInMonth = dt.daysInMonth || 0;
+  for (let day = 1; day <= daysInMonth; day++) {
+    const currentDate = DateTime.fromObject(
+      { year, month, day },
+      { zone: APP_TIMEZONE, locale: LOCALE },
+    );
+
+    if (!currentDate.isValid) continue;
+
+    const weekday = currentDate.weekday;
+    if (weekday === 5 || weekday === 6 || weekday === 7) {
+      const dateStr = currentDate.toISODate();
+      if (dateStr) {
+        dates.push({
+          date: dateStr,
+          dayOfWeek: currentDate.toFormat("EEE"),
+        });
+      }
+    }
+  }
+
+  return dates;
+}
+
+/**
+ * 月名を取得
+ */
+function getMonthName(
+  year: number,
+  month: number,
+  locale: "ja" | "en" = "en",
+): string {
+  try {
+    const dt = DateTime.fromObject(
+      { year, month },
+      { zone: APP_TIMEZONE, locale: locale === "ja" ? "ja" : "en" },
+    );
+
+    if (!dt.isValid) {
+      console.warn(`Invalid year/month: ${year}/${month}`);
+      return "";
+    }
+
+    if (locale === "ja") {
+      return dt.toFormat("M月");
+    }
+    return dt.toFormat("MMMM");
+  } catch (error) {
+    console.error("Month name formatting error:", error);
+    return "";
+  }
+}
+
+/**
+ * 曜日に応じた色クラスを取得
+ * 土曜日(6): #594DD8, 日曜日(7): soypoy-accent, その他: 空文字列
+ */
+function getDayOfWeekColorClass(dateString: string): string {
+  const dt = dateTimeFromISO(dateString);
+  if (!dt.isValid) return "";
+
+  const weekday = dt.weekday;
+  if (weekday < 6) return "";
+
+  return weekday === 6 ? "text-[#594DD8]" : "text-soypoy-accent";
+}
+
 export {
   format,
   formatFullDateJP,
   formatDateJP,
   formatTime,
+  formatMonthDay,
+  formatMonthDayOnly,
+  formatDayOfWeek,
+  getWeekendDatesInMonth,
+  getMonthName,
+  getDayOfWeekColorClass,
   isPast,
   isFuture,
   compare,

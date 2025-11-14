@@ -26,6 +26,9 @@ export class EventService {
   async deleteEvent(id: string): Promise<void> {
     return await this.repository.delete(id);
   }
+  async getEventsByMonth(year: number, month: number): Promise<EventEntity[]> {
+    return await this.repository.listByMonth(year, month);
+  }
 }
 
 export const eventService = new EventService(new DrizzleEventRepository());

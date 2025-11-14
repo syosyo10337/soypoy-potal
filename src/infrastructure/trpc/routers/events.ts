@@ -14,6 +14,16 @@ export const eventsRouter = router({
   list: publicProcedure.query(async ({ ctx }) => {
     return await ctx.eventService.getAllEvents();
   }),
+  listByMonth: publicProcedure
+    .input(
+      z.object({
+        year: z.number(),
+        month: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.eventService.getEventsByMonth(input.year, input.month);
+    }),
   getById: publicProcedure
     .input(z.string()) // 入力は文字列（ID）
     .query(async ({ ctx, input }) => {

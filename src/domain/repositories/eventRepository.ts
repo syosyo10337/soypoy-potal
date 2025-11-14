@@ -32,4 +32,9 @@ export interface EventRepository {
    * イベントを削除
    */
   delete(id: string): Promise<void>;
+
+  /**
+   * 指定月のイベントを取得
+   */
+  listByMonth(year: number, month: number): Promise<EventEntity[]>;
 }

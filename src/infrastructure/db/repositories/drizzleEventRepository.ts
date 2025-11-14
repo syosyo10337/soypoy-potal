@@ -1,6 +1,8 @@
 import { eq } from "drizzle-orm";
+import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
+import { dateTimeFromISO } from "@/utils/date";
 import { db } from "../index";
 import type { DrizzleEvent, DrizzleEventInsert } from "../schema";
 import { events } from "../schema";
@@ -15,6 +17,34 @@ export class DrizzleEventRepository implements EventRepository {
   async list(): Promise<EventEntity[]> {
     const drizzleEvents = await db.select().from(events);
     return drizzleEvents.map(this.toDomainEntity);
+  }
+
+  /**
+   * 指定月のイベントを取得
+   */
+  async listByMonth(year: number, month: number): Promise<EventEntity[]> {
+    const drizzleEvents = await db
+      .select()
+      .from(events)
+      .where(eq(events.publicationStatus, PublicationStatus.Published));
+
+    return drizzleEvents
+      .map((drizzleEvent) => {
+        try {
+          const dt = dateTimeFromISO(drizzleEvent.date);
+          if (dt.isValid && dt.year === year && dt.month === month) {
+            return this.toDomainEntity(drizzleEvent);
+          }
+          return null;
+        } catch (error) {
+          console.warn(
+            `Invalid date string for event: ${drizzleEvent.date}`,
+            error,
+          );
+          return null;
+        }
+      })
+      .filter((entity): entity is EventEntity => entity !== null);
   }
 
   /**
