@@ -16,7 +16,9 @@ interface EventsPageProps {
 // defaultは今月 yearも分けた方がよさそう。
 export default async function EventsPage({ searchParams }: EventsPageProps) {
   const resolvedSearchParams = await searchParams;
-  const { year, month } = getYearAndMonthFromSearchParams(resolvedSearchParams.month);
+  const { year, month } = getYearAndMonthFromSearchParams(
+    resolvedSearchParams.month,
+  );
 
   const dummyEvents = createDummyEvents(year, month);
   const dummyClosedDays = createDummyClosedDays(year, month);

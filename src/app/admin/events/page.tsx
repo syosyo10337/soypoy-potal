@@ -86,9 +86,18 @@ export default function EventsListPage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <ShowButton recordItemId={event.id} className="bg-primary text-primary-foreground" />
-                      <EditButton recordItemId={event.id} className="bg-secondary text-secondary-foreground" />
-                      <DeleteButton recordItemId={event.id} className="bg-destructive text-destructive-foreground" />
+                      <ShowButton
+                        recordItemId={event.id}
+                        className="bg-primary text-primary-foreground"
+                      />
+                      <EditButton
+                        recordItemId={event.id}
+                        className="bg-secondary text-secondary-foreground"
+                      />
+                      <DeleteButton
+                        recordItemId={event.id}
+                        className="bg-destructive text-destructive-foreground"
+                      />
                     </div>
                   </TableCell>
                 </TableRow>

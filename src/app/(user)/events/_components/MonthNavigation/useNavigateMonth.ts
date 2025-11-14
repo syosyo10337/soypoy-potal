@@ -17,4 +17,3 @@ export function useNavigateMonth(currentYear: number, currentMonth: number) {
 
   return navigateMonth;
 }
-
