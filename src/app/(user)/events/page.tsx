@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { cn } from "@/utils/cn";
 import { EventList } from "./_components/EventList";
 import { EventListSkeleton } from "./_components/EventList/EventListSkeleton";
 import { EventListTitle } from "./_components/EventListTitle";
@@ -7,7 +8,6 @@ import { ScheduleAnnouncement } from "./_components/ScheduleAnnouncement";
 import { createDummyClosedDays, createDummyEvents } from "./_dummies/event";
 export const revalidate = 6;
 
-//TODO: 曜日によって色を変える。
 interface EventsPageProps {
   searchParams: Promise<{ month: string }>;
 }
@@ -33,7 +33,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
   const dummyClosedDays = createDummyClosedDays(year, month);
 
   return (
-    <div className="max-w-5xl mx-auto px-12 md:px-16 py-8 md:py-12">
+    <div className={cn("container mx-auto", "px-12 md:px-16 py-8")}>
       <EventListTitle />
       <MonthNavigation year={year} month={month} />
       <Suspense fallback={<EventListSkeleton />}>

@@ -1,5 +1,6 @@
 "use client";
 import { useRef } from "react";
+import { cn } from "@/utils/cn";
 import { useRowLayout } from "../useRowLayout";
 import { DateTile } from "./DateTile";
 
@@ -28,7 +29,10 @@ export function BaseScheduleAnnouncement({
       {description && (
         <p className="text-sm md:text-base mb-4">{description}</p>
       )}
-      <div ref={containerRef} className="flex flex-wrap gap-2">
+      <div
+        ref={containerRef}
+        className="flex flex-wrap gap-2 lg:justify-center"
+      >
         {dates.map((item, index) => {
           const position = itemPositions[index];
           const showVerticalSeparator = position && !position.isLastInRow;
@@ -39,7 +43,10 @@ export function BaseScheduleAnnouncement({
             <div
               key={item}
               data-calendar-item
-              className="relative flex shrink-0 w-[calc((100%-32px)/4)]"
+              className={cn(
+                "relative flex shrink-0 justify-center",
+                "w-[calc((100%-32px)/4)] sm:w-[calc((100%-40px)/6)] md:w-[calc((100%-56px)/8)] lg:w-[calc((100%-72px)/10)]",
+              )}
             >
               <DateTile date={item} />
               {/* Vertical separator */}

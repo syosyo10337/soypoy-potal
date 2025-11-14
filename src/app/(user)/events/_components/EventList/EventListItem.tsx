@@ -27,12 +27,14 @@ export function EventListItem({ event }: EventListItemProps) {
 
   return (
     <div
-      className={cn("relative flex", "gap-4", "py-3 md:py-6", "font-display")}
+      className={cn("relative flex", "gap-4 md:gap-6", "py-3", "font-display")}
     >
       <div
         className={cn(
-          "flex flex-col flex-shrink-0 md:flex-row gap-3",
-          "basis-[30%]",
+          "flex flex-shrink-0",
+          "flex-col md:flex-row justify-between",
+          "gap-3 md:gap-4",
+          "basis-[30%] md:flex-none md:w-[250px] lg:w-[280px]",
         )}
       >
         <div>
@@ -51,13 +53,15 @@ export function EventListItem({ event }: EventListItemProps) {
         <Image
           src={event.thumbnail ?? NoImage}
           alt={event.title}
-          className="w-34 md:w-48 aspect-[4/5] object-cover"
+          className={cn("w-34 md:w-38 lg:w-42", " aspect-[4/5] object-cover")}
           width={400}
           height={500}
         />
       </div>
 
-      <div className={cn("flex flex-col justify-start", "basis-[70%]")}>
+      <div
+        className={cn("flex flex-col justify-start", "basis-[70%] md:flex-1")}
+      >
         <h3 className="text-base md:text-2xl font-semibold mb-2">
           {truncate(event.title, 50)}
         </h3>
