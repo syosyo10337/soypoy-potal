@@ -79,7 +79,20 @@
   --color-popover-foreground: #1A1A1A;
 }
 
-/* スムーズスクロール */
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* custom progressive blur utility class */
+@utility backdrop-blur-progressive {
+  backdrop-filter: blur(70px);
+  mask-image:
+    linear-gradient(to top, rgb(0 0 0 / 100%) 90%, rgb(0 0 0 / 0%) 100%),
+    linear-gradient(to bottom, rgb(0 0 0 / 100%) 90%, rgb(0 0 0 / 0%) 100%),
+    linear-gradient(to left, rgb(0 0 0 / 100%) 90%, rgb(0 0 0 / 0%) 100%),
+    linear-gradient(to right, rgb(0 0 0 / 100%) 90%, rgb(0 0 0 / 0%) 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
 }

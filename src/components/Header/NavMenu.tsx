@@ -1,7 +1,5 @@
 "use client";
-
 import { Menu } from "lucide-react";
-import { motion } from "motion/react";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -13,56 +11,26 @@ import {
 } from "@/components/shadcn/sheet";
 import { cn } from "@/utils/cn";
 import type { NavItem } from "./constant";
-import { NAV_ITEMS } from "./constant";
-import Logo from "./Logo";
-import { useHeaderVisibility } from "./useHeaderVisibility";
 
-export default function MobileHeader() {
-  const isVisible = useHeaderVisibility();
-
-  return (
-    <motion.header
-      className={cn(
-        "sm:hidden",
-        "fixed top-0 left-0 right-0 z-50 bg-soypoy-main",
-        !isVisible && "pointer-events-none",
-      )}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{
-        y: isVisible ? 0 : -100,
-        opacity: isVisible ? 1 : 0,
-      }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-    >
-      <div
-        className={cn(
-          "max-w-8xl mx-auto flex items-center justify-between",
-          "py-2 pl-4",
-        )}
-      >
-        <Logo />
-        <MobileMenu navItems={NAV_ITEMS} />
-      </div>
-    </motion.header>
-  );
-}
-
-function MobileMenu({ navItems }: { navItems: NavItem[] }) {
+export function NavMenu({ navItems }: { navItems: NavItem[] }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button
           variant="ghost"
           size="lg"
-          className="p-3 hover:bg-black/5 text-soypoy-secondary  font-display"
+          className="p-3 hover:bg-white/10 text-inherit font-display  rounded-lg"
           aria-label="メニューを開く"
         >
-          <Menu className="size-8" strokeWidth={1.2} />
+          <Menu
+            className={cn("size-8", "backdrop-blur-progressive bg-white/20")}
+            strokeWidth={1.2}
+          />
         </Button>
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full h-full soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
+        className="w-full h-full bg-soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
       >
         <SheetHeader className="absolute top-0 left-0 w-0 h-0 overflow-hidden">
           <SheetTitle className="sr-only">ナビゲーションメニュー</SheetTitle>

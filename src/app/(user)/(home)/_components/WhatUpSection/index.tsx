@@ -17,6 +17,7 @@ export default function WhatUpSection() {
       )}
     >
       <WhatUpLine />
+      <p className="text-soypoy-secondary font-bold md:text-lg">ソイポイから生まれたアートワークやラジオ、Youtubeをチェック！</p>
       {/* sp/tab用のレイアウト */}
       <div className="xl:hidden">
         <div className="grid grid-cols-1 grid-flow-col grid-rows-3 gap-1">
