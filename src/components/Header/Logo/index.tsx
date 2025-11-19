@@ -5,14 +5,7 @@ import SopyoyLogoBlackImage from "./soypoyLogoBk.png";
 
 export default function Logo() {
   return (
-    <Link
-      href="/"
-      className={cn(
-        "flex items-center",
-        "backdrop-blur-progressive bg-white/20",
-        "rounded-lg px-2 py-1",
-      )}
-    >
+    <Link href="/" className={cn("flex items-center", "rounded-lg px-2 py-1")}>
       <Image
         src={SopyoyLogoBlackImage}
         alt="SOYPOY"

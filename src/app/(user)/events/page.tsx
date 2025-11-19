@@ -24,7 +24,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
   const dummyClosedDays = createDummyClosedDays(year, month);
 
   return (
-    <div className={cn("container mx-auto", "px-12 md:px-16 py-8")}>
+    <div className={cn("container mx-auto max-w-5xl", "px-12 md:px-16 py-8")}>
       <EventListTitle />
       <MonthNavigation year={year} month={month} />
       <Suspense fallback={<EventListSkeleton />}>

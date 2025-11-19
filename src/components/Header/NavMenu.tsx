@@ -4,12 +4,12 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/shadcn/sheet";
-import { cn } from "@/utils/cn";
 import type { NavItem } from "./constant";
 
 export function NavMenu({ navItems }: { navItems: NavItem[] }) {
@@ -19,13 +19,10 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
         <Button
           variant="ghost"
           size="lg"
-          className="p-3 hover:bg-white/10 text-inherit font-display  rounded-lg"
+          className="p-3 text-inherit font-display rounded-lg"
           aria-label="メニューを開く"
         >
-          <Menu
-            className={cn("size-8", "backdrop-blur-progressive bg-white/20")}
-            strokeWidth={1.2}
-          />
+          <Menu className="size-8" strokeWidth={1.2} />
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -40,12 +37,14 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
           <ul className="space-y-4 text-right">
             {navItems.map((item) => (
               <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className="block text-lg font-bold py-6 px-4 active:text-soypoy-accent transition-all duration-200 text-soypoy-secondary text-right"
-                >
-                  {item.name}
-                </Link>
+                <SheetClose asChild>
+                  <Link
+                    href={item.href}
+                    className="block text-lg font-bold py-6 px-4 active:text-soypoy-accent transition-all duration-200 text-soypoy-secondary text-right"
+                  >
+                    {item.name}
+                  </Link>
+                </SheetClose>
               </li>
             ))}
           </ul>
