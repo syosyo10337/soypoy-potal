@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 /**
@@ -7,8 +10,15 @@ import { useEffect, useState } from "react";
  */
 export function useHeaderVisibility() {
   const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
+    if (!isHomePage) {
+      setIsVisible(true);
+      return;
+    }
+
     const handleScroll = () => {
       const scrollHeight = document.documentElement.scrollHeight;
       const clientHeight = window.innerHeight;
@@ -28,7 +38,7 @@ export function useHeaderVisibility() {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   return isVisible;
 }
