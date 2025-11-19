@@ -9,7 +9,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/shadcn/sheet";
-import { cn } from "@/utils/cn";
 import type { NavItem } from "./constant";
 
 export function NavMenu({ navItems }: { navItems: NavItem[] }) {
@@ -19,13 +18,10 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
         <Button
           variant="ghost"
           size="lg"
-          className="p-3 hover:bg-white/10 text-inherit font-display  rounded-lg"
+          className="p-3 hover:bg-white/10 text-inherit font-display rounded-lg"
           aria-label="メニューを開く"
         >
-          <Menu
-            className={cn("size-8", "backdrop-blur-progressive bg-white/20")}
-            strokeWidth={1.2}
-          />
+          <Menu className="size-8" strokeWidth={1.2} />
         </Button>
       </SheetTrigger>
       <SheetContent

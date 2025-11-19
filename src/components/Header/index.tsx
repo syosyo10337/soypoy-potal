@@ -15,6 +15,7 @@ export default function Header() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50",
         !isVisible && "pointer-events-none",
+        "bg-soypoy-main/80",
       )}
       initial={{ y: -100, opacity: 0 }}
       animate={{

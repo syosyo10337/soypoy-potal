@@ -28,7 +28,9 @@ export function BaseScheduleAnnouncement({
         {title}
       </h2>
       {description && (
-        <p className="text-sm md:text-base mb-4">{description}</p>
+        <p className="text-sm md:text-base mb-4 lg:text-center">
+          {description}
+        </p>
       )}
       <div
         ref={containerRef}

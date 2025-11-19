@@ -57,7 +57,7 @@ export function EventListItem({ event }: EventListItemProps) {
               ? `${event.title}のイベントサムネイル画像`
               : "イベントサムネイル画像なし"
           }
-          className={cn("w-34 md:w-38 lg:w-42", " aspect-[4/5] object-cover")}
+          className={cn("w-34 md:w-38 lg:w-42", "aspect-[4/5] object-cover")}
           width={400}
           height={500}
         />
