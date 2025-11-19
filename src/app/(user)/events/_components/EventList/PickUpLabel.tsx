@@ -5,7 +5,7 @@ export function PickUpLabel() {
     <div
       className={cn(
         "bg-soypoy-accent text-soypoy-main font-bernard-mt",
-        "text-base/4 md:text-lg",
+        "text-base/6 md:text-lg",
         "px-2 py-0.5",
         "transform -rotate-12",
         "z-20 absolute",
