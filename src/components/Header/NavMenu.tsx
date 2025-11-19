@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/shadcn/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -36,12 +37,14 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
           <ul className="space-y-4 text-right">
             {navItems.map((item) => (
               <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className="block text-lg font-bold py-6 px-4 active:text-soypoy-accent transition-all duration-200 text-soypoy-secondary text-right"
-                >
-                  {item.name}
-                </Link>
+                <SheetClose asChild>
+                  <Link
+                    href={item.href}
+                    className="block text-lg font-bold py-6 px-4 active:text-soypoy-accent transition-all duration-200 text-soypoy-secondary text-right"
+                  >
+                    {item.name}
+                  </Link>
+                </SheetClose>
               </li>
             ))}
           </ul>
