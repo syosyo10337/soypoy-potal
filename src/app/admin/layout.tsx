@@ -25,8 +25,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               name: "events",
               list: "/admin/events",
               create: "/admin/events/create",
-              edit: "/admin/events/edit/:id",
-              show: "/admin/events/show/:id",
+              edit: "/admin/events/:id/edit",
+              show: "/admin/events/:id",
               meta: {
                 label: "イベント",
               },
