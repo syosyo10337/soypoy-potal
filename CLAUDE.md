@@ -121,7 +121,7 @@ src/
 **Events Router (`events.*`):**
 - `events.list` - Get all published events
 - `events.listByMonth({ year, month })` - Get events for specific month
-- `events.getById({ id })` - Get single event
+- `events.getById(id)` - Get single event
 - `events.create(data)` - Create new event
 - `events.update({ id, ...data })` - Update event
 - `events.delete({ id })` - Delete event
