@@ -147,7 +147,7 @@ src/
 - `date` (varchar 255) - ISO format
 - `description` (text, nullable)
 - `thumbnail` (text, nullable)
-- `type` (enum: Art, Comedy, Dance, Design, Impro, Movie, Music, Photo, Talk, Theater, Workshop, Other)
+- `type` (enum: Art, Comedy, Dance, Design, Impro, Impro_Kanji, Movie, Music, Photo, Talk, Theater, Workshop, Other)
 
 **closed_days:**
 - `id` (text, PK)
