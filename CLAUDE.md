@@ -109,7 +109,7 @@ src/
 
 ### Date Handling
 
-- Use Luxon for date operations (not Date-fns for complex operations)
+- Use Luxon for date operations (not date-fns for complex operations)
 - Timezone: Asia/Tokyo (hardcoded)
 - Import utility: `import { dateTimeFromISO } from "@/utils/date"`
 - Store dates as ISO 8601 strings or YYYY-MM-DD format
