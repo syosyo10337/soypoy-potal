@@ -5,6 +5,8 @@ import {
 } from "@/components/refine-ui/views/list-view";
 import { EventsTable, EventsTableLoading } from "./_components";
 
+export const dynamic = "force-dynamic";
+
 export default function EventsListPage() {
   return (
     <ListView>
