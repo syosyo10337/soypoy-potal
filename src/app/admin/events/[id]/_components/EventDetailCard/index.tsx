@@ -60,13 +60,14 @@ export function EventDetailCard({ event }: EventDetailCardProps) {
             <h3 className="text-sm font-medium text-muted-foreground mb-1">
               サムネイル
             </h3>
-            <Image
-              src={event.thumbnail}
-              alt={event.title}
-              width={500}
-              height={300}
-              className="max-w-md rounded-md border"
-            />
+            <div className="max-w-md relative aspect-video">
+              <Image
+                src={event.thumbnail}
+                alt={event.title}
+                fill
+                className="rounded-md border object-cover"
+              />
+            </div>
           </div>
         )}
       </CardContent>
