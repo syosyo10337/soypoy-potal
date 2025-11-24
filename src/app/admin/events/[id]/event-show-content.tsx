@@ -1,6 +1,6 @@
 "use client";
 
-import { useShow } from "@refinedev/core";
+import { useOne } from "@refinedev/core";
 import Image from "next/image";
 import {
   ShowView,
@@ -20,7 +20,7 @@ type EventShowContentProps = {
 };
 
 export function EventShowContent({ eventId }: EventShowContentProps) {
-  const { query, result } = useShow<EventEntity>({
+  const { query, result } = useOne<EventEntity>({
     resource: "events",
     id: eventId,
   });

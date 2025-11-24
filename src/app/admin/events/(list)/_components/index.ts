@@ -7,6 +7,5 @@
  * - 状態表示コンポーネント（ローディング、空状態）
  */
 
-export { EventsCount } from "./EventsCount";
 export { EventsTable } from "./EventsTable";
 export { EventsTableLoading } from "./EventsTableLoading";
