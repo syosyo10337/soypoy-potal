@@ -1,10 +1,6 @@
-import { EventShowContent } from "./event-show-content";
+import { EventDetailContent } from "./_components/EventDetailContent";
 
-export default async function EventShowPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  return <EventShowContent eventId={id} />;
+// NOTE: pageをclient componentにしたくない。
+export default function EventShowPage() {
+  return <EventDetailContent />;
 }
