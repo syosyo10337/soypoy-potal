@@ -124,7 +124,7 @@ src/
 - `events.getById(id)` - Get single event
 - `events.create(data)` - Create new event
 - `events.update({ id, data })` - Update event
-- `events.delete({ id })` - Delete event
+- `events.delete(id)` - Delete event
 
 **Closed Days Router (`closedDays.*`):**
 - `closedDays.listByMonth({ year, month })` - Get closed days for month
