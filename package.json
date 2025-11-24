@@ -5,7 +5,7 @@
   "scripts": {
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "dev": "next dev",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
@@ -50,6 +50,7 @@
     "react-calendar": "^5.1.0",
     "react-day-picker": "^9.11.1",
     "react-dom": "^19.0.0",
+    "react-error-boundary": "^6.0.0",
     "react-hook-form": "^7.66.0",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.1.12"

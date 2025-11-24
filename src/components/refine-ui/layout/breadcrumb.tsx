@@ -1,26 +1,27 @@
 "use client";
 
-import { Fragment, useMemo } from "react";
-import { Home } from "lucide-react";
 import {
   matchResourceFromRoute,
   useBreadcrumb,
   useLink,
   useResourceParams,
 } from "@refinedev/core";
+import { Home } from "lucide-react";
+import { Fragment, useMemo } from "react";
 import {
-  BreadcrumbSeparator as ShadcnBreadcrumbSeparator,
+  Breadcrumb as ShadcnBreadcrumb,
   BreadcrumbItem as ShadcnBreadcrumbItem,
   BreadcrumbList as ShadcnBreadcrumbList,
   BreadcrumbPage as ShadcnBreadcrumbPage,
-  Breadcrumb as ShadcnBreadcrumb,
+  BreadcrumbSeparator as ShadcnBreadcrumbSeparator,
 } from "@/components/shadcn/breadcrumb";
 
 export function Breadcrumb() {
   const Link = useLink();
   const { breadcrumbs } = useBreadcrumb();
   const { resources } = useResourceParams();
-  const rootRouteResource = matchResourceFromRoute("/", resources);
+  // 管理画面のrootはadminであるため。
+  const rootRouteResource = matchResourceFromRoute("/admin", resources);
 
   const breadCrumbItems = useMemo(() => {
     const list: {
@@ -31,9 +32,9 @@ export function Breadcrumb() {
 
     list.push({
       key: "breadcrumb-item-home",
-      href: rootRouteResource.matchedRoute ?? "/",
+      href: rootRouteResource.matchedRoute ?? "/admin",
       Component: (
-        <Link to={rootRouteResource.matchedRoute ?? "/"}>
+        <Link to={rootRouteResource.matchedRoute ?? "/admin"}>
           {rootRouteResource?.resource?.meta?.icon ?? (
             <Home className="h-4 w-4" />
           )}
