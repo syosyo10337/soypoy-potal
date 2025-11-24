@@ -1,3 +1,6 @@
+"use client";
+
+import { useList } from "@refinedev/core";
 import {
   Table,
   TableBody,
@@ -5,19 +8,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
-import { api } from "@/infrastructure/trpc/server";
+import type { EventEntity } from "@/domain/entities";
+import { EventsTableLoading } from "../EventsTableLoading";
 import { NoEventsRow } from "./NoEventsRow";
 import { EventTableRow } from "./Row";
 
 /**
  * イベント一覧テーブル
  *
- * Server Componentとして動作
- * 内部でデータフェッチを行い、テーブルとして表示
- * Suspense境界で囲むことで、ローディング状態を管理
+ * Client Componentとして動作
+ * useListフックでデータフェッチを行い、テーブルとして表示
+ * ローディング状態も内部で管理
  */
-export async function EventsTable() {
-  const events = await api.events.list();
+export function EventsTable() {
+  const { result, query } = useList<EventEntity>();
+
+  const events = result.data ?? [];
+
+  if (query.isLoading) {
+    return <EventsTableLoading />;
+  }
 
   return (
     <>
