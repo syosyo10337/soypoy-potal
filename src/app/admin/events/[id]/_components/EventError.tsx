@@ -1,5 +1,9 @@
 import Link from "next/link";
 import {
+  EditView,
+  EditViewHeader,
+} from "@/components/refine-ui/views/edit-view";
+import {
   ShowView,
   ShowViewHeader,
 } from "@/components/refine-ui/views/show-view";
@@ -12,19 +16,23 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 
-interface EventDetailErrorProps {
+interface EventErrorProps {
+  viewType: "show" | "edit";
   onRetry?: () => void;
 }
 
 /**
- * イベント詳細のエラー状態
+ * イベントのエラー状態（詳細・編集共通）
  *
- * useOneのquery.isErrorがtrueの際に表示
+ * useOneまたはuseShowのisErrorがtrueの際に表示
  */
-export function EventDetailError({ onRetry }: EventDetailErrorProps) {
+export function EventError({ viewType, onRetry }: EventErrorProps) {
+  const View = viewType === "show" ? ShowView : EditView;
+  const ViewHeader = viewType === "show" ? ShowViewHeader : EditViewHeader;
+
   return (
-    <ShowView>
-      <ShowViewHeader />
+    <View>
+      <ViewHeader />
       <Card className="max-w-2xl mx-auto mt-8 border-destructive">
         <CardHeader>
           <CardTitle className="text-2xl text-destructive">
@@ -45,6 +53,7 @@ export function EventDetailError({ onRetry }: EventDetailErrorProps) {
           </Button>
         </CardContent>
       </Card>
-    </ShowView>
+    </View>
   );
 }
+

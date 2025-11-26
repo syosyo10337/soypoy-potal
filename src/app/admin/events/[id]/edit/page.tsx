@@ -1,4 +1,4 @@
-import { EventEditContent } from "./event-edit-content";
+import { EventEditContent } from "./EventEditContent";
 
 export default async function EventEditPage({
   params,

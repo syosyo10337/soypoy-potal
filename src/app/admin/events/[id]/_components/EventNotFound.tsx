@@ -1,5 +1,9 @@
 import Link from "next/link";
 import {
+  EditView,
+  EditViewHeader,
+} from "@/components/refine-ui/views/edit-view";
+import {
   ShowView,
   ShowViewHeader,
 } from "@/components/refine-ui/views/show-view";
@@ -12,15 +16,22 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 
+interface EventNotFoundProps {
+  viewType: "show" | "edit";
+}
+
 /**
- * イベント詳細の404状態
+ * イベントの404状態（詳細・編集共通）
  *
- * useOneでデータが存在しない際に表示
+ * データが存在しない際に表示
  */
-export function EventDetailNotFound() {
+export function EventNotFound({ viewType }: EventNotFoundProps) {
+  const View = viewType === "show" ? ShowView : EditView;
+  const ViewHeader = viewType === "show" ? ShowViewHeader : EditViewHeader;
+
   return (
-    <ShowView>
-      <ShowViewHeader />
+    <View>
+      <ViewHeader />
       <Card className="max-w-2xl mx-auto mt-8">
         <CardHeader>
           <CardTitle className="text-2xl">イベントが見つかりません</CardTitle>
@@ -34,6 +45,7 @@ export function EventDetailNotFound() {
           </Button>
         </CardContent>
       </Card>
-    </ShowView>
+    </View>
   );
 }
+

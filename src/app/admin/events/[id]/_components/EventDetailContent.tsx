@@ -7,9 +7,9 @@ import {
 } from "@/components/refine-ui/views/show-view";
 import type { EventEntity } from "@/domain/entities";
 import { EventDetailCard } from "./EventDetailCard";
-import { EventDetailError } from "./EventDetailError";
-import { EventDetailLoading } from "./EventDetailLoading";
-import { EventDetailNotFound } from "./EventDetailNotFound";
+import { EventError } from "./EventError";
+import { EventLoading } from "./EventLoading";
+import { EventNotFound } from "./EventNotFound";
 
 export function EventDetailContent() {
   const { query } = useShow<EventEntity>();
@@ -17,15 +17,15 @@ export function EventDetailContent() {
   const { data, isLoading, isError, refetch } = query;
 
   if (isLoading) {
-    return <EventDetailLoading />;
+    return <EventLoading viewType="show" />;
   }
 
   if (isError) {
-    return <EventDetailError onRetry={() => refetch()} />;
+    return <EventError viewType="show" onRetry={() => refetch()} />;
   }
 
   if (!data) {
-    return <EventDetailNotFound />;
+    return <EventNotFound viewType="show" />;
   }
 
   return (
