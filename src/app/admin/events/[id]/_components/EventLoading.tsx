@@ -92,4 +92,3 @@ export function EventLoading({ viewType }: EventLoadingProps) {
     </View>
   );
 }
-

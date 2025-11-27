@@ -1,3 +1,7 @@
+import type {
+  CreateEventData,
+  UpdateEventData,
+} from "@/infrastructure/trpc/schemas/eventSchema";
 import type { EventEntity } from "../entities/event";
 
 /**
@@ -18,15 +22,12 @@ export interface EventRepository {
   /**
    * イベントを作成
    */
-  create(event: EventEntity): Promise<EventEntity>;
+  create(event: CreateEventData): Promise<EventEntity>;
 
   /**
    * イベントを更新
    */
-  update(
-    id: string,
-    event: Partial<Omit<EventEntity, "id">>,
-  ): Promise<EventEntity>;
+  update(id: string, event: UpdateEventData): Promise<EventEntity>;
 
   /**
    * イベントを削除

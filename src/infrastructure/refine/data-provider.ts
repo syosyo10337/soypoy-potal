@@ -96,7 +96,7 @@ export const dataProvider: DataProvider = {
     // tRPCのZodスキーマでバリデーションされるため、型キャストは安全
     const event = await trpcClient.events.update.mutate({
       id: eventId,
-      data: variables as Partial<Omit<EventEntity, "id">>,
+      data: variables,
     });
 
     return {

@@ -1,6 +1,10 @@
 import type { EventEntity } from "@/domain/entities";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { DrizzleEventRepository } from "@/infrastructure/db/repositories/drizzleEventRepository";
+import type {
+  CreateEventData,
+  UpdateEventData,
+} from "@/infrastructure/trpc/schemas/eventSchema";
 
 /**
  * イベントサービス
@@ -14,13 +18,10 @@ export class EventService {
   async getEventById(id: string): Promise<EventEntity | undefined> {
     return await this.repository.findById(id);
   }
-  async createEvent(event: EventEntity): Promise<EventEntity> {
+  async createEvent(event: CreateEventData): Promise<EventEntity> {
     return await this.repository.create(event);
   }
-  async updateEvent(
-    id: string,
-    event: Partial<Omit<EventEntity, "id">>,
-  ): Promise<EventEntity> {
+  async updateEvent(id: string, event: UpdateEventData): Promise<EventEntity> {
     return await this.repository.update(id, event);
   }
   async deleteEvent(id: string): Promise<void> {

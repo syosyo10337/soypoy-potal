@@ -48,4 +48,3 @@ export function EventNotFound({ viewType }: EventNotFoundProps) {
     </View>
   );
 }
-

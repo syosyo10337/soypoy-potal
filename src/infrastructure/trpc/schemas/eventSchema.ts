@@ -38,7 +38,9 @@ export const createEventSchema = eventSchema.omit({
   id: true,
   publicationStatus: true,
 });
-export const updateEventSchema = eventSchema.partial();
+export const updateEventSchema = eventSchema.omit({
+  id: true,
+});
 
 export type CreateEventData = z.infer<typeof createEventSchema>;
 export type UpdateEventData = z.infer<typeof updateEventSchema>;

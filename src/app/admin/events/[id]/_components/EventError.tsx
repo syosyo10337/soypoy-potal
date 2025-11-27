@@ -56,4 +56,3 @@ export function EventError({ viewType, onRetry }: EventErrorProps) {
     </View>
   );
 }
-
