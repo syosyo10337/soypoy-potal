@@ -1,20 +1,13 @@
 import type { ComponentProps } from "react";
 import { Badge } from "@/components/shadcn/badge";
+import { eventPublicationStatusLabel } from "@/constant/eventPublicationStatusLabel";
+import type { PublicationStatus } from "@/domain/entities";
 import { cn } from "@/utils/cn";
 
 /**
  * EventStatusBadgeのバリアント型
  */
-export type EventStatusVariant = "published" | "draft" | "archived";
-
-/**
- * ステータスバリアントごとのラベルマッピング
- */
-const statusLabels: Record<EventStatusVariant, string> = {
-  published: "公開中",
-  draft: "下書き",
-  archived: "アーカイブ",
-} as const;
+export type EventStatusVariant = PublicationStatus;
 
 /**
  * ステータスバリアントごとのBadgeバリアントマッピング
@@ -50,7 +43,7 @@ export function EventStatusBadge({
 }: EventStatusBadgeProps) {
   return (
     <Badge variant={statusBadgeVariants[variant]} className={cn(className)}>
-      {statusLabels[variant]}
+      {eventPublicationStatusLabel[variant]}
     </Badge>
   );
 }

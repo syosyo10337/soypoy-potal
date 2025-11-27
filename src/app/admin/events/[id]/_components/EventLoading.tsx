@@ -1,4 +1,8 @@
 import {
+  EditView,
+  EditViewHeader,
+} from "@/components/refine-ui/views/edit-view";
+import {
   ShowView,
   ShowViewHeader,
 } from "@/components/refine-ui/views/show-view";
@@ -9,15 +13,22 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 
+interface EventLoadingProps {
+  viewType: "show" | "edit";
+}
+
 /**
- * イベント詳細のローディング状態
+ * イベントのローディング状態（詳細・編集共通）
  *
- * useOneのquery.isLoadingがtrueの際に表示
+ * useOneまたはuseShowのisLoadingがtrueの際に表示
  */
-export function EventDetailLoading() {
+export function EventLoading({ viewType }: EventLoadingProps) {
+  const View = viewType === "show" ? ShowView : EditView;
+  const ViewHeader = viewType === "show" ? ShowViewHeader : EditViewHeader;
+
   return (
-    <ShowView>
-      <ShowViewHeader />
+    <View>
+      <ViewHeader />
       <Card>
         <CardHeader>
           <CardTitle>
@@ -28,7 +39,7 @@ export function EventDetailLoading() {
           {/* ID */}
           <div>
             <h3 className="text-sm font-medium text-muted-foreground mb-1">
-              ID
+              {viewType === "show" ? "ID" : "タイトル"}
             </h3>
             <div className="h-5 w-32 bg-muted animate-pulse rounded" />
           </div>
@@ -78,6 +89,6 @@ export function EventDetailLoading() {
           </div>
         </CardContent>
       </Card>
-    </ShowView>
+    </View>
   );
 }

@@ -2,8 +2,6 @@ import { z } from "zod";
 import { publicProcedure, router } from "../context";
 import { createEventSchema, updateEventSchema } from "../schemas/eventSchema";
 
-export { type EventFormData, eventFormSchema } from "../schemas/eventSchema";
-
 /**
  * イベント操作ルーター
 

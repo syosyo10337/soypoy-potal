@@ -1,10 +1,5 @@
-import { EventEditContent } from "./event-edit-content";
+import { EventEditForm } from "./_components/EventEditForm";
 
-export default async function EventEditPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  return <EventEditContent eventId={id} />;
+export default function EventEditPage() {
+  return <EventEditForm />;
 }

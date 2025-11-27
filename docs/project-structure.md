@@ -19,25 +19,44 @@ Next.js App Routerを使用したUI層。ページとコンポーネントを管
 
 ```
 app/
-├── (home)/                # ホームページ（ルートグループ）
-│   ├── _components/       # ホームページ専用コンポーネント
-│   │   ├── HeroSection/   # ヒーローセクション
-│   │   ├── PIckUpSection/ # ピックアップセクション
-│   │   └── WhatUpSection/ # What's Upセクション
-│   ├── _dummies/         # ダミーデータ
-│   └── page.tsx          # ホームページ
-├── about/                 # アバウトページ
-├── events/                # イベントページ
-│   └── _components/       # イベントページ専用コンポーネント
-├── whats-up/              # What's Upページ
+├── (user)/                # ユーザー向けページ（ルートグループ）
+│   ├── (home)/            # ホームページ（ネストされたルートグループ）
+│   │   ├── _components/   # ホームページ専用コンポーネント
+│   │   │   ├── HeroSection/
+│   │   │   ├── PIckUpSection/
+│   │   │   └── WhatUpSection/
+│   │   ├── _dummies/      # ダミーデータ
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── about/             # アバウトページ
+│   ├── events/            # イベント一覧ページ
+│   │   └── _components/   # イベントページ専用コンポーネント
+│   ├── whats-up/          # What's Upページ
+│   └── layout.tsx         # ユーザー向けレイアウト（Header/Footer）
+├── admin/                 # 管理画面（Refine）
+│   ├── events/            # イベント管理
+│   │   ├── (list)/        # 一覧表示
+│   │   ├── [id]/          # 詳細・編集
+│   │   │   ├── edit/
+│   │   │   └── page.tsx
+│   │   └── create/        # 新規作成
+│   ├── layout.tsx         # 管理画面レイアウト
+│   ├── loading.tsx
+│   └── page.tsx
+├── api/                   # API Routes
+│   └── trpc/              # tRPC API
+│       └── [trpc]/
+│           └── route.ts
 ├── layout.tsx             # ルートレイアウト
 └── not-found.tsx          # 404ページ
 ```
 
 **特徴**:
+- ルートグループで`(user)`と`admin`を明確に分離
 - ページごとに専用コンポーネントを`_components/`に配置
-- ルートグループ`(home)`でルートページを管理
-- 各ページのコンポーネントは最小限に抑制
+- ネストされたルートグループ`(user)/(home)`でルートページを管理
+- 管理画面はRefineフレームワークを使用
+- tRPC APIは`/api/trpc`エンドポイントで提供
 
 #### 2. Domain層 (`/app/src/domain/`) - ドメイン層
 ビジネスエンティティとリポジトリインターフェースを定義。
@@ -99,9 +118,18 @@ infrastructure/
 ##### Components (`/app/src/components/`) - 共通コンポーネント
 ```
 components/
+├── admin/                 # 管理画面専用コンポーネント
+│   ├── AdminSidebar.tsx
+│   ├── EventFormFields/   # イベントフォームフィールド
+│   └── EventStatusBadge.tsx
 ├── BubleLabel/            # バブルラベルコンポーネント
 ├── Footer/                # フッターコンポーネント
 ├── Header/                # ヘッダーコンポーネント
+├── refine-ui/             # Refine用カスタムUIコンポーネント
+│   ├── buttons/           # アクションボタン（create, edit, delete等）
+│   ├── form/              # フォーム関連（自動保存インジケーター等）
+│   ├── layout/            # レイアウト（パンくず、ローディング等）
+│   └── views/             # ビュー（list, create, edit, show）
 └── shadcn/                # shadcn/uiコンポーネント
 ```
 
@@ -131,22 +159,50 @@ types/
 
 ## Clean Architecture 依存関係ルール
 
-### ✅ 許可された依存関係（内側 ← 外側）
+### 基本原則: **依存は常に中心（domain）に向かう**
+
 ```
-app/           → services/        ✅ (UIがビジネスロジックを使用)
-app/           → domain/          ✅ (UIがエンティティを使用)
-services/      → domain/          ✅ (ユースケースがエンティティを使用)
-infrastructure/ → domain/         ✅ (外部アダプターがドメインインターフェースを実装)
+┌─────────────────────────────────────────────┐
+│  app/ (Presentation Layer) - 最外層         │
+│    ↓ 依存OK                                 │
+│  ┌───────────────────────────────────────┐ │
+│  │  infrastructure/ (Infrastructure)    │ │  外層
+│  │    ↓ 依存OK                           │ │
+│  │  ┌─────────────────────────────────┐ │ │
+│  │  │  services/ (Application)        │ │ │  中間層
+│  │  │    ↓ 依存OK                     │ │ │
+│  │  │  ┌───────────────────────────┐ │ │ │
+│  │  │  │  domain/ (Domain)        │ │ │ │  核心
+│  │  │  └───────────────────────────┘ │ │ │
+│  │  └─────────────────────────────────┘ │ │
+│  └───────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+
+❌ 逆方向の依存は禁止（内側が外側に依存してはいけない）
 ```
+
+### ✅ 許可された依存関係（外側 → 内側）
+```
+app/           → services/        ✅ (外→中)
+app/           → domain/          ✅ (外→核心)
+app/           → infrastructure/  ✅ (同層)
+services/      → domain/          ✅ (中→核心)
+infrastructure/ → domain/         ✅ (外→核心)
+infrastructure/ → services/       ✅ (外→中)
+```
+
+**重要**: どの層も**より内側の層**に依存できるが、**外側の層**には依存できない
 
 ### ❌ 禁止された依存関係（内側 → 外側）
 ```
-domain/        → infrastructure/  ❌ (ドメインは外部システムに依存しない)
-domain/        → services/        ❌ (エンティティはユースケースに依存しない)
-domain/        → app/             ❌ (ドメインはUIに依存しない)
-services/      → infrastructure/  ❌ (ユースケースは外部システムに直接依存しない)
-services/      → app/             ❌ (ビジネスロジックはUIに依存しない)
+domain/        → services/        ❌ (核心→中)
+domain/        → infrastructure/  ❌ (核心→外)
+domain/        → app/             ❌ (核心→最外)
+services/      → infrastructure/  ❌ (中→外) ※依存性注入で回避
+services/      → app/             ❌ (中→最外)
 ```
+
+**理由**: 内側の層は外側の層の実装詳細を知ってはいけない（ビジネスロジックの独立性を保つ）
 
 ## ファイル配置の特徴
 
