@@ -76,7 +76,7 @@ export const dataProvider: DataProvider = {
     const event = await trpcClient.events.create.mutate(variables);
 
     return {
-      data: event as TData,
+      data: event as unknown as TData,
     };
   },
   update: async <TData extends BaseRecord = BaseRecord>({
