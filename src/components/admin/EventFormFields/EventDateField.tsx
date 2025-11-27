@@ -1,34 +1,34 @@
 "use client";
 
-import type { Control } from "react-hook-form";
+import type { Control, FieldValues, Path, PathValue } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
-import type { UpdateEventData } from "@/infrastructure/trpc/schemas/eventSchema";
 
-interface EventThumbnailFieldProps {
-  control: Control<UpdateEventData>;
+interface EventDateFieldProps<T extends FieldValues> {
+  control: Control<T>;
   defaultValue?: string;
 }
 
-// TODO: サムネイルなので、画像ファイルとURLどちらも扱えるようにする
-export function EventThumbnailField({
+export function EventDateField<T extends FieldValues>({
   control,
   defaultValue,
-}: EventThumbnailFieldProps) {
+}: EventDateFieldProps<T>) {
   return (
     <Controller
-      name="thumbnail"
+      name={"date" as Path<T>}
       control={control}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue as PathValue<T, Path<T>>}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor="thumbnail">サムネイルURL</FieldLabel>
+          <FieldLabel htmlFor="date">
+            日付 <span className="text-destructive">*</span>
+          </FieldLabel>
           <Input
             {...field}
-            id="thumbnail"
+            id="date"
+            type="datetime-local"
             aria-invalid={fieldState.invalid}
-            placeholder="https://example.com/image.jpg"
           />
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>

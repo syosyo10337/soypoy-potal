@@ -23,7 +23,6 @@ const eventTypeValues = [
   EventType.Other,
 ] as const;
 
-// TODO: Schemaが過剰じゃないか確認する
 export const eventSchema = z.object({
   id: z.string(),
   publicationStatus: z.enum(publicationStatusValues),

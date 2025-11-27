@@ -1,6 +1,6 @@
 "use client";
 
-import type { Control } from "react-hook-form";
+import type { Control, FieldValues, Path, PathValue } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 import {
@@ -11,19 +11,21 @@ import {
   SelectValue,
 } from "@/components/shadcn/select";
 import { EventType } from "@/domain/entities";
-import type { UpdateEventData } from "@/infrastructure/trpc/schemas/eventSchema";
 
-interface EventTypeFieldProps {
-  control: Control<UpdateEventData>;
+interface EventTypeFieldProps<T extends FieldValues> {
+  control: Control<T>;
   defaultValue?: EventType;
 }
 
-export function EventTypeField({ control, defaultValue }: EventTypeFieldProps) {
+export function EventTypeField<T extends FieldValues>({
+  control,
+  defaultValue,
+}: EventTypeFieldProps<T>) {
   return (
     <Controller
-      name="type"
+      name={"type" as Path<T>}
       control={control}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue as PathValue<T, Path<T>>}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor="type">

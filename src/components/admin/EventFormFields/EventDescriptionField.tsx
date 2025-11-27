@@ -1,35 +1,32 @@
 "use client";
 
-import type { Control } from "react-hook-form";
+import type { Control, FieldValues, Path, PathValue } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
-import type { UpdateEventData } from "@/infrastructure/trpc/schemas/eventSchema";
 
-interface EventTitleFieldProps {
-  control: Control<UpdateEventData>;
+interface EventDescriptionFieldProps<T extends FieldValues> {
+  control: Control<T>;
   defaultValue?: string;
 }
 
-export function EventTitleField({
+export function EventDescriptionField<T extends FieldValues>({
   control,
   defaultValue,
-}: EventTitleFieldProps) {
+}: EventDescriptionFieldProps<T>) {
   return (
     <Controller
-      name="title"
+      name={"description" as Path<T>}
       control={control}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue as PathValue<T, Path<T>>}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor="title">
-            タイトル <span className="text-destructive">*</span>
-          </FieldLabel>
+          <FieldLabel htmlFor="description">説明</FieldLabel>
           <Input
             {...field}
-            id="title"
+            id="description"
             aria-invalid={fieldState.invalid}
-            placeholder="イベントタイトルを入力"
+            placeholder="イベントの説明を入力"
           />
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>

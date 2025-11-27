@@ -4,7 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { HttpError } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 import { useParams } from "next/navigation";
-import { EventFormFields } from "@/components/admin/EventForm";
+import {
+  EventDateField,
+  EventDescriptionField,
+  EventPublicationStatusField,
+  EventThumbnailField,
+  EventTitleField,
+  EventTypeField,
+} from "@/components/admin/EventFormFields";
 import {
   EditView,
   EditViewHeader,
@@ -69,7 +76,30 @@ export function EventEditForm() {
             <CardTitle>イベント情報</CardTitle>
           </CardHeader>
           <CardContent>
-            <EventFormFields control={control} defaultValues={defaultValues} />
+            <EventTitleField
+              control={control}
+              defaultValue={defaultValues.title}
+            />
+            <EventDateField
+              control={control}
+              defaultValue={defaultValues.date}
+            />
+            <EventTypeField
+              control={control}
+              defaultValue={defaultValues.type}
+            />
+            <EventPublicationStatusField
+              control={control}
+              defaultValue={defaultValues.publicationStatus}
+            />
+            <EventDescriptionField
+              control={control}
+              defaultValue={defaultValues.description}
+            />
+            <EventThumbnailField
+              control={control}
+              defaultValue={defaultValues.thumbnail}
+            />
             <div className="mt-4 flex justify-end gap-2">
               <Button type="submit">更新</Button>
             </div>
