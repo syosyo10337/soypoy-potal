@@ -1,10 +1,6 @@
-import type { EventEntity } from "@/domain/entities";
+import { nanoid } from "nanoid";
+import { type EventEntity, PublicationStatus } from "@/domain/entities";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
-import { DrizzleEventRepository } from "@/infrastructure/db/repositories/drizzleEventRepository";
-import type {
-  CreateEventData,
-  UpdateEventData,
-} from "@/infrastructure/trpc/schemas/eventSchema";
 
 /**
  * イベントサービス
@@ -18,11 +14,20 @@ export class EventService {
   async getEventById(id: string): Promise<EventEntity | undefined> {
     return await this.repository.findById(id);
   }
-  async createEvent(event: CreateEventData): Promise<EventEntity> {
-    return await this.repository.create(event);
+  async createEvent(
+    input: Omit<EventEntity, "id" | "publicationStatus">,
+  ): Promise<EventEntity> {
+    return await this.repository.create({
+      id: nanoid(),
+      publicationStatus: PublicationStatus.Draft,
+      ...input,
+    });
   }
-  async updateEvent(id: string, event: UpdateEventData): Promise<EventEntity> {
-    return await this.repository.update(id, event);
+  async updateEvent(
+    id: string,
+    input: Partial<Omit<EventEntity, "id">>,
+  ): Promise<EventEntity> {
+    return await this.repository.update(id, input);
   }
   async deleteEvent(id: string): Promise<void> {
     return await this.repository.delete(id);
@@ -31,5 +36,3 @@ export class EventService {
     return await this.repository.listByMonth(year, month);
   }
 }
-
-export const eventService = new EventService(new DrizzleEventRepository());

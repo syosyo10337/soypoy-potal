@@ -1,6 +1,5 @@
 import type { BaseKey, BaseRecord, DataProvider } from "@refinedev/core";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
-import type { EventEntity } from "@/domain/entities";
 import type { AppRouter } from "@/infrastructure/trpc/router";
 
 /**
@@ -74,12 +73,10 @@ export const dataProvider: DataProvider = {
     }
     // variablesはEventEntity型であることを前提とする
     // tRPCのZodスキーマでバリデーションされるため、型キャストは安全
-    const event = await trpcClient.events.create.mutate(
-      variables as EventEntity,
-    );
+    const event = await trpcClient.events.create.mutate(variables);
 
     return {
-      data: event as unknown as TData,
+      data: event as TData,
     };
   },
   update: async <TData extends BaseRecord = BaseRecord>({

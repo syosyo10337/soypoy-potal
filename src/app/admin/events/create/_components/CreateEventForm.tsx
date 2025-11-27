@@ -39,6 +39,11 @@ export function CreateEventForm() {
       action: "create",
       redirect: "list",
     },
+    // NOTE: to avoid uncontrolled component
+    // cf. https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
+    defaultValues: {
+      title: "",
+    },
   });
 
   const onSubmit = async (data: CreateEventData) => {

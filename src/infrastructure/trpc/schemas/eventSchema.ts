@@ -26,11 +26,17 @@ const eventTypeValues = [
 export const eventSchema = z.object({
   id: z.string(),
   publicationStatus: z.enum(publicationStatusValues),
-  title: z.string().min(1, "タイトルは必須です"),
-  date: z.string().min(1, "日付は必須です"),
+  title: z.string({ message: "タイトルを入力してください" }).min(1, {
+    message: "タイトルは必須です",
+  }),
+  date: z.string({ message: "日付を選択してください" }).min(1, {
+    message: "日付は必須です",
+  }),
   description: z.string().optional(),
   thumbnail: z.string().optional(),
-  type: z.enum(eventTypeValues),
+  type: z.enum(eventTypeValues, {
+    message: "イベントの種類を選択してください",
+  }),
 });
 
 export const createEventSchema = eventSchema.omit({
