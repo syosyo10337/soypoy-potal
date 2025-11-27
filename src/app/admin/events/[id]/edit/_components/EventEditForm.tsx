@@ -1,14 +1,11 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { HttpError } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
-import { nanoid } from "nanoid";
 import { Controller } from "react-hook-form";
-
 import {
-  CreateView,
-  CreateViewHeader,
-} from "@/components/refine-ui/views/create-view";
+  EditView,
+  EditViewHeader,
+} from "@/components/refine-ui/views/edit-view";
 import { Button } from "@/components/shadcn/button";
 import {
   Card,
@@ -25,53 +22,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
-import { EventType } from "@/domain/entities";
+import type { EventEntity } from "@/domain/entities";
+import { EventType, PublicationStatus } from "@/domain/entities";
 import {
-  type CreateEventData,
-  createEventSchema,
+  type UpdateEventData,
+  updateEventSchema,
 } from "@/infrastructure/trpc/schemas/eventSchema";
 
-export default function EventCreatePage() {
+interface EventEditFormProps {
+  event: EventEntity;
+  eventId: string;
+}
+
+/**
+ * イベント編集フォーム
+ *
+ * データが正常に取得された場合に表示されるフォーム本体
+ */
+export function EventEditForm({ event, eventId }: EventEditFormProps) {
   const {
-    refineCore: { onFinish },
+    refineCore: { onFinish, query },
     register,
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm({
-    resolver: zodResolver(createEventSchema),
+  } = useForm<EventEntity, HttpError, UpdateEventData>({
+    resolver: zodResolver(updateEventSchema),
     refineCoreProps: {
       resource: "events",
+      id: eventId,
     },
-    defaultValues: {},
   });
+  console.log(query?.data?.data);
 
-  const onSubmit = async (data: CreateEventData) => {
-    if (!data.type) {
-      return;
-    }
-    const validTypeValues = Object.values(EventType);
-    if (
-      !validTypeValues.includes(
-        data.type as (typeof EventType)[keyof typeof EventType],
-      )
-    ) {
-      console.error("Invalid type value:", data.type);
-      return;
-    }
+  const onSubmit = async (data: UpdateEventData) => {
     await onFinish({
-      id: nanoid(),
-      title: data.title,
-      date: data.date,
-      description: data.description || undefined,
-      thumbnail: data.thumbnail || undefined,
-      type: data.type,
-    } as Parameters<typeof onFinish>[0]);
+      id: eventId,
+      ...data,
+    });
   };
 
   return (
-    <CreateView>
-      <CreateViewHeader />
+    <EditView>
+      <EditViewHeader />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
@@ -82,7 +75,11 @@ export default function EventCreatePage() {
               <Label htmlFor="title">
                 タイトル <span className="text-destructive">*</span>
               </Label>
-              <Input id="title" {...register("title")} />
+              <Input
+                id="title"
+                defaultValue={event.title}
+                {...register("title", { required: "タイトルは必須です" })}
+              />
               {errors.title && (
                 <p className="text-sm text-destructive">
                   {errors.title.message as string}
@@ -94,7 +91,12 @@ export default function EventCreatePage() {
               <Label htmlFor="date">
                 日付 <span className="text-destructive">*</span>
               </Label>
-              <Input id="date" type="datetime-local" {...register("date")} />
+              <Input
+                id="date"
+                type="datetime-local"
+                defaultValue={event.date}
+                {...register("date", { required: "日付は必須です" })}
+              />
               {errors.date && (
                 <p className="text-sm text-destructive">
                   {errors.date.message as string}
@@ -109,9 +111,10 @@ export default function EventCreatePage() {
               <Controller
                 name="type"
                 control={control}
+                defaultValue={event.type}
                 render={({ field }) => (
                   <Select
-                    value={field.value || ""}
+                    value={field.value || event.type}
                     onValueChange={(value) => {
                       const validValues = Object.values(EventType);
                       if (
@@ -144,9 +147,40 @@ export default function EventCreatePage() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="publicationStatus">公開ステータス</Label>
+              <Controller
+                name="publicationStatus"
+                control={control}
+                defaultValue={event.publicationStatus}
+                render={({ field }) => (
+                  <Select
+                    value={field.value || event.publicationStatus}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger id="publicationStatus">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={PublicationStatus.Draft}>
+                        下書き
+                      </SelectItem>
+                      <SelectItem value={PublicationStatus.Published}>
+                        公開中
+                      </SelectItem>
+                      <SelectItem value={PublicationStatus.Archived}>
+                        アーカイブ
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="description">説明</Label>
               <Input
                 id="description"
+                defaultValue={event.description || ""}
                 {...register("description")}
                 placeholder="イベントの説明を入力"
               />
@@ -156,17 +190,18 @@ export default function EventCreatePage() {
               <Label htmlFor="thumbnail">サムネイルURL</Label>
               <Input
                 id="thumbnail"
+                defaultValue={event.thumbnail || ""}
                 {...register("thumbnail")}
                 placeholder="https://example.com/image.jpg"
               />
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button type="submit">作成</Button>
+              <Button type="submit">更新</Button>
             </div>
           </CardContent>
         </Card>
       </form>
-    </CreateView>
+    </EditView>
   );
 }

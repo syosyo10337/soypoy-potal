@@ -24,30 +24,21 @@ const eventTypeValues = [
 ] as const;
 
 // TODO: Schemaが過剰じゃないか確認する
-export const createEventSchema = z.object({
+export const eventSchema = z.object({
   id: z.string(),
   publicationStatus: z.enum(publicationStatusValues),
-  title: z.string(),
-  date: z.string(),
-  description: z.string().optional(),
-  thumbnail: z.string().optional(),
-  type: z.enum(eventTypeValues),
-});
-
-export const eventFormSchema = createEventSchema.omit({ id: true }).extend({
-  publicationStatus: z.enum(publicationStatusValues).optional(),
   title: z.string().min(1, "タイトルは必須です"),
   date: z.string().min(1, "日付は必須です"),
+  description: z.string().optional(),
+  thumbnail: z.string().optional(),
   type: z.enum(eventTypeValues),
 });
 
-export const updateEventSchema = z.object({
-  publicationStatus: z.enum(publicationStatusValues).optional(),
-  title: z.string().optional(),
-  date: z.string().optional(),
-  description: z.string().optional(),
-  thumbnail: z.string().optional(),
-  type: z.enum(eventTypeValues).optional(),
+export const createEventSchema = eventSchema.omit({
+  id: true,
+  publicationStatus: true,
 });
+export const updateEventSchema = eventSchema.partial();
 
-export type EventFormData = z.infer<typeof eventFormSchema>;
+export type CreateEventData = z.infer<typeof createEventSchema>;
+export type UpdateEventData = z.infer<typeof updateEventSchema>;
