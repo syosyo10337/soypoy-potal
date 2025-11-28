@@ -59,11 +59,17 @@ export function CreateEventForm() {
             <CardTitle>イベント情報</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <EventTitleField control={control} />
-            <EventDateField control={control} />
-            <EventTypeField control={control} />
-            <EventDescriptionField control={control} />
-            <EventThumbnailField control={control} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <EventTitleField control={control} />
+                <EventDateField control={control} />
+                <EventTypeField control={control} />
+                <EventDescriptionField control={control} />
+              </div>
+              <div>
+                <EventThumbnailField control={control} />
+              </div>
+            </div>
 
             <div className="flex justify-end gap-2">
               <Button type="submit">作成</Button>

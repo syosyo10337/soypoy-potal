@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { EventType, PublicationStatus } from "@/domain/entities";
+import { requiredImageFieldSchema } from "@/infrastructure/schemas/imageFieldSchema";
 
 const publicationStatusValues = [
   PublicationStatus.Draft,
@@ -33,7 +34,7 @@ export const eventSchema = z.object({
     message: "日付は必須です",
   }),
   description: z.string().optional(),
-  thumbnail: z.string().optional(),
+  thumbnail: requiredImageFieldSchema,
   type: z.enum(eventTypeValues, {
     message: "イベントの種類を選択してください",
   }),

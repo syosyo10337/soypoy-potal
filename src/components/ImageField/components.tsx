@@ -28,7 +28,7 @@ export interface ImageUploaderProps {
   className?: string;
 
   /**
-   * アスペクト比（デフォルト: 16:9）
+   * アスペクト比（デフォルト: 5:4）
    */
   aspectRatio?: string;
 
@@ -52,7 +52,7 @@ export function ImageUploader({
   value,
   onChange,
   className,
-  aspectRatio = "aspect-[16/9]",
+  aspectRatio = "aspect-[4/5]",
   acceptedFileTypes = "image/png,image/jpeg",
   compressionOptions,
 }: ImageUploaderProps) {
