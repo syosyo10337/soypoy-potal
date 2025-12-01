@@ -18,11 +18,11 @@ export function useImageUpload() {
    * アップロード失敗時はnullを返す
    */
   const uploadIfNeeded = async <
-    T extends FieldValues & { thumbnail?: File | string },
+    T extends FieldValues & { thumbnail?: File | string | null },
   >(
     data: T,
     setError: UseFormSetError<T>,
-  ): Promise<(Omit<T, "thumbnail"> & { thumbnail?: string }) | null> => {
+  ): Promise<(Omit<T, "thumbnail"> & { thumbnail?: string | null }) | null> => {
     let thumbnail = data.thumbnail;
 
     if (thumbnail instanceof File) {

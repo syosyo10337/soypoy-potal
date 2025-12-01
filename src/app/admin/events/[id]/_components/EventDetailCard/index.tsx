@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import { EventStatusBadge } from "@/components/admin/EventStatusBadge";
 import { Badge } from "@/components/shadcn/badge";
 import {
@@ -68,14 +68,16 @@ export function EventDetailCard({ event }: EventDetailCardProps) {
                 <h3 className="text-sm font-medium text-muted-foreground mb-1">
                   サムネイル
                 </h3>
-                <div className="relative aspect-insta">
-                  <Image
-                    src={event.thumbnail}
-                    alt={event.title}
-                    fill
-                    className="rounded-md border object-cover"
-                  />
-                </div>
+                {/* NOTE: Cloudinaryの画像のためCldImageを使用 */}
+                <CldImage
+                  src={event.thumbnail}
+                  alt={event.title}
+                  width={400}
+                  height={500}
+                  crop="fill"
+                  gravity="auto"
+                  className="rounded-md border object-cover w-full aspect-insta"
+                />
               </div>
             )}
           </div>

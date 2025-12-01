@@ -2,6 +2,7 @@
 
 import { ImageIcon, Upload, X } from "lucide-react";
 import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/shadcn/button";
@@ -62,29 +63,26 @@ export function ImageUploader({
 
   // 値が変更された時の処理
   useEffect(() => {
-    if (!value || value === undefined) {
+    // null または undefined の場合はプレビューをクリア
+    if (value === null || value === undefined) {
       setPreview(undefined);
       return;
     }
 
+    // URLstring の場合
     if (typeof value === "string") {
       setPreview(value);
       return;
     }
 
     // Fileオブジェクトの処理
-    if (
-      typeof value === "object" &&
-      value &&
-      "name" in value &&
-      "size" in value
-    ) {
+    if (value instanceof File) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setPreview(result);
       };
-      reader.readAsDataURL(value as File);
+      reader.readAsDataURL(value);
     }
   }, [value]);
 
@@ -120,6 +118,11 @@ export function ImageUploader({
     fileInputRef.current?.click();
   };
 
+  // Cloudinary URLかどうかを判定
+  const isCloudinaryUrl = (url: string): boolean => {
+    return url.includes("cloudinary.com") || url.startsWith("soypoy-events/");
+  };
+
   return (
     <div className={cn("relative", aspectRatio, className)}>
       <button
@@ -133,13 +136,25 @@ export function ImageUploader({
       >
         {preview ? (
           <div className="relative w-full h-full">
-            <Image
-              src={preview}
-              alt="Preview"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+            {typeof preview === "string" && isCloudinaryUrl(preview) ? (
+              <CldImage
+                src={preview}
+                alt="Preview"
+                fill
+                crop="fill"
+                gravity="auto"
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            ) : (
+              <Image
+                src={preview}
+                alt="Preview"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            )}
 
             {/* オーバーレイ */}
             <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center">

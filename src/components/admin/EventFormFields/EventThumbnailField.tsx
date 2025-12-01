@@ -7,7 +7,7 @@ import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 
 interface EventThumbnailFieldProps<T extends FieldValues> {
   control: Control<T>;
-  defaultValue?: string;
+  defaultValue?: string | null;
 }
 
 export function EventThumbnailField<T extends FieldValues>({

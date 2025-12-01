@@ -38,11 +38,11 @@ export const baseSchema = z.object({
 });
 
 export const createEventFormSchema = baseSchema.extend({
-  thumbnail: z.union([imageFileSchema, z.url()]).optional(),
+  thumbnail: z.union([imageFileSchema, z.url()]).optional().nullable(),
 });
 
 export const createEventSchema = createEventFormSchema.extend({
-  thumbnail: z.url().optional(),
+  thumbnail: z.url().optional().nullable(),
 });
 
 // NOTE: react-hook-formのnullable対応のため、optionalとnullableを両方指定

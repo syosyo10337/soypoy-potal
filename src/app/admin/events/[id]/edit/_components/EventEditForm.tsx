@@ -77,7 +77,10 @@ export function EventEditForm() {
 
   const onSubmit = async (formData: UpdateEventFormData) => {
     try {
-      const submitData = await uploadIfNeeded(formData, setError);
+      const submitData = await uploadIfNeeded<UpdateEventFormData>(
+        formData,
+        setError,
+      );
       if (!submitData) return; // アップロード失敗
 
       await onFinish(submitData);

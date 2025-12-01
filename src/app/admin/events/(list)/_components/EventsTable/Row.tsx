@@ -1,3 +1,4 @@
+import { CldImage } from "next-cloudinary";
 import { EventStatusBadge } from "@/components/admin/EventStatusBadge";
 import { Badge } from "@/components/shadcn/badge";
 import { TableCell, TableRow } from "@/components/shadcn/table";
@@ -17,6 +18,25 @@ interface EventTableRowProps {
 export function EventTableRow({ event }: EventTableRowProps) {
   return (
     <TableRow>
+      <TableCell>
+        {event.thumbnail ? (
+          <div className="relative w-16 h-16 rounded-md overflow-hidden">
+            <CldImage
+              src={event.thumbnail}
+              alt={event.title}
+              width={64}
+              height={64}
+              crop="fill"
+              gravity="auto"
+              className="object-cover"
+            />
+          </div>
+        ) : (
+          <div className="w-16 h-16 rounded-md bg-muted flex items-center justify-center text-muted-foreground text-xs">
+            No Image
+          </div>
+        )}
+      </TableCell>
       <TableCell className="font-medium">{event.title}</TableCell>
       <TableCell>{event.date}</TableCell>
       <TableCell>
