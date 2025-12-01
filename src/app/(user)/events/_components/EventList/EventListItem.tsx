@@ -55,7 +55,7 @@ export function EventListItem({ event }: EventListItemProps) {
           <CldImage
             src={event.thumbnail}
             alt={`${event.title}のイベントサムネイル画像`}
-            className={cn("w-34 md:w-38 lg:w-42", "aspect-[4/5] object-cover")}
+            className={cn("w-34 md:w-38 lg:w-42", "aspect-insta object-cover")}
             width={400}
             height={500}
             crop="fill"
@@ -65,7 +65,7 @@ export function EventListItem({ event }: EventListItemProps) {
           <Image
             src={NoImage}
             alt="イベントサムネイル画像なし"
-            className={cn("w-34 md:w-38 lg:w-42", "aspect-[4/5] object-cover")}
+            className={cn("w-34 md:w-38 lg:w-42", "aspect-insta object-cover")}
             width={400}
             height={500}
           />

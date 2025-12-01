@@ -52,7 +52,7 @@ export function ImageUploader({
   value,
   onChange,
   className,
-  aspectRatio = "aspect-[4/5]",
+  aspectRatio = "aspect-insta",
   acceptedFileTypes = "image/png,image/jpeg",
   compressionOptions,
 }: ImageUploaderProps) {

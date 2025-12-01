@@ -25,7 +25,7 @@ export function EventThumbnailField<T extends FieldValues>({
           <ImageUploader
             value={field.value}
             onChange={(value) => field.onChange(value)}
-            aspectRatio="aspect-[4/5]"
+            aspectRatio="aspect-insta"
           />
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>

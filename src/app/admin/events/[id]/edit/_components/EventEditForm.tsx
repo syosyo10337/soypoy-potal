@@ -85,32 +85,39 @@ export function EventEditForm() {
           <CardHeader>
             <CardTitle>イベント情報</CardTitle>
           </CardHeader>
-          <CardContent>
-            <EventTitleField
-              control={control}
-              defaultValue={defaultValues.title}
-            />
-            <EventDateField
-              control={control}
-              defaultValue={defaultValues.date}
-            />
-            <EventTypeField
-              control={control}
-              defaultValue={defaultValues.type}
-            />
-            <EventPublicationStatusField
-              control={control}
-              defaultValue={defaultValues.publicationStatus}
-            />
-            <EventDescriptionField
-              control={control}
-              defaultValue={defaultValues.description}
-            />
-            <EventThumbnailField
-              control={control}
-              defaultValue={defaultValues.thumbnail}
-            />
-            <div className="mt-4 flex justify-end gap-2">
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <EventTitleField
+                  control={control}
+                  defaultValue={defaultValues.title}
+                />
+                <EventDateField
+                  control={control}
+                  defaultValue={defaultValues.date}
+                />
+                <EventTypeField
+                  control={control}
+                  defaultValue={defaultValues.type}
+                />
+                <EventPublicationStatusField
+                  control={control}
+                  defaultValue={defaultValues.publicationStatus}
+                />
+                <EventDescriptionField
+                  control={control}
+                  defaultValue={defaultValues.description}
+                />
+              </div>
+              <div>
+                <EventThumbnailField
+                  control={control}
+                  defaultValue={defaultValues.thumbnail}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2">
               <Button type="submit" disabled={isFileUploading}>
                 {isFileUploading ? "画像をアップロード中..." : "更新"}
               </Button>
