@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import NoImage from "@/assets/no-image.png";
 import type { EventEntity } from "@/domain/entities";
 import { cn } from "@/utils/cn";
@@ -50,17 +51,25 @@ export function EventListItem({ event }: EventListItemProps) {
             {formatDayOfWeek(event.date)}
           </div>
         </div>
-        <Image
-          src={event.thumbnail ?? NoImage}
-          alt={
-            event.thumbnail
-              ? `${event.title}のイベントサムネイル画像`
-              : "イベントサムネイル画像なし"
-          }
-          className={cn("w-34 md:w-38 lg:w-42", "aspect-[4/5] object-cover")}
-          width={400}
-          height={500}
-        />
+        {event.thumbnail ? (
+          <CldImage
+            src={event.thumbnail}
+            alt={`${event.title}のイベントサムネイル画像`}
+            className={cn("w-34 md:w-38 lg:w-42", "aspect-[4/5] object-cover")}
+            width={400}
+            height={500}
+            crop="fill"
+            gravity="auto"
+          />
+        ) : (
+          <Image
+            src={NoImage}
+            alt="イベントサムネイル画像なし"
+            className={cn("w-34 md:w-38 lg:w-42", "aspect-[4/5] object-cover")}
+            width={400}
+            height={500}
+          />
+        )}
       </div>
 
       <div

@@ -25,9 +25,10 @@ import {
 } from "@/components/shadcn/card";
 import type { EventEntity } from "@/domain/entities";
 import {
-  type UpdateEventData,
-  updateEventSchema,
+  type UpdateEventFormData,
+  updateEventFormSchema,
 } from "@/infrastructure/trpc/schemas/eventSchema";
+import { useImageUpload } from "../../../_hooks/useImageUpload";
 import { EventError } from "../../_components/EventError";
 import { EventLoading } from "../../_components/EventLoading";
 import { EventNotFound } from "../../_components/EventNotFound";
@@ -41,13 +42,15 @@ import { EventNotFound } from "../../_components/EventNotFound";
 export function EventEditForm() {
   const params = useParams();
   const eventId = params.id as string;
+  const { isFileUploading, uploadIfNeeded } = useImageUpload();
 
   const {
     refineCore: { onFinish, query },
     handleSubmit,
     control,
-  } = useForm<EventEntity, HttpError, UpdateEventData>({
-    resolver: zodResolver(updateEventSchema),
+    setError,
+  } = useForm<EventEntity, HttpError, UpdateEventFormData>({
+    resolver: zodResolver(updateEventFormSchema),
     refineCoreProps: {
       resource: "events",
       id: eventId,
@@ -63,8 +66,15 @@ export function EventEditForm() {
   if (isError) return <EventError viewType="edit" onRetry={refetch} />;
   if (!defaultValues) return <EventNotFound viewType="edit" />;
 
-  const onSubmit = async (formData: UpdateEventData) => {
-    await onFinish(formData);
+  const onSubmit = async (formData: UpdateEventFormData) => {
+    try {
+      const submitData = await uploadIfNeeded(formData, setError);
+      if (!submitData) return; // アップロード失敗
+
+      await onFinish(submitData);
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   };
 
   return (
@@ -101,7 +111,9 @@ export function EventEditForm() {
               defaultValue={defaultValues.thumbnail}
             />
             <div className="mt-4 flex justify-end gap-2">
-              <Button type="submit">更新</Button>
+              <Button type="submit" disabled={isFileUploading}>
+                {isFileUploading ? "画像をアップロード中..." : "更新"}
+              </Button>
             </div>
           </CardContent>
         </Card>

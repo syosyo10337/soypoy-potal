@@ -23,17 +23,21 @@ import {
 } from "@/components/shadcn/card";
 import type { EventEntity } from "@/domain/entities";
 import {
-  type CreateEventData,
-  createEventSchema,
+  type CreateEventFormData,
+  createEventFormSchema,
 } from "@/infrastructure/trpc/schemas/eventSchema";
+import { useImageUpload } from "../../_hooks/useImageUpload";
 
 export function CreateEventForm() {
+  const { isFileUploading, uploadIfNeeded } = useImageUpload();
+
   const {
     refineCore: { onFinish },
     handleSubmit,
     control,
-  } = useForm<EventEntity, HttpError, CreateEventData>({
-    resolver: zodResolver(createEventSchema),
+    setError,
+  } = useForm<EventEntity, HttpError, CreateEventFormData>({
+    resolver: zodResolver(createEventFormSchema),
     refineCoreProps: {
       resource: "events",
       action: "create",
@@ -46,8 +50,15 @@ export function CreateEventForm() {
     },
   });
 
-  const onSubmit = async (data: CreateEventData) => {
-    await onFinish(data);
+  const onSubmit = async (data: CreateEventFormData) => {
+    try {
+      const submitData = await uploadIfNeeded(data, setError);
+      if (!submitData) return; // アップロード失敗
+
+      await onFinish(submitData);
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   };
 
   return (
@@ -72,7 +83,9 @@ export function CreateEventForm() {
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button type="submit">作成</Button>
+              <Button type="submit" disabled={isFileUploading}>
+                {isFileUploading ? "画像をアップロード中..." : "作成"}
+              </Button>
             </div>
           </CardContent>
         </Card>

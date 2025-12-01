@@ -12,10 +12,10 @@ import {
 } from "@/components/shadcn/select";
 import { eventPublicationStatusLabel } from "@/constant/eventPublicationStatusLabel";
 import { PublicationStatus } from "@/domain/entities";
-import type { UpdateEventData } from "@/infrastructure/trpc/schemas/eventSchema";
+import type { UpdateEventFormData } from "@/infrastructure/trpc/schemas/eventSchema";
 
 interface EventPublicationStatusFieldProps {
-  control: Control<UpdateEventData>;
+  control: Control<UpdateEventFormData>;
   defaultValue?: PublicationStatus;
 }
 

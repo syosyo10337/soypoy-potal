@@ -1,1 +1,1 @@
-export * from "./imageFieldSchema";
+export * from "./imageFileSchema";

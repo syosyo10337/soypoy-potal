@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { EventType, PublicationStatus } from "@/domain/entities";
-import { requiredImageFieldSchema } from "@/infrastructure/schemas/imageFieldSchema";
+import { imageFileSchema } from "@/infrastructure/schemas";
 
 const publicationStatusValues = [
   PublicationStatus.Draft,
@@ -24,9 +24,7 @@ const eventTypeValues = [
   EventType.Other,
 ] as const;
 
-export const eventSchema = z.object({
-  id: z.string(),
-  publicationStatus: z.enum(publicationStatusValues),
+export const baseSchema = z.object({
   title: z.string({ message: "タイトルを入力してください" }).min(1, {
     message: "タイトルは必須です",
   }),
@@ -34,19 +32,30 @@ export const eventSchema = z.object({
     message: "日付は必須です",
   }),
   description: z.string().optional(),
-  thumbnail: requiredImageFieldSchema,
   type: z.enum(eventTypeValues, {
     message: "イベントの種類を選択してください",
   }),
 });
 
-export const createEventSchema = eventSchema.omit({
-  id: true,
-  publicationStatus: true,
-});
-export const updateEventSchema = eventSchema.omit({
-  id: true,
+export const createEventFormSchema = baseSchema.extend({
+  thumbnail: z.union([imageFileSchema, z.url()]).optional(),
 });
 
+export const createEventSchema = createEventFormSchema.extend({
+  thumbnail: z.url().optional(),
+});
+
+export const updateEventFormSchema = baseSchema.extend({
+  publicationStatus: z.enum(publicationStatusValues),
+  thumbnail: z.union([imageFileSchema, z.url()]).optional(),
+});
+
+export const updateEventSchema = baseSchema.extend({
+  publicationStatus: z.enum(publicationStatusValues),
+  thumbnail: z.url().optional(),
+});
+
+export type CreateEventFormData = z.infer<typeof createEventFormSchema>;
 export type CreateEventData = z.infer<typeof createEventSchema>;
+export type UpdateEventFormData = z.infer<typeof updateEventFormSchema>;
 export type UpdateEventData = z.infer<typeof updateEventSchema>;

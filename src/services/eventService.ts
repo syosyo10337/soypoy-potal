@@ -5,6 +5,12 @@ import type { EventRepository } from "@/domain/repositories/eventRepository";
 /**
  * イベントサービス
  * ビジネスロジックを担当
+ *
+ * 注意: このサービス層は画像アップロードを行いません。
+ * 画像は事前にクライアント→Server Action (uploadImageAction) でアップロードされ、
+ * URLに変換された状態でこのサービスに渡されることを前提とします。
+ * tRPCでFIleをJSONシリアライズに失敗するため
+ * TODO: transformer: superjson,をtRPCで設定することで解決するか試す。
  */
 export class EventService {
   constructor(private repository: EventRepository) {}
