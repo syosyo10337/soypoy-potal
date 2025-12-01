@@ -47,6 +47,10 @@ export function CreateEventForm() {
     // cf. https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
     defaultValues: {
       title: "",
+      description: "",
+      date: "",
+      type: undefined,
+      thumbnail: undefined,
     },
   });
 

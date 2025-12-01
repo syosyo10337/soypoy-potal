@@ -45,14 +45,16 @@ export const createEventSchema = createEventFormSchema.extend({
   thumbnail: z.url().optional(),
 });
 
+// NOTE: react-hook-formのnullable対応のため、optionalとnullableを両方指定
 export const updateEventFormSchema = baseSchema.extend({
   publicationStatus: z.enum(publicationStatusValues),
-  thumbnail: z.union([imageFileSchema, z.url()]).optional(),
+  thumbnail: z.union([imageFileSchema, z.url()]).optional().nullable(),
 });
 
+// NOTE: react-hook-formのnullable対応のため、optionalとnullableを両方指定
 export const updateEventSchema = baseSchema.extend({
   publicationStatus: z.enum(publicationStatusValues),
-  thumbnail: z.url().optional(),
+  thumbnail: z.url().optional().nullable(),
 });
 
 export type CreateEventFormData = z.infer<typeof createEventFormSchema>;

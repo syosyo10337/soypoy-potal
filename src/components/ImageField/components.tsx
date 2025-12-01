@@ -147,25 +147,25 @@ export function ImageUploader({
                 <Upload className="h-8 w-8 text-white drop-shadow-lg" />
               </div>
             </div>
-
-            {/* 削除ボタン */}
-            {!isCompressing && (
-              <Button
-                type="button"
-                variant="secondary"
-                size="icon"
-                className="absolute top-2 right-2 h-8 w-8 rounded-full shadow-lg"
-                onClick={handleRemove}
-                aria-label="画像を削除"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
           </div>
         ) : (
           <ImageUploaderPlaceholder />
         )}
       </button>
+
+      {/* 削除ボタン */}
+      {preview && !isCompressing && (
+        <Button
+          type="button"
+          variant="secondary"
+          size="icon"
+          className="absolute top-2 right-2 h-8 w-8 rounded-full shadow-lg z-10"
+          onClick={handleRemove}
+          aria-label="画像を削除"
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      )}
 
       <Input
         ref={fileInputRef}
