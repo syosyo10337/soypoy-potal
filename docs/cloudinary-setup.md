@@ -46,9 +46,22 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
 
 **テンプレートファイル:** プロジェクトルートの `env.local` を参照してください。
 
-⚠️ **本番環境 (Netlify):**
+#### 環境別設定
+
+**✅ フォルダ名は自動で振り分けられます** (追加設定不要)
+
+Netlifyが自動設定する `CONTEXT` 環境変数を使用:
+
+| 環境 | `CONTEXT` (自動設定) | フォルダ名 |
+|------|---------------------|-----------|
+| 本番環境 | `production` | `soypoy-events-production` |
+| プレビュー環境 (PR) | `deploy-preview` | `soypoy-events-deploy-preview` |
+| ブランチデプロイ | `branch-deploy` | `soypoy-events-branch-deploy` |
+| ローカル開発 | 未設定 | `soypoy-events-dev` |
+
+**Netlify設定:**
 - Netlify Dashboard → Site settings → Environment variables
-- 上記3つの環境変数を追加
+- 上記4つの環境変数を追加 (本番・プレビュー両方)
 
 ### Step 4: Cloudinary統合を有効化
 
@@ -58,16 +71,16 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
 
 ```typescript
 // ✅ 既に実装済み
-async createEvent(input: ...) {
-  // 新規画像の場合はCloudinaryへアップロード
-  if (isNewImage(thumbnail) && thumbnail.type === "new") {
-    thumbnailUrl = await uploadImageToCloudinary({ file: thumbnail.file });
-  } else {
-    thumbnailUrl = extractExistingImageUrl(thumbnail);
-  }
-  
-  // URLをDBに保存
-  return await this.repository.create({ thumbnail: thumbnailUrl, ... });
+import { uploadImageToCloudinary } from "@/infrastructure/storage/cloudinaryUploader";
+
+async uploadImage(file: File) {
+  // Cloudinaryにアップロード (環境別フォルダに自動振り分け)
+  const url = await uploadImageToCloudinary({
+    file,
+    folder: "soypoy-events", // ベースフォルダ名のみ指定
+  });
+  // → "soypoy-events-production" / "soypoy-events-dev" などに自動振り分け
+  return url;
 }
 ```
 
@@ -92,7 +105,7 @@ async createEvent(input: ...) {
 
 3. Cloudinaryダッシュボードで確認:
    - https://cloudinary.com/console/media_library
-   - `soypoy-events` フォルダに画像が保存されているか確認
+   - `soypoy-events-dev` フォルダに画像が保存されているか確認
 
 ## 📊 現在のアーキテクチャ
 
@@ -186,6 +199,66 @@ await repository.create({
 - Settings → Usage alerts
 - 無料枠の80%で通知
 
+## 🌍 環境別フォルダ管理
+
+### 自動フォルダ振り分けの仕組み
+
+**✅ Netlifyが自動設定する環境変数を活用**
+
+画像は `CONTEXT` 環境変数に基づいて自動的に別フォルダに保存されます:
+
+```typescript
+// src/infrastructure/storage/cloudinaryUploader.ts
+function addEnvironmentSuffix(baseFolderName: string): string {
+  const suffix = process.env.CONTEXT ?? "dev";
+  return `${baseFolderName}-${suffix}`;
+}
+
+export async function uploadImageToCloudinary({ file, folder }: UploadImageOptions) {
+  // 環境suffixを自動付与
+  const folderWithEnvironment = addEnvironmentSuffix(folder);
+  // Cloudinaryにアップロード...
+}
+
+// 使用例 (src/app/admin/events/create/_actions/uploadImage.ts)
+import { uploadImageToCloudinary } from "@/infrastructure/storage/cloudinaryUploader";
+
+const url = await uploadImageToCloudinary({
+  file: imageFile,
+  folder: "soypoy-events", // ベースフォルダ名のみ指定 (環境suffixは自動付与)
+});
+// → "soypoy-events-production" / "soypoy-events-dev" などに自動振り分け
+```
+
+### フォルダ振り分けルール
+
+| 環境 | `CONTEXT` | フォルダ名 | 説明 |
+|------|-----------|-----------|------|
+| 🟢 本番環境 | `production` | `soypoy-events-production` | mainブランチへのデプロイ |
+| 🟡 プレビュー環境 | `deploy-preview` | `soypoy-events-deploy-preview` | Pull Request作成時 |
+| 🔵 ブランチデプロイ | `branch-deploy` | `soypoy-events-branch-deploy` | 特定ブランチへのプッシュ |
+| ⚙️ ローカル開発 | (未設定) | `soypoy-events-dev` | Docker環境での開発時 |
+
+### 重要なポイント
+
+**✅ 追加設定不要**  
+`CONTEXT` はNetlifyが**自動的に設定**する環境変数です。ユーザーが手動で設定する必要はありません。
+
+**✅ Netlify公式機能**  
+- 公式ドキュメント: [Build environment variables](https://docs.netlify.com/configure-builds/environment-variables/)
+- 全てのNetlifyデプロイで確実に設定される（Build metadata）
+- 古いバージョンでも新しいバージョンでも動作
+
+### メリット
+
+| メリット | 詳細 |
+|---------|------|
+| ✅ **完全自動化** | 環境変数の追加設定が一切不要 |
+| ✅ **データ分離** | 環境間で画像データが混ざらない |
+| ✅ **安全性** | プレビュー環境で本番画像を誤削除するリスクなし |
+| ✅ **クリーンアップ容易** | 開発/プレビュー用画像を一括削除可能 |
+| ✅ **シンプル** | 複雑な条件分岐が不要 |  
+
 ## 🔧 トラブルシューティング
 
 ### エラー: "Cloudinary upload failed"
@@ -200,9 +273,33 @@ await repository.create({
 echo $CLOUDINARY_CLOUD_NAME
 echo $CLOUDINARY_API_KEY
 
+# フォルダ名を確認
+node -e "console.log(process.env.NODE_ENV)"
+
 # 再起動
 docker compose restart
 ```
+
+### 環境別フォルダが想定と異なる
+
+**確認方法:**
+
+1. **Cloudinaryダッシュボードで確認:**
+   - https://cloudinary.com/console/media_library
+   - どのフォルダに画像が保存されているか確認
+
+2. **環境変数を確認:**
+   ```bash
+   # ローカル開発環境
+   echo $CONTEXT  # (空 = dev扱い)
+   
+   # Netlify環境 (ビルドログで確認)
+   # production / deploy-preview / branch-deploy のいずれか
+   ```
+
+3. **Netlifyビルドログで確認:**
+   - Netlify Dashboard → Deploys → 対象のデプロイをクリック
+   - ビルドログで `CONTEXT` の値を確認
 
 ### エラー: "Invalid Cloudinary URL"
 

@@ -27,8 +27,11 @@ export async function uploadImageAction(
       };
     }
 
-    // Cloudinaryにアップロード
-    const url = await uploadImageToCloudinary({ file });
+    // Cloudinaryにアップロード (環境別フォルダに自動振り分け)
+    const url = await uploadImageToCloudinary({
+      file,
+      folder: "soypoy-events",
+    });
 
     return {
       success: true,

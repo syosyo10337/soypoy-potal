@@ -17,11 +17,28 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+/**
+ * 環境に応じたsuffixをフォルダ名に付与 (内部ヘルパー関数)
+ *
+ * CONTEXT環境変数(Netlifyが自動設定)を使用してsuffixを決定:
+ * - production: {baseFolderName}-production
+ * - deploy-preview: {baseFolderName}-deploy-preview
+ * - branch-deploy: {baseFolderName}-branch-deploy
+ * - dev (デフォルト): {baseFolderName}-dev
+ *
+ * @param baseFolderName - ベースとなるフォルダ名
+ * @returns 環境suffixが付与されたフォルダ名
+ */
+function addEnvironmentSuffix(baseFolderName: string): string {
+  const suffix = process.env.CONTEXT ?? "dev";
+  return `${baseFolderName}-${suffix}`;
+}
+
 export interface UploadImageOptions {
   /** アップロードするファイル */
   file: File;
-  /** Cloudinary内のフォルダ名 (デフォルト: "soypoy-events") */
-  folder?: string;
+  /** Cloudinary内のベースフォルダ名 (環境suffixは自動付与される) */
+  folder: string;
 }
 
 /**
@@ -33,16 +50,20 @@ export interface UploadImageOptions {
  *
  * @example
  * ```typescript
+ * // "soypoy-events-production" や "soypoy-events-dev" に自動振り分け
  * const url = await uploadImageToCloudinary({
  *   file: imageFile,
- *   folder: 'soypoy-events',
+ *   folder: "soypoy-events",
  * });
  * ```
  */
 export async function uploadImageToCloudinary({
   file,
-  folder = "soypoy-events",
+  folder,
 }: UploadImageOptions): Promise<string> {
+  // 環境suffixを自動付与
+  const folderWithEnvironment = addEnvironmentSuffix(folder);
+
   // FileオブジェクトをBufferに変換
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
@@ -51,7 +72,7 @@ export async function uploadImageToCloudinary({
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder,
+        folder: folderWithEnvironment,
         resource_type: "image",
         // 画像最適化設定
         transformation: [
