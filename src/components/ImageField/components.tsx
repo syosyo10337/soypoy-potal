@@ -133,13 +133,17 @@ export function ImageUploader({
           isCompressing ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
         )}
         onClick={openFileDialog}
+        aria-label={preview ? "画像を変更" : "画像をアップロード"}
+        title={preview ? "画像を変更" : "画像をアップロード"}
+        disabled={isCompressing}
+        aria-busy={isCompressing}
       >
         {preview ? (
           <div className="relative w-full h-full">
             {typeof preview === "string" && isCloudinaryUrl(preview) ? (
               <CldImage
                 src={preview}
-                alt="Preview"
+                alt="アップロードされた画像のプレビュー"
                 fill
                 crop="fill"
                 gravity="auto"
@@ -149,7 +153,7 @@ export function ImageUploader({
             ) : (
               <Image
                 src={preview}
-                alt="Preview"
+                alt="アップロードされた画像のプレビュー"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -159,7 +163,10 @@ export function ImageUploader({
             {/* オーバーレイ */}
             <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center">
               <div className="opacity-0 hover:opacity-100 transition-opacity">
-                <Upload className="h-8 w-8 text-white drop-shadow-lg" />
+                <Upload
+                  className="h-8 w-8 text-white drop-shadow-lg"
+                  aria-hidden="true"
+                />
               </div>
             </div>
           </div>
@@ -177,8 +184,9 @@ export function ImageUploader({
           className="absolute top-2 right-2 h-8 w-8 rounded-full shadow-lg z-10"
           onClick={handleRemove}
           aria-label="画像を削除"
+          title="画像を削除"
         >
-          <X className="h-4 w-4" />
+          <X className="h-4 w-4" aria-hidden="true" />
         </Button>
       )}
 
@@ -191,6 +199,7 @@ export function ImageUploader({
           void handleFileSelect(e);
         }}
         disabled={isCompressing}
+        aria-label="画像ファイルを選択"
       />
     </div>
   );
@@ -199,7 +208,10 @@ export function ImageUploader({
 function ImageUploaderPlaceholder() {
   return (
     <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-      <ImageIcon className="h-12 w-12 text-muted-foreground mb-4" />
+      <ImageIcon
+        className="h-12 w-12 text-muted-foreground mb-4"
+        aria-hidden="true"
+      />
       <p className="text-sm font-medium text-muted-foreground mb-1">
         クリックして画像をアップロード
       </p>

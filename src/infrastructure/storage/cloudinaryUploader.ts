@@ -97,28 +97,3 @@ export async function uploadImageToCloudinary({
     uploadStream.end(buffer);
   });
 }
-
-/**
- * Cloudinaryから画像を削除
- *
- * @param url - 削除する画像のURL
- * @returns 削除結果
- *
- * @example
- * ```typescript
- * await deleteImageFromCloudinary('https://res.cloudinary.com/.../image.jpg');
- * ```
- */
-export async function deleteImageFromCloudinary(
-  url: string,
-): Promise<{ result: string }> {
-  // URLからpublic_idを抽出
-  // https://res.cloudinary.com/{cloud_name}/image/upload/v{version}/{public_id}.{format}
-  const matches = url.match(/\/v\d+\/(.+)\.\w+$/);
-  if (!matches || !matches[1]) {
-    throw new Error(`Invalid Cloudinary URL: ${url}`);
-  }
-
-  const publicId = matches[1];
-  return await cloudinary.uploader.destroy(publicId);
-}
