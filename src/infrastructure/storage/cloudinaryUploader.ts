@@ -18,6 +18,27 @@ cloudinary.config({
 });
 
 /**
+ * Cloudinary設定が正しく行われているか確認
+ */
+function validateCloudinaryConfig(): void {
+  const requiredVars = {
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  };
+
+  const missingVars = Object.entries(requiredVars)
+    .filter(([, value]) => !value)
+    .map(([key]) => key);
+
+  if (missingVars.length > 0) {
+    throw new Error(
+      `Cloudinary configuration is missing required environment variables: ${missingVars.join(", ")}`,
+    );
+  }
+}
+
+/**
  * 環境に応じたsuffixをフォルダ名に付与 (内部ヘルパー関数)
  *
  * APP_ENV環境変数を使用してsuffixを決定:
@@ -60,12 +81,17 @@ export async function uploadImageToCloudinary({
   file,
   folder,
 }: UploadImageOptions): Promise<string> {
+  // Cloudinary設定の検証
+  validateCloudinaryConfig();
+
   // 環境suffixを自動付与
   const folderWithEnvironment = addEnvironmentSuffix(folder);
+  console.log(`[uploadImageToCloudinary] Uploading to folder: ${folderWithEnvironment}`);
 
   // FileオブジェクトをBufferに変換
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
+  console.log(`[uploadImageToCloudinary] Buffer size: ${(buffer.length / 1024 / 1024).toFixed(2)}MB`);
 
   // Cloudinaryにアップロード
   return new Promise((resolve, reject) => {
@@ -81,14 +107,17 @@ export async function uploadImageToCloudinary({
       },
       (error, result) => {
         if (error) {
+          console.error("[uploadImageToCloudinary] Cloudinary API error:", error);
           reject(
             new Error(`Cloudinary upload failed: ${error.message}`, {
               cause: error,
             }),
           );
         } else if (!result) {
+          console.error("[uploadImageToCloudinary] No result returned from Cloudinary");
           reject(new Error("Cloudinary upload returned no result"));
         } else {
+          console.log(`[uploadImageToCloudinary] Upload successful: ${result.secure_url}`);
           resolve(result.secure_url);
         }
       },

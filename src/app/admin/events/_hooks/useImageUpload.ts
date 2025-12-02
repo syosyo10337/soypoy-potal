@@ -34,12 +34,33 @@ export function useImageUpload() {
         }
         thumbnail = result.url;
       } catch (error) {
+        console.error("[useImageUpload] Upload error:", error);
+        
+        // エラーメッセージをユーザーフレンドリーに変換
+        let userMessage = "画像のアップロードに失敗しました";
+        
+        if (error instanceof Error) {
+          // Cloudinary設定エラー
+          if (error.message.includes("missing required environment variables")) {
+            userMessage = "サーバー設定エラー: Cloudinaryの環境変数が設定されていません";
+          }
+          // Cloudinaryアップロードエラー
+          else if (error.message.includes("Cloudinary upload failed")) {
+            userMessage = `アップロードエラー: ${error.message.replace("Cloudinary upload failed: ", "")}`;
+          }
+          // ファイルサイズエラー（Server Action制限）
+          else if (error.message.includes("exceeded")) {
+            userMessage = "画像ファイルが大きすぎます。より小さい画像を選択してください";
+          }
+          // その他のエラー
+          else {
+            userMessage = error.message;
+          }
+        }
+        
         setError("thumbnail" as Path<T>, {
           type: "manual",
-          message:
-            error instanceof Error
-              ? error.message
-              : "画像のアップロードに失敗しました",
+          message: userMessage,
         });
         return null;
       } finally {
