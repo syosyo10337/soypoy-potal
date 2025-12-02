@@ -48,20 +48,36 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
 
 #### 環境別設定
 
-**✅ フォルダ名は自動で振り分けられます** (追加設定不要)
+**✅ `APP_ENV` 環境変数でフォルダを振り分け**
 
-Netlifyが自動設定する `CONTEXT` 環境変数を使用:
+| 環境 | `APP_ENV` | フォルダ名 |
+|------|-----------|-----------|
+| 🟢 本番環境 | `production` | `soypoy-events-production` |
+| 🟡 プレビュー環境 | `preview` | `soypoy-events-preview` |
+| 🔵 ローカル開発 | `development` (デフォルト) | `soypoy-events-development` |
 
-| 環境 | `CONTEXT` (自動設定) | フォルダ名 |
-|------|---------------------|-----------|
-| 本番環境 | `production` | `soypoy-events-production` |
-| プレビュー環境 (PR) | `deploy-preview` | `soypoy-events-deploy-preview` |
-| ブランチデプロイ | `branch-deploy` | `soypoy-events-branch-deploy` |
-| ローカル開発 | 未設定 | `soypoy-events-dev` |
+**Netlify環境変数設定:**
 
-**Netlify設定:**
-- Netlify Dashboard → Site settings → Environment variables
-- 上記4つの環境変数を追加 (本番・プレビュー両方)
+1. **本番環境 (Production):**
+   - Netlify Dashboard → Site settings → Environment variables
+   - Scope: `Production`
+   ```
+   APP_ENV="production"
+   ```
+
+2. **プレビュー環境 (Deploy Preview):**
+   - Scope: `Deploy previews`
+   ```
+   APP_ENV="preview"
+   ```
+
+3. **共通設定 (All scopes):**
+   ```
+   CLOUDINARY_CLOUD_NAME="your-cloud-name"
+   CLOUDINARY_API_KEY="your-api-key"
+   CLOUDINARY_API_SECRET="your-api-secret"
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
+   ```
 
 ### Step 4: Cloudinary統合を有効化
 
@@ -203,21 +219,15 @@ await repository.create({
 
 ### 自動フォルダ振り分けの仕組み
 
-**✅ Netlifyが自動設定する環境変数を活用**
+**✅ `APP_ENV` 環境変数による振り分け**
 
-画像は `CONTEXT` 環境変数に基づいて自動的に別フォルダに保存されます:
+画像は `APP_ENV` 環境変数に基づいて自動的に別フォルダに保存されます:
 
 ```typescript
 // src/infrastructure/storage/cloudinaryUploader.ts
 function addEnvironmentSuffix(baseFolderName: string): string {
-  const suffix = process.env.CONTEXT ?? "dev";
+  const suffix = process.env.APP_ENV ?? "development";
   return `${baseFolderName}-${suffix}`;
-}
-
-export async function uploadImageToCloudinary({ file, folder }: UploadImageOptions) {
-  // 環境suffixを自動付与
-  const folderWithEnvironment = addEnvironmentSuffix(folder);
-  // Cloudinaryにアップロード...
 }
 
 // 使用例 (src/app/admin/events/create/_actions/uploadImage.ts)
@@ -225,39 +235,89 @@ import { uploadImageToCloudinary } from "@/infrastructure/storage/cloudinaryUplo
 
 const url = await uploadImageToCloudinary({
   file: imageFile,
-  folder: "soypoy-events", // ベースフォルダ名のみ指定 (環境suffixは自動付与)
+  folder: "soypoy-events", // ベースフォルダ名のみ指定
 });
-// → "soypoy-events-production" / "soypoy-events-dev" などに自動振り分け
+// APP_ENV=production → "soypoy-events-production"
+// APP_ENV=preview → "soypoy-events-preview"
+// APP_ENV=development → "soypoy-events-development"
 ```
 
 ### フォルダ振り分けルール
 
-| 環境 | `CONTEXT` | フォルダ名 | 説明 |
-|------|-----------|-----------|------|
-| 🟢 本番環境 | `production` | `soypoy-events-production` | mainブランチへのデプロイ |
-| 🟡 プレビュー環境 | `deploy-preview` | `soypoy-events-deploy-preview` | Pull Request作成時 |
-| 🔵 ブランチデプロイ | `branch-deploy` | `soypoy-events-branch-deploy` | 特定ブランチへのプッシュ |
-| ⚙️ ローカル開発 | (未設定) | `soypoy-events-dev` | Docker環境での開発時 |
+| `APP_ENV` | フォルダ名 | 説明 |
+|-----------|-----------|------|
+| `production` | `soypoy-events-production` | 本番環境 |
+| `preview` | `soypoy-events-preview` | プレビュー環境 (PR) |
+| `development` | `soypoy-events-development` | ローカル開発環境 |
 
 ### 重要なポイント
 
-**✅ 追加設定不要**  
-`CONTEXT` はNetlifyが**自動的に設定**する環境変数です。ユーザーが手動で設定する必要はありません。
+**✅ `APP_ENV` はランタイムでも利用可能**
 
-**✅ Netlify公式機能**  
-- 公式ドキュメント: [Build environment variables](https://docs.netlify.com/configure-builds/environment-variables/)
-- 全てのNetlifyデプロイで確実に設定される（Build metadata）
-- 古いバージョンでも新しいバージョンでも動作
+Netlifyのビルトイン環境変数 `CONTEXT` はビルド時のみ利用可能ですが、
+**カスタム環境変数 `APP_ENV` はランタイム（Server Actions）でも利用可能**です。
+
+**必須設定:**
+```bash
+# Netlify Environment Variables
+
+# Production (Scope: Production):
+APP_ENV="production"
+
+# Deploy Previews (Scope: Deploy previews):
+APP_ENV="preview"
+
+# ローカル開発 (.env.local):
+APP_ENV="development"
+```
 
 ### メリット
 
 | メリット | 詳細 |
 |---------|------|
-| ✅ **完全自動化** | 環境変数の追加設定が一切不要 |
+| ✅ **シンプル** | 1つの環境変数 `APP_ENV` で制御 |
 | ✅ **データ分離** | 環境間で画像データが混ざらない |
 | ✅ **安全性** | プレビュー環境で本番画像を誤削除するリスクなし |
 | ✅ **クリーンアップ容易** | 開発/プレビュー用画像を一括削除可能 |
-| ✅ **シンプル** | 複雑な条件分岐が不要 |  
+| ✅ **ランタイム対応** | Server Actions でも動作 |  
+
+## 🚨 Netlify デプロイ時の重要な注意点
+
+### ⚠️ `CONTEXT` 環境変数はランタイムで使えない
+
+Netlifyのビルトイン環境変数 `CONTEXT` は**ビルド時のみ**利用可能で、**サーバーレス関数（Next.js Server Actions含む）の実行時には利用できません**。
+
+そのため、このプロジェクトでは**カスタム環境変数 `APP_ENV`** を使用しています。
+
+### 📋 Netlify環境変数設定手順
+
+1. **Netlify Dashboard にアクセス**
+   - https://app.netlify.com/
+
+2. **Site settings → Environment variables**
+
+3. **共通設定 (All scopes):**
+   ```
+   CLOUDINARY_CLOUD_NAME = "your-cloud-name"
+   CLOUDINARY_API_KEY = "your-api-key"
+   CLOUDINARY_API_SECRET = "your-api-secret"
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "your-cloud-name"
+   ```
+
+4. **Production環境の設定 (Scope: Production):**
+   ```
+   APP_ENV = "production"
+   ```
+
+5. **Deploy Preview環境の設定 (Scope: Deploy previews):**
+   ```
+   APP_ENV = "preview"
+   ```
+
+6. **ローカル開発 (.env.local):**
+   ```
+   APP_ENV = "development"
+   ```
 
 ## 🔧 トラブルシューティング
 
@@ -291,15 +351,16 @@ docker compose restart
 2. **環境変数を確認:**
    ```bash
    # ローカル開発環境
-   echo $CONTEXT  # (空 = dev扱い)
+   echo $APP_ENV  # development
    
    # Netlify環境 (ビルドログで確認)
-   # production / deploy-preview / branch-deploy のいずれか
+   # production / preview
    ```
 
-3. **Netlifyビルドログで確認:**
-   - Netlify Dashboard → Deploys → 対象のデプロイをクリック
-   - ビルドログで `CONTEXT` の値を確認
+3. **Netlifyの環境変数設定を確認:**
+   - Netlify Dashboard → Site settings → Environment variables
+   - `APP_ENV` が正しく設定されているか確認
+   - Production: `production` / Deploy previews: `preview`
 
 ### エラー: "Invalid Cloudinary URL"
 

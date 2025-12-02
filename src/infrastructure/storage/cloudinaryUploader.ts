@@ -20,17 +20,16 @@ cloudinary.config({
 /**
  * 環境に応じたsuffixをフォルダ名に付与 (内部ヘルパー関数)
  *
- * CONTEXT環境変数(Netlifyが自動設定)を使用してsuffixを決定:
+ * APP_ENV環境変数を使用してsuffixを決定:
  * - production: {baseFolderName}-production
- * - deploy-preview: {baseFolderName}-deploy-preview
- * - branch-deploy: {baseFolderName}-branch-deploy
- * - dev (デフォルト): {baseFolderName}-dev
+ * - preview: {baseFolderName}-preview
+ * - development: {baseFolderName}-development
  *
  * @param baseFolderName - ベースとなるフォルダ名
  * @returns 環境suffixが付与されたフォルダ名
  */
 function addEnvironmentSuffix(baseFolderName: string): string {
-  const suffix = process.env.CONTEXT ?? "dev";
+  const suffix = process.env.APP_ENV ?? "development";
   return `${baseFolderName}-${suffix}`;
 }
 

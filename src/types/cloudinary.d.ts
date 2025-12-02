@@ -11,8 +11,10 @@ declare namespace NodeJS {
     // Client-side (next-cloudinary package)
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: string;
 
-    // デプロイ環境判定用 (Netlifyが自動設定)
-    // https://docs.netlify.com/configure-builds/environment-variables/
-    CONTEXT?: "production" | "deploy-preview" | "branch-deploy" | "dev";
+    // 環境判定用 (Cloudinaryフォルダ振り分けに使用)
+    // production: 本番環境
+    // preview: プレビュー環境 (Deploy Preview)
+    // development: 開発環境 (ローカル)
+    APP_ENV?: "production" | "preview" | "development";
   }
 }
