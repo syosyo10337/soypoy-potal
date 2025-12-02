@@ -33,15 +33,13 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-  output: "standalone",
   // そもそもbiomeでのlintをしているため、eslintは無効化
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Server Actionsのペイロードサイズ制限を引き上げ（画像アップロード対応）
   experimental: {
     serverActions: {
-      bodySizeLimit: "3mb", // デフォルト1MBから3MBに引き上げ
+      bodySizeLimit: "3mb",
     },
   },
   images: {
