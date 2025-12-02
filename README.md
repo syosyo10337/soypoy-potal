@@ -53,6 +53,14 @@ cd soypoy-portal
 1. env.localを展開する。
 現状masanaoのみが把握しているので個人的にもらってください。
 
+**必須環境変数:**
+- データベース接続（Neon PostgreSQL）
+- Cloudinary画像アップロード設定
+
+詳細は以下のドキュメントを参照:
+- [Database Setup Guide](docs/database-setup.md)
+- [Cloudinary Setup Guide](docs/cloudinary-setup.md)
+
 2. VSCodeでプロジェクトを開く
 ```bash
 code .

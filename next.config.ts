@@ -38,6 +38,12 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Server Actionsのペイロードサイズ制限を引き上げ（画像アップロード対応）
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "3mb", // デフォルト1MBから3MBに引き上げ
+    },
+  },
   images: {
     remotePatterns: [
       {
