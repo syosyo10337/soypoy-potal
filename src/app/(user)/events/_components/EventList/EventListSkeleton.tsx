@@ -24,7 +24,7 @@ function EventListItemSkeleton() {
           <Skeleton className="h-9 md:h-10 w-20 mb-1" />
           <Skeleton className="h-5 md:h-6 w-16" />
         </div>
-        <Skeleton className="w-34 md:w-48 aspect-[4/5]" />
+        <Skeleton className="w-34 md:w-48 aspect-insta" />
       </div>
 
       <div className="flex flex-col justify-start basis-[70%]">

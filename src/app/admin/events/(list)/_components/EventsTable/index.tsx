@@ -35,6 +35,7 @@ export function EventsTable() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>サムネイル</TableHead>
               <TableHead>タイトル</TableHead>
               <TableHead>日付</TableHead>
               <TableHead>種類</TableHead>

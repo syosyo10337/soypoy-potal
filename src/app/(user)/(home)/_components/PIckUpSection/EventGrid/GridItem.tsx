@@ -31,7 +31,7 @@ export default function GridItem({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-soypoy-accent focus-visible:ring-offset-2",
       )}
     >
-      <div className="relative mb-2 aspect-[4/5]">
+      <div className="relative mb-2 aspect-insta">
         <Image
           src={thumbnail}
           alt={title}

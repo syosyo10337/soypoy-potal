@@ -10,6 +10,7 @@ SOY-POYのwebサイトプロジェクトです。
   - [Tailwind CSS](https://tailwindcss.com/) - ユーティリティファーストCSSフレームワーク
   - [Biome](https://biomejs.dev/) - 高速なJavaScript/TypeScriptツールチェーン
   - [pnpm](https://pnpm.io/) - 高速なパッケージマネージャー
+  - [dotenvx](https://dotenvx.com/) - 暗号化対応の環境変数管理
 
 
 ### Biomeについて
@@ -50,8 +51,9 @@ git clone [リポジトリURL]
 cd soypoy-portal
 ```
 
-1. env.localを展開する。
-現状masanaoのみが把握しているので個人的にもらってください。
+1. `.env.keys`ファイルを取得する
+   - masanaoから`.env.keys`ファイルをもらってください
+   - プロジェクトルートに配置します
 
 2. VSCodeでプロジェクトを開く
 ```bash
@@ -63,6 +65,60 @@ code .
 
 4. コンテナのビルドと起動が完了するまで待機
    - 初回は依存関係のインストールに時間がかかる場合があります
+
+**必須環境変数:**
+- データベース接続（Neon PostgreSQL）
+- Cloudinary画像アップロード設定
+
+詳細は以下のドキュメントを参照:
+- [Database Setup Guide](docs/database-setup.md)
+- [Cloudinary Setup Guide](docs/cloudinary-setup.md)
+
+### 環境変数管理（dotenvx）
+
+このプロジェクトでは[dotenvx](https://dotenvx.com/)を使用して環境変数を暗号化管理しています。
+
+#### 仕組み
+
+- `.env.local` - 暗号化された環境変数（リポジトリにコミット済み）
+- `.env.keys` - 復号化キー（**`.gitignore`に含まれているため共有が必要**）
+
+#### セットアップ
+
+1. `.env.keys`ファイルをmasanaoから取得
+2. プロジェクトルートに配置
+3. 完了！（手動での復号化は不要）
+
+#### 開発時の起動
+
+```bash
+./bin/dev
+```
+
+内部で`dotenvx run -f .env.local -- next dev`が実行され、**自動的に環境変数が復号化**されます。手動で`dotenvx decrypt`を実行する必要はありません。
+
+#### 個別の環境変数を確認する
+
+特定の環境変数の値を確認したい場合：
+
+```bash
+dotenvx get DATABASE_URL -f .env.local
+dotenvx get CLOUDINARY_API_KEY -f .env.local
+```
+
+すべての環境変数を一覧表示：
+
+```bash
+dotenvx get -f .env.local
+```
+
+#### 環境変数を追加・変更する
+
+```bash
+dotenvx set NEW_VAR "value" -f .env.local
+```
+
+設定後、`.env.local`の変更をコミットしてください。
 
 ## 開発サーバーの起動
 dev containerを経由せずにコンテナを起動する場合は、以下のコマンドを利用します。

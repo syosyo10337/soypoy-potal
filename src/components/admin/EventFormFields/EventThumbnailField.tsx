@@ -2,15 +2,14 @@
 
 import type { Control, FieldValues, Path, PathValue } from "react-hook-form";
 import { Controller } from "react-hook-form";
+import { ImageUploader } from "@/components/ImageField";
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
-import { Input } from "@/components/shadcn/input";
 
 interface EventThumbnailFieldProps<T extends FieldValues> {
   control: Control<T>;
-  defaultValue?: string;
+  defaultValue?: string | null;
 }
 
-// TODO: サムネイルなので、画像ファイルとURLどちらも扱えるようにする
 export function EventThumbnailField<T extends FieldValues>({
   control,
   defaultValue,
@@ -23,11 +22,10 @@ export function EventThumbnailField<T extends FieldValues>({
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor="thumbnail">サムネイルURL</FieldLabel>
-          <Input
-            {...field}
-            id="thumbnail"
-            aria-invalid={fieldState.invalid}
-            placeholder="https://example.com/image.jpg"
+          <ImageUploader
+            value={field.value}
+            onChange={(value) => field.onChange(value)}
+            aspectRatio="aspect-insta"
           />
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>

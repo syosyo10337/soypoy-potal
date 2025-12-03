@@ -50,6 +50,7 @@
 
   --aspect-retro: 4 / 3; 
   --aspect-smartphone: 9 / 16;
+  --aspect-insta: 4 / 5;
 }
 
 /* 管理画面用テーマ（SOY-POYベースカラーを維持しつつ、より多様な配色を提供） */
@@ -83,4 +84,8 @@
   html {
     scroll-behavior: smooth;
   }
+}
+
+@utility aspect-insta {
+  aspect-ratio: var(--aspect-insta);
 }

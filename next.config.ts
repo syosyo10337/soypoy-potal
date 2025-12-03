@@ -33,10 +33,14 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-  output: "standalone",
   // そもそもbiomeでのlintをしているため、eslintは無効化
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "3mb",
+    },
   },
   images: {
     remotePatterns: [
@@ -47,6 +51,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "placehold.jp",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
       },
     ],
   },

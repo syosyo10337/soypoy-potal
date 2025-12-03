@@ -25,9 +25,10 @@ import {
 } from "@/components/shadcn/card";
 import type { EventEntity } from "@/domain/entities";
 import {
-  type UpdateEventData,
-  updateEventSchema,
+  type UpdateEventFormData,
+  updateEventFormSchema,
 } from "@/infrastructure/trpc/schemas/eventSchema";
+import { useImageUpload } from "../../../_hooks/useImageUpload";
 import { EventError } from "../../_components/EventError";
 import { EventLoading } from "../../_components/EventLoading";
 import { EventNotFound } from "../../_components/EventNotFound";
@@ -41,18 +42,29 @@ import { EventNotFound } from "../../_components/EventNotFound";
 export function EventEditForm() {
   const params = useParams();
   const eventId = params.id as string;
+  const { isFileUploading, uploadIfNeeded } = useImageUpload();
 
   const {
     refineCore: { onFinish, query },
     handleSubmit,
     control,
-  } = useForm<EventEntity, HttpError, UpdateEventData>({
-    resolver: zodResolver(updateEventSchema),
+    setError,
+  } = useForm<EventEntity, HttpError, UpdateEventFormData>({
+    resolver: zodResolver(updateEventFormSchema),
     refineCoreProps: {
       resource: "events",
       id: eventId,
       action: "edit",
       redirect: "show",
+    },
+    // NOTE: to avoid uncontrolled component
+    // cf. https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
+    defaultValues: {
+      title: "",
+      description: "",
+      date: "",
+      type: undefined,
+      thumbnail: undefined,
     },
   });
 
@@ -63,8 +75,18 @@ export function EventEditForm() {
   if (isError) return <EventError viewType="edit" onRetry={refetch} />;
   if (!defaultValues) return <EventNotFound viewType="edit" />;
 
-  const onSubmit = async (formData: UpdateEventData) => {
-    await onFinish(formData);
+  const onSubmit = async (formData: UpdateEventFormData) => {
+    try {
+      const submitData = await uploadIfNeeded<UpdateEventFormData>(
+        formData,
+        setError,
+      );
+      if (!submitData) return; // アップロード失敗
+
+      await onFinish(submitData);
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   };
 
   return (
@@ -75,33 +97,42 @@ export function EventEditForm() {
           <CardHeader>
             <CardTitle>イベント情報</CardTitle>
           </CardHeader>
-          <CardContent>
-            <EventTitleField
-              control={control}
-              defaultValue={defaultValues.title}
-            />
-            <EventDateField
-              control={control}
-              defaultValue={defaultValues.date}
-            />
-            <EventTypeField
-              control={control}
-              defaultValue={defaultValues.type}
-            />
-            <EventPublicationStatusField
-              control={control}
-              defaultValue={defaultValues.publicationStatus}
-            />
-            <EventDescriptionField
-              control={control}
-              defaultValue={defaultValues.description}
-            />
-            <EventThumbnailField
-              control={control}
-              defaultValue={defaultValues.thumbnail}
-            />
-            <div className="mt-4 flex justify-end gap-2">
-              <Button type="submit">更新</Button>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <EventTitleField
+                  control={control}
+                  defaultValue={defaultValues.title}
+                />
+                <EventDateField
+                  control={control}
+                  defaultValue={defaultValues.date}
+                />
+                <EventTypeField
+                  control={control}
+                  defaultValue={defaultValues.type}
+                />
+                <EventPublicationStatusField
+                  control={control}
+                  defaultValue={defaultValues.publicationStatus}
+                />
+                <EventDescriptionField
+                  control={control}
+                  defaultValue={defaultValues.description}
+                />
+              </div>
+              <div>
+                <EventThumbnailField
+                  control={control}
+                  defaultValue={defaultValues.thumbnail}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button type="submit" disabled={isFileUploading}>
+                {isFileUploading ? "画像をアップロード中..." : "更新"}
+              </Button>
             </div>
           </CardContent>
         </Card>

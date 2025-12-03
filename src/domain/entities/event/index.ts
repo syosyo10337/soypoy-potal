@@ -21,6 +21,6 @@ export interface EventEntity {
   /**
    * 画像URL
    */
-  thumbnail?: string;
+  thumbnail?: string | null;
   type: EventType;
 }

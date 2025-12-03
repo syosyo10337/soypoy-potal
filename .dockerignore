@@ -87,3 +87,4 @@ temp/
 .eslintcache
 .prettier*
 EOF
+.env.keys
