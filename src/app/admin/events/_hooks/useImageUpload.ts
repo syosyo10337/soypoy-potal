@@ -26,28 +26,15 @@ export function useImageUpload() {
     let thumbnail = data.thumbnail;
 
     if (thumbnail instanceof File) {
-      console.log("[useImageUpload] ===== CLIENT: Starting upload =====");
-      console.log("[useImageUpload] File info:", {
-        name: thumbnail.name,
-        size: thumbnail.size,
-        type: thumbnail.type,
-      });
-
       setIsFileUploading(true);
       try {
-        console.log("[useImageUpload] Calling uploadImageAction...");
         const result = await uploadImageAction(thumbnail);
-        console.log("[useImageUpload] Server response:", result);
 
         if (!result.success) {
           throw new Error(result.error);
         }
         thumbnail = result.url;
-        console.log("[useImageUpload] ===== CLIENT: Upload successful =====");
       } catch (error) {
-        console.error("[useImageUpload] ===== CLIENT: Upload error =====");
-        console.error("[useImageUpload] Upload error:", error);
-
         // エラーメッセージをユーザーフレンドリーに変換
         let userMessage = "画像のアップロードに失敗しました";
 

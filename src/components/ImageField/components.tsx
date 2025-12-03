@@ -93,7 +93,7 @@ export function ImageUploader({
     setIsCompressing(true);
 
     try {
-      // // 画像圧縮を実行
+      // 画像圧縮を実行
       const compressedFile = await compressImage({
         file,
         ...(compressionOptions && { options: compressionOptions }),
@@ -119,8 +119,11 @@ export function ImageUploader({
   };
 
   // Cloudinary URLかどうかを判定
-  const isCloudinaryUrl = (url: string): boolean => {
-    return url.includes("cloudinary.com") || url.startsWith("soypoy-events/");
+  const _isCloudinaryUrl = (url: string): boolean => {
+    return (
+      url.includes("res.cloudinary.com") ||
+      (!url.startsWith("http") && url.includes("/"))
+    );
   };
 
   return (
@@ -140,7 +143,7 @@ export function ImageUploader({
       >
         {preview ? (
           <div className="relative w-full h-full">
-            {typeof preview === "string" && isCloudinaryUrl(preview) ? (
+            {typeof preview === "string" && _isCloudinaryUrl(preview) ? (
               <CldImage
                 src={preview}
                 alt="アップロードされた画像のプレビュー"

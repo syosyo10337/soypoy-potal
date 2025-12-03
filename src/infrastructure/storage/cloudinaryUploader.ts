@@ -29,7 +29,7 @@ function initializeCloudinary(): void {
 
   const missingVars = Object.entries(config)
     .filter(([, value]) => !value)
-    .map(([key]) => key.toUpperCase());
+    .map(([key]) => key);
 
   if (missingVars.length > 0) {
     throw new Error(
@@ -88,18 +88,10 @@ export async function uploadImageToCloudinary({
   // Cloudinary設定の初期化（遅延初期化）
   initializeCloudinary();
 
-  // 環境suffixを自動付与
   const folderWithEnvironment = addEnvironmentSuffix(folder);
-  console.log(
-    `[uploadImageToCloudinary] Uploading to folder: ${folderWithEnvironment}`,
-  );
 
-  // FileオブジェクトをBufferに変換
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
-  console.log(
-    `[uploadImageToCloudinary] Buffer size: ${(buffer.length / 1024 / 1024).toFixed(2)}MB`,
-  );
 
   // Cloudinaryにアップロード
   return new Promise((resolve, reject) => {
@@ -115,24 +107,14 @@ export async function uploadImageToCloudinary({
       },
       (error, result) => {
         if (error) {
-          console.error(
-            "[uploadImageToCloudinary] Cloudinary API error:",
-            error,
-          );
           reject(
             new Error(`Cloudinary upload failed: ${error.message}`, {
               cause: error,
             }),
           );
         } else if (!result) {
-          console.error(
-            "[uploadImageToCloudinary] No result returned from Cloudinary",
-          );
           reject(new Error("Cloudinary upload returned no result"));
         } else {
-          console.log(
-            `[uploadImageToCloudinary] Upload successful: ${result.secure_url}`,
-          );
           resolve(result.secure_url);
         }
       },
