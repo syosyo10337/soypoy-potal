@@ -10,32 +10,36 @@
 
 import { v2 as cloudinary } from "cloudinary";
 
-// Cloudinary設定の初期化
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+let isConfigured = false;
 
 /**
- * Cloudinary設定が正しく行われているか確認
+ * Cloudinary設定を初期化（遅延初期化）
+ *
+ * トップレベルでの初期化を避けることで、クライアントバンドルへの
+ * 環境変数の漏洩を防ぐ
  */
-function validateCloudinaryConfig(): void {
-  const requiredVars = {
-    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
-    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+function initializeCloudinary(): void {
+  if (isConfigured) return;
+
+  const config = {
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
   };
 
-  const missingVars = Object.entries(requiredVars)
+  const missingVars = Object.entries(config)
     .filter(([, value]) => !value)
-    .map(([key]) => key);
+    .map(([key]) => key.toUpperCase());
 
   if (missingVars.length > 0) {
     throw new Error(
       `Cloudinary configuration is missing required environment variables: ${missingVars.join(", ")}`,
     );
   }
+
+  cloudinary.config(config);
+
+  isConfigured = true;
 }
 
 /**
@@ -81,17 +85,21 @@ export async function uploadImageToCloudinary({
   file,
   folder,
 }: UploadImageOptions): Promise<string> {
-  // Cloudinary設定の検証
-  validateCloudinaryConfig();
+  // Cloudinary設定の初期化（遅延初期化）
+  initializeCloudinary();
 
   // 環境suffixを自動付与
   const folderWithEnvironment = addEnvironmentSuffix(folder);
-  console.log(`[uploadImageToCloudinary] Uploading to folder: ${folderWithEnvironment}`);
+  console.log(
+    `[uploadImageToCloudinary] Uploading to folder: ${folderWithEnvironment}`,
+  );
 
   // FileオブジェクトをBufferに変換
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
-  console.log(`[uploadImageToCloudinary] Buffer size: ${(buffer.length / 1024 / 1024).toFixed(2)}MB`);
+  console.log(
+    `[uploadImageToCloudinary] Buffer size: ${(buffer.length / 1024 / 1024).toFixed(2)}MB`,
+  );
 
   // Cloudinaryにアップロード
   return new Promise((resolve, reject) => {
@@ -107,17 +115,24 @@ export async function uploadImageToCloudinary({
       },
       (error, result) => {
         if (error) {
-          console.error("[uploadImageToCloudinary] Cloudinary API error:", error);
+          console.error(
+            "[uploadImageToCloudinary] Cloudinary API error:",
+            error,
+          );
           reject(
             new Error(`Cloudinary upload failed: ${error.message}`, {
               cause: error,
             }),
           );
         } else if (!result) {
-          console.error("[uploadImageToCloudinary] No result returned from Cloudinary");
+          console.error(
+            "[uploadImageToCloudinary] No result returned from Cloudinary",
+          );
           reject(new Error("Cloudinary upload returned no result"));
         } else {
-          console.log(`[uploadImageToCloudinary] Upload successful: ${result.secure_url}`);
+          console.log(
+            `[uploadImageToCloudinary] Upload successful: ${result.secure_url}`,
+          );
           resolve(result.secure_url);
         }
       },
