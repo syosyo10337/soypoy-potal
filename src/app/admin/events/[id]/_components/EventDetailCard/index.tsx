@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 import type { EventEntity } from "@/domain/entities";
+import { formatDateJP } from "@/utils/date";
 
 interface EventDetailCardProps {
   event: EventEntity;
@@ -33,7 +34,7 @@ export function EventDetailCard({ event }: EventDetailCardProps) {
               <h3 className="text-sm font-medium text-muted-foreground mb-1">
                 日付
               </h3>
-              <p className="text-sm">{event.date}</p>
+              <p className="text-sm">{formatDateJP(event.date)}</p>
             </div>
 
             <div>

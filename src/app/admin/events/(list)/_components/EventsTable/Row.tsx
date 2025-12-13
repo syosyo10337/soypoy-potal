@@ -3,6 +3,7 @@ import { EventStatusBadge } from "@/components/admin/EventStatusBadge";
 import { Badge } from "@/components/shadcn/badge";
 import { TableCell, TableRow } from "@/components/shadcn/table";
 import type { EventEntity } from "@/domain/entities";
+import { formatDateJP } from "@/utils/date";
 import { EventActions } from "./EventActions";
 
 interface EventTableRowProps {
@@ -38,7 +39,7 @@ export function EventTableRow({ event }: EventTableRowProps) {
         )}
       </TableCell>
       <TableCell className="font-medium">{event.title}</TableCell>
-      <TableCell>{event.date}</TableCell>
+      <TableCell>{formatDateJP(event.date)}</TableCell>
       <TableCell>
         <Badge variant="outline">{event.type}</Badge>
       </TableCell>

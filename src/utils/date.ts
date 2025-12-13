@@ -50,13 +50,6 @@ function format(dateString: string, format: DateFormatKey | string): string {
 }
 
 /**
- * 日本語形式の日付、曜日、時間を返す (shorthand)
- */
-function formatFullDateJP(dateString: string): string {
-  return format(dateString, DATE_FORMATS.FULL_DATE_JP);
-}
-
-/**
  * 日本語形式の日付文字列を返す (shorthand)
  */
 function formatDateJP(dateString: string): string {
@@ -75,100 +68,10 @@ function formatTime(dateString: string): string {
 }
 
 /**
- * 指定された日時が過去かどうかを判定
- *
- * @param dateString - ISO8601形式の日時文字列
- * @returns 過去の場合true
- */
-function isPast(dateString: string): boolean {
-  try {
-    const dt = dateTimeFromISO(dateString);
-    if (!dt.isValid) {
-      console.warn(`Invalid date string for isPast: ${dateString}`);
-      return false;
-    }
-    return dt < nowInUTC();
-  } catch (error) {
-    console.error("Date comparison error:", error);
-    return false;
-  }
-}
-
-/**
- * 指定された日時が未来かどうかを判定
- *
- * @param dateString - ISO8601形式の日時文字列
- * @returns 未来の場合true
- */
-function isFuture(dateString: string): boolean {
-  try {
-    const dt = dateTimeFromISO(dateString);
-    if (!dt.isValid) {
-      console.warn(`Invalid date string for isFuture: ${dateString}`);
-      return false;
-    }
-    return dt > nowInUTC();
-  } catch (error) {
-    console.error("Date comparison error:", error);
-    return false;
-  }
-}
-
-/**
- * 2つの日付を比較
- *
- * @param dateString1 - 比較する日付1
- * @param dateString2 - 比較する日付2
- * @returns dateString1 < dateString2: -1, dateString1 > dateString2: 1, equal: 0
- */
-function compare(dateString1: string, dateString2: string): -1 | 0 | 1 {
-  try {
-    const dt1 = dateTimeFromISO(dateString1);
-    const dt2 = dateTimeFromISO(dateString2);
-
-    if (!dt1.isValid || !dt2.isValid) {
-      console.warn("Invalid date strings for comparison");
-      return 0;
-    }
-
-    if (dt1 < dt2) return -1;
-    if (dt1 > dt2) return 1;
-    return 0;
-  } catch (error) {
-    console.error("Date comparison error:", error);
-    return 0;
-  }
-}
-
-/**
- * 現在時刻をUTCタイムゾーンのDateTimeオブジェクトで取得する
- * フォームのデフォルト値設定などに使用
- *
- * NOTE: フォームなどの初期値にする際にはtoISOをつけて変換すること。
- */
-function nowInUTC(): DateTime<true> {
-  return DateTime.now().toUTC();
-}
-
-/**
  * ISO形式の文字列に時刻情報が含まれているかチェック
  */
 function hasTimeInfo(dateString: string): boolean {
   return dateString.includes("T");
-}
-
-/**
- * MM/DD Day形式で日付を返す
- * 例: "12/25 Sat"
- */
-function formatMonthDay(dateString: string): string {
-  const dt = parseDateTimeSafely(dateString);
-  if (!dt) return DATE_PLACEHOLDER_TEXT;
-
-  const month = dt.month.toString().padStart(2, "0");
-  const day = dt.day.toString().padStart(2, "0");
-  const dayOfWeek = dt.setLocale("en").toFormat("EEE");
-  return `${month}/${day} ${dayOfWeek}`;
 }
 
 /**
@@ -297,21 +200,71 @@ function getDayOfWeekColorClass(dateString: string): string {
   return weekday === 6 ? "text-[#594DD8]" : "text-soypoy-accent";
 }
 
+// =============================================================================
+// Calendar Adapter Functions (ISO ↔ Date 変換)
+// =============================================================================
+
+/**
+ * ISO文字列をDateオブジェクトに変換 (Calendar用)
+ * APP_TIMEZONE (Asia/Tokyo) として解釈
+ */
+function isoToDate(isoString: string | undefined): Date | undefined {
+  if (!isoString) return undefined;
+
+  const dt = dateTimeFromISO(isoString);
+  if (!dt.isValid) return undefined;
+
+  return dt.toJSDate();
+}
+
+/**
+ * DateオブジェクトをISO文字列に変換 (YYYY-MM-DD形式)
+ * APP_TIMEZONE (Asia/Tokyo) として解釈
+ */
+function dateToIso(date: Date | undefined): string | undefined {
+  if (!date) return undefined;
+
+  const dt = DateTime.fromJSDate(date, { zone: APP_TIMEZONE });
+  if (!dt.isValid) return undefined;
+
+  return dt.toISODate() ?? undefined;
+}
+
+/**
+ * ISO文字列配列をDateオブジェクト配列に変換 (multiple mode用)
+ */
+function isoArrayToDateArray(
+  isoStrings: string[] | undefined,
+): Date[] | undefined {
+  if (!isoStrings) return undefined;
+
+  return isoStrings
+    .map((iso) => isoToDate(iso))
+    .filter((date): date is Date => date !== undefined);
+}
+
+/**
+ * Dateオブジェクト配列をISO文字列配列に変換 (multiple mode用)
+ */
+function dateArrayToIsoArray(dates: Date[] | undefined): string[] | undefined {
+  if (!dates) return undefined;
+
+  return dates
+    .map((date) => dateToIso(date))
+    .filter((iso): iso is string => iso !== undefined);
+}
+
 export {
-  format,
-  formatFullDateJP,
   formatDateJP,
   formatTime,
-  formatMonthDay,
   formatMonthDayOnly,
   formatDayOfWeek,
   getWeekendDatesInMonth,
   getMonthName,
   getDayOfWeekColorClass,
-  isPast,
-  isFuture,
-  compare,
-  nowInUTC,
+  isoToDate,
+  dateToIso,
+  isoArrayToDateArray,
+  dateArrayToIsoArray,
   dateTimeFromISO,
-  type DateFormatKey,
 };
