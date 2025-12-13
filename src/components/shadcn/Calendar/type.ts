@@ -9,7 +9,7 @@ type ShadcnCalendarProps = React.ComponentProps<typeof DayPicker> & {
 };
 
 /**
- * カスタムCalendarに必要なDateではなくISO文字列でやり取りするためのProps
+ * カスタムCalendarでISO文字列ベースでやり取りするためのProps
  */
 export interface ISODateCalendarProps {
   /**
