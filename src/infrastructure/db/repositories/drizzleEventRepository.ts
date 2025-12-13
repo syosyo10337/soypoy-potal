@@ -1,8 +1,8 @@
 import { and, eq, sql } from "drizzle-orm";
-import { DateTime } from "luxon";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
+import { dateTimeFromISO, dateToIsoFull } from "@/utils/date";
 import { db } from "../index";
 import type { DrizzleEvent, DrizzleEventInsert } from "../schema";
 import { events } from "../schema";
@@ -57,7 +57,7 @@ export class DrizzleEventRepository implements EventRepository {
       id: event.id,
       publicationStatus: event.publicationStatus,
       title: event.title,
-      date: DateTime.fromISO(event.date).toJSDate(),
+      date: dateTimeFromISO(event.date).toJSDate(),
       description: event.description ?? null,
       thumbnail: event.thumbnail ?? null,
       type: event.type,
@@ -81,7 +81,7 @@ export class DrizzleEventRepository implements EventRepository {
       }),
       ...(event.title !== undefined && { title: event.title }),
       ...(event.date !== undefined && {
-        date: DateTime.fromISO(event.date).toJSDate(),
+        date: dateTimeFromISO(event.date).toJSDate(),
       }),
       ...(event.description !== undefined && {
         description: event.description ?? null,
@@ -118,8 +118,7 @@ export class DrizzleEventRepository implements EventRepository {
       publicationStatus:
         drizzleEvent.publicationStatus as EventEntity["publicationStatus"],
       title: drizzleEvent.title,
-      date:
-        DateTime.fromJSDate(drizzleEvent.date, { zone: "utc" }).toISO() ?? "",
+      date: dateToIsoFull(drizzleEvent.date),
       description: drizzleEvent.description ?? undefined,
       thumbnail: drizzleEvent.thumbnail ?? undefined,
       type: drizzleEvent.type as EventEntity["type"],

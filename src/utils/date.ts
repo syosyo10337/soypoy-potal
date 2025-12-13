@@ -231,6 +231,15 @@ function dateToIso(date: Date | undefined): string | undefined {
 }
 
 /**
+ * DateオブジェクトをフルISO8601文字列に変換
+ * DB (UTC) からの変換用
+ */
+function dateToIsoFull(date: Date): string {
+  const dt = DateTime.fromJSDate(date, { zone: "utc" });
+  return dt.toISO() ?? "";
+}
+
+/**
  * ISO文字列配列をDateオブジェクト配列に変換 (multiple mode用)
  */
 function isoArrayToDateArray(
@@ -264,6 +273,7 @@ export {
   getDayOfWeekColorClass,
   isoToDate,
   dateToIso,
+  dateToIsoFull,
   isoArrayToDateArray,
   dateArrayToIsoArray,
   dateTimeFromISO,
