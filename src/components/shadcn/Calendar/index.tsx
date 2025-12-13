@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/suspicious/noExplicitAny: <because we need to use any> */
+/** biome-ignore-all lint/suspicious/noExplicitAny: react-day-pickerのDayPickerコンポーネントの型定義とカスタムPropsの型の間で互換性の問題があるため、any型の使用が必要なのだ！今後型定義が改善された場合は見直しを検討してほしいのだ！ */
 "use client";
 
 import {
