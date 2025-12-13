@@ -6,7 +6,7 @@ import { appRouter } from "@/infrastructure/trpc/router";
  * tRPC API Route
  *
  * このファイルが /api/trpc/[trpc]/route.ts に配置されることで、
- * 全てのClientComponentsからのtRPCリクエストがこのハンドラーを通る
+ * 全てのClient ComponentsからのtRPCリクエストがこのハンドラーを通る
  *
  * [trpc]は動的ルートパラメータで、実際のエンドポイント名が入る
  * e.g. /api/trpc/events.list
