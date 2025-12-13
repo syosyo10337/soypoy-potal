@@ -1,8 +1,8 @@
-import { eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
-import { dateTimeFromISO } from "@/utils/date";
+import { dateTimeFromISO, dateToIsoFull } from "@/utils/date";
 import { db } from "../index";
 import type { DrizzleEvent, DrizzleEventInsert } from "../schema";
 import { events } from "../schema";
@@ -26,25 +26,14 @@ export class DrizzleEventRepository implements EventRepository {
     const drizzleEvents = await db
       .select()
       .from(events)
-      .where(eq(events.publicationStatus, PublicationStatus.Published));
-
-    return drizzleEvents
-      .map((drizzleEvent) => {
-        try {
-          const dt = dateTimeFromISO(drizzleEvent.date);
-          if (dt.isValid && dt.year === year && dt.month === month) {
-            return this.toDomainEntity(drizzleEvent);
-          }
-          return null;
-        } catch (error) {
-          console.warn(
-            `Invalid date string for event: ${drizzleEvent.date}`,
-            error,
-          );
-          return null;
-        }
-      })
-      .filter((entity): entity is EventEntity => entity !== null);
+      .where(
+        and(
+          eq(events.publicationStatus, PublicationStatus.Published),
+          sql`EXTRACT(YEAR FROM ${events.date}) = ${year}`,
+          sql`EXTRACT(MONTH FROM ${events.date}) = ${month}`,
+        ),
+      );
+    return drizzleEvents.map(this.toDomainEntity);
   }
 
   /**
@@ -68,7 +57,7 @@ export class DrizzleEventRepository implements EventRepository {
       id: event.id,
       publicationStatus: event.publicationStatus,
       title: event.title,
-      date: event.date,
+      date: dateTimeFromISO(event.date).toJSDate(),
       description: event.description ?? null,
       thumbnail: event.thumbnail ?? null,
       type: event.type,
@@ -91,7 +80,9 @@ export class DrizzleEventRepository implements EventRepository {
         publicationStatus: event.publicationStatus,
       }),
       ...(event.title !== undefined && { title: event.title }),
-      ...(event.date !== undefined && { date: event.date }),
+      ...(event.date !== undefined && {
+        date: dateTimeFromISO(event.date).toJSDate(),
+      }),
       ...(event.description !== undefined && {
         description: event.description ?? null,
       }),
@@ -127,7 +118,7 @@ export class DrizzleEventRepository implements EventRepository {
       publicationStatus:
         drizzleEvent.publicationStatus as EventEntity["publicationStatus"],
       title: drizzleEvent.title,
-      date: drizzleEvent.date,
+      date: dateToIsoFull(drizzleEvent.date),
       description: drizzleEvent.description ?? undefined,
       thumbnail: drizzleEvent.thumbnail ?? undefined,
       type: drizzleEvent.type as EventEntity["type"],
