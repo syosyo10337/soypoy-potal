@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import type { ClosedDayEntity } from "@/domain/entities/closedDay";
 import type { ClosedDayRepository } from "@/domain/repositories/closedDayRepository";
 import { dateTimeFromISO } from "@/utils/date";
@@ -18,7 +19,11 @@ export class DrizzleClosedDayRepository implements ClosedDayRepository {
     return drizzleClosedDays
       .map((drizzleClosedDay) => {
         try {
-          const dt = dateTimeFromISO(drizzleClosedDay.date);
+          const dateISO =
+            DateTime.fromJSDate(drizzleClosedDay.date, {
+              zone: "utc",
+            }).toISO() ?? "";
+          const dt = dateTimeFromISO(dateISO);
           if (dt.isValid && dt.year === year && dt.month === month) {
             return this.toDomainEntity(drizzleClosedDay);
           }
@@ -40,7 +45,9 @@ export class DrizzleClosedDayRepository implements ClosedDayRepository {
   private toDomainEntity(drizzleClosedDay: DrizzleClosedDay): ClosedDayEntity {
     return {
       id: drizzleClosedDay.id,
-      date: drizzleClosedDay.date,
+      date:
+        DateTime.fromJSDate(drizzleClosedDay.date, { zone: "utc" }).toISO() ??
+        "",
     };
   }
 }

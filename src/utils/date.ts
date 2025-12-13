@@ -8,7 +8,7 @@ const DATE_FORMATS = {
 
 type DateFormatKey = keyof typeof DATE_FORMATS;
 
-const APP_TIMEZONE = "Asia/Tokyo";
+export const APP_TIMEZONE = "Asia/Tokyo";
 const DATE_PLACEHOLDER_TEXT = "日時不明";
 const TIME_PLACEHOLDER_TEXT = "時刻未定";
 const LOCALE = "ja";

@@ -1,5 +1,5 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { pgEnum, pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { EventType, PublicationStatus } from "@/domain/entities";
 
 export const eventTypeEnum = pgEnum("event_type", [
@@ -28,7 +28,7 @@ export const events = pgTable("events", {
   id: text().primaryKey(),
   publicationStatus: publicationStatusEnum().notNull(),
   title: varchar({ length: 255 }).notNull(),
-  date: varchar({ length: 255 }).notNull(),
+  date: timestamp({ mode: "date", withTimezone: true }).notNull(),
   description: text(),
   thumbnail: text(),
   type: eventTypeEnum().notNull(),
@@ -36,7 +36,7 @@ export const events = pgTable("events", {
 
 export const closedDays = pgTable("closed_days", {
   id: text().primaryKey(),
-  date: varchar({ length: 255 }).notNull(),
+  date: timestamp({ mode: "date", withTimezone: true }).notNull(),
 });
 
 export type DrizzleEvent = InferSelectModel<typeof events>;

@@ -1,11 +1,13 @@
+import { DateTime } from "luxon";
 import { Suspense } from "react";
+import { createServerCaller } from "@/infrastructure/trpc/server";
 import { cn } from "@/utils/cn";
+import { APP_TIMEZONE } from "@/utils/date";
 import { EventList } from "./_components/EventList";
 import { EventListSkeleton } from "./_components/EventList/EventListSkeleton";
 import { EventListTitle } from "./_components/EventListTitle";
 import { MonthNavigation } from "./_components/MonthNavigation";
 import { ScheduleAnnouncement } from "./_components/ScheduleAnnouncement";
-import { createDummyClosedDays, createDummyEvents } from "./_dummies/event";
 export const revalidate = 6;
 
 interface EventsPageProps {
@@ -20,21 +22,22 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
     resolvedSearchParams.month,
   );
 
-  const dummyEvents = createDummyEvents(year, month);
-  const dummyClosedDays = createDummyClosedDays(year, month);
+  const trpc = createServerCaller();
+  const events = await trpc.events.listByMonth({ year, month });
+  const closedDays = await trpc.closedDays.listByMonth({ year, month });
 
   return (
     <div className={cn("container mx-auto max-w-5xl", "px-12 md:px-16 py-8")}>
       <EventListTitle />
       <MonthNavigation year={year} month={month} />
       <Suspense fallback={<EventListSkeleton />}>
-        <EventList events={dummyEvents} />
+        <EventList events={events} />
       </Suspense>
       <ScheduleAnnouncement
         year={year}
         month={month}
-        events={dummyEvents}
-        closedDays={dummyClosedDays}
+        events={events}
+        closedDays={closedDays}
       />
     </div>
   );
@@ -42,8 +45,8 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
 
 function getYearAndMonthFromSearchParams(monthParam: string | undefined) {
   if (!monthParam) {
-    const now = new Date();
-    return { year: now.getFullYear(), month: now.getMonth() + 1 };
+    const now = DateTime.now().setZone(APP_TIMEZONE);
+    return { year: now.year, month: now.month };
   }
   const [yearStr, monthStr] = monthParam.split("-");
   return {
