@@ -27,7 +27,7 @@ export default function Header() {
       <div
         className={cn(
           "max-w-8xl mx-auto flex items-center justify-between",
-          "py-2 px-4 md:py-4 md:px-10",
+          "py-1 px-4 md:py-2 md:px-10",
         )}
       >
         <Logo />
