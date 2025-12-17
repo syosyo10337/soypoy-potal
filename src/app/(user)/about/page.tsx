@@ -4,7 +4,7 @@ import OurVisionDescription from "./_components/OurVisionDescription";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-soypoy-main">
+    <div >
       <OurVisionDescription />
       <MemberCarousel />
       <HistorySlider />
