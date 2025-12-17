@@ -36,7 +36,7 @@ export default function MemberPill({
         )}
       >
         {role.split("\n").map((line, index) => (
-          <p key={index} className={index > 0 ? "" : ""}>
+          <p key={line} className={index > 0 ? "" : ""}>
             {line}
           </p>
         ))}
@@ -75,10 +75,10 @@ export default function MemberPill({
         )}
       >
         {name.split("\n").map((line, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <TODO: 後で直す>
           <p key={index}>{line}</p>
         ))}
       </div>
     </div>
   );
 }
-
