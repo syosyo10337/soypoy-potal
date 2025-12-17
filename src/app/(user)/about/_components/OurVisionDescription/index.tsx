@@ -1,21 +1,10 @@
 import { cn } from "@/utils/cn";
+import SectionTitle from "../SectionTitle";
 
 export default function OurVisionDescription() {
   return (
     <section className="flex flex-col items-center text-center px-6 md:px-12 py-12 md:py-20">
-      {/* Page Title */}
-      <h1
-        className={cn(
-          "font-anymale",
-          "text-5xl md:text-7xl",
-          "tracking-tight",
-          "text-black",
-        )}
-      >
-        About
-      </h1>
-
-      {/* Catchphrase */}
+      <SectionTitle>About</SectionTitle>
       <h2
         className={cn(
           "font-display font-semibold",

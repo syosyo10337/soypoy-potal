@@ -1,11 +1,11 @@
 "use client";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 import { cn } from "@/utils/cn";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import SectionTitle from "../SectionTitle";
 import HistoryItem from "./HistoryItem";
 
-// ダミーデータ（後でAPIや定数ファイルから取得する想定）
 const HISTORY_EVENTS = [
   {
     id: "1",
@@ -70,16 +70,7 @@ export default function HistorySlider() {
         </button>
 
         {/* Title */}
-        <h2
-          className={cn(
-            "font-anymale",
-            "text-5xl md:text-7xl",
-            "tracking-tight",
-            "text-black text-center",
-          )}
-        >
-          History
-        </h2>
+        <SectionTitle>History</SectionTitle>
 
         {/* Right Navigation Button */}
         <button
@@ -131,4 +122,3 @@ export default function HistorySlider() {
     </section>
   );
 }
-

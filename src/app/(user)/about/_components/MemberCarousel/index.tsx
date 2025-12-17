@@ -1,9 +1,7 @@
-"use client";
-
 import { cn } from "@/utils/cn";
+import SectionTitle from "../SectionTitle";
 import MemberPill from "./MemberPill";
 
-// ダミーデータ（後でAPIや定数ファイルから取得する想定）
 const MEMBERS = [
   {
     id: "1",
@@ -64,18 +62,7 @@ const MEMBERS = [
 export default function MemberCarousel() {
   return (
     <section className="py-12 md:py-20">
-      {/* Section Title */}
-      <h2
-        className={cn(
-          "font-anymale",
-          "text-5xl md:text-7xl",
-          "tracking-tight",
-          "text-black text-center",
-          "mb-8 md:mb-16",
-        )}
-      >
-        Member
-      </h2>
+      <SectionTitle className="mb-8 md:mb-16">Member</SectionTitle>
 
       {/* Carousel Container */}
       <div className="relative">
@@ -111,4 +98,3 @@ export default function MemberCarousel() {
     </section>
   );
 }
-
