@@ -1,7 +1,6 @@
 import { cn } from "@/utils/cn";
 import SectionTitle from "../SectionTitle";
 // // TODO
-// - sloganの並びを考える
 // - catchphraseの並びを考える
 export default function OurVisionDescription() {
   const slogan = `SOY-POY（ソイポイ）は、
@@ -25,7 +24,7 @@ export default function OurVisionDescription() {
           "mt-8 md:mt-16",
         )}
       >
-        <p className="md:hidden flex flex-col items-start">
+        <p className="md:hidden flex flex-col items-start pl-8">
           <span>好きに生きて、</span>
           <span>一緒に生きる</span>
         </p>
