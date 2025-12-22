@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/utils/cn";
+import ConnectionLine from "./ConnectionLine";
 
 export interface HistoryItemProps {
   yearDate: string;
@@ -21,7 +22,10 @@ export default function HistoryItem({
         "snap-start",
       )}
     >
-      {/* Year Date */}
+      <div className="absolute top-0 left-0">
+        <ConnectionLine />
+      </div>
+
       <p
         className={cn(
           "font-display font-medium",
@@ -34,7 +38,6 @@ export default function HistoryItem({
         {yearDate}
       </p>
 
-      {/* Image */}
       <div
         className={cn(
           "relative",
@@ -59,7 +62,6 @@ export default function HistoryItem({
         )}
       </div>
 
-      {/* Description */}
       <p
         className={cn(
           "font-display font-normal",
