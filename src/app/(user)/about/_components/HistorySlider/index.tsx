@@ -1,37 +1,11 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
+import { CircularNavigationButton } from "@/components/CircularNavigationButton";
 import { cn } from "@/utils/cn";
 import SectionTitle from "../SectionTitle";
+import { HISTORY_EVENTS } from "./HISTORY_EVENTS";
 import HistoryItem from "./HistoryItem";
-
-const HISTORY_EVENTS = [
-  {
-    id: "1",
-    yearDate: "2019.6",
-    description:
-      "ニューヨーク留学中のHibiki, Taito, Kotaroがオープンマイクを自主開催。チャイナタウンのカフェ・イベントスペースである「Silk Road Cafe」を拠点にダンサーやフォトグラファー、イラストレーターを集めて、yosemicとして活動を開始。",
-  },
-  {
-    id: "2",
-    yearDate: "2020.8",
-    description:
-      "東京・下北沢で活動開始。下北沢アリーナで東京発のオープンマイクを開催。東京のメンバーが集まる。",
-  },
-  {
-    id: "3",
-    yearDate: "2021.4",
-    description:
-      "下北沢にあるコワーキングスペースROBERTにて初のイベント『さらけだし』を開催。",
-  },
-  {
-    id: "4",
-    yearDate: "2022.4",
-    description:
-      "クラウドファンディングにより、パブリックハウス（PUB）『SOY-POY』を設立。総支援者202人、合計160万円の支援。オープニングパーティを開催。",
-  },
-];
 
 export default function HistorySlider() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -54,39 +28,23 @@ export default function HistorySlider() {
       {/* Section Title with Navigation */}
       <div className="flex items-center justify-center gap-4 md:gap-8 mb-8 md:mb-12">
         {/* Left Navigation Button */}
-        <button
-          type="button"
+        <CircularNavigationButton
           onClick={() => scroll("left")}
-          className={cn(
-            "w-[46px] h-[47px] md:w-[64px] md:h-[66px]",
-            "rounded-full",
-            "bg-soypoy-accent",
-            "flex items-center justify-center",
-            "transition-opacity hover:opacity-80",
-          )}
-          aria-label="前へ"
-        >
-          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8 text-white" />
-        </button>
+          direction="prev"
+          ariaLabel="前へ"
+          size="md"
+        />
 
         {/* Title */}
         <SectionTitle>History</SectionTitle>
 
         {/* Right Navigation Button */}
-        <button
-          type="button"
+        <CircularNavigationButton
           onClick={() => scroll("right")}
-          className={cn(
-            "w-[46px] h-[47px] md:w-[64px] md:h-[66px]",
-            "rounded-full",
-            "bg-soypoy-accent",
-            "flex items-center justify-center",
-            "transition-opacity hover:opacity-80",
-          )}
-          aria-label="次へ"
-        >
-          <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-white" />
-        </button>
+          direction="next"
+          ariaLabel="次へ"
+          size="md"
+        />
       </div>
 
       {/* Slider Container */}

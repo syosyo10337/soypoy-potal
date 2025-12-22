@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "./assets";
+import { CircularNavigationButton } from "@/components/CircularNavigationButton";
 
 interface MonthNavigationButtonProps {
   onClick: () => void;
@@ -6,26 +6,23 @@ interface MonthNavigationButtonProps {
 
 function PreviousMonthButton({ onClick }: MonthNavigationButtonProps) {
   return (
-    <button
-      type="button"
+    <CircularNavigationButton
       onClick={onClick}
-      className="w-12 h-12 rounded-full bg-soypoy-accent"
-      aria-label="前月へ"
-    >
-      <ArrowLeftIcon aria-hidden="true" />
-    </button>
+      direction="prev"
+      ariaLabel="前月へ"
+      size="sm"
+    />
   );
 }
+
 function NextMonthButton({ onClick }: MonthNavigationButtonProps) {
   return (
-    <button
-      type="button"
+    <CircularNavigationButton
       onClick={onClick}
-      className="w-12 h-12 rounded-full bg-soypoy-accent"
-      aria-label="次月へ"
-    >
-      <ArrowRightIcon aria-hidden="true" />
-    </button>
+      direction="next"
+      ariaLabel="次月へ"
+      size="sm"
+    />
   );
 }
 
