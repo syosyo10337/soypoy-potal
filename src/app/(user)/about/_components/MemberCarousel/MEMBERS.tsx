@@ -1,0 +1,66 @@
+"use client";
+export const MEMBERS = [
+  {
+    id: "1",
+    name: "Taito Katsumata",
+    role: "Writer",
+    color: "#76794a",
+    profileImage: "https://picsum.photos/seed/member1/200/200",
+  },
+  {
+    id: "2",
+    name: "Hisaaki Matsuda",
+    role: "Back Officer",
+    color: "#fab600",
+    profileImage: "https://picsum.photos/seed/member2/200/200",
+  },
+  {
+    id: "3",
+    name: "Michael Yoshioka",
+    role: "Director",
+    color: "#ef3530",
+    profileImage: "https://picsum.photos/seed/member3/200/200",
+  },
+  {
+    id: "4",
+    name: "Genki Miyachi",
+    role: "Engineer",
+    color: "#0080ea",
+    profileImage: "https://picsum.photos/seed/member4/200/200",
+  },
+  {
+    id: "5",
+    name: "Hibiki Ueda",
+    role: "Jazz Musician",
+    color: "#a8001c",
+    profileImage: "https://picsum.photos/seed/member5/200/200",
+  },
+  {
+    id: "6",
+    name: "Mizuki Araki",
+    role: "Jazz Musician",
+    color: "#ffb6c1",
+    profileImage: "https://picsum.photos/seed/member6/200/200",
+  },
+  {
+    id: "7",
+    name: "Masanao Takahashi",
+    role: "Drummer / Engineer",
+    color: "#76794a",
+    profileImage: "https://picsum.photos/seed/member7/200/200",
+  },
+  {
+    id: "8",
+    name: "Mizuki Niino",
+    role: "Communication Designer",
+    color: "#fab600",
+    profileImage: "https://picsum.photos/seed/member8/200/200",
+  },
+  {
+    id: "9",
+    name: "Hina Okutani",
+    role: " Art Director ",
+    color: "#ef3530",
+    profileImage: "https://picsum.photos/seed/member9/200/200",
+  },
+];

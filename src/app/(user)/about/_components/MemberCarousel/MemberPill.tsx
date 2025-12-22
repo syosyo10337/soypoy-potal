@@ -60,6 +60,7 @@ export default function MemberPill({
               fill
               sizes="110px"
               className="object-cover"
+              draggable={false}
             />
           ) : (
             <div className="w-full h-full bg-white/30" />
