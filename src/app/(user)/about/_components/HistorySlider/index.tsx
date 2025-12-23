@@ -1,12 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CircularNavigationButton } from "@/components/CircularNavigationButton";
 import { cn } from "@/utils/cn";
 import SectionTitle from "../SectionTitle";
 import { HISTORY_EVENTS } from "./HISTORY_EVENTS";
 import HistoryIndicator from "./HistoryIndicator";
 import HistoryItem from "./HistoryItem";
+import {
+  NextHistoryButton,
+  PreviousHistoryButton,
+} from "./HistoryNavigationButton";
 
 export default function HistorySlider() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -68,42 +71,24 @@ export default function HistorySlider() {
   }, [getItemWidth]);
 
   return (
-    <section className="py-12 md:py-20 relative">
-      {/* Navigation Buttons - Absolute positioned */}
-      <div className="absolute left-[11px] md:left-[262px] top-12 md:top-20 z-20">
-        <CircularNavigationButton
-          onClick={() => scroll("left")}
-          direction="prev"
-          ariaLabel="前へ"
-          size="md"
-        />
-      </div>
-
-      <div className="absolute right-[11px] md:right-[262px] top-12 md:top-20 z-20">
-        <CircularNavigationButton
-          onClick={() => scroll("right")}
-          direction="next"
-          ariaLabel="次へ"
-          size="md"
-        />
-      </div>
-
-      {/* Section Title - Centered */}
-      <div className="flex items-center justify-center mb-8 md:mb-12">
+    <section className="py-12 md:py-20">
+      <div className="flex items-center justify-between px-4 md:px-8 mb-8 md:mb-12">
+        <PreviousHistoryButton onClick={() => scroll("left")} />
         <SectionTitle>History</SectionTitle>
+        <NextHistoryButton onClick={() => scroll("right")} />
       </div>
 
       <div className="relative">
         {/* Gradient Overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-11 md:w-[358px] bg-gradient-to-r from-soypoy-main to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-11 md:w-[358px] bg-gradient-to-l from-soypoy-main to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-soypoy-main to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-soypoy-main to-transparent z-10 pointer-events-none" />
 
         <div
           ref={scrollContainerRef}
           className={cn(
             "flex",
             "overflow-x-auto",
-            "px-11 md:px-[262px]",
+            "px-4 md:px-8",
             "pb-4",
             "snap-x snap-mandatory",
             "scrollbar-hide",
