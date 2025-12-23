@@ -1,6 +1,7 @@
 import {
   Bricolage_Grotesque,
   Noto_Sans_JP,
+  Shippori_Mincho,
   Zen_Old_Mincho,
 } from "next/font/google";
 import localFont from "next/font/local";
@@ -36,5 +37,12 @@ export const zenOldMincho = Zen_Old_Mincho({
   variable: "--font-zen-old-mincho",
   subsets: ["latin"],
   weight: "600",
+  display: "swap",
+});
+
+export const shipporiMincho = Shippori_Mincho({
+  variable: "--font-shippori-mincho",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });

@@ -5,6 +5,7 @@ import {
   bernardMT,
   bricolageGrotesque,
   notoSansJP,
+  shipporiMincho,
   zenOldMincho,
 } from "@/assets/fonts";
 import { cn } from "@/utils/cn";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         anymale.variable,
         bernardMT.variable,
         zenOldMincho.variable,
+        shipporiMincho.variable,
       )}
     >
       <body
