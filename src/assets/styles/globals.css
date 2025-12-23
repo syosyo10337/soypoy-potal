@@ -40,6 +40,7 @@
   --font-anymale: var(--font-anymale), ui-sans-serif, system-ui, sans-serif;
   --font-bernard-mt: var(--font-bernard-mt), ui-sans-serif, system-ui, sans-serif;
   --font-zen-old-mincho: var(--font-zen-old-mincho), ui-sans-serif, system-ui, sans-serif;
+  --font-shippori-mincho: var(--font-shippori-mincho), ui-serif, serif;
   
   /* Border radius */
   --radius: 0.625rem;
@@ -83,6 +84,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden; /* prevent horizontal scroll */
   }
 }
 
