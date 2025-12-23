@@ -30,6 +30,17 @@ export default function HistorySlider() {
     }
   };
 
+  const scrollToIndex = (index: number) => {
+    if (scrollContainerRef.current) {
+      const itemWidth = getItemWidth();
+      const targetScrollLeft = index * itemWidth;
+      scrollContainerRef.current.scrollTo({
+        left: targetScrollLeft,
+        behavior: "smooth",
+      });
+    }
+  };
+
   // Track active item based on scroll position
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -114,6 +125,7 @@ export default function HistorySlider() {
       <HistoryIndicator
         total={HISTORY_EVENTS.length}
         activeIndex={activeIndex}
+        onIndicatorClick={scrollToIndex}
       />
     </section>
   );
