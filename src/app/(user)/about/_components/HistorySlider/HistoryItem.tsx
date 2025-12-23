@@ -19,7 +19,8 @@ export default function HistoryItem({
         "relative",
         "w-[287px] md:w-[315px]",
         "shrink-0",
-        "snap-start",
+        "snap-center",
+        "snap-always",
       )}
     >
       <div className="absolute top-0 left-0">
