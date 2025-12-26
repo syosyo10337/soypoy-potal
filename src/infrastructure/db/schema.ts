@@ -2,6 +2,8 @@ import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { EventType, PublicationStatus } from "@/domain/entities";
 
+export * from "./authSchema";
+
 export const eventTypeEnum = pgEnum("event_type", [
   EventType.Art,
   EventType.Comedy,
