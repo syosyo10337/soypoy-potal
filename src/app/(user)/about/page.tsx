@@ -4,7 +4,7 @@ import OurVisionDescription from "./_components/OurVisionDescription";
 
 export default function AboutPage() {
   return (
-    <div >
+    <div>
       <OurVisionDescription />
       <MemberCarousel />
       <HistorySlider />
