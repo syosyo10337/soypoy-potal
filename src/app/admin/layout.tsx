@@ -4,6 +4,7 @@ import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/nextjs-router/app";
 import { Suspense } from "react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { authProvider } from "@/infrastructure/refine/auth-provider";
 import { dataProvider } from "@/infrastructure/refine/data-provider";
 import AdminLoading from "./loading";
 
@@ -17,6 +18,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <Refine
         routerProvider={routerProvider}
         dataProvider={dataProvider}
+        authProvider={authProvider}
         resources={[
           {
             name: "events",
