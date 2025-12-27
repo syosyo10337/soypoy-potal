@@ -12,6 +12,7 @@
     "tsc": "tsc --noEmit",
     "check": "concurrently --kill-others-on-fail \"pnpm tsc\" \"pnpm lint:fix\" && pnpm format",
     "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "dotenvx run -f .env.local -- tsx scripts/seed.ts",
     "drzl:gen": "dotenvx run -f .env.local --overload -- drizzle-kit generate",
     "drzl:migrate": "dotenvx run -f .env.local --overload -- drizzle-kit migrate",
     "drzl:studio": "dotenvx run -f .env.local --overload -- drizzle-kit studio"
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",
+    "@noble/hashes": "^2.0.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

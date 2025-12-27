@@ -43,6 +43,13 @@
       "when": 1766732068870,
       "tag": "0005_overrated_ben_grimm",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1766830482924,
+      "tag": "0006_fearless_nehzno",
+      "breakpoints": true
     }
   ]
 }
