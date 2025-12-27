@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "@refinedev/core";
 import { Loader2, Lock, Mail } from "lucide-react";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -23,8 +22,7 @@ import { Input } from "@/components/shadcn/input";
 import { type LoginFormData, loginFormSchema } from "@/infrastructure/schemas";
 
 export default function AdminLoginPage() {
-  const { mutate: login, isPending } = useLogin<LoginFormData>();
-  const [serverError, setServerError] = useState<string | null>(null);
+  const { mutate: login, isPending, data, reset } = useLogin<LoginFormData>();
 
   const { control, handleSubmit } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
@@ -34,14 +32,11 @@ export default function AdminLoginPage() {
     },
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    setServerError(null);
+  const serverError = data && !data.success ? data.error?.message : undefined;
 
-    login(data, {
-      onError: (err) => {
-        setServerError(err?.message || "ログインに失敗しました");
-      },
-    });
+  const onSubmit = (data: LoginFormData) => {
+    reset();
+    login(data);
   };
 
   return (
@@ -62,12 +57,6 @@ export default function AdminLoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
-              {serverError && (
-                <div className="rounded-md bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive">
-                  {serverError}
-                </div>
-              )}
-
               <Controller
                 name="email"
                 control={control}
@@ -83,7 +72,7 @@ export default function AdminLoginPage() {
                         placeholder="admin@example.com"
                         aria-invalid={fieldState.invalid}
                         disabled={isPending}
-                        className="pl-10"
+                        className="pl-10 placeholder:text-muted-foreground/30"
                       />
                     </div>
                     {fieldState.invalid && (
@@ -108,7 +97,7 @@ export default function AdminLoginPage() {
                         placeholder="••••••••"
                         aria-invalid={fieldState.invalid}
                         disabled={isPending}
-                        className="pl-10"
+                        className="pl-10 placeholder:text-muted-foreground/30"
                       />
                     </div>
                     {fieldState.invalid && (
@@ -117,7 +106,11 @@ export default function AdminLoginPage() {
                   </Field>
                 )}
               />
-
+              {serverError && (
+                <div className="text-destructive text-sm font-normal">
+                  {serverError}
+                </div>
+              )}
               <Field>
                 <Button type="submit" disabled={isPending} className="w-full">
                   {isPending ? (
