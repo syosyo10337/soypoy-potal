@@ -1,5 +1,4 @@
 "use client";
-
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,29 +7,14 @@ import { Button } from "@/components/shadcn/button";
 import {
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetTitle,
   SheetTrigger,
 } from "@/components/shadcn/sheet";
 import { cn } from "@/utils/cn";
+import { navItems } from "./const";
+import { LogoutButton } from "./LogoutButton";
 
-interface NavItem {
-  label: string;
-  href: string;
-  icon?: React.ReactNode;
-}
-
-const navItems: NavItem[] = [
-  {
-    label: "ダッシュボード",
-    href: "/admin",
-  },
-  {
-    label: "イベント管理",
-    href: "/admin/events",
-  },
-];
-
-// TODO: とりあえずで作ったけど、吟味する。
 export function AdminSidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -69,7 +53,6 @@ export function AdminSidebar() {
                           : "text-foreground hover:bg-accent hover:text-accent-foreground",
                       )}
                     >
-                      {item.icon}
                       {item.label}
                     </Link>
                   </li>
@@ -77,6 +60,9 @@ export function AdminSidebar() {
               })}
             </ul>
           </nav>
+          <SheetFooter className="p-4 border-t">
+            <LogoutButton />
+          </SheetFooter>
         </div>
       </SheetContent>
     </Sheet>
