@@ -11,7 +11,7 @@ export default function AuthenticatedAdminLayout({
 }: AdminLayoutProps) {
   return (
     <Authenticated key="authenticated-admin-layout" loading={<AdminLoading />}>
-      <div className="admin-theme min-h-screen">
+      <div className="min-h-screen">
         <AdminSidebar />
         <main className="p-16">{children}</main>
       </div>
