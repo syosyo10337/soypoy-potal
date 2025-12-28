@@ -12,7 +12,7 @@ import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { nanoid } from "nanoid";
 import ws from "ws";
-import { account, user } from "../src/infrastructure/db/schema";
+import { adminAccount, adminUser } from "../src/infrastructure/db/schema";
 
 neonConfig.webSocketConstructor = ws;
 
@@ -21,6 +21,13 @@ const DEFAULT_ADMIN = {
   password: "admin1234",
   name: "Admin",
   role: "admin",
+} as const;
+
+const DEFAULT_SUPER_ADMIN = {
+  email: "super@soypoy.local",
+  password: "SuperAdmin2024!",
+  name: "Super Admin",
+  role: "super_admin",
 } as const;
 
 const scryptConfig = {
@@ -42,6 +49,59 @@ async function hashPassword(password: string): Promise<string> {
   return `${salt}:${bytesToHex(key)}`;
 }
 
+type AdminConfig = {
+  email: string;
+  password: string;
+  name: string;
+  role: "admin" | "super_admin";
+};
+
+async function createAdminUser(
+  db: ReturnType<typeof drizzle>,
+  adminConfig: AdminConfig,
+) {
+  const existingUser = await db
+    .select()
+    .from(adminUser)
+    .where(eq(adminUser.email, adminConfig.email))
+    .limit(1);
+
+  if (existingUser.length > 0) {
+    console.log(`[Seed] ⚠️ アカウント (${adminConfig.email}) は既に存在します`);
+    return;
+  }
+
+  const userId = nanoid();
+  const accountId = nanoid();
+  const hashedPassword = await hashPassword(adminConfig.password);
+  const now = new Date();
+
+  await db.insert(adminUser).values({
+    id: userId,
+    email: adminConfig.email,
+    name: adminConfig.name,
+    emailVerified: true,
+    role: adminConfig.role,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  await db.insert(adminAccount).values({
+    id: accountId,
+    accountId: userId,
+    providerId: "credential",
+    userId: userId,
+    password: hashedPassword,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  console.log("[Seed] ✅ アカウントを作成しました:");
+  console.log(`       Email: ${adminConfig.email}`);
+  console.log(`       Password: ${adminConfig.password}`);
+  console.log(`       Role: ${adminConfig.role}`);
+}
+
 async function seed() {
   if (process.env.NODE_ENV === "production") {
     console.error("[Seed] ❌ 本番環境ではシードスクリプトを実行できません");
@@ -60,48 +120,8 @@ async function seed() {
   const db = drizzle(pool);
 
   try {
-    const existingUser = await db
-      .select()
-      .from(user)
-      .where(eq(user.email, DEFAULT_ADMIN.email))
-      .limit(1);
-
-    if (existingUser.length > 0) {
-      console.log(
-        `[Seed] ⚠️ 管理者アカウント (${DEFAULT_ADMIN.email}) は既に存在します`,
-      );
-      return;
-    }
-
-    const userId = nanoid();
-    const accountId = nanoid();
-    const hashedPassword = await hashPassword(DEFAULT_ADMIN.password);
-    const now = new Date();
-
-    await db.insert(user).values({
-      id: userId,
-      email: DEFAULT_ADMIN.email,
-      name: DEFAULT_ADMIN.name,
-      emailVerified: true,
-      role: DEFAULT_ADMIN.role,
-      createdAt: now,
-      updatedAt: now,
-    });
-
-    await db.insert(account).values({
-      id: accountId,
-      accountId: userId,
-      providerId: "credential",
-      userId: userId,
-      password: hashedPassword,
-      createdAt: now,
-      updatedAt: now,
-    });
-
-    console.log("[Seed] ✅ 管理者アカウントを作成しました:");
-    console.log(`       Email: ${DEFAULT_ADMIN.email}`);
-    console.log(`       Password: ${DEFAULT_ADMIN.password}`);
-    console.log(`       Role: ${DEFAULT_ADMIN.role}`);
+    await createAdminUser(db, DEFAULT_ADMIN);
+    await createAdminUser(db, DEFAULT_SUPER_ADMIN);
   } catch (error) {
     console.error("[Seed] ❌ Seed failed:", error);
     throw error;

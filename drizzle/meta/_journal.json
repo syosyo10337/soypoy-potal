@@ -50,6 +50,13 @@
       "when": 1766830482924,
       "tag": "0006_fearless_nehzno",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1735307400000,
+      "tag": "0007_rename_admin_tables",
+      "breakpoints": true
     }
   ]
 }
