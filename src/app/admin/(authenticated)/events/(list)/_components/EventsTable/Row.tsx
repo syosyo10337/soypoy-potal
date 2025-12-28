@@ -12,9 +12,6 @@ interface EventTableRowProps {
 
 /**
  * イベント一覧の1行
- *
- * Server Componentとして動作
- * Client Componentが必要な部分（アクションボタン）は分離
  */
 export function EventTableRow({ event }: EventTableRowProps) {
   return (

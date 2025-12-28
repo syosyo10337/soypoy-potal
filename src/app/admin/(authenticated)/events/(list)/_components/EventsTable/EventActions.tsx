@@ -12,8 +12,6 @@ interface EventActionsProps {
  * イベント操作ボタン群
  *
  * Refineのボタンコンポーネントを使用
- * Client Componentとして分離することで、
- * 親コンポーネントをServer Componentに保つ
  */
 export function EventActions({ eventId }: EventActionsProps) {
   return (

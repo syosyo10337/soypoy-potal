@@ -14,9 +14,7 @@ import { NoAdminsRow } from "./NoAdminsRow";
 import { AdminTableRow } from "./Row";
 
 export function AdminsTable() {
-  const { result, query } = useList<AdminUserEntity>({
-    resource: "admins",
-  });
+  const { result, query } = useList<AdminUserEntity>();
 
   const admins = result.data ?? [];
 

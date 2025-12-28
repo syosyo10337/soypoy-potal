@@ -15,10 +15,6 @@ import { EventTableRow } from "./Row";
 
 /**
  * イベント一覧テーブル
- *
- * Client Componentとして動作
- * useListフックでデータフェッチを行い、テーブルとして表示
- * ローディング状態も内部で管理
  */
 export function EventsTable() {
   const { result, query } = useList<EventEntity>();
