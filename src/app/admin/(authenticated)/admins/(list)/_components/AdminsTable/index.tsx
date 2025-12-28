@@ -8,22 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
+import type { AdminUserEntity } from "@/domain/entities";
 import { AdminsTableLoading } from "../AdminsTableLoading";
 import { NoAdminsRow } from "./NoAdminsRow";
 import { AdminTableRow } from "./Row";
 
-type Admin = {
-  id: string;
-  name: string;
-  email: string;
-  role: string | null;
-  createdAt: string; // ISO 8601 format
-  updatedAt: string; // ISO 8601 format
-};
-
-// TODO: Entityをdomain層へ移行する;
 export function AdminsTable() {
-  const { result, query } = useList<Admin>({
+  const { result, query } = useList<AdminUserEntity>({
     resource: "admins",
   });
 

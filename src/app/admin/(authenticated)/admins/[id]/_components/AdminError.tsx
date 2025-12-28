@@ -1,3 +1,4 @@
+import { AlertCircle } from "lucide-react";
 import { Button } from "@/components/shadcn/button";
 import {
   Card,
@@ -6,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/card";
-import { AlertCircle } from "lucide-react";
 
 type AdminErrorProps = {
   onRetry: () => void;
@@ -30,8 +30,3 @@ export function AdminError({ onRetry }: AdminErrorProps) {
     </Card>
   );
 }
-
-
-
-
-

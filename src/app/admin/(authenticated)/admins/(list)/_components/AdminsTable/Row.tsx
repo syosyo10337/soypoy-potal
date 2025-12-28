@@ -5,19 +5,11 @@ import Link from "next/link";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import { TableCell, TableRow } from "@/components/shadcn/table";
+import type { AdminUserEntity } from "@/domain/entities";
 import { formatDateJP } from "@/utils/date";
 
-type Admin = {
-  id: string;
-  name: string;
-  email: string;
-  role: string | null;
-  createdAt: string; // ISO 8601 format
-  updatedAt: string; // ISO 8601 format
-};
-
 type AdminTableRowProps = {
-  admin: Admin;
+  admin: AdminUserEntity;
 };
 
 function getRoleBadgeVariant(role: string | null) {

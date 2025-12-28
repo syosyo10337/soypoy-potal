@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
+import type { AdminUserEntity } from "@/domain/entities";
 
 const createAdminSchema = z.object({
   name: z.string().min(1, "名前を入力してください"),
@@ -35,20 +36,13 @@ const createAdminSchema = z.object({
 
 type CreateAdminFormData = z.infer<typeof createAdminSchema>;
 
-type Admin = {
-  id: string;
-  name: string;
-  email: string;
-  role: string | null;
-};
-
 export function CreateAdminForm() {
   const {
     refineCore: { onFinish },
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<Admin, HttpError, CreateAdminFormData>({
+  } = useForm<AdminUserEntity, HttpError, CreateAdminFormData>({
     resolver: zodResolver(createAdminSchema),
     refineCoreProps: {
       resource: "admins",

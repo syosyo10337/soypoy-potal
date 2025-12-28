@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useDelete, useGetIdentity } from "@refinedev/core";
-import { useRouter } from "next/navigation";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
+import { Check, Copy, KeyRound, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Badge } from "@/components/shadcn/badge";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -21,20 +22,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/shadcn/dialog";
-import { KeyRound, Trash2, Copy, Check } from "lucide-react";
+import type { AdminUserEntity } from "@/domain/entities";
 import type { AppRouter } from "@/infrastructure/trpc/router";
 
-type Admin = {
-  id: string;
-  name: string;
-  email: string;
-  role: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 type AdminDetailCardProps = {
-  admin: Admin;
+  admin: AdminUserEntity;
 };
 
 const trpcClient = createTRPCProxyClient<AppRouter>({
@@ -275,8 +267,3 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
     </>
   );
 }
-
-
-
-
-
