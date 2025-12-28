@@ -29,6 +29,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               label: "イベント",
             },
           },
+          {
+            name: "admins",
+            list: "/admin/admins",
+            create: "/admin/admins/create",
+            edit: "/admin/admins/:id/edit",
+            show: "/admin/admins/:id",
+            meta: {
+              label: "管理者",
+            },
+          },
         ]}
         options={{
           syncWithLocation: true,
