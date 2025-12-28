@@ -22,7 +22,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
     resolvedSearchParams.month,
   );
 
-  const trpc = createServerCaller();
+  const trpc = await createServerCaller();
   const events = await trpc.events.listByMonth({ year, month });
   const closedDays = await trpc.closedDays.listByMonth({ year, month });
 
