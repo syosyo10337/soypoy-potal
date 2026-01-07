@@ -12,9 +12,9 @@ import { EventLoading } from "./EventLoading";
 import { EventNotFound } from "./EventNotFound";
 
 export function EventDetailContent() {
-  const { query } = useShow<EventEntity>();
-
-  const { data, isLoading, isError, refetch } = query;
+  const {
+    query: { data, isLoading, isError, refetch },
+  } = useShow<EventEntity>();
 
   if (isLoading) {
     return <EventLoading viewType="show" />;

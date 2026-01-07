@@ -1,11 +1,9 @@
-"use client";
-
 import { useDelete, useGetIdentity } from "@refinedev/core";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { Check, Copy, KeyRound, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Badge } from "@/components/shadcn/badge";
+import { AdminRoleBadge } from "@/components/admin/AdminRoleBadge";
 import { Button } from "@/components/shadcn/button";
 import {
   Card,
@@ -22,42 +20,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/shadcn/dialog";
-import type { AdminUserEntity } from "@/domain/entities";
+import { type AdminUserEntity, AdminUserRole } from "@/domain/entities";
 import type { AppRouter } from "@/infrastructure/trpc/router";
+import { formatDateTimeJP } from "@/utils/date";
 
-type AdminDetailCardProps = {
+interface AdminDetailCardProps {
   admin: AdminUserEntity;
-};
+}
 
 const trpcClient = createTRPCProxyClient<AppRouter>({
   links: [httpBatchLink({ url: "/api/trpc" })],
 });
 
-function getRoleLabel(role: string | null) {
-  switch (role) {
-    case "super_admin":
-      return "スーパー管理者";
-    case "admin":
-      return "管理者";
-    default:
-      return "不明";
-  }
-}
-
-function getRoleBadgeVariant(role: string | null) {
-  switch (role) {
-    case "super_admin":
-      return "default";
-    case "admin":
-      return "secondary";
-    default:
-      return "outline";
-  }
-}
-
 export function AdminDetailCard({ admin }: AdminDetailCardProps) {
   const router = useRouter();
-  const { data: identity } = useGetIdentity<{ id: string; role?: string }>();
+  const { data: identity } = useGetIdentity<{
+    id: string;
+    role: AdminUserRole;
+  }>();
   const { mutate: deleteAdmin } = useDelete();
 
   const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
@@ -66,7 +46,7 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
   const [isResetting, setIsResetting] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const isSuperAdmin = identity?.role === "super_admin";
+  const isSuperAdmin = identity?.role === AdminUserRole.SuperAdmin;
   const isSelf = identity?.id === admin.id;
 
   const handleResetPassword = async () => {
@@ -103,28 +83,6 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
     );
   };
 
-  const formattedCreatedAt = new Date(admin.createdAt).toLocaleDateString(
-    "ja-JP",
-    {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    },
-  );
-
-  const formattedUpdatedAt = new Date(admin.updatedAt).toLocaleDateString(
-    "ja-JP",
-    {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    },
-  );
-
   return (
     <>
       <Card>
@@ -134,20 +92,18 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
               <CardTitle>{admin.name}</CardTitle>
               <CardDescription>{admin.email}</CardDescription>
             </div>
-            <Badge variant={getRoleBadgeVariant(admin.role)}>
-              {getRoleLabel(admin.role)}
-            </Badge>
+            <AdminRoleBadge variant={admin.role} />
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">作成日時</p>
-              <p className="font-medium">{formattedCreatedAt}</p>
+              <p className="font-medium">{formatDateTimeJP(admin.createdAt)}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">更新日時</p>
-              <p className="font-medium">{formattedUpdatedAt}</p>
+              <p className="font-medium">{formatDateTimeJP(admin.updatedAt)}</p>
             </div>
           </div>
 
@@ -180,6 +136,13 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
         </CardContent>
       </Card>
 
+      <PasswordResetDialog />
+      <DeleteDialog />
+    </>
+  );
+
+  function PasswordResetDialog() {
+    return (
       <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -242,7 +205,11 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
           )}
         </DialogContent>
       </Dialog>
+    );
+  }
 
+  function DeleteDialog() {
+    return (
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -264,6 +231,6 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
-  );
+    );
+  }
 }

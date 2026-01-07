@@ -12,9 +12,9 @@ import { AdminLoading } from "./AdminLoading";
 import { AdminNotFound } from "./AdminNotFound";
 
 export function AdminDetailContent() {
-  const { query } = useShow<AdminUserEntity>();
-
-  const { data, isLoading, isError, refetch } = query;
+  const {
+    query: { data, isLoading, isError, refetch },
+  } = useShow<AdminUserEntity>();
 
   if (isLoading) {
     return <AdminLoading />;
