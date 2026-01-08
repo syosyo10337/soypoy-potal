@@ -6,12 +6,11 @@
  */
 
 import { neonConfig, Pool } from "@neondatabase/serverless";
-import { scryptAsync } from "@noble/hashes/scrypt.js";
-import { bytesToHex, randomBytes } from "@noble/hashes/utils.js";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { nanoid } from "nanoid";
 import ws from "ws";
+import { hashPassword } from "../src/infrastructure/crypto/password";
 import { adminAccount, adminUser } from "../src/infrastructure/db/schema";
 
 neonConfig.webSocketConstructor = ws;
@@ -30,31 +29,12 @@ const DEFAULT_SUPER_ADMIN = {
   role: "super_admin",
 } as const;
 
-const scryptConfig = {
-  N: 16384,
-  r: 16,
-  p: 1,
-  dkLen: 64,
-};
-
-async function hashPassword(password: string): Promise<string> {
-  const salt = bytesToHex(randomBytes(16));
-  const key = await scryptAsync(password.normalize("NFKC"), salt, {
-    N: scryptConfig.N,
-    p: scryptConfig.p,
-    r: scryptConfig.r,
-    dkLen: scryptConfig.dkLen,
-    maxmem: 128 * scryptConfig.N * scryptConfig.r * 2,
-  });
-  return `${salt}:${bytesToHex(key)}`;
-}
-
-type AdminConfig = {
+interface AdminConfig {
   email: string;
   password: string;
   name: string;
   role: "admin" | "super_admin";
-};
+}
 
 async function createAdminUser(
   db: ReturnType<typeof drizzle>,
