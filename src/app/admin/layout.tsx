@@ -3,8 +3,8 @@
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/nextjs-router/app";
 import { Suspense } from "react";
-import { authProvider } from "@/infrastructure/refine/auth-provider";
-import { dataProvider } from "@/infrastructure/refine/data-provider";
+import { authProvider } from "./_providers/authProvider";
+import { dataProvider } from "./_providers/dataProvider";
 import AdminLoading from "./loading";
 
 interface AdminLayoutProps {

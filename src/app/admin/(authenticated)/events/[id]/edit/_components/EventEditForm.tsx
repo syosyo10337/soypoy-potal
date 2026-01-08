@@ -27,7 +27,7 @@ import type { EventEntity } from "@/domain/entities";
 import {
   type UpdateEventFormData,
   updateEventFormSchema,
-} from "@/infrastructure/trpc/schemas/eventSchema";
+} from "@/domain/validation";
 import { useImageUpload } from "../../../_hooks/useImageUpload";
 import { EventError } from "../../_components/EventError";
 import { EventLoading } from "../../_components/EventLoading";

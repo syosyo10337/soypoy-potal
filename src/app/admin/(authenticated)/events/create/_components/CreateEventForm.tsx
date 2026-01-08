@@ -25,7 +25,7 @@ import type { EventEntity } from "@/domain/entities";
 import {
   type CreateEventFormData,
   createEventFormSchema,
-} from "@/infrastructure/trpc/schemas/eventSchema";
+} from "@/domain/validation";
 import { useImageUpload } from "../../_hooks/useImageUpload";
 
 export function CreateEventForm() {

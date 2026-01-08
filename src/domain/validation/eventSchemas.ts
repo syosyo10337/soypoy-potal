@@ -1,6 +1,18 @@
 import { z } from "zod";
 import { EventType, PublicationStatus } from "@/domain/entities";
-import { imageFileSchema } from "@/infrastructure/schemas";
+import { imageFileSchema } from "./ImageFileSchema";
+
+/**
+ * イベントバリデーションスキーマ（Domain層）
+ *
+ * このスキーマはビジネスルール（ドメイン制約）を表現しています：
+ * - タイトルは必須
+ * - 日付は必須
+ * - イベントタイプは定義された値のみ
+ * - 公開ステータスは定義された値のみ
+ *
+ * UI層（フォーム）とAPI層（tRPC）の両方で使用されます。
+ */
 
 const publicationStatusValues = [
   PublicationStatus.Draft,
@@ -57,6 +69,7 @@ export const updateEventSchema = baseSchema.extend({
   thumbnail: z.url().optional().nullable(),
 });
 
+// 型エクスポート
 export type CreateEventFormData = z.infer<typeof createEventFormSchema>;
 export type CreateEventData = z.infer<typeof createEventSchema>;
 export type UpdateEventFormData = z.infer<typeof updateEventFormSchema>;

@@ -2,7 +2,8 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { headers } from "next/headers";
 import { AdminUserRole, isAdminUserRole } from "@/domain/entities";
 import { auth } from "@/infrastructure/auth/server";
-import { closedDayService, eventService } from "@/services";
+// NOTE: Clean Architectureでは、Services層はInfrastructure層に依存してはいけないが、tRPCのコンテキストを作成するために便宜上依存している
+import { adminService, closedDayService, eventService } from "@/services";
 
 export const createContext = async () => {
   const session = await auth.api.getSession({
@@ -13,6 +14,7 @@ export const createContext = async () => {
     session,
     eventService,
     closedDayService,
+    adminService,
   };
 };
 

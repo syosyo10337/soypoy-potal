@@ -19,7 +19,7 @@ import {
   FieldLabel,
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
-import { type LoginFormData, loginFormSchema } from "@/infrastructure/schemas";
+import { type LoginFormData, loginFormSchema } from "@/domain/validation";
 
 export default function AdminLoginPage() {
   const { mutate: login, isPending, data, reset } = useLogin<LoginFormData>();

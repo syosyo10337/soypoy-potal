@@ -1,6 +1,6 @@
 import { z } from "zod";
+import { createEventSchema, updateEventSchema } from "@/domain/validation";
 import { publicProcedure, router } from "../context";
-import { createEventSchema, updateEventSchema } from "../schemas/eventSchema";
 
 /**
  * イベント操作ルーター
