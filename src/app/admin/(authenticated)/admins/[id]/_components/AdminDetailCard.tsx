@@ -1,8 +1,8 @@
 import { useDelete, useGetIdentity } from "@refinedev/core";
-import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { Check, Copy, KeyRound, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useResetPassword } from "@/app/admin/_hooks/useTrpcMutations";
 import { AdminRoleBadge } from "@/components/admin/AdminRoleBadge";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -21,16 +21,11 @@ import {
   DialogTitle,
 } from "@/components/shadcn/dialog";
 import { type AdminUserEntity, AdminUserRole } from "@/domain/entities";
-import type { AppRouter } from "@/infrastructure/trpc/router";
 import { formatDateTimeJP } from "@/utils/date";
 
 interface AdminDetailCardProps {
   admin: AdminUserEntity;
 }
-
-const trpcClient = createTRPCProxyClient<AppRouter>({
-  links: [httpBatchLink({ url: "/api/trpc" })],
-});
 
 export function AdminDetailCard({ admin }: AdminDetailCardProps) {
   const router = useRouter();
@@ -39,29 +34,29 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
     role: AdminUserRole;
   }>();
   const { mutate: deleteAdmin } = useDelete();
+  const resetPassword = useResetPassword();
 
   const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [tempPassword, setTempPassword] = useState<string | null>(null);
-  const [isResetting, setIsResetting] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const isSuperAdmin = identity?.role === AdminUserRole.SuperAdmin;
   const isSelf = identity?.id === admin.id;
 
-  const handleResetPassword = async () => {
-    setIsResetting(true);
-    try {
-      const result = await trpcClient.admins.resetPassword.mutate({
-        userId: admin.id,
-      });
-      setTempPassword(result.tempPassword);
-    } catch (error) {
-      console.error("Password reset failed:", error);
-      alert("パスワードのリセットに失敗しました");
-    } finally {
-      setIsResetting(false);
-    }
+  const handleResetPassword = () => {
+    resetPassword.mutate(
+      { userId: admin.id },
+      {
+        onSuccess: (data) => {
+          setTempPassword(data.tempPassword);
+        },
+        onError: (error) => {
+          console.error("Password reset failed:", error);
+          alert("パスワードのリセットに失敗しました");
+        },
+      },
+    );
   };
 
   const handleCopyPassword = async () => {
@@ -198,8 +193,11 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
               >
                 キャンセル
               </Button>
-              <Button onClick={handleResetPassword} disabled={isResetting}>
-                {isResetting ? "リセット中..." : "リセット"}
+              <Button
+                onClick={handleResetPassword}
+                disabled={resetPassword.isPending}
+              >
+                {resetPassword.isPending ? "リセット中..." : "リセット"}
               </Button>
             </DialogFooter>
           )}
