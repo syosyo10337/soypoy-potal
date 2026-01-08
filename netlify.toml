@@ -2,27 +2,31 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  command = "pnpm build"
+  # not to use .env.local file
+  command = "rm -f .env.local && pnpm build"
   publish = ".next"
+
+[build.environment]
+  CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
 
 # Production環境の設定
 [context.production.environment]
   BETTER_AUTH_URL = "https://soypoy-portal.netlify.app"
-  CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
   APP_ENV = "production"
 
 # Deploy Preview環境の設定（PRごとに自動生成されるURL）
+# NOTE: $DEPLOY_PRIME_URL は [context.*.environment] では展開されないため、commandで設定
+[context.deploy-preview]
+  command = "rm -f .env.local && BETTER_AUTH_URL=$DEPLOY_PRIME_URL pnpm build"
+
 [context.deploy-preview.environment]
-  BETTER_AUTH_URL = "$DEPLOY_PRIME_URL"
-  CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
   APP_ENV = "preview"
 
 # Branch Deploy環境の設定
+[context.branch-deploy]
+  command = "rm -f .env.local && BETTER_AUTH_URL=$DEPLOY_PRIME_URL pnpm build"
+
 [context.branch-deploy.environment]
-  BETTER_AUTH_URL = "$DEPLOY_PRIME_URL"
-  CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
   APP_ENV = "preview"
 
