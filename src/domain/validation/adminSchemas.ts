@@ -41,7 +41,8 @@ export const updateAdminSchema = z.object({
 });
 
 /**
- * パスワード変更用スキーマ
+ * パスワード変更用スキーマ（API向け - Base）
+ * Service層・API層で使用
  */
 export const changePasswordSchema = z.object({
   currentPassword: z
@@ -51,6 +52,21 @@ export const changePasswordSchema = z.object({
     .string()
     .min(12, { message: "パスワードは12文字以上で入力してください" }),
 });
+
+/**
+ * パスワード変更フォーム用スキーマ（UI向け - Form）
+ * 確認用パスワードフィールドと一致チェックを含む
+ */
+export const changePasswordFormSchema = changePasswordSchema
+  .extend({
+    confirmPassword: z
+      .string()
+      .min(1, { message: "確認用パスワードを入力してください" }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "新しいパスワードが一致しません",
+    path: ["confirmPassword"],
+  });
 
 /**
  * パスワードリセット用スキーマ
@@ -63,4 +79,5 @@ export const resetPasswordSchema = z.object({
 export type CreateAdminInput = z.infer<typeof createAdminSchema>;
 export type UpdateAdminInput = z.infer<typeof updateAdminSchema>;
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
+export type ChangePasswordFormData = z.infer<typeof changePasswordFormSchema>;
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

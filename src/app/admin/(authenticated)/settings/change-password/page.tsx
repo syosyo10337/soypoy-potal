@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
 import { useChangePassword } from "@/app/admin/_hooks/useTrpcMutations";
 import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 import { Button } from "@/components/shadcn/button";
@@ -18,22 +17,11 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
 import { Separator } from "@/components/shadcn/separator";
+import {
+  type ChangePasswordFormData,
+  changePasswordFormSchema,
+} from "@/domain/validation";
 import { cn } from "@/utils/cn";
-
-const changePasswordSchema = z
-  .object({
-    currentPassword: z.string().min(1, "現在のパスワードを入力してください"),
-    newPassword: z
-      .string()
-      .min(12, "新しいパスワードは12文字以上で入力してください"),
-    confirmPassword: z.string().min(1, "確認用パスワードを入力してください"),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "新しいパスワードが一致しません",
-    path: ["confirmPassword"],
-  });
-
-type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
 
 export default function ChangePasswordPage() {
   const [success, setSuccess] = useState(false);
@@ -45,7 +33,7 @@ export default function ChangePasswordPage() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<ChangePasswordFormData>({
-    resolver: zodResolver(changePasswordSchema),
+    resolver: zodResolver(changePasswordFormSchema),
     defaultValues: {
       currentPassword: "",
       newPassword: "",
