@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { HttpError } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 import { Controller } from "react-hook-form";
-import { z } from "zod";
 import {
   CreateView,
   CreateViewHeader,
@@ -26,15 +25,7 @@ import {
   SelectValue,
 } from "@/components/shadcn/select";
 import type { AdminUserEntity } from "@/domain/entities";
-
-const createAdminSchema = z.object({
-  name: z.string().min(1, "名前を入力してください"),
-  email: z.email("有効なメールアドレスを入力してください"),
-  password: z.string().min(12, "パスワードは12文字以上で入力してください"),
-  role: z.enum(["admin", "super_admin"]),
-});
-
-type CreateAdminFormData = z.infer<typeof createAdminSchema>;
+import { type CreateAdminInput, createAdminSchema } from "@/domain/validation";
 
 export function CreateAdminForm() {
   const {
@@ -42,7 +33,7 @@ export function CreateAdminForm() {
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<AdminUserEntity, HttpError, CreateAdminFormData>({
+  } = useForm<AdminUserEntity, HttpError, CreateAdminInput>({
     resolver: zodResolver(createAdminSchema),
     refineCoreProps: {
       resource: "admins",
@@ -57,7 +48,7 @@ export function CreateAdminForm() {
     },
   });
 
-  const onSubmit = async (data: CreateAdminFormData) => {
+  const onSubmit = async (data: CreateAdminInput) => {
     try {
       await onFinish(data);
     } catch (error) {

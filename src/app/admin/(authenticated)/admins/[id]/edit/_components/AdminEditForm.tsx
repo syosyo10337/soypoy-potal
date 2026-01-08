@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { HttpError } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 import { Controller } from "react-hook-form";
-import { z } from "zod";
 import {
   EditView,
   EditViewHeader,
@@ -26,14 +25,7 @@ import {
   SelectValue,
 } from "@/components/shadcn/select";
 import type { AdminUserEntity } from "@/domain/entities";
-
-const updateAdminSchema = z.object({
-  name: z.string().min(1, "名前を入力してください"),
-  email: z.email("有効なメールアドレスを入力してください"),
-  role: z.enum(["admin", "super_admin"]),
-});
-
-type UpdateAdminFormData = z.infer<typeof updateAdminSchema>;
+import { type UpdateAdminInput, updateAdminSchema } from "@/domain/validation";
 
 // TODO: createと共通化する
 export function AdminEditForm() {
@@ -42,7 +34,7 @@ export function AdminEditForm() {
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<AdminUserEntity, HttpError, UpdateAdminFormData>({
+  } = useForm<AdminUserEntity, HttpError, UpdateAdminInput>({
     resolver: zodResolver(updateAdminSchema),
     refineCoreProps: {
       resource: "admins",
@@ -53,7 +45,7 @@ export function AdminEditForm() {
 
   const admin = query?.data?.data;
 
-  const onSubmit = async (data: UpdateAdminFormData) => {
+  const onSubmit = async (data: UpdateAdminInput) => {
     try {
       await onFinish(data);
     } catch (error) {

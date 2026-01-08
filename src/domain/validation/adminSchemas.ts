@@ -30,11 +30,14 @@ export const createAdminSchema = z.object({
 
 /**
  * 管理者更新用スキーマ（UI/API共通）
+ * 部分更新に対応：変更したいフィールドのみ送信可能
  */
 export const updateAdminSchema = z.object({
-  name: z.string().min(1).optional(),
-  email: z.email().optional(),
-  role: z.enum(adminRoles).optional(),
+  name: z.string().min(1, { message: "名前は必須です" }).optional(),
+  email: z
+    .email({ message: "有効なメールアドレスを入力してください" })
+    .optional(),
+  role: z.enum(adminRoles, { message: "ロールを選択してください" }).optional(),
 });
 
 /**
