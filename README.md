@@ -102,20 +102,20 @@ code .
 特定の環境変数の値を確認したい場合：
 
 ```bash
-dotenvx get DATABASE_URL -f .env.local
-dotenvx get CLOUDINARY_API_KEY -f .env.local
+npx dotenvx get DATABASE_URL -f .env.local
+npx dotenvx get CLOUDINARY_API_KEY -f .env.local
 ```
 
 すべての環境変数を一覧表示：
 
 ```bash
-dotenvx get -f .env.local
+npx dotenvx get -f .env.local
 ```
 
 #### 環境変数を追加・変更する
 
 ```bash
-dotenvx set NEW_VAR "value" -f .env.local
+npx dotenvx set NEW_VAR "value" -f .env.local
 ```
 
 設定後、`.env.local`の変更をコミットしてください。

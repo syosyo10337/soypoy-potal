@@ -34,11 +34,11 @@ export default function OurVisionDescription() {
         )}
       >
         SOY-POY（ソイポイ）は、
-        <Br sp md lg/>
+        <Br sp md lg />
         「好きに生きて、一緒に生きる」を
-        <Br sp md/>
+        <Br sp md />
         コンセプトに生まれた、
-        <Br sp md lg/>
+        <Br sp md lg />
         バーとステージのある週末限定の
         <Br sp />
         パブリックハウス（PUB）です。
@@ -46,13 +46,13 @@ export default function OurVisionDescription() {
         拠点は下北沢。
         <Br sp md lg />
         ジャンルを問わず、
-        <Br sp md/>
+        <Br sp md />
         さまざまな表現や創作を志す人たちが集い、
-        <Br sp md lg/>
+        <Br sp md lg />
         交流しながら、
         <Br sp />
         誰もが自由に表現や創作活動を楽しめる
-        <Br sp md lg/>
+        <Br sp md lg />
         オープンなコミュニティづくりを
         <Br sp md />
         行っています。

@@ -56,6 +56,9 @@ function formatDateJP(dateString: string): string {
   return format(dateString, DATE_FORMATS.DATE_JP);
 }
 
+function formatDateTimeJP(dateString: string): string {
+  return format(dateString, DATE_FORMATS.FULL_DATE_JP);
+}
 /**
  * 時刻文字列を返す (shorthand)
  */
@@ -265,6 +268,7 @@ function dateArrayToIsoArray(dates: Date[] | undefined): string[] | undefined {
 
 export {
   formatDateJP,
+  formatDateTimeJP,
   formatTime,
   formatMonthDayOnly,
   formatDayOfWeek,

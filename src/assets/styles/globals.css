@@ -54,33 +54,6 @@
   --aspect-insta: 4 / 5;
 }
 
-/* 管理画面用テーマ（SOY-POYベースカラーを維持しつつ、より多様な配色を提供） */
-.admin-theme {
-  background-color: #FAFAFA;
-  min-height: 100vh;
-  
-  /* 管理画面用の配色（SOY-POYベースカラーを維持） */
-  --color-background: #FAFAFA;
-  --color-foreground: #1A1A1A;
-  --color-primary: var(--color-soypoy-accent);
-  --color-primary-foreground: #FFFFFF;
-  --color-secondary: oklch(0.82 0.015 106.424);
-  --color-secondary-foreground: #1A1A1A;
-  --color-muted: oklch(0.92 0.005 106.424);
-  --color-muted-foreground: oklch(0.45 0.01 106.424);
-  --color-accent: oklch(0.55 0.15 250);
-  --color-accent-foreground: #FFFFFF;
-  --color-destructive: oklch(0.577 0.245 27.325);
-  --color-destructive-foreground: #FFFFFF;
-  --color-border: oklch(0.88 0.008 106.424);
-  --color-input: oklch(0.95 0.005 106.424);
-  --color-ring: var(--color-soypoy-accent);
-  --color-card: #FFFFFF;
-  --color-card-foreground: #1A1A1A;
-  --color-popover: #FFFFFF;
-  --color-popover-foreground: #1A1A1A;
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;

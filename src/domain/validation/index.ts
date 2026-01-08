@@ -1,0 +1,13 @@
+/**
+ * Domain層 - バリデーションスキーマ
+ *
+ * このディレクトリには、ビジネスルール（ドメイン制約）を表現する
+ * バリデーションスキーマが含まれます。
+ *
+ * Zodライブラリへの依存は、実用的なアプローチとして許容されています。
+ * Zodはビジネスルールを宣言的に表現するDSLとして機能します。
+ */
+
+export * from "./adminSchemas";
+export * from "./authSchemas";
+export * from "./eventSchemas";

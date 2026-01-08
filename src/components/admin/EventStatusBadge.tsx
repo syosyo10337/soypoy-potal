@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import { Badge } from "@/components/shadcn/badge";
 import { eventPublicationStatusLabel } from "@/constant/eventPublicationStatusLabel";
-import type { PublicationStatus } from "@/domain/entities";
+import { PublicationStatus } from "@/domain/entities";
 import { cn } from "@/utils/cn";
 
 /**
@@ -16,9 +16,9 @@ const statusBadgeVariants: Record<
   EventStatusVariant,
   ComponentProps<typeof Badge>["variant"]
 > = {
-  published: "default",
-  draft: "secondary",
-  archived: "outline",
+  [PublicationStatus.Published]: "default",
+  [PublicationStatus.Draft]: "secondary",
+  [PublicationStatus.Archived]: "outline",
 } as const;
 
 export interface EventStatusBadgeProps {

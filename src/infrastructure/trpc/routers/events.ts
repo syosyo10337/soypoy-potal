@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { publicProcedure, router } from "../context";
-import { createEventSchema, updateEventSchema } from "../schemas/eventSchema";
+import { createEventSchema, updateEventSchema } from "@/domain/validation";
+import { adminProcedure, publicProcedure, router } from "../context";
 
 /**
  * イベント操作ルーター
@@ -27,12 +27,12 @@ export const eventsRouter = router({
     .query(async ({ ctx, input }) => {
       return await ctx.eventService.getEventById(input);
     }),
-  create: publicProcedure
+  create: adminProcedure
     .input(createEventSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.eventService.createEvent(input);
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -42,7 +42,7 @@ export const eventsRouter = router({
     .mutation(async ({ ctx, input }) => {
       return await ctx.eventService.updateEvent(input.id, input.data);
     }),
-  delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+  delete: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     return await ctx.eventService.deleteEvent(input);
   }),
 });
