@@ -14,6 +14,7 @@ import {
 import { cn } from "@/utils/cn";
 import { navItems } from "./const";
 import { LogoutButton } from "./LogoutButton";
+import { UserInfoSection } from "./UserInfoSection";
 
 export function AdminSidebar() {
   const [open, setOpen] = useState(false);
@@ -36,6 +37,9 @@ export function AdminSidebar() {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-lg font-semibold">管理画面</h2>
+          </div>
+          <div className="p-4 border-b">
+            <UserInfoSection />
           </div>
           <nav className="flex-1 p-4">
             <ul className="space-y-2">

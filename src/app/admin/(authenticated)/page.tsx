@@ -25,6 +25,35 @@ export default function AdminDashboard() {
             </Link>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>管理者一覧</CardTitle>
+            <CardDescription>
+              管理者の確認、追加、削除を行います
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link href="/admin/admins" className="text-primary hover:underline">
+              管理者一覧へ →
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>パスワード変更</CardTitle>
+            <CardDescription>自分のパスワードを変更します</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link
+              href="admin/settings/change-password"
+              className="text-primary hover:underline"
+            >
+              パスワード変更へ →
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
