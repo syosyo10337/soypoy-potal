@@ -1,0 +1,25 @@
+# Netlify Configuration
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+# Production環境の設定
+[context.production.environment]
+  BETTER_AUTH_URL = "https://soypoy-portal.netlify.app"
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
+  APP_ENV = "production"
+
+# Deploy Preview環境の設定（PRごとに自動生成されるURL）
+[context.deploy-preview.environment]
+  BETTER_AUTH_URL = "$DEPLOY_PRIME_URL"
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
+  APP_ENV = "preview"
+
+# Branch Deploy環境の設定
+[context.branch-deploy.environment]
+  BETTER_AUTH_URL = "$DEPLOY_PRIME_URL"
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = "drqtqsv2d"
+  APP_ENV = "preview"
+
