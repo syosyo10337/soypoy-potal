@@ -1,10 +1,11 @@
+import type { StaticImageData } from "next/image";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 import ConnectionLine from "./ConnectionLine";
 
 export interface HistoryItemProps {
   yearDate: string;
-  image?: string;
+  image?: string | StaticImageData;
   description: string;
 }
 
@@ -43,7 +44,7 @@ export default function HistoryItem({
         className={cn(
           "relative",
           "w-[263px] h-[195px]",
-          "ml-3 mt-4",
+          "ml-3",
           "overflow-hidden",
           "bg-gray-200",
         )}

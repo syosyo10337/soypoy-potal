@@ -56,6 +56,7 @@ export default function HistorySlider() {
             <HistoryItem
               key={event.id}
               yearDate={event.yearDate}
+              image={event.image}
               description={event.description}
             />
           ))}
