@@ -11,9 +11,9 @@ import {
 import { cn } from "@/utils/cn";
 
 export const metadata: Metadata = {
-  title: "SOY-POY | Community Bar",
+  title: "SOY-POY | 表現と創作を楽しむパブリックハウス",
   description:
-    "SOY-POY is a community bar where people gather, connect and share experiences.",
+    "「好きに生きて、一緒に生きる」をコンセプトに、週末限定のパブリックハウスSOY-POYでは、オープンマイク、コンサート、即興コメディワークショップなどのイベントを開催。",
 };
 
 interface RootLayoutProps {

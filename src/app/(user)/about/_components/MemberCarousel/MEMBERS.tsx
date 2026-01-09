@@ -63,4 +63,17 @@ export const MEMBERS = [
     color: "#ef3530",
     profileImage: "https://picsum.photos/seed/member9/200/200",
   },
+  {
+    id: "10",
+    name: "Kazane",
+    role: "Actor / Script Writer",
+    color: "#0080ea",
+    profileImage: "https://picsum.photos/seed/member10/200/200",
+  },  {
+    id: "11",
+    name: "Hiromu Kondo",
+    role: "Pianist",
+    color: "#a8001c",
+    profileImage: "https://picsum.photos/seed/member11/200/200",
+  },
 ];
