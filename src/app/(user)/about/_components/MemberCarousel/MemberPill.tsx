@@ -1,10 +1,11 @@
+import type { StaticImageData } from "next/image";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 
 export interface MemberPillProps {
   name: string;
   role: string;
-  profileImage?: string;
+  profileImage?: string | StaticImageData;
   color: string;
 }
 
@@ -20,7 +21,7 @@ export default function MemberPill({
   return (
     <div
       className={cn(
-        "flex flex-col",
+        "grid grid-rows-[auto_1fr_auto]",
         "w-39 h-103",
         "rounded-[78px]",
         "pt-9 pb-10 px-6",
@@ -42,7 +43,7 @@ export default function MemberPill({
         ))}
       </div>
 
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <div
           className={cn(
             "relative",
