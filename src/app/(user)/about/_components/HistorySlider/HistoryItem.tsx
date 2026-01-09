@@ -1,10 +1,11 @@
+import type { StaticImageData } from "next/image";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 import ConnectionLine from "./ConnectionLine";
 
 export interface HistoryItemProps {
   yearDate: string;
-  image?: string;
+  image?: string | StaticImageData;
   description: string;
 }
 
@@ -17,7 +18,7 @@ export default function HistoryItem({
     <div
       className={cn(
         "relative",
-        "w-[287px] md:w-[315px]",
+        "w-[287px] md:w-[420px]",
         "shrink-0",
         "snap-center",
         "snap-always",
@@ -43,7 +44,8 @@ export default function HistoryItem({
         className={cn(
           "relative",
           "w-[263px] h-[195px]",
-          "ml-3 mt-4",
+          "md:w-[350px] md:h-[260px]",
+          "ml-3",
           "overflow-hidden",
           "bg-gray-200",
         )}
@@ -53,7 +55,7 @@ export default function HistoryItem({
             src={image}
             alt={`${yearDate}のイベント画像`}
             fill
-            sizes="263px"
+            sizes="(min-width: 768px) 350px, 263px"
             className="object-cover"
           />
         ) : (
@@ -68,7 +70,7 @@ export default function HistoryItem({
           "font-display font-normal",
           "text-[16px] leading-[25px]",
           "text-black text-justify",
-          "w-[263px]",
+          "w-[263px] md:w-[350px]",
           "ml-3 mt-6",
         )}
       >

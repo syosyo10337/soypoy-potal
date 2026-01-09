@@ -7,6 +7,19 @@ import SectionTitle from "../SectionTitle";
 import { MEMBERS } from "./MEMBERS";
 import MemberPill from "./MemberPill";
 
+// MemberCarouselカラーテーマ
+const MEMBER_COLOR_THEME = [
+  "#D6423B", // Red
+  "#657C60", // Green
+  "#2C3E50", // Dark Blue
+  "#5B3A2E", // Brown
+  "#8C6A1F", // Gold
+] as const;
+
+const pickMemberColor = (index: number) => {
+  return MEMBER_COLOR_THEME[index % MEMBER_COLOR_THEME.length];
+};
+
 // Carousel constants
 const CAROUSEL_CONFIG = {
   MEMBER_PILL_WIDTH: 156,
@@ -86,16 +99,18 @@ export default function MemberCarousel() {
           }}
           aria-label="メンバー一覧（スワイプ可能）"
         >
-          {doubleMembers.map((member, i) => (
-            <div key={`${member.id}-${i}`} className="shrink-0">
-              <MemberPill
-                name={member.name}
-                role={member.role}
-                color={member.color}
-                profileImage={member.profileImage}
-              />
-            </div>
-          ))}
+          {doubleMembers.map((member, i) => {
+            return (
+              <div key={`${member.id}-${i}`} className="shrink-0">
+                <MemberPill
+                  name={member.name}
+                  role={member.role}
+                  color={pickMemberColor(i)}
+                  profileImage={member.profileImage}
+                />
+              </div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
