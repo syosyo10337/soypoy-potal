@@ -12,7 +12,7 @@ interface UseHistorySliderOptions {
 export function useHistorySlider({
   totalItems,
   mobileItemWidth = 287,
-  desktopItemWidth = 315,
+  desktopItemWidth = 420,
   breakpoint = 768,
 }: UseHistorySliderOptions) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
