@@ -42,3 +42,5 @@ next-env.d.ts
 .pnpm-store
 
 cursor/debug.log
+
+.claude/*.local.*
