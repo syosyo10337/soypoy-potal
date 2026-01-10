@@ -1,7 +1,11 @@
 import { cn } from "@/utils/cn";
 
-export function EventListTitle() {
-  const title = "EVENTS";
+interface PageTitleProps {
+  title: string;
+  subtitle?: string;
+}
+
+export function PageTitle({ title, subtitle }: PageTitleProps) {
   const firstChar = title[0];
   const restChars = title.slice(1);
 
@@ -17,9 +21,11 @@ export function EventListTitle() {
         <span className="text-6xl md:text-7xl">{firstChar}</span>
         {restChars}
       </h1>
-      <p className="text-lg md:text-xl text-soypoy-accent font-bernard-mt leading-[10px]">
-        Monthly Lineup
-      </p>
+      {subtitle && (
+        <p className="text-lg md:text-xl text-soypoy-accent font-bernard-mt leading-[10px]">
+          {subtitle}
+        </p>
+      )}
     </div>
   );
 }
