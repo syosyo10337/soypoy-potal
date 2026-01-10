@@ -21,7 +21,7 @@ export default async function WhatsUpPage({ searchParams }: WhatsUpPageProps) {
   return (
     <div className={cn("container mx-auto max-w-5xl", "px-12 md:px-16 py-8")}>
       <PageTitle title="What’s up" subtitle={config.subtitle} />
-      <div className="flex flex-col items-center justify-center min-h-[60vh]">
+      <div className="flex flex-col items-center justify-center min-h-[40vh]">
         <p
           className={cn(
             "font-anymale",
