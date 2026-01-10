@@ -21,7 +21,7 @@ export default function VideoLayer() {
       </div>
       <ArchDecoration
         className={cn(
-          "absolute inset-0 pt-2 px-2 pointer-events-none",
+          "absolute inset-0 pointer-events-none",
           `z-[${Z_INDEX.archDecoration}]`,
         )}
       />
