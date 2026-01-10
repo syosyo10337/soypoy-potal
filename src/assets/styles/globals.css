@@ -58,6 +58,7 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden; /* prevent horizontal scroll */
+    scrollbar-gutter: stable; /* prevent layout shift when scrollbar appears/disappears */
   }
 }
 
