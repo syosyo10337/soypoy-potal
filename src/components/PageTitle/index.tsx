@@ -10,7 +10,7 @@ export function PageTitle({ title, subtitle }: PageTitleProps) {
   const restChars = title.slice(1);
 
   return (
-    <div className="flex flex-col items-center px-10 py-8">
+    <div className="flex flex-col items-center px-9 py-8">
       <h1
         className={cn(
           "tracking-tight font-bold text-soypoy-secondary font-anymale",
