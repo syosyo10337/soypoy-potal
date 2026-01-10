@@ -1,5 +1,6 @@
 import { Separator } from "@/components/shadcn/separator";
 import { cn } from "@/utils/cn";
+import { AboutLinkButton } from "./AboutLinkButton";
 import { MoonIcon, SunIcon } from "./assets";
 
 interface InnerContentProps {
@@ -20,6 +21,9 @@ export function InnerContent({ className }: InnerContentProps) {
         <MainContent />
         <StyledSeparator />
         <SoypoySlogan />
+      </div>
+      <div className={cn("flex justify-center", "mt-6 md:mt-8")}>
+        <AboutLinkButton />
       </div>
     </div>
   );
