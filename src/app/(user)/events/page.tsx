@@ -1,11 +1,11 @@
 import { DateTime } from "luxon";
 import { Suspense } from "react";
+import { PageTitle } from "@/components/PageTitle";
 import { createServerCaller } from "@/infrastructure/trpc/server";
 import { cn } from "@/utils/cn";
 import { APP_TIMEZONE } from "@/utils/date";
 import { EventList } from "./_components/EventList";
 import { EventListSkeleton } from "./_components/EventList/EventListSkeleton";
-import { EventListTitle } from "./_components/EventListTitle";
 import { MonthNavigation } from "./_components/MonthNavigation";
 import { ScheduleAnnouncement } from "./_components/ScheduleAnnouncement";
 export const revalidate = 6;
@@ -28,7 +28,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
 
   return (
     <div className={cn("container mx-auto max-w-5xl", "px-12 md:px-16 py-8")}>
-      <EventListTitle />
+      <PageTitle title="EVENTS" subtitle="Monthly Lineup" />
       <MonthNavigation year={year} month={month} />
       <Suspense fallback={<EventListSkeleton />}>
         <EventList events={events} />

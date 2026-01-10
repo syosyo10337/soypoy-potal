@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useScrollThreshold } from "@/utils/useScrollProgress";
 
 /**
  * Headerの表示/非表示を制御するフック
@@ -9,36 +9,13 @@ import { useEffect, useState } from "react";
  * ページ全体のスクロール位置が30%を超えたら表示
  */
 export function useHeaderVisibility() {
-  const [isVisible, setIsVisible] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const scrollExceeds30 = useScrollThreshold(0.3);
 
-  useEffect(() => {
-    if (!isHomePage) {
-      setIsVisible(true);
-      return;
-    }
+  if (!isHomePage) {
+    return true;
+  }
 
-    const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight;
-      const clientHeight = window.innerHeight;
-      const scrollTop = window.scrollY;
-      const scrollableHeight = scrollHeight - clientHeight;
-
-      if (scrollableHeight <= 0) {
-        setIsVisible(false);
-        return;
-      }
-
-      const scrollPercentage = scrollTop / scrollableHeight;
-      setIsVisible(scrollPercentage > 0.3);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isHomePage]);
-
-  return isVisible;
+  return scrollExceeds30;
 }

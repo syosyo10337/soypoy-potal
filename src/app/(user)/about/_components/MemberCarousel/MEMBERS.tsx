@@ -1,6 +1,7 @@
 "use client";
 
 import type { StaticImageData } from "next/image";
+import kenProfile from "./assets/amaken-profile.jpg";
 import godoProfile from "./assets/godo-profile.webp";
 import hibikiProfile from "./assets/hibiki-profile.png";
 import hiromuProfile from "./assets/hiromu-profile.jpg";
@@ -55,7 +56,7 @@ export const MEMBERS: Member[] = [
   {
     id: "6",
     name: "Mizuki Araki",
-    role: "Jazz Musician",
+    role: "Manager",
     profileImage: mizukiProfile,
   },
   {
@@ -93,5 +94,11 @@ export const MEMBERS: Member[] = [
     name: "Godo Ouchi",
     role: "Comedian",
     profileImage: godoProfile,
+  },
+  {
+    id: "13",
+    name: "Ken Amanome",
+    role: "Dancer / Physical Therapist",
+    profileImage: kenProfile,
   },
 ];
