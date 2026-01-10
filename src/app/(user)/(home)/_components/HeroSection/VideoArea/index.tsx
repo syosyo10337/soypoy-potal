@@ -1,8 +1,6 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { Z_INDEX } from "../constants";
-import ArchDecoration from "./ArchDecoration";
 import ClipPathDefinitions from "./ClipPathDefinitions";
 import VideoPlayer from "./VideoPlayer";
 
@@ -19,12 +17,6 @@ export default function VideoLayer() {
       >
         <VideoPlayer />
       </div>
-      <ArchDecoration
-        className={cn(
-          "absolute inset-0 pointer-events-none",
-          `z-[${Z_INDEX.archDecoration}]`,
-        )}
-      />
     </div>
   );
 }

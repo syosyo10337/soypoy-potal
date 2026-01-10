@@ -2,30 +2,36 @@
 
 import { motion } from "motion/react";
 import Image from "next/image";
-import { useState } from "react";
+import { cn } from "@/utils/cn";
+import { Z_INDEX } from "../../constants";
 import FudaOverLay from "./FudaOverLay";
 import ArchImage from "./soypoyArch.png";
+import { useArchAnimation } from "./useArchAnimation";
 
-interface ArchDecorationProps {
-  className: string;
-}
-
-export default function ArchDecoration({ className }: ArchDecorationProps) {
-  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+export default function ArchDecoration() {
+  const { opacity, isInitialAnimationComplete, setIsInitialAnimationComplete } =
+    useArchAnimation();
 
   return (
     <motion.div
-      className={className}
-      initial={{ scale: 0.1, y: "10%" }}
+      className={cn(
+        "fixed top-0 left-0 right-0 w-full pointer-events-none",
+        `z-[${Z_INDEX.archDecoration}]`,
+      )}
+      initial={{ scale: 0.1, y: "100%" }}
       animate={{
         scale: [0.1, 1],
-        y: ["10%", "0%"],
+        y: ["100%", "0%"],
       }}
       transition={{
         duration: 1.5,
         ease: "easeInOut",
       }}
-      onAnimationComplete={() => setIsAnimationComplete(true)}
+      onAnimationComplete={() => setIsInitialAnimationComplete(true)}
+      style={{
+        opacity: isInitialAnimationComplete ? opacity : undefined,
+        transformOrigin: "top center",
+      }}
     >
       {/* aspect-ratioを固定してレスポンシブ時の位置ずれを防ぐ */}
       <div className="relative w-full aspect-[1420/426]">
@@ -39,7 +45,7 @@ export default function ArchDecoration({ className }: ArchDecorationProps) {
         {/* FudaOverLayを同じaspect-ratio内に配置 */}
         <FudaOverLay
           className={`hidden sm:block absolute inset-0 pointer-events-none ${
-            isAnimationComplete ? "opacity-100" : "opacity-0"
+            isInitialAnimationComplete ? "opacity-100" : "opacity-0"
           }`}
         />
       </div>
