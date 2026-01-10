@@ -1,11 +1,24 @@
 "use client";
 
 import { animate, motion, useMotionValue } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 import SectionTitle from "../SectionTitle";
 import { MEMBERS } from "./MEMBERS";
 import MemberPill from "./MemberPill";
+
+// MemberCarouselカラーテーマ
+const MEMBER_COLOR_THEME = [
+  "#D6423B", // Red
+  "#657C60", // Green
+  "#2C3E50", // Dark Blue
+  "#5B3A2E", // Brown
+  "#8C6A1F", // Gold
+] as const;
+
+const pickMemberColor = (index: number) => {
+  return MEMBER_COLOR_THEME[index % MEMBER_COLOR_THEME.length];
+};
 
 // Carousel constants
 const CAROUSEL_CONFIG = {
@@ -26,15 +39,11 @@ export default function MemberCarousel() {
   const x = useMotionValue(SPIN_DISTANCE);
   const [isAnimating, setIsAnimating] = useState(true);
   const [isReady, setIsReady] = useState(false);
-  const hasAnimated = useRef(false);
 
   // NOTE: for infinite carousel
   const doubleMembers = [...MEMBERS, ...MEMBERS];
 
   useEffect(() => {
-    if (hasAnimated.current) return;
-    hasAnimated.current = true;
-
     setIsReady(true);
 
     const controls = animate(x, 0, {
@@ -86,16 +95,18 @@ export default function MemberCarousel() {
           }}
           aria-label="メンバー一覧（スワイプ可能）"
         >
-          {doubleMembers.map((member, i) => (
-            <div key={`${member.id}-${i}`} className="shrink-0">
-              <MemberPill
-                name={member.name}
-                role={member.role}
-                color={member.color}
-                profileImage={member.profileImage}
-              />
-            </div>
-          ))}
+          {doubleMembers.map((member, i) => {
+            return (
+              <div key={`${member.id}-${i}`} className="shrink-0">
+                <MemberPill
+                  name={member.name}
+                  role={member.role}
+                  color={pickMemberColor(i)}
+                  profileImage={member.profileImage}
+                />
+              </div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

@@ -41,4 +41,6 @@ yarn-error.log*
 next-env.d.ts
 .pnpm-store
 
-cursor/debug.log
+.cursor/debug.log
+
+.claude/*.local.*

@@ -1,23 +1,25 @@
 export default function ConnectionLine() {
   return (
     <svg
-      width="315"
+      width="840"
       height="23"
-      viewBox="0 0 315 23"
+      viewBox="0 0 840 23"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-[287px] md:w-[315px]"
+      className="w-[574px] md:w-[840px]"
       aria-hidden="true"
+      preserveAspectRatio="none"
     >
       <title>ヒストリー接続線</title>
-      {/* Horizontal line */}
+      {/* Horizontal line - extends to next item */}
       <line
         x1="0"
         y1="11.5"
-        x2="315"
+        x2="840"
         y2="11.5"
         stroke="black"
         strokeWidth="1"
+        vectorEffect="non-scaling-stroke"
       />
       {/* Circle at the start */}
       <circle
