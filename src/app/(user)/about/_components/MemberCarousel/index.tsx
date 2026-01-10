@@ -1,7 +1,7 @@
 "use client";
 
 import { animate, motion, useMotionValue } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 import SectionTitle from "../SectionTitle";
 import { MEMBERS } from "./MEMBERS";
@@ -39,15 +39,11 @@ export default function MemberCarousel() {
   const x = useMotionValue(SPIN_DISTANCE);
   const [isAnimating, setIsAnimating] = useState(true);
   const [isReady, setIsReady] = useState(false);
-  const hasAnimated = useRef(false);
 
   // NOTE: for infinite carousel
   const doubleMembers = [...MEMBERS, ...MEMBERS];
 
   useEffect(() => {
-    if (hasAnimated.current) return;
-    hasAnimated.current = true;
-
     setIsReady(true);
 
     const controls = animate(x, 0, {
