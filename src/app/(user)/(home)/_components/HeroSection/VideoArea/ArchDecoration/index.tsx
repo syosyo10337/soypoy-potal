@@ -14,10 +14,7 @@ export default function ArchDecoration() {
 
   return (
     <motion.div
-      className={cn(
-        "fixed top-0 left-0 right-0 w-full pointer-events-none",
-        `z-[${Z_INDEX.archDecoration}]`,
-      )}
+      className={cn("fixed top-0 left-0 right-0 w-full pointer-events-none")}
       initial={{ scale: 0.1, y: "100%" }}
       animate={{
         scale: [0.1, 1],
@@ -31,6 +28,7 @@ export default function ArchDecoration() {
       style={{
         opacity: isInitialAnimationComplete ? opacity : undefined,
         transformOrigin: "top center",
+        zIndex: Z_INDEX.archDecoration,
       }}
     >
       {/* aspect-ratioを固定してレスポンシブ時の位置ずれを防ぐ */}
